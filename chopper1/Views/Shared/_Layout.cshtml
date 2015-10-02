@@ -15,100 +15,87 @@
 
     <script>
         var offset_data;
+        var dragged_id;
 
-        function dblclick(ev) {
-
+        function prog_click(event) {
+            @*Single click deselects progs*@
             var progs = document.getElementsByClassName("prog");
-
-            @* ev.target.style.backgroundColor = "red";            *@
-
-
-
-            for (var i = 0; i < progs.length ;i++ )
-            {
+            for (var i = 0; i < progs.length ; i++) {
                 progs.item(i).classList.remove('selected');
                 progs.item(i).setAttribute("draggable", "false");
             }
 
+        }
 
-            ev.target.classList.add('selected');
-            ev.target.setAttribute("draggable", "true");
+        function dblclick(ev) {
             @*
-            ev.target.style.borderColor = "blue";
-            ev.target.style.borderWidth = "2px";
-            
-              *@  
+                Double click selects a prog
+                Currently - a single one
+            *@
+            var progs = document.getElementsByClassName("prog");
 
-            @*ev.target.innerHTML=ev.target.getAttribute("draggable");*@
+            for (var i = 0; i < progs.length ; i++) {
+                progs.item(i).classList.remove('selected');
+                progs.item(i).setAttribute("draggable", "false");
+            }
 
+            if (!ev.target.classList.contains("info-div") & !ev.target.classList.contains("timing-div") & !ev.target.classList.contains("title-div")) {
+                ev.target.classList.add('selected');
+                ev.target.setAttribute("draggable", "true");
+            }
+            else {
+                ev.target.parentNode.classList.add('selected');
+                ev.target.parentNode.setAttribute("draggable", "true");
+            }
         }
 
 
-        function allowDrop(ev) {
+        function drag(event) {
+            var dm;
+            @*Single selected prog implied*@
+            dm = document.getElementsByClassName("selected")[0];
 
-            ev.preventDefault();
+            var style = window.getComputedStyle(dm, null);
+            event.dataTransfer.setData("text/plain",
+            (parseInt(style.getPropertyValue("left"), 10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - event.clientY));
+            dragged_id = dm.id;
 
-            var data = ev.dataTransfer.getData("text");
-            var curElement = document.getElementById(data);
-            event.dataTransfer.effectAllowed = "copy";
-            var offset;
-            try {
-                offset = ev.dataTransfer.getData("text/plain").split(',');
-            }
-            catch (e) {
-                offset = offset_data.split(',');
-            }
-            curElement.style.left = (ev.clientX + parseInt(offset[0], 10)) + 'px';
-            curElement.style.top = (ev.clientY + parseInt(offset[1], 10)) + 'px';
+        }
 
+        function allowDrop(event) {
+            event.preventDefault();
             return false;
-
-
-
         }
-
-
-        function drag(ev) {
-            @*if (event.ctrlKey) {*@
-            var style = window.getComputedStyle(ev.target, null);
-            offset_data =
-                (parseInt(style.getPropertyValue("left"), 10)
-                - ev.clientX) + ',' +
-                (parseInt(style.getPropertyValue("top"), 10) -
-                ev.clientY);
-            @*Здесь передаем в позиции [0]-X, [1]-Y, [2]-ID*@
-            ev.dataTransfer.setData("text", offset_data + "," + ev.target.id);
-            event.dataTransfer.effectAllowed = "copy";
-            @*}*@
-        }
-
-        function drop(ev) {
-            var offset;
-            if (!ev.target.getAttribute("ondrop"))
-                return false;
-            try {
-                offset = ev.dataTransfer.getData("text/plain").split(',');
-                event.dataTransfer.effectAllowed = "copy";
+        function drop(event) {
+            var offset = event.dataTransfer.getData("text/plain").split(',');            
+            var dm = document.getElementById(dragged_id);
+            if (!event.target.classList.contains("info-div") & !event.target.classList.contains("timing-div") & !event.target.classList.contains("title-div")) {
+                if (!event.target.classList.contains("prog")) {
+                    event.target.appendChild(document.getElementById(dragged_id));
+                }
+                else {
+                    event.target.parentNode.appendChild(document.getElementById(dragged_id));
+                }
             }
-            catch (e) {
-                offset = offset_data.split(',');
+            else {
+                event.target.parentNode.parentNode.appendChild(document.getElementById(dragged_id));
             }
+            dm.style.left = (event.clientX + parseInt(offset[0], 10)) + 'px';
+            dm.style.top = (event.clientY + parseInt(offset[1], 10)) + 'px';
 
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(offset[2]));
-            var curElement = document.getElementById(offset[2]);
-            var dropElement = ev.target;
-            var curTiming = document.getElementById("timing_" + offset[2]);
+            var dropElement = event.target;
+            var curTiming = document.getElementById("timing_" + dragged_id);
 
-            @*curElement.innerHTML = curElement.offsetTop.toString();*@
+            dm.style.width = dropElement.offsetWidth.toString() + "px";
+            @*Timestart/Timeend update*@
+            curTiming.innerHTML = getTimeByPosition(dm.offsetTop, dm.offsetHeight);
 
-            @*curElement.id = "new"; *@
-            curElement.style.width = dropElement.offsetWidth.toString() + "px";
-            curElement.style.top = (ev.clientY + parseInt(offset[1], 10)) + 'px';
-            curTiming.innerHTML = getTimeByPosition(curElement.offsetTop, curElement.offsetHeight);
-            @*curElement.innerHTML = curElement.style.top.toString();*@
+            event.preventDefault();
+            return false;
         }
+
+
+
 
         function getTimeByPosition(yPos, curHeight) {
             var timingString = "Got it!";
@@ -124,7 +111,7 @@
             var minuteDur = "";
             var durStr = "";
 
-            @*Время начала*@
+            @*Timestart*@
             hourStart = (((timeInMinutes - timeInMinutes % 60) / 60) + 5).toString();
             if (parseInt(hourStart) > 23) {
                 hourStart = (parseInt(hourStart) - 24).toString();
@@ -133,7 +120,7 @@
             if (parseInt(minuteStart) < 10) {
                 minuteStart = "0" + minuteStart;
             }
-            @*Время окончания*@
+            @*Timeend*@
             hourEnd = (((endTimeInMinutes - endTimeInMinutes % 60) / 60) + 5).toString();
             if (parseInt(hourEnd) > 23) {
                 hourEnd = (parseInt(hourEnd) - 24).toString();
@@ -142,7 +129,7 @@
             if (parseInt(minuteEnd) < 10) {
                 minuteEnd = "0" + minuteEnd;
             }
-            @*Продолжительность*@
+            @*Duration*@
             hourDur = ((durInMinutes - durInMinutes % 60) / 60).toString();
             minuteDur = (durInMinutes % 60).toString();
             if (parseInt(minuteDur) < 10) {
@@ -155,7 +142,7 @@
                 durStr = minuteDur;
             }
 
-            @*Набираем строку*@
+            @*Creating string*@
             timingString = hourStart + ":" + minuteStart + " - " + hourEnd + ":" + minuteEnd + " (" + durStr + ")";
 
             return timingString;
@@ -197,7 +184,7 @@
     </div>
 
     @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
+        @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>
