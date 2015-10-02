@@ -1,0 +1,151 @@
+﻿.dayrect
+{           width: calc(95%/7);
+            height: 1440px;                      
+            background: linear-gradient(slategray 1px, aliceblue 1px);            
+            background-size: 100% 60px;
+            background-position-y:100px;
+            border:solid 0 black;                        
+            float:left;
+            position:relative;
+}
+
+
+.ruler-div
+{
+    float:left;
+    width:10px;        
+    margin-bottom: 30px;
+    position:relative;
+    top:100px;
+    background: linear-gradient(black 1px, white 1px);        
+    background-size: 50% 10px;
+}
+.margin-div
+{
+    float:left;
+    width:10px;
+    height: 1440px;            
+    position:relative;
+    top:100px;    
+    background: linear-gradient(black 1px, white 1px);      
+    background-size: 50% 30px;
+}
+
+
+.ruler-ul li
+{
+    position:relative;
+    left:-43px;
+    padding-bottom:48px;        
+    list-style-type: none;
+    font-size:xx-small;
+}
+
+.ruler-hour
+{    
+    background: linear-gradient(black 1px, white 1px);
+    height:30px;
+}
+
+.prog 
+{
+        width: 100%;
+        margin: 0 0 0 0;
+        border: solid 1px black;
+        background: white;
+        overflow: hidden;  
+        position: absolute;   
+        float: left;   
+}
+.selected
+{
+    border: 2px solid blue;    
+}
+
+
+.xxsmall-text
+{
+    font-size:8px;
+}
+.xsmall-text
+{
+    font-size:x-small;
+}
+.small-text
+{
+    font-size:small;
+}
+
+.timing-div
+{
+    width:100%;
+    text-align:center;
+    float: left;
+    font-size:x-small;
+}
+.title-div
+{    
+    width:100%;    
+    text-align:center;
+    line-height:90%;
+    font-size:small;
+}
+.smalltitle-div
+{         
+    text-align:center;
+    line-height:80%;
+    
+}
+.info-div
+{    
+    text-align:center;    
+    font-size:x-small;
+}
+.smallinfo-div
+{    
+    text-align:center;
+    line-height:90%;
+    
+    padding-left:2em;
+}
+.dow-div
+{
+    background-color: white;
+    border: solid 1px black;
+    height: 20px;
+    text-align:center;
+}
+.date-div
+{
+    background-color: white;
+    border: solid 1px black;
+    height:20px;
+    text-align:center;    
+}
+.shapka-div
+{
+    background-color: white;
+    border: solid 1px black;
+    height: 60px;
+    text-align:center;    
+}
+#my_col
+{
+            width: 100px;
+            height: 100px;
+            padding: 0.5em;
+            background-color:darkseagreen;
+            float:left;
+}
+
+#new
+{    
+            height: 100px;            
+            background-color:darkseagreen;
+            position: absolute;
+            top: 200px;
+}
+
+
+
+

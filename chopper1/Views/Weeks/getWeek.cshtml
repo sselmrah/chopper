@@ -1,0 +1,73 @@
+﻿@model chopper1.Models.Week
+
+
+
+
+@{
+    ViewBag.Title = Model.Note;   
+}
+
+<h2>@Model.Note</h2>
+@*
+    <div>
+        @Html.DisplayFor(model => model.DaysCount)
+    </div>
+*@
+
+<div class="row">    
+    <div class="margin-div"></div>
+    <div class="ruler-div">
+        <ul class="ruler-ul">
+            <li>05</li>
+            <li>06</li>
+            <li>07</li>
+            <li>08</li>
+            <li>09</li>
+            <li>10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+            <li>17</li>
+            <li>18</li>
+            <li>19</li>
+            <li>20</li>
+            <li>21</li>
+            <li>22</li>
+            <li>23</li>
+            <li>00</li>
+            <li>01</li>
+            <li>02</li>
+            <li>03</li>
+            <li>04</li>
+            <li>05</li>
+            <li>06</li>
+        </ul>
+        @*@for (int j = 5; j < 29; j++)
+        {
+            <div class="ruler-hour">@j</div>
+        }*@
+    </div>
+    @{var i = 0;}
+    @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
+    {        
+        
+        <div id="dayrect@(i)" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)">
+            @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
+            <div id="date@(i)" class="date-div">@day.TVDate.Date.ToString("dd/MM/yyyy")</div>
+            <div id="shapka@(i)" class="shapka-div"></div>*@
+            @{Html.RenderAction("ConstructDay", "Day", day);}
+
+        </div>
+        i += 1;
+
+    }
+</div>
+
+@*<div class="draggable ui-widget-content">*@
+<div id="my_col" draggable="true" ondragstart="drag(event)">
+    <p>Drag me around</p>
+</div>
+

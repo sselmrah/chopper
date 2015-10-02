@@ -1,0 +1,33 @@
+﻿@model chopper1.Models.Day
+
+@{
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    DateTime dt = Model.TVDate;
+    <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
+    <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
+    <div id="shapka@(day_num)" class="shapka-div"></div>
+}
+
+@foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+{
+    if (efir.Timing >= 60 * 5)
+    {
+        @*@<p>@efir.Title : @efir.Timing</p>
+    var cur_height = @efir.Timing;
+    string str_height = "height:"+(cur_height / 60).ToString()+"px;";
+    string beg_time = @efir.Beg.ToString("HH:mm");
+
+
+
+    <div draggable="true" class="prog" style="@str_height">
+        @beg_time
+        <br />
+        @efir.Title
+    </div>
+        *@
+
+        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt });
+
+    }
+
+}
