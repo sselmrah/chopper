@@ -54,13 +54,13 @@
     @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
     {        
         
-        <div id="dayrect@(i)" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)">
-            @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
+        <div id="dayrect@(i)" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)">    
+        @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
             <div id="date@(i)" class="date-div">@day.TVDate.Date.ToString("dd/MM/yyyy")</div>
             <div id="shapka@(i)" class="shapka-div"></div>*@
-            @{Html.RenderAction("ConstructDay", "Day", day);}
+        @{Html.RenderAction("ConstructDay", "Day", day);}
 
-        </div>
+    </div>
         i += 1;
 
     }
