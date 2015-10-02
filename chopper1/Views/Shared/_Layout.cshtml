@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href='@Url.Content("~/Content/themes/base/all.css")' rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/Content/StyleSheet1.css">
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Scripts/jquery-ui-1.11.4.js"></script>*@
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/Scripts/JavaScript1.js")*@
+
+    <script>
+        var offset_data;
+
+        function dblclick(ev) {
+
+            var progs = document.getElementsByClassName("prog");
+
+            @* ev.target.style.backgroundColor = "red";            *@
+
+
+
+            for (var i = 0; i < progs.length ;i++ )
+            {
+                progs.item(i).classList.remove('selected');
+                progs.item(i).setAttribute("draggable", "false");
+            }
+
+
+            ev.target.classList.add('selected');
+            ev.target.setAttribute("draggable", "true");
+            @*
+            ev.target.style.borderColor = "blue";
+            ev.target.style.borderWidth = "2px";
+            
+              *@  
+
+            @*ev.target.innerHTML=ev.target.getAttribute("draggable");*@
+
+        }
+
+
+        function allowDrop(ev) {
+
+            ev.preventDefault();
+
+            var data = ev.dataTransfer.getData("text");
+            var curElement = document.getElementById(data);
+            event.dataTransfer.effectAllowed = "copy";
+            var offset;
+            try {
+                offset = ev.dataTransfer.getData("text/plain").split(',');
+            }
+            catch (e) {
+                offset = offset_data.split(',');
+            }
+            curElement.style.left = (ev.clientX + parseInt(offset[0], 10)) + 'px';
+            curElement.style.top = (ev.clientY + parseInt(offset[1], 10)) + 'px';
+
+            return false;
+
+
+
+        }
+
+
+        function drag(ev) {
+            @*if (event.ctrlKey) {*@
+            var style = window.getComputedStyle(ev.target, null);
+            offset_data =
+                (parseInt(style.getPropertyValue("left"), 10)
+                - ev.clientX) + ',' +
+                (parseInt(style.getPropertyValue("top"), 10) -
+                ev.clientY);
+            @*Здесь передаем в позиции [0]-X, [1]-Y, [2]-ID*@
+            ev.dataTransfer.setData("text", offset_data + "," + ev.target.id);
+            event.dataTransfer.effectAllowed = "copy";
+            @*}*@
+        }
+
+        function drop(ev) {
+            var offset;
+            if (!ev.target.getAttribute("ondrop"))
+                return false;
+            try {
+                offset = ev.dataTransfer.getData("text/plain").split(',');
+                event.dataTransfer.effectAllowed = "copy";
+            }
+            catch (e) {
+                offset = offset_data.split(',');
+            }
+
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(offset[2]));
+            var curElement = document.getElementById(offset[2]);
+            var dropElement = ev.target;
+            var curTiming = document.getElementById("timing_" + offset[2]);
+
+            @*curElement.innerHTML = curElement.offsetTop.toString();*@
+
+            @*curElement.id = "new"; *@
+            curElement.style.width = dropElement.offsetWidth.toString() + "px";
+            curElement.style.top = (ev.clientY + parseInt(offset[1], 10)) + 'px';
+            curTiming.innerHTML = getTimeByPosition(curElement.offsetTop, curElement.offsetHeight);
+            @*curElement.innerHTML = curElement.style.top.toString();*@
+        }
+
+        function getTimeByPosition(yPos, curHeight) {
+            var timingString = "Got it!";
+            var timeInMinutes = yPos - 100;
+            var durInMinutes = curHeight;
+            var endTimeInMinutes = timeInMinutes + durInMinutes;
+
+            var hourStart = "";
+            var minuteStart = "";
+            var hourEnd = "";
+            var minuteEnd = "";
+            var hourDur = "";
+            var minuteDur = "";
+            var durStr = "";
+
+            @*Время начала*@
+            hourStart = (((timeInMinutes - timeInMinutes % 60) / 60) + 5).toString();
+            if (parseInt(hourStart) > 23) {
+                hourStart = (parseInt(hourStart) - 24).toString();
+            }
+            minuteStart = (timeInMinutes % 60).toString();
+            if (parseInt(minuteStart) < 10) {
+                minuteStart = "0" + minuteStart;
+            }
+            @*Время окончания*@
+            hourEnd = (((endTimeInMinutes - endTimeInMinutes % 60) / 60) + 5).toString();
+            if (parseInt(hourEnd) > 23) {
+                hourEnd = (parseInt(hourEnd) - 24).toString();
+            }
+            minuteEnd = (endTimeInMinutes % 60).toString();
+            if (parseInt(minuteEnd) < 10) {
+                minuteEnd = "0" + minuteEnd;
+            }
+            @*Продолжительность*@
+            hourDur = ((durInMinutes - durInMinutes % 60) / 60).toString();
+            minuteDur = (durInMinutes % 60).toString();
+            if (parseInt(minuteDur) < 10) {
+                minuteDur = "0" + minuteDur;
+            }
+            if (parseInt(hourDur) > 0) {
+                durStr = hourDur + ":" + minuteDur;
+            }
+            else {
+                durStr = minuteDur;
+            }
+
+            @*Набираем строку*@
+            timingString = hourStart + ":" + minuteStart + " - " + hourEnd + ":" + minuteEnd + " (" + durStr + ")";
+
+            return timingString;
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>d3
+                @Html.ActionLink("ChOpper", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Недели", "getWeek", "Weeks")</li>
+                    <li>@{Html.RenderAction("SelectCategory", "Home");}</li>
+                    <li>@Html.ActionLink("Газета", "About", "Home")</li>
+                    <li>@Html.ActionLink("Календарь", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+        @RenderBody()
+        <div class="row">
+            <footer>
+                <hr />
+                <p>&copy; @DateTime.Now.Year - ChOpper</p>
+            </footer>
+        </div>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
