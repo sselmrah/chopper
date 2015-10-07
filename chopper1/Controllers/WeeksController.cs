@@ -16,6 +16,7 @@ namespace chopper1.Controllers
     public class WeeksController : Controller
     {
         private WebСервис1 curWc = MyStartupClass.wc;
+        
         // GET: Weeks
         public ActionResult Index()
         {
@@ -87,46 +88,56 @@ namespace chopper1.Controllers
 
             return weekTVday;
         }
-
+        
         public ActionResult SelectCategory()
         {
-
+            
             List<SelectListItem> weeks = new List<SelectListItem>();
+            /*
             WebСервис1 curWc = new WebСервис1();
             TVWeekType curTvWeek = new TVWeekType();
             try
             {
                 curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
                 TVWeekType[] weeks1 = curWc.GetWeeks();
+             */ 
                 int i = 0;
-                foreach (TVWeekType week in weeks1)
+                foreach (TVWeekType week in chopper1.MyStartupClass.tvWeeks)
                 {
-                    weeks.Add(new SelectListItem { Text = week.Note, Value = i.ToString()});
+                    weeks.Add(new SelectListItem { Value = i.ToString(), Text = week.Note});
                     i += 1;
                 }
 
-            }
+            /*}
             catch
             {
-
-            }
-
-            ViewBag.Week = weeks;            
+                
+            }*/
+            var selectList = new SelectList(weeks, "Value", "Text", chopper1.MyStartupClass.selectedID);
+            
+            ViewData["Weeks1"] = selectList;
+            ViewBag.Week = weeks;
             return View();
 
         }
-
-        public ViewResult WeekChosen(string Week)
+        
+        public ViewResult WeekChosen(string WeekID)
         {
-
-            ViewBag.messageString = Week;
-            ViewBag.weeknum = Week;
+            chopper1.MyStartupClass.selectedID = Convert.ToInt32(WeekID);
+            ViewBag.messageString = WeekID;
+            ViewBag.weeknum = WeekID;
 
 
             return View("SelectWeek");
 
         }
 
+        public class MyViewModel
+        {
+            public int SelectedWeekId { get; set; }
+            public SelectList WeeksList { get; set; }
 
+            // Other properties you need in your view
+        }
     }
 }
