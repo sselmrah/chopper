@@ -48,7 +48,7 @@ namespace chopper1.Controllers
 
             return View(week);
         }
-        public ActionResult getWeek()
+        public ActionResult getWeek(string week_num="10")
         {
             Week curWeek = new Week();
             //Experiments
@@ -57,7 +57,7 @@ namespace chopper1.Controllers
             {
                // curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
                 TVWeekType[] weeks = curWc.GetWeeks();
-                curTvWeek= weeks[10];                
+                curTvWeek= weeks[Convert.ToInt32(week_num)];                
                 ViewData["weekName"] = curWeek.Name;
                 
             }
@@ -88,7 +88,44 @@ namespace chopper1.Controllers
             return weekTVday;
         }
 
+        public ActionResult SelectCategory()
+        {
 
+            List<SelectListItem> weeks = new List<SelectListItem>();
+            WebСервис1 curWc = new WebСервис1();
+            TVWeekType curTvWeek = new TVWeekType();
+            try
+            {
+                curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
+                TVWeekType[] weeks1 = curWc.GetWeeks();
+                int i = 0;
+                foreach (TVWeekType week in weeks1)
+                {
+                    weeks.Add(new SelectListItem { Text = week.Note, Value = i.ToString()});
+                    i += 1;
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            ViewBag.Week = weeks;            
+            return View();
+
+        }
+
+        public ViewResult WeekChosen(string Week)
+        {
+
+            ViewBag.messageString = Week;
+            ViewBag.weeknum = Week;
+
+
+            return View("SelectWeek");
+
+        }
 
 
     }

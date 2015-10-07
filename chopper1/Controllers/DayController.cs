@@ -47,5 +47,10 @@ namespace chopper1.Controllers
             
             return PartialView(newDay);
         }
+        public ActionResult ConstructNormalTimeScale(bool left)
+        {            
+            ViewBag.Left = left;
+            return PartialView();
+        }
     }
 }

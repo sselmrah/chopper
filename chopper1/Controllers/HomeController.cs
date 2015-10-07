@@ -28,34 +28,8 @@ namespace chopper1.Controllers
             return View();
         }
 
-        public ActionResult SelectCategory()
-        {
-
-            List<SelectListItem> weeks = new List<SelectListItem>();
-            WebСервис1 curWc = new WebСервис1();
-            TVWeekType curTvWeek = new TVWeekType();
-            try
-            {
-                curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
-                TVWeekType[] weeks1 = curWc.GetWeeks();
-                int i = 0;
-                foreach (TVWeekType week in weeks1)
-                {
-                    i += 1;
-                    weeks.Add(new SelectListItem { Text = week.Note, Value = i.ToString() });
-                }
-          
-            }
-            catch
-            {
-
-            }
-
-            ViewBag.MovieType = weeks;
-
-            return View();
-
-        }
+        
+       
 
     }
 }

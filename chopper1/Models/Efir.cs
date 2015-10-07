@@ -17,7 +17,51 @@ namespace chopper1.Models
         private bool _isNextDay;
         private int _r;
         private int _t;
-        private int _a;        
+        private int _a;
+        private bool _bold;
+        private bool _italic;
+        private int _fontSize;
+        private bool _reserv;
+        private int _grayScale;
+        private bool _isNews;
+
+        public bool IsNews
+        {
+            get { return _isNews; }
+            set { _isNews = value; }
+        }
+
+        public int GrayScale
+        {
+            get { return _grayScale; }
+            set { _grayScale = value; }
+        }
+
+        public bool Reserv
+        {
+            get { return _reserv; }
+            set { _reserv = value; }
+        }
+        
+
+
+        public int FontSize
+        {
+            get { return _fontSize; }
+            set { _fontSize = value; }
+        }
+
+        public bool Italic
+        {
+            get { return _italic; }
+            set { _italic = value; }
+        }
+
+        public bool Bold
+        {
+            get { return _bold; }
+            set { _bold = value; }
+        }
 
 
         public int A
@@ -125,6 +169,13 @@ namespace chopper1.Models
             return infoString;
         }
 
+        public string getANR()
+        {
+            string newTitle = "";
+            
+
+            return newTitle;
+        }
 
         public string timingToString(int pureDur)
         {
