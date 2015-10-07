@@ -1,14 +1,13 @@
 ﻿.dayrect
 {           width: calc(95%/7);
-            height: 1440px;                      
+            height: 1661px;                      
             background: linear-gradient(slategray 1px, aliceblue 1px);            
             background-size: 100% 60px;
             background-position-y:100px;
             border:solid 0 black;                        
             float:left;
-            position:relative;
+            position:relative;            
 }
-
 
 .ruler-div
 {
@@ -35,7 +34,7 @@
 .ruler-ul li
 {
     position:relative;
-    left:-43px;
+    left:-40px;
     padding-bottom:48px;        
     list-style-type: none;
     font-size:xx-small;
@@ -57,56 +56,46 @@
         position: absolute;   
         float: left;   
 }
+
+.news
+{
+    background-color: lightgray;    
+}
+
+.reserv
+{
+    background-color: lightgray;    
+}
+
 .selected
 {
     border: 2px solid blue;    
 }
 
 
-.xxsmall-text
-{
-    font-size:8px;
-}
-.xsmall-text
-{
-    font-size:x-small;
-}
-.small-text
-{
-    font-size:small;
-}
-
 .timing-div
 {
     width:100%;
     text-align:center;
     float: left;
-    font-size:x-small;
 }
 .title-div
 {    
     width:100%;    
     text-align:center;
-    line-height:90%;
-    font-size:small;
+    line-height:100%;    
 }
-.smalltitle-div
-{         
-    text-align:center;
-    line-height:80%;
-    
+.font-bold
+{
+    font-weight:bold;
+}
+.font-italic
+{
+    font-style: italic;
 }
 .info-div
 {    
     text-align:center;    
-    font-size:x-small;
-}
-.smallinfo-div
-{    
-    text-align:center;
-    line-height:90%;
-    
-    padding-left:2em;
 }
 .dow-div
 {
