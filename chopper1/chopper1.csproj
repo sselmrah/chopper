@@ -186,6 +186,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="test.cs" />
     <Compile Include="Web References\ws1c\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -318,7 +319,10 @@
     <Content Include="Views\Weeks\getWeek.cshtml" />
     <Content Include="Views\Day\ConstructDay.cshtml" />
     <Content Include="Views\Efir\ConstructEfir.cshtml" />
-    <Content Include="Views\Home\SelectCategory.cshtml" />
+    <Content Include="Views\Weeks\SelectCategory.cshtml" />
+    <Content Include="Views\Weeks\SelectWeek.cshtml" />
+    <Content Include="Views\Weeks\CategoryChosen.cshtml" />
+    <Content Include="Views\Day\ConstructNormalTimeScale.cshtml" />
     <None Include="Web References\ws1c\WebСервис1.wsdl" />
     <Content Include="Web References\ws1c\WeekTVDayType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
