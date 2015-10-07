@@ -10,20 +10,21 @@
     <title></title>
 </head>
 <body>
-@{
+    @{
 
     ViewBag.Title = "Category Select";
-}
+    }
 
 
-
-@using (Html.BeginForm("CategoryChosen", "Home", FormMethod.Get))
+@using (Html.BeginForm("WeekChosen", "Weeks", FormMethod.Get))
 {
 
-    <fieldset>        
-        @Html.DropDownList("MovieType")
+    <fieldset>
+        Movie Type
+        @Html.DropDownList("Week", null, new { @onchange = "form.submit();" })
     </fieldset>
 
 } 
+
 </body>
 </html>
