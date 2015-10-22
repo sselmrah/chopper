@@ -198,6 +198,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\Stolby.css" />
     <Content Include="Content\StyleSheet1.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -300,10 +301,11 @@
     <Content Include="Web References\ws1c\KanalType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\ws1c\Reference.map">
+    <Content Include="Views\Weeks\UpdateDayStolby.cshtml" />
+    <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\ws1c\TVDayVariantParam.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -321,8 +323,10 @@
     <Content Include="Views\Efir\ConstructEfir.cshtml" />
     <Content Include="Views\Weeks\SelectCategory.cshtml" />
     <Content Include="Views\Weeks\SelectWeek.cshtml" />
-    <Content Include="Views\Weeks\CategoryChosen.cshtml" />
     <Content Include="Views\Day\ConstructNormalTimeScale.cshtml" />
+    <Content Include="Views\Weeks\Stolby.cshtml" />
+    <Content Include="Views\Day\StolbyDay.cshtml" />
+    <Content Include="Views\Efir\StolbyEfir.cshtml" />
     <None Include="Web References\ws1c\WebСервис1.wsdl" />
     <Content Include="Web References\ws1c\WeekTVDayType.datasource">
       <DependentUpon>Reference.map</DependentUpon>

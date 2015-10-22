@@ -9,9 +9,10 @@ namespace chopper1.Models
     public class Week : TVWeekType
     {
         private int _daysCount;
-        private WeekTVDayType[] _days;        
+        private List<WeekTVDayType> _days;
+                
 
-        public WeekTVDayType[] Days
+        public List<WeekTVDayType> Days
         {
             get { return _days; }
             set { _days = value; }
@@ -21,5 +22,6 @@ namespace chopper1.Models
             get { return _daysCount; }
             set { _daysCount = value; }
         }
+
     }
 }

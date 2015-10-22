@@ -34,10 +34,10 @@ namespace chopper1.Controllers
             //Обрабатываем ключи
             TitleKeys(newEfir);
             //Получаем общее время рекламы / анонсов + чистый хронометраж
-            if (newEfir.ITC.Count() > 0)
-            {
+            //if (newEfir.ITC.Count() > 0)
+            //{
                 newEfir.getRTA(newEfir.ITC);
-            }
+            //}
             //Проверяем, не новостной ли это эфир
             newEfir.IsNews = false;
             if ((newEfir.ANR.ToUpper().Contains("ВОСКРЕСНОЕ \"ВРЕМЯ\"") || newEfir.ANR.ToUpper().Contains("НОВОСТИ") || newEfir.ANR.ToUpper().Contains("\"ВРЕМЯ\""))) 
@@ -61,6 +61,78 @@ namespace chopper1.Controllers
 
             return PartialView(newEfir);
         }
+
+        public ActionResult StolbyEfir(EfirType curEfir, DateTime curDay)
+        {
+
+            Efir newEfir = new Efir();
+            newEfir.InjectFrom(curEfir);
+            //Стандартный размер шрифта
+            newEfir.FontSize = 9;
+            //Обрабатываем ключи
+            TitleKeys(newEfir);
+            //Получаем общее время рекламы / анонсов + чистый хронометраж
+            //if (newEfir.ITC.Count() > 0)
+            //{
+                newEfir.getRTA(newEfir.ITC);
+            //}
+
+
+
+                
+
+            //Проверяем, укладываемся ли в текущий день
+            if (newEfir.Beg.Date == curDay.Date)
+            {
+                newEfir.IsNextDay = false;
+            }
+            else
+            {
+                newEfir.IsNextDay = true;
+            }
+            //Проверяем, не новостной ли это эфир
+            newEfir.IsNews = false;
+            if ((newEfir.ANR.ToUpper().Contains("ВОСКРЕСНОЕ \"ВРЕМЯ\"") || newEfir.ANR.ToUpper().Contains("НОВОСТИ") || newEfir.ANR.ToUpper().Contains("\"ВРЕМЯ\"")) &! newEfir.ANR.ToUpper().Contains("СПОРТА"))
+            {
+                newEfir.IsNews = true;
+                int thisNewsStart;
+                if (newEfir.IsNextDay)
+                {
+                    thisNewsStart = Convert.ToInt32(newEfir.Beg.TimeOfDay.TotalSeconds) + 24 * 60 * 60;
+                }
+                else
+                {
+                    thisNewsStart = Convert.ToInt32(newEfir.Beg.TimeOfDay.TotalSeconds);
+                }
+
+                if (chopper1.MyStartupClass.lastNewsStart == 0)
+                {
+                    chopper1.MyStartupClass.lastNewsStart = thisNewsStart;                    
+                    chopper1.MyStartupClass.totalBlockDur = newEfir.Timing;
+                    //Дописать обнуление lastnewsstart
+                }
+                else
+                {
+                    newEfir.Nakladka = thisNewsStart - chopper1.MyStartupClass.lastNewsStart - chopper1.MyStartupClass.totalBlockDur;
+                    chopper1.MyStartupClass.lastNewsStart = thisNewsStart;                    
+                    chopper1.MyStartupClass.totalBlockDur = newEfir.Timing;
+                }
+            }   
+            else
+            {
+                chopper1.MyStartupClass.totalBlockDur += newEfir.Timing;
+            }
+            
+            //Получаем время окончания
+            newEfir.EndTime = newEfir.Beg + TimeSpan.FromSeconds(newEfir.Timing);
+
+            //Назначаем высоту в пикселях: 1 минута = 1px
+            newEfir.InitHeight = newEfir.Timing / 60;
+
+
+            return PartialView(newEfir);
+        }
+
 
         private void TitleKeys(Efir curEfir)
         {

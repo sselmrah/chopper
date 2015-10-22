@@ -277,17 +277,17 @@
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
-    <xs:schema xmlns:ns3="http://v8.1c.ru/8.1/data/core" xmlns:tns="http://v8.1c.ru/8.2/managed-application/core" xmlns:ns1="http://v8.1c.ru/8.1/data/enterprise" xmlns:ns2="http://v8.1c.ru/8.1/data/ui" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.2/managed-application/core" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema xmlns:ns3="http://v8.1c.ru/8.1/data/ui" xmlns:tns="http://v8.1c.ru/8.2/managed-application/core" xmlns:ns1="http://v8.1c.ru/8.1/data/enterprise" xmlns:ns2="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.2/managed-application/core" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise" />
-      <xs:import namespace="http://v8.1c.ru/8.1/data/ui" />
       <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
+      <xs:import namespace="http://v8.1c.ru/8.1/data/ui" />
       <xs:element name="ClientApplicationInterface" type="tns:InterfaceLayouter" />
       <xs:complexType name="AboutInfo">
         <xs:sequence>
           <xs:element name="title" type="xs:string" />
           <xs:element name="user" type="xs:string" />
           <xs:element name="config" type="xs:string" />
-          <xs:element minOccurs="0" name="logo" type="ns2:Picture" />
+          <xs:element minOccurs="0" name="logo" type="ns3:Picture" />
           <xs:element name="presentation" type="xs:string" />
           <xs:element minOccurs="0" name="runMode" type="xs:string" />
           <xs:element minOccurs="0" name="compress" type="xs:string" />
@@ -303,11 +303,11 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="locale" type="tns:LocaleInfo" />
           <xs:element name="langs" type="tns:LangSettings" />
-          <xs:element name="config" type="ns3:UUID" />
+          <xs:element name="config" type="ns2:UUID" />
           <xs:element name="types" type="xs:string" />
-          <xs:element name="user" type="ns3:UUID" />
+          <xs:element name="user" type="ns2:UUID" />
           <xs:element name="rolesID" type="xs:decimal" />
-          <xs:element name="seance" type="ns3:UUID" />
+          <xs:element name="seance" type="ns2:UUID" />
           <xs:element name="seanceNo" type="xs:decimal" />
           <xs:element name="connectHash" type="xs:string" />
           <xs:element name="userRunMode" type="xs:decimal" />
@@ -321,7 +321,7 @@
           <xs:element name="modalityUseMode" type="xs:decimal" />
           <xs:element name="rigthClientsStart" type="xs:decimal" />
           <xs:element name="syncCallsUseMode" type="xs:decimal" />
-          <xs:element name="assemblyVersion" type="ns3:ObjectVersion" />
+          <xs:element name="assemblyVersion" type="ns2:ObjectVersion" />
         </xs:sequence>
         <xs:attribute name="confNotSaved" type="xs:boolean" />
         <xs:attribute name="noFontsOnServer" type="xs:boolean" />
@@ -344,7 +344,7 @@
         <xs:sequence>
           <xs:element name="name" type="xs:string" />
           <xs:element name="mode" type="ns1:LinkedValueChangeMode" />
-          <xs:element maxOccurs="unbounded" name="pathItem" type="ns3:CompositeID" />
+          <xs:element maxOccurs="unbounded" name="pathItem" type="ns2:CompositeID" />
           <xs:element minOccurs="0" name="webDataPath" type="xs:string" />
           <xs:element minOccurs="0" name="strPath" type="xs:string" />
         </xs:sequence>
@@ -397,7 +397,7 @@
         <xs:attribute name="time" type="xs:string" />
       </xs:complexType>
       <xs:complexType name="DateQualifiers">
-        <xs:attribute default="DateTime" name="fractions" type="ns3:DateFractions" />
+        <xs:attribute default="DateTime" name="fractions" type="ns2:DateFractions" />
       </xs:complexType>
       <xs:complexType name="DesktopFormInfo">
         <xs:attribute name="id" type="xs:string" />
@@ -436,7 +436,7 @@
         </xs:complexContent>
       </xs:complexType>
       <xs:complexType name="EnumVal">
-        <xs:attribute name="uuid" type="ns3:UUID" />
+        <xs:attribute name="uuid" type="ns2:UUID" />
         <xs:attribute name="code" type="xs:string" />
         <xs:attribute name="presentation" type="xs:string" />
       </xs:complexType>
@@ -446,7 +446,7 @@
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="EnumValue">
-        <xs:attribute name="uuid" type="ns3:UUID" use="required" />
+        <xs:attribute name="uuid" type="ns2:UUID" use="required" />
         <xs:attribute name="code" type="xs:string" />
       </xs:complexType>
       <xs:complexType name="ExtKey">
@@ -481,7 +481,7 @@
         <xs:complexContent mixed="false">
           <xs:extension base="tns:Type">
             <xs:sequence>
-              <xs:element minOccurs="0" name="tdp" type="ns3:TypeDescription" />
+              <xs:element minOccurs="0" name="tdp" type="ns2:TypeDescription" />
             </xs:sequence>
             <xs:attribute name="valueType" type="xs:QName" />
           </xs:extension>
@@ -525,7 +525,7 @@
       </xs:complexType>
       <xs:complexType name="LFEFChoiceHistoryItem">
         <xs:sequence>
-          <xs:element minOccurs="0" name="choiceParams" type="ns3:Structure" />
+          <xs:element minOccurs="0" name="choiceParams" type="ns2:Structure" />
           <xs:element minOccurs="0" name="choiceFoldersAndItems" type="ns1:FoldersAndItemsUse" />
           <xs:element name="value" nillable="true" />
           <xs:element minOccurs="0" name="presentation" type="xs:string" />
@@ -607,8 +607,8 @@
         <xs:attribute name="localeName" type="xs:string" />
       </xs:complexType>
       <xs:complexType name="NavigationPoint">
-        <xs:attribute name="fragment" type="ns3:UUID" />
-        <xs:attribute name="subTheme" type="ns3:CompositeID" />
+        <xs:attribute name="fragment" type="ns2:UUID" />
+        <xs:attribute name="subTheme" type="ns2:CompositeID" />
       </xs:complexType>
       <xs:complexType name="NumberQualifiers">
         <xs:attribute default="0" name="length" type="xs:decimal" />
@@ -623,25 +623,25 @@
       </xs:complexType>
       <xs:complexType name="Panel">
         <xs:choice>
-          <xs:element minOccurs="0" name="uuid" type="ns3:UUID" />
+          <xs:element minOccurs="0" name="uuid" type="ns2:UUID" />
           <xs:element minOccurs="0" name="name" type="xs:string" />
           <xs:element minOccurs="0" name="height" type="xs:decimal" />
           <xs:element minOccurs="0" name="kind" type="tns:SectionPanelRepresentation" />
         </xs:choice>
-        <xs:attribute name="id" type="ns3:UUID" />
+        <xs:attribute name="id" type="ns2:UUID" />
       </xs:complexType>
       <xs:complexType name="PanelDef">
         <xs:sequence>
           <xs:element minOccurs="0" name="name" type="xs:string" />
           <xs:element minOccurs="0" name="spr" type="tns:SectionPanelRepresentation" />
         </xs:sequence>
-        <xs:attribute name="id" type="ns3:UUID" />
+        <xs:attribute name="id" type="ns2:UUID" />
       </xs:complexType>
       <xs:complexType name="PanelGroup">
         <xs:sequence>
           <xs:element maxOccurs="unbounded" name="group" type="tns:PanelLayouter" />
         </xs:sequence>
-        <xs:attribute name="id" type="ns3:UUID" />
+        <xs:attribute name="id" type="ns2:UUID" />
       </xs:complexType>
       <xs:complexType name="PanelLayouter">
         <xs:choice>
@@ -723,7 +723,7 @@
       <xs:complexType name="SettingsChoice">
         <xs:sequence>
           <xs:element name="settingsKey" />
-          <xs:element minOccurs="0" name="additionalProperties" type="ns3:Structure" />
+          <xs:element minOccurs="0" name="additionalProperties" type="ns2:Structure" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="SplashInfo">
@@ -746,12 +746,12 @@
           <xs:element minOccurs="0" name="favs" type="tns:UserFavorites" />
         </xs:sequence>
         <xs:attribute name="confName" type="xs:string" />
-        <xs:attribute name="subsystemsPanelVer" type="ns3:UUID" />
-        <xs:attribute name="foVer" type="ns3:UUID" />
-        <xs:attribute name="mainWindowOptionsVer" type="ns3:UUID" />
-        <xs:attribute name="desktopSpliterPosVer" type="ns3:UUID" />
-        <xs:attribute name="notifyWindowOptionsVer" type="ns3:UUID" />
-        <xs:attribute name="stateWindowOptionsVer" type="ns3:UUID" />
+        <xs:attribute name="subsystemsPanelVer" type="ns2:UUID" />
+        <xs:attribute name="foVer" type="ns2:UUID" />
+        <xs:attribute name="mainWindowOptionsVer" type="ns2:UUID" />
+        <xs:attribute name="desktopSpliterPosVer" type="ns2:UUID" />
+        <xs:attribute name="notifyWindowOptionsVer" type="ns2:UUID" />
+        <xs:attribute name="stateWindowOptionsVer" type="ns2:UUID" />
         <xs:attribute name="commConfName" type="xs:string" />
         <xs:attribute name="commConfURL" type="xs:string" />
         <xs:attribute name="commProvName" type="xs:string" />
@@ -781,7 +781,7 @@
         <xs:sequence>
           <xs:element name="value" />
         </xs:sequence>
-        <xs:attribute name="uuid" type="ns3:CompositeID" />
+        <xs:attribute name="uuid" type="ns2:CompositeID" />
         <xs:attribute name="code" type="xs:string" />
         <xs:attribute name="description" type="xs:string" />
         <xs:attribute name="kind" type="tns:StyleEntryKind" />
@@ -795,16 +795,16 @@
         </xs:restriction>
       </xs:simpleType>
       <xs:complexType name="SubsystemVerInfo">
-        <xs:attribute name="id" type="ns3:UUID" />
-        <xs:attribute name="actionPanelVer" type="ns3:UUID" />
-        <xs:attribute name="navPanelVer" type="ns3:UUID" />
+        <xs:attribute name="id" type="ns2:UUID" />
+        <xs:attribute name="actionPanelVer" type="ns2:UUID" />
+        <xs:attribute name="navPanelVer" type="ns2:UUID" />
       </xs:complexType>
       <xs:complexType name="SysEnum">
         <xs:sequence>
           <xs:element minOccurs="0" maxOccurs="unbounded" name="values" type="tns:SysEnumValue" />
         </xs:sequence>
-        <xs:attribute name="factoryClsid" type="ns3:UUID" />
-        <xs:attribute name="clsid" type="ns3:UUID" />
+        <xs:attribute name="factoryClsid" type="ns2:UUID" />
+        <xs:attribute name="clsid" type="ns2:UUID" />
         <xs:attribute name="enumName" type="xs:string" />
         <xs:attribute name="enumName2" type="xs:string" />
         <xs:attribute name="xmlName" type="xs:string" />
@@ -824,25 +824,25 @@
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="Type" abstract="true">
-        <xs:attribute name="clsid" type="ns3:UUID" use="required" />
+        <xs:attribute name="clsid" type="ns2:UUID" use="required" />
         <xs:attribute name="table" type="xs:decimal" use="required" />
         <xs:attribute name="code" type="xs:NCName" />
       </xs:complexType>
       <xs:complexType name="TypeIDList">
         <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="type" type="ns3:UUID" />
+          <xs:element maxOccurs="unbounded" name="type" type="ns2:UUID" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="TypeLink">
         <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="pathItem" type="ns3:CompositeID" />
+          <xs:element maxOccurs="unbounded" name="pathItem" type="ns2:CompositeID" />
           <xs:element minOccurs="0" name="linkItem" type="xs:decimal" />
           <xs:element minOccurs="0" name="webDataPath" type="xs:string" />
           <xs:element minOccurs="0" name="strPath" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="TypePresentation">
-        <xs:attribute name="clsid" type="ns3:UUID" use="required" />
+        <xs:attribute name="clsid" type="ns2:UUID" use="required" />
         <xs:attribute name="view" type="xs:string" use="required" />
       </xs:complexType>
       <xs:complexType name="TypePresentations">
@@ -852,17 +852,17 @@
       </xs:complexType>
       <xs:complexType name="TypeSet">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="type" type="ns3:UUID" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="type" type="ns2:UUID" />
           <xs:element minOccurs="0" name="string" type="tns:StringQualifiers" />
           <xs:element minOccurs="0" name="number" type="tns:NumberQualifiers" />
           <xs:element minOccurs="0" name="date" type="tns:DateQualifiers" />
           <xs:element minOccurs="0" name="binary" type="tns:BinaryDataQualifiers" />
         </xs:sequence>
-        <xs:attribute name="clsid" type="ns3:UUID" />
+        <xs:attribute name="clsid" type="ns2:UUID" />
         <xs:attribute name="name" type="xs:QName" />
       </xs:complexType>
       <xs:complexType name="TypeSetDef">
-        <xs:attribute name="clsid" type="ns3:UUID" />
+        <xs:attribute name="clsid" type="ns2:UUID" />
         <xs:attribute name="en" type="xs:NCName" />
         <xs:attribute name="ru" type="xs:NCName" />
         <xs:attribute name="name" type="xs:QName" />
@@ -881,7 +881,7 @@
       </xs:complexType>
       <xs:complexType name="UUIDAndStringsVectorType">
         <xs:sequence>
-          <xs:element name="UUID" type="ns3:UUID" />
+          <xs:element name="UUID" type="ns2:UUID" />
           <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:UserFavoriteItem" />
         </xs:sequence>
       </xs:complexType>
@@ -895,6 +895,347 @@
       <xs:complexType name="UserFavorites">
         <xs:sequence>
           <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:UserFavoriteItem" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.1/data/core" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:simpleType name="AllowedLength">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Fixed" />
+          <xs:enumeration value="Variable" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AllowedSign">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Any" />
+          <xs:enumeration value="Nonnegative" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="Array">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BinaryDataQualifiers">
+        <xs:sequence>
+          <xs:element name="Length" type="xs:decimal" />
+          <xs:element name="AllowedLength" type="tns:AllowedLength" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="CompositeID">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="-?[0-9]+(:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})?" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="DataFillError">
+        <xs:sequence>
+          <xs:element name="Data" type="xs:string" />
+          <xs:element name="DataDescr" type="xs:string" />
+          <xs:element name="Text" type="xs:string" />
+          <xs:element name="Status" type="tns:FillCheckErrorStatus" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DataFillErrors">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:DataFillError" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="DateFractions">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Date" />
+          <xs:enumeration value="Time" />
+          <xs:enumeration value="DateTime" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="DateQualifiers">
+        <xs:sequence>
+          <xs:element name="DateFractions" type="tns:DateFractions" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Exception">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:GenericException">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="data" type="xs:base64Binary" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:simpleType name="FillCheckErrorStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Error" />
+          <xs:enumeration value="Warning" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="FillChecking">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DontCheck" />
+          <xs:enumeration value="ShowError" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="FixedArray">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FixedMap">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="pair" type="tns:KeyAndValue" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FixedStructure">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Property">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Value" nillable="true" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GenericException" abstract="true">
+        <xs:sequence>
+          <xs:element name="descr" type="xs:string" />
+          <xs:element minOccurs="0" name="inner" type="tns:GenericException" />
+        </xs:sequence>
+        <xs:attribute name="clsid" type="tns:UUID" use="required" />
+        <xs:attribute default="false" name="encoded" type="xs:boolean" />
+      </xs:complexType>
+      <xs:complexType name="KeyAndValue">
+        <xs:sequence>
+          <xs:element name="Key" />
+          <xs:element name="Value" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="LocalStringItemType">
+        <xs:sequence>
+          <xs:element name="lang" type="xs:NMTOKEN" />
+          <xs:element name="content" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="LocalStringType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:LocalStringItemType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Map">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="pair" type="tns:KeyAndValue" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="Null">
+        <xs:restriction base="xs:string">
+          <xs:length value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="NumberQualifiers">
+        <xs:sequence>
+          <xs:element name="Digits" type="xs:decimal" />
+          <xs:element name="FractionDigits" type="xs:decimal" />
+          <xs:element name="AllowedSign" type="tns:AllowedSign" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ObjectVersion">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9a-fA-F]{40}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="StandardBeginningDate">
+        <xs:sequence>
+          <xs:element name="variant" />
+          <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="StandardBeginningDateVariant">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Custom" />
+          <xs:enumeration value="BeginningOfThisDay" />
+          <xs:enumeration value="BeginningOfThisWeek" />
+          <xs:enumeration value="BeginningOfThisTenDays" />
+          <xs:enumeration value="BeginningOfThisMonth" />
+          <xs:enumeration value="BeginningOfThisQuarter" />
+          <xs:enumeration value="BeginningOfThisHalfYear" />
+          <xs:enumeration value="BeginningOfThisYear" />
+          <xs:enumeration value="BeginningOfLastDay" />
+          <xs:enumeration value="BeginningOfLastWeek" />
+          <xs:enumeration value="BeginningOfLastTenDays" />
+          <xs:enumeration value="BeginningOfLastMonth" />
+          <xs:enumeration value="BeginningOfLastQuarter" />
+          <xs:enumeration value="BeginningOfLastHalfYear" />
+          <xs:enumeration value="BeginningOfLastYear" />
+          <xs:enumeration value="BeginningOfNextDay" />
+          <xs:enumeration value="BeginningOfNextWeek" />
+          <xs:enumeration value="BeginningOfNextTenDays" />
+          <xs:enumeration value="BeginningOfNextMonth" />
+          <xs:enumeration value="BeginningOfNextQuarter" />
+          <xs:enumeration value="BeginningOfNextHalfYear" />
+          <xs:enumeration value="BeginningOfNextYear" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="StandardPeriod">
+        <xs:sequence>
+          <xs:element name="variant" />
+          <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="StandardPeriodVariant">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Custom" />
+          <xs:enumeration value="Today" />
+          <xs:enumeration value="ThisWeek" />
+          <xs:enumeration value="ThisTenDays" />
+          <xs:enumeration value="ThisMonth" />
+          <xs:enumeration value="ThisQuarter" />
+          <xs:enumeration value="ThisHalfYear" />
+          <xs:enumeration value="ThisYear" />
+          <xs:enumeration value="FromBeginningOfThisWeek" />
+          <xs:enumeration value="FromBeginningOfThisTenDays" />
+          <xs:enumeration value="FromBeginningOfThisMonth" />
+          <xs:enumeration value="FromBeginningOfThisQuarter" />
+          <xs:enumeration value="FromBeginningOfThisHalfYear" />
+          <xs:enumeration value="FromBeginningOfThisYear" />
+          <xs:enumeration value="Yesterday" />
+          <xs:enumeration value="LastWeek" />
+          <xs:enumeration value="LastTenDays" />
+          <xs:enumeration value="LastMonth" />
+          <xs:enumeration value="LastQuarter" />
+          <xs:enumeration value="LastHalfYear" />
+          <xs:enumeration value="LastYear" />
+          <xs:enumeration value="LastWeekTillSameWeekDay" />
+          <xs:enumeration value="LastTenDaysTillSameDayNumber" />
+          <xs:enumeration value="LastMonthTillSameDate" />
+          <xs:enumeration value="LastQuarterTillSameDate" />
+          <xs:enumeration value="LastHalfYearTillSameDate" />
+          <xs:enumeration value="LastYearTillSameDate" />
+          <xs:enumeration value="Tomorrow" />
+          <xs:enumeration value="NextWeek" />
+          <xs:enumeration value="NextTenDays" />
+          <xs:enumeration value="NextMonth" />
+          <xs:enumeration value="NextQuarter" />
+          <xs:enumeration value="NextHalfYear" />
+          <xs:enumeration value="NextYear" />
+          <xs:enumeration value="NextWeekTillSameWeekDay" />
+          <xs:enumeration value="NextTenDaysTillSameDayNumber" />
+          <xs:enumeration value="NextMonthTillSameDate" />
+          <xs:enumeration value="NextQuarterTillSameDate" />
+          <xs:enumeration value="NextHalfYearTillSameDate" />
+          <xs:enumeration value="NextYearTillSameDate" />
+          <xs:enumeration value="TillEndOfThisWeek" />
+          <xs:enumeration value="TillEndOfThisTenDays" />
+          <xs:enumeration value="TillEndOfThisMonth" />
+          <xs:enumeration value="TillEndOfThisQuarter" />
+          <xs:enumeration value="TillEndOfThisHalfYear" />
+          <xs:enumeration value="TillEndOfThisYear" />
+          <xs:enumeration value="Last7Days" />
+          <xs:enumeration value="Next7Days" />
+          <xs:enumeration value="Month" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="StringQualifiers">
+        <xs:sequence>
+          <xs:element name="Length" type="xs:decimal" />
+          <xs:element name="AllowedLength" type="tns:AllowedLength" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Structure">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Property">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Value" nillable="true" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="Type">
+        <xs:restriction base="xs:QName" />
+      </xs:simpleType>
+      <xs:complexType name="TypeDescription">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Type" type="xs:QName" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeSet" type="xs:QName" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeId" type="tns:UUID" />
+          <xs:element minOccurs="0" name="NumberQualifiers" type="tns:NumberQualifiers" />
+          <xs:element minOccurs="0" name="StringQualifiers" type="tns:StringQualifiers" />
+          <xs:element minOccurs="0" name="DateQualifiers" type="tns:DateQualifiers" />
+          <xs:element minOccurs="0" name="BinaryDataQualifiers" type="tns:BinaryDataQualifiers" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="UUID">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="ValueListItemType">
+        <xs:sequence>
+          <xs:element name="value" nillable="true" />
+          <xs:element minOccurs="0" name="presentation" type="xs:string" />
+          <xs:element minOccurs="0" name="checkState" type="xs:decimal" />
+          <xs:element minOccurs="0" name="picture" />
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="formatPresentationSpecified" type="xs:boolean" />
+          <xs:element minOccurs="0" name="formatPresentation" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueListType">
+        <xs:sequence>
+          <xs:element name="valueType" type="tns:TypeDescription" />
+          <xs:element minOccurs="0" name="availableValues" type="tns:ValueListType" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:ValueListItemType" />
+          <xs:element minOccurs="0" name="lastId" type="xs:long" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ValueStorage">
+        <xs:restriction base="xs:base64Binary" />
+      </xs:simpleType>
+      <xs:complexType name="ValueTable">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="column" type="tns:ValueTableColumn" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="index" type="tns:ValueTableIndex" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTableRow" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueTableColumn">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Name" type="xs:NMTOKEN" />
+          <xs:element minOccurs="0" name="ValueType" type="tns:TypeDescription" />
+          <xs:element minOccurs="0" name="Title" type="xs:string" />
+          <xs:element minOccurs="0" name="Width" type="xs:nonNegativeInteger" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueTableIndex">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="column" type="xs:NMTOKEN" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueTableRow">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueTree">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="column" type="tns:ValueTreeColumn" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTreeRow" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueTreeColumn">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Name" type="xs:NMTOKEN" />
+          <xs:element minOccurs="0" name="ValueType" type="tns:TypeDescription" />
+          <xs:element minOccurs="0" name="Title" type="xs:string" />
+          <xs:element minOccurs="0" name="Width" type="xs:nonNegativeInteger" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ValueTreeRow">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTreeRow" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
@@ -1289,347 +1630,6 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:schema>
-    <xs:schema xmlns:tns="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.1/data/core" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-      <xs:simpleType name="AllowedLength">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Fixed" />
-          <xs:enumeration value="Variable" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AllowedSign">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Any" />
-          <xs:enumeration value="Nonnegative" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="Array">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="BinaryDataQualifiers">
-        <xs:sequence>
-          <xs:element name="Length" type="xs:decimal" />
-          <xs:element name="AllowedLength" type="tns:AllowedLength" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="CompositeID">
-        <xs:restriction base="xs:string">
-          <xs:pattern value="-?[0-9]+(:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})?" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="DataFillError">
-        <xs:sequence>
-          <xs:element name="Data" type="xs:string" />
-          <xs:element name="DataDescr" type="xs:string" />
-          <xs:element name="Text" type="xs:string" />
-          <xs:element name="Status" type="tns:FillCheckErrorStatus" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="DataFillErrors">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:DataFillError" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="DateFractions">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Date" />
-          <xs:enumeration value="Time" />
-          <xs:enumeration value="DateTime" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="DateQualifiers">
-        <xs:sequence>
-          <xs:element name="DateFractions" type="tns:DateFractions" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="Exception">
-        <xs:complexContent mixed="false">
-          <xs:extension base="tns:GenericException">
-            <xs:sequence>
-              <xs:element minOccurs="0" name="data" type="xs:base64Binary" />
-            </xs:sequence>
-          </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-      <xs:simpleType name="FillCheckErrorStatus">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Error" />
-          <xs:enumeration value="Warning" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="FillChecking">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="DontCheck" />
-          <xs:enumeration value="ShowError" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="FixedArray">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="FixedMap">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="pair" type="tns:KeyAndValue" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="FixedStructure">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Property">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="Value" nillable="true" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
-            </xs:complexType>
-          </xs:element>
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="GenericException" abstract="true">
-        <xs:sequence>
-          <xs:element name="descr" type="xs:string" />
-          <xs:element minOccurs="0" name="inner" type="tns:GenericException" />
-        </xs:sequence>
-        <xs:attribute name="clsid" type="tns:UUID" use="required" />
-        <xs:attribute default="false" name="encoded" type="xs:boolean" />
-      </xs:complexType>
-      <xs:complexType name="KeyAndValue">
-        <xs:sequence>
-          <xs:element name="Key" />
-          <xs:element name="Value" nillable="true" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="LocalStringItemType">
-        <xs:sequence>
-          <xs:element name="lang" type="xs:NMTOKEN" />
-          <xs:element name="content" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="LocalStringType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:LocalStringItemType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="Map">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="pair" type="tns:KeyAndValue" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="Null">
-        <xs:restriction base="xs:string">
-          <xs:length value="0" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="NumberQualifiers">
-        <xs:sequence>
-          <xs:element name="Digits" type="xs:decimal" />
-          <xs:element name="FractionDigits" type="xs:decimal" />
-          <xs:element name="AllowedSign" type="tns:AllowedSign" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="ObjectVersion">
-        <xs:restriction base="xs:string">
-          <xs:pattern value="[0-9a-fA-F]{40}" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="StandardBeginningDate">
-        <xs:sequence>
-          <xs:element name="variant" />
-          <xs:element minOccurs="0" name="date" type="xs:dateTime" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="StandardBeginningDateVariant">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Custom" />
-          <xs:enumeration value="BeginningOfThisDay" />
-          <xs:enumeration value="BeginningOfThisWeek" />
-          <xs:enumeration value="BeginningOfThisTenDays" />
-          <xs:enumeration value="BeginningOfThisMonth" />
-          <xs:enumeration value="BeginningOfThisQuarter" />
-          <xs:enumeration value="BeginningOfThisHalfYear" />
-          <xs:enumeration value="BeginningOfThisYear" />
-          <xs:enumeration value="BeginningOfLastDay" />
-          <xs:enumeration value="BeginningOfLastWeek" />
-          <xs:enumeration value="BeginningOfLastTenDays" />
-          <xs:enumeration value="BeginningOfLastMonth" />
-          <xs:enumeration value="BeginningOfLastQuarter" />
-          <xs:enumeration value="BeginningOfLastHalfYear" />
-          <xs:enumeration value="BeginningOfLastYear" />
-          <xs:enumeration value="BeginningOfNextDay" />
-          <xs:enumeration value="BeginningOfNextWeek" />
-          <xs:enumeration value="BeginningOfNextTenDays" />
-          <xs:enumeration value="BeginningOfNextMonth" />
-          <xs:enumeration value="BeginningOfNextQuarter" />
-          <xs:enumeration value="BeginningOfNextHalfYear" />
-          <xs:enumeration value="BeginningOfNextYear" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="StandardPeriod">
-        <xs:sequence>
-          <xs:element name="variant" />
-          <xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="StandardPeriodVariant">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Custom" />
-          <xs:enumeration value="Today" />
-          <xs:enumeration value="ThisWeek" />
-          <xs:enumeration value="ThisTenDays" />
-          <xs:enumeration value="ThisMonth" />
-          <xs:enumeration value="ThisQuarter" />
-          <xs:enumeration value="ThisHalfYear" />
-          <xs:enumeration value="ThisYear" />
-          <xs:enumeration value="FromBeginningOfThisWeek" />
-          <xs:enumeration value="FromBeginningOfThisTenDays" />
-          <xs:enumeration value="FromBeginningOfThisMonth" />
-          <xs:enumeration value="FromBeginningOfThisQuarter" />
-          <xs:enumeration value="FromBeginningOfThisHalfYear" />
-          <xs:enumeration value="FromBeginningOfThisYear" />
-          <xs:enumeration value="Yesterday" />
-          <xs:enumeration value="LastWeek" />
-          <xs:enumeration value="LastTenDays" />
-          <xs:enumeration value="LastMonth" />
-          <xs:enumeration value="LastQuarter" />
-          <xs:enumeration value="LastHalfYear" />
-          <xs:enumeration value="LastYear" />
-          <xs:enumeration value="LastWeekTillSameWeekDay" />
-          <xs:enumeration value="LastTenDaysTillSameDayNumber" />
-          <xs:enumeration value="LastMonthTillSameDate" />
-          <xs:enumeration value="LastQuarterTillSameDate" />
-          <xs:enumeration value="LastHalfYearTillSameDate" />
-          <xs:enumeration value="LastYearTillSameDate" />
-          <xs:enumeration value="Tomorrow" />
-          <xs:enumeration value="NextWeek" />
-          <xs:enumeration value="NextTenDays" />
-          <xs:enumeration value="NextMonth" />
-          <xs:enumeration value="NextQuarter" />
-          <xs:enumeration value="NextHalfYear" />
-          <xs:enumeration value="NextYear" />
-          <xs:enumeration value="NextWeekTillSameWeekDay" />
-          <xs:enumeration value="NextTenDaysTillSameDayNumber" />
-          <xs:enumeration value="NextMonthTillSameDate" />
-          <xs:enumeration value="NextQuarterTillSameDate" />
-          <xs:enumeration value="NextHalfYearTillSameDate" />
-          <xs:enumeration value="NextYearTillSameDate" />
-          <xs:enumeration value="TillEndOfThisWeek" />
-          <xs:enumeration value="TillEndOfThisTenDays" />
-          <xs:enumeration value="TillEndOfThisMonth" />
-          <xs:enumeration value="TillEndOfThisQuarter" />
-          <xs:enumeration value="TillEndOfThisHalfYear" />
-          <xs:enumeration value="TillEndOfThisYear" />
-          <xs:enumeration value="Last7Days" />
-          <xs:enumeration value="Next7Days" />
-          <xs:enumeration value="Month" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="StringQualifiers">
-        <xs:sequence>
-          <xs:element name="Length" type="xs:decimal" />
-          <xs:element name="AllowedLength" type="tns:AllowedLength" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="Structure">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Property">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="Value" nillable="true" />
-              </xs:sequence>
-              <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
-            </xs:complexType>
-          </xs:element>
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="Type">
-        <xs:restriction base="xs:QName" />
-      </xs:simpleType>
-      <xs:complexType name="TypeDescription">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Type" type="xs:QName" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeSet" type="xs:QName" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeId" type="tns:UUID" />
-          <xs:element minOccurs="0" name="NumberQualifiers" type="tns:NumberQualifiers" />
-          <xs:element minOccurs="0" name="StringQualifiers" type="tns:StringQualifiers" />
-          <xs:element minOccurs="0" name="DateQualifiers" type="tns:DateQualifiers" />
-          <xs:element minOccurs="0" name="BinaryDataQualifiers" type="tns:BinaryDataQualifiers" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="UUID">
-        <xs:restriction base="xs:string">
-          <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="ValueListItemType">
-        <xs:sequence>
-          <xs:element name="value" nillable="true" />
-          <xs:element minOccurs="0" name="presentation" type="xs:string" />
-          <xs:element minOccurs="0" name="checkState" type="xs:decimal" />
-          <xs:element minOccurs="0" name="picture" />
-          <xs:element minOccurs="0" name="id" type="xs:long" />
-          <xs:element minOccurs="0" name="formatPresentationSpecified" type="xs:boolean" />
-          <xs:element minOccurs="0" name="formatPresentation" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueListType">
-        <xs:sequence>
-          <xs:element name="valueType" type="tns:TypeDescription" />
-          <xs:element minOccurs="0" name="availableValues" type="tns:ValueListType" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:ValueListItemType" />
-          <xs:element minOccurs="0" name="lastId" type="xs:long" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:simpleType name="ValueStorage">
-        <xs:restriction base="xs:base64Binary" />
-      </xs:simpleType>
-      <xs:complexType name="ValueTable">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="column" type="tns:ValueTableColumn" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="index" type="tns:ValueTableIndex" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTableRow" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueTableColumn">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Name" type="xs:NMTOKEN" />
-          <xs:element minOccurs="0" name="ValueType" type="tns:TypeDescription" />
-          <xs:element minOccurs="0" name="Title" type="xs:string" />
-          <xs:element minOccurs="0" name="Width" type="xs:nonNegativeInteger" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueTableIndex">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="column" type="xs:NMTOKEN" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueTableRow">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueTree">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="column" type="tns:ValueTreeColumn" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTreeRow" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueTreeColumn">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Name" type="xs:NMTOKEN" />
-          <xs:element minOccurs="0" name="ValueType" type="tns:TypeDescription" />
-          <xs:element minOccurs="0" name="Title" type="xs:string" />
-          <xs:element minOccurs="0" name="Width" type="xs:nonNegativeInteger" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ValueTreeRow">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTreeRow" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
-        </xs:sequence>
-      </xs:complexType>
-    </xs:schema>
     <xs:schema xmlns:tns="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:ns1="http://v8.1c.ru/8.1/data/enterprise" xmlns:ns2="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise" />
       <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
@@ -1749,19 +1749,46 @@
           <xs:element name="Продавец" type="tns:CatalogRef.Продавцы" />
           <xs:element name="Возраст" type="xs:decimal" />
           <xs:element name="Жанр" type="xs:string" />
-          <xs:element name="Серия" type="xs:decimal" />
-          <xs:element name="НазваниеСерии" type="xs:string" />
-          <xs:element name="Тематика" type="tns:CatalogRef.Тематики" />
+          <xs:element name="КолСерий" type="xs:decimal" />
           <xs:element name="Хронометраж" type="xs:decimal" />
-          <xs:element name="Продолжительность" type="xs:dateTime" />
-          <xs:element name="НазваниеПланирования" type="xs:string" />
+          <xs:element name="Цикл" type="xs:boolean" />
+          <xs:element name="Звук" type="xs:string" />
           <xs:element minOccurs="0" maxOccurs="99999" name="НазванияПланирования" type="tns:CatalogTabularSectionRow.ПланКаталог.НазванияПланирования" />
           <xs:element minOccurs="0" maxOccurs="99999" name="НазванияРаскладки" type="tns:CatalogTabularSectionRow.ПланКаталог.НазванияРаскладки" />
           <xs:element minOccurs="0" maxOccurs="99999" name="НазванияПубликации" type="tns:CatalogTabularSectionRow.ПланКаталог.НазванияПубликации" />
-          <xs:element minOccurs="0" maxOccurs="99999" name="ВнутренниеПередачи" type="tns:CatalogTabularSectionRow.ПланКаталог.ВнутренниеПередачи" />
+          <xs:element minOccurs="0" maxOccurs="99999" name="ВнутренниеПередачиСтрокой" type="tns:CatalogTabularSectionRow.ПланКаталог.ВнутренниеПередачиСтрокой" />
           <xs:element minOccurs="0" maxOccurs="99999" name="Тематики" type="tns:CatalogTabularSectionRow.ПланКаталог.Тематики" />
-          <xs:element minOccurs="0" maxOccurs="99999" name="Серии" type="tns:CatalogTabularSectionRow.ПланКаталог.Серии" />
-          <xs:element minOccurs="0" maxOccurs="99999" name="Показы" type="tns:CatalogTabularSectionRow.ПланКаталог.Показы" />
+          <xs:element minOccurs="0" maxOccurs="99999" name="Шаблоны" type="tns:CatalogTabularSectionRow.ПланКаталог.Шаблоны" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CatalogObject.Показы">
+        <xs:sequence>
+          <xs:element name="Ref" type="tns:CatalogRef.Показы" />
+          <xs:element name="DeletionMark" type="xs:boolean" />
+          <xs:element name="Code" type="xs:decimal" />
+          <xs:element name="Description" type="xs:string" />
+          <xs:element minOccurs="0" name="PredefinedDataName" type="xs:string" />
+          <xs:element name="ТВДата" type="xs:dateTime" />
+          <xs:element name="Канал" type="tns:CatalogRef.Каналы" />
+          <xs:element name="НазваниеВСводке" type="xs:string" />
+          <xs:element name="Начало" type="xs:dateTime" />
+          <xs:element name="Хронометраж" type="xs:dateTime" />
+          <xs:element name="Продюсер" type="tns:CatalogRef.Продюсеры" />
+          <xs:element name="Продавец" type="tns:CatalogRef.Продавцы" />
+          <xs:element name="Возраст" type="xs:decimal" />
+          <xs:element name="РейтингМосква" type="xs:decimal" />
+          <xs:element name="ДоляМосква" type="xs:decimal" />
+          <xs:element name="РейтингРоссия" type="xs:decimal" />
+          <xs:element name="ДоляРоссия" type="xs:decimal" />
+          <xs:element name="ДСТИ" type="xs:decimal" />
+          <xs:element name="Серия" type="xs:decimal" />
+          <xs:element name="НазваниеСерии" type="xs:string" />
+          <xs:element name="Звук" type="xs:string" />
+          <xs:element name="ПовторОт" type="xs:dateTime" />
+          <xs:element name="СсылкаНаКаталог" type="tns:CatalogRef.ПланКаталог" />
+          <xs:element name="Аннотация" type="xs:string" />
+          <xs:element name="Импорт_ID" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="99999" name="Тематики" type="tns:CatalogTabularSectionRow.Показы.Тематики" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="CatalogObject.Продавцы">
@@ -1903,13 +1930,14 @@
       </xs:complexType>
       <xs:complexType name="CatalogObject.Тематики">
         <xs:sequence>
-          <xs:element name="IsFolder" type="xs:boolean" />
           <xs:element name="Ref" type="tns:CatalogRef.Тематики" />
           <xs:element name="DeletionMark" type="xs:boolean" />
           <xs:element name="Parent" type="tns:CatalogRef.Тематики" />
           <xs:element name="Code" type="xs:decimal" />
           <xs:element name="Description" type="xs:string" />
           <xs:element minOccurs="0" name="PredefinedDataName" type="xs:string" />
+          <xs:element name="Порядок" type="xs:string" />
+          <xs:element name="ИмпортID" type="xs:decimal" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="CatalogObject.ТипыВнутреннихПередач">
@@ -1956,6 +1984,9 @@
         <xs:restriction base="ns1:AnyRef" />
       </xs:simpleType>
       <xs:simpleType name="CatalogRef.ПланКаталог">
+        <xs:restriction base="ns1:AnyRef" />
+      </xs:simpleType>
+      <xs:simpleType name="CatalogRef.Показы">
         <xs:restriction base="ns1:AnyRef" />
       </xs:simpleType>
       <xs:simpleType name="CatalogRef.Продавцы">
@@ -2032,13 +2063,10 @@
           <xs:element name="Смещение" type="xs:decimal" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.ВнутренниеПередачи">
+      <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.ВнутренниеПередачиСтрокой">
         <xs:sequence>
-          <xs:element name="Смещение" type="xs:decimal" />
-          <xs:element name="Хронометраж" type="xs:decimal" />
-          <xs:element name="Название" type="xs:string" />
-          <xs:element name="КолТочек" type="xs:decimal" />
-          <xs:element name="ШапкаТочки" type="xs:decimal" />
+          <xs:element name="СтрокаВП" type="xs:string" />
+          <xs:element name="СтрокаПредставления" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.НазванияПланирования">
@@ -2057,33 +2085,17 @@
           <xs:element name="Название" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.Показы">
-        <xs:sequence>
-          <xs:element name="ТВДата" type="xs:dateTime" />
-          <xs:element name="Канал" type="tns:CatalogRef.Каналы" />
-          <xs:element name="Начало" type="xs:dateTime" />
-          <xs:element name="Хронометраж" type="xs:decimal" />
-          <xs:element name="Продюсер" type="tns:CatalogRef.Продюсеры" />
-          <xs:element name="Продавец" type="tns:CatalogRef.Продавцы" />
-          <xs:element name="Возраст" type="xs:decimal" />
-          <xs:element name="РейтингМосква" type="xs:decimal" />
-          <xs:element name="ДоляМосква" type="xs:decimal" />
-          <xs:element name="РейтингРоссия" type="xs:decimal" />
-          <xs:element name="ДоляРоссия" type="xs:decimal" />
-          <xs:element name="СТИ" type="xs:decimal" />
-          <xs:element name="Серия" type="xs:decimal" />
-          <xs:element name="НазваниеСерии" type="xs:string" />
-          <xs:element name="Звук" type="xs:string" />
-          <xs:element name="Содержание" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.Серии">
-        <xs:sequence>
-          <xs:element name="НомерСерии" type="xs:decimal" />
-          <xs:element name="НазваниеСерии" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
       <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.Тематики">
+        <xs:sequence>
+          <xs:element name="Тематика" type="tns:CatalogRef.Тематики" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CatalogTabularSectionRow.ПланКаталог.Шаблоны">
+        <xs:sequence>
+          <xs:element name="Шаблон" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CatalogTabularSectionRow.Показы.Тематики">
         <xs:sequence>
           <xs:element name="Тематика" type="tns:CatalogRef.Тематики" />
         </xs:sequence>
@@ -2307,6 +2319,8 @@
           <xs:element name="СсылкаНаКаталог" type="tns:CatalogRef.ПланКаталог" />
           <xs:element name="EID" type="xs:decimal" />
           <xs:element name="CapEID" type="xs:decimal" />
+          <xs:element name="ДатаВыгрузкиНаЭфир" type="xs:dateTime" />
+          <xs:element name="Показ" type="tns:CatalogRef.Показы" />
           <xs:element minOccurs="0" maxOccurs="99999" name="ВнутренниеПередачи" type="tns:DocumentTabularSectionRow.Эфир.ВнутренниеПередачи" />
           <xs:element minOccurs="0" maxOccurs="99999" name="ПередачиВПерерыве" type="tns:DocumentTabularSectionRow.Эфир.ПередачиВПерерыве" />
           <xs:element minOccurs="0" maxOccurs="99999" name="Тематики" type="tns:DocumentTabularSectionRow.Эфир.Тематики" />
@@ -2458,7 +2472,7 @@
       <xs:simpleType name="ExchangePlanRef.ПланОбмена1">
         <xs:restriction base="ns1:AnyRef" />
       </xs:simpleType>
-      <xs:complexType name="ExternalDataSourceTableObject.ВнешнийИсточникДанных1.dbo_Brief">
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_Brief">
         <xs:sequence>
           <xs:element name="ID" nillable="true" />
           <xs:element name="MainID" nillable="true" />
@@ -2508,9 +2522,148 @@
           <xs:element name="Age" nillable="true" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="ExternalDataSourceTableRef.ВнешнийИсточникДанных1.dbo_Brief">
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_BriefGarbage">
+        <xs:sequence>
+          <xs:element name="ID" type="xs:decimal" />
+          <xs:element name="Title" nillable="true" />
+          <xs:element name="WildCard" nillable="true" />
+          <xs:element name="RegExp" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_ProducerDict">
+        <xs:sequence>
+          <xs:element name="ProducerCode" type="xs:decimal" />
+          <xs:element name="ProducerName" nillable="true" />
+          <xs:element name="ProducerTitle" nillable="true" />
+          <xs:element name="ProducerOrder" nillable="true" />
+          <xs:element name="msrepl_synctran_ts" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_SellerDict">
+        <xs:sequence>
+          <xs:element name="SellerCode" type="xs:decimal" />
+          <xs:element name="SellerGroupCode" nillable="true" />
+          <xs:element name="SellerName" nillable="true" />
+          <xs:element name="SellerName4Reports" nillable="true" />
+          <xs:element name="msrepl_synctran_ts" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_TCBCList4Themes">
+        <xs:sequence>
+          <xs:element name="ID" type="xs:decimal" />
+          <xs:element name="ChannelCode" nillable="true" />
+          <xs:element name="BCDate" nillable="true" />
+          <xs:element name="ProducerCode" nillable="true" />
+          <xs:element name="SellerCode" nillable="true" />
+          <xs:element name="BeginHours" nillable="true" />
+          <xs:element name="BeginMinutes" nillable="true" />
+          <xs:element name="BeginSeconds" nillable="true" />
+          <xs:element name="BeginTime" nillable="true" />
+          <xs:element name="DaysCount" nillable="true" />
+          <xs:element name="TimingHours" type="xs:decimal" />
+          <xs:element name="TimingMinutes" type="xs:decimal" />
+          <xs:element name="TimingSeconds" type="xs:decimal" />
+          <xs:element name="Timing" nillable="true" />
+          <xs:element name="Title" nillable="true" />
+          <xs:element name="Contents" nillable="true" />
+          <xs:element name="Wildcard" nillable="true" />
+          <xs:element name="AutorRights" nillable="true" />
+          <xs:element name="MainID" nillable="true" />
+          <xs:element name="PremiereDate" nillable="true" />
+          <xs:element name="Bit_Repetition" nillable="true" />
+          <xs:element name="TimingFrames" nillable="true" />
+          <xs:element name="BeginFrames" nillable="true" />
+          <xs:element name="RR" nillable="true" />
+          <xs:element name="RM" nillable="true" />
+          <xs:element name="DR" nillable="true" />
+          <xs:element name="DM" nillable="true" />
+          <xs:element name="BeginTimeText" nillable="true" />
+          <xs:element name="TimingText" nillable="true" />
+          <xs:element name="report" type="xs:boolean" />
+          <xs:element name="PremiereText" nillable="true" />
+          <xs:element name="CelebrationText" nillable="true" />
+          <xs:element name="CycleTitle" nillable="true" />
+          <xs:element name="archiv" type="xs:boolean" />
+          <xs:element name="CelebrationDay" type="xs:boolean" />
+          <xs:element name="NormedBegin" nillable="true" />
+          <xs:element name="DSTI" nillable="true" />
+          <xs:element name="IsForeign" type="xs:decimal" />
+          <xs:element name="RRstr" nillable="true" />
+          <xs:element name="RMstr" nillable="true" />
+          <xs:element name="DRstr" nillable="true" />
+          <xs:element name="DMstr" nillable="true" />
+          <xs:element name="DSTIstr" nillable="true" />
+          <xs:element name="AgeLimit" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_TCThemes">
+        <xs:sequence>
+          <xs:element name="ID" type="xs:decimal" />
+          <xs:element name="TCID" type="xs:decimal" />
+          <xs:element name="ThemesID" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableObject.Plan.dbo_ThemesDict">
+        <xs:sequence>
+          <xs:element name="ID" type="xs:decimal" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="PID" nillable="true" />
+          <xs:element name="sort" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_Brief">
         <xs:sequence>
           <xs:element name="value" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_BriefGarbage">
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_ProducerDict">
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_SellerDict">
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_TCBCList4Themes">
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_TCThemes">
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ExternalDataSourceTableRef.Plan.dbo_ThemesDict">
+        <xs:sequence>
+          <xs:element name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InformationRegisterRecord.БуферСводок">
+        <xs:sequence>
+          <xs:element name="Пользователь" type="xs:string" />
+          <xs:element name="Начало" type="xs:dateTime" />
+          <xs:element name="Название" type="xs:string" />
+          <xs:element name="ТВДата" type="xs:dateTime" />
+          <xs:element name="КодКанала" type="xs:decimal" />
+          <xs:element name="КодПродюсера" type="xs:decimal" />
+          <xs:element name="КодПродавца" type="xs:decimal" />
+          <xs:element name="Возраст" type="xs:decimal" />
+          <xs:element name="ПовторОт" type="xs:dateTime" />
+          <xs:element name="ХронометражВСекундах" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InformationRegisterRecord.ВОтчет">
+        <xs:sequence>
+          <xs:element name="Пользователь" type="xs:string" />
+          <xs:element name="Показ" type="tns:CatalogRef.Показы" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="InformationRegisterRecord.ВнутренниеПередачи">
@@ -2645,6 +2798,20 @@
           <xs:element name="СсылкаНаКаталог" type="tns:CatalogRef.ПланКаталог" />
           <xs:element name="РучноеИзменение" type="xs:boolean" />
           <xs:element name="Этап" type="tns:CatalogRef.ЭтапыПланирования" />
+          <xs:element name="ДатаВыгрузкиНаЭфир" type="xs:dateTime" />
+          <xs:element name="Показ" type="tns:CatalogRef.Показы" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InformationRegisterRecordKey.БуферСводок">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Пользователь" type="xs:string" />
+          <xs:element minOccurs="0" name="Начало" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InformationRegisterRecordKey.ВОтчет">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Пользователь" type="xs:string" />
+          <xs:element minOccurs="0" name="Показ" type="tns:CatalogRef.Показы" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="InformationRegisterRecordKey.ВнутренниеПередачи">
@@ -2713,6 +2880,18 @@
           <xs:element minOccurs="0" name="эфир" type="tns:DocumentRef.Эфир" />
           <xs:element minOccurs="0" name="ТВД" type="tns:DocumentRef.ТВДень" />
           <xs:element minOccurs="0" name="Маска" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InformationRegisterRecordSet.БуферСводок">
+        <xs:sequence>
+          <xs:element name="Filter" type="ns1:Filter" />
+          <xs:element minOccurs="0" maxOccurs="999999999" name="Record" type="tns:InformationRegisterRecord.БуферСводок" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InformationRegisterRecordSet.ВОтчет">
+        <xs:sequence>
+          <xs:element name="Filter" type="ns1:Filter" />
+          <xs:element minOccurs="0" maxOccurs="999999999" name="Record" type="tns:InformationRegisterRecord.ВОтчет" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="InformationRegisterRecordSet.ВнутренниеПередачи">
@@ -2833,6 +3012,8 @@
           <xs:element name="Typ" type="xs:int" />
           <xs:element name="ENR" type="xs:int" />
           <xs:element name="ANR" nillable="true" type="xs:string" />
+          <xs:element name="Cap" type="xs:string" />
+          <xs:element name="Foot" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="EfirsType">
@@ -2962,6 +3143,8 @@
           <xs:element name="VariantKod" type="xs:int" />
           <xs:element name="VariantName" type="xs:string" />
           <xs:element name="TVDayRef" type="ns2:DocumentRef.ТВДень" />
+          <xs:element name="Cap" type="xs:string" />
+          <xs:element name="Foot" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="WeekTVDaysType">
@@ -2990,11 +3173,11 @@
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
-    <xs:schema xmlns:xs4="http://v8.1c.ru/8.1/data/core" xmlns:xs5="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:xs7="http://www.plan.1tv.ru" xmlns:xs1="http://v8.1c.ru/8.1/data/enterprise" xmlns:xs6="http://www.sample-package.org" xmlns:xs3="http://v8.1c.ru/8.1/data/ui" xmlns:xs2="http://v8.1c.ru/8.2/managed-application/core" elementFormDefault="qualified" targetNamespace="http://www.plan.1tv.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema xmlns:xs4="http://v8.1c.ru/8.1/data/ui" xmlns:xs5="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:xs7="http://www.plan.1tv.ru" xmlns:xs1="http://v8.1c.ru/8.1/data/enterprise" xmlns:xs6="http://www.sample-package.org" xmlns:xs3="http://v8.1c.ru/8.1/data/core" xmlns:xs2="http://v8.1c.ru/8.2/managed-application/core" elementFormDefault="qualified" targetNamespace="http://www.plan.1tv.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise" />
       <xs:import namespace="http://v8.1c.ru/8.2/managed-application/core" />
-      <xs:import namespace="http://v8.1c.ru/8.1/data/ui" />
       <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
+      <xs:import namespace="http://v8.1c.ru/8.1/data/ui" />
       <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise/current-config" />
       <xs:import namespace="http://www.sample-package.org" />
       <xs:element name="Init">

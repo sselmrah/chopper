@@ -1,0 +1,48 @@
+﻿.stolbyDay
+{    
+    width:98%;
+    height: 1800px;
+    margin:auto;
+}
+
+.stolbyChannel
+{
+    float: left;
+    width: calc(98%/5);    
+    font-size: x-small;
+    padding-left: 1px;
+    padding-right: 1px;
+    border-right: 1px solid black;    
+}
+.stolbyChannelCaption
+{
+    text-align:center;
+    font-weight:bold;
+    font-size: 9pt;
+    border:none;
+}
+.StolbyTimeStart
+{
+    vertical-align:top;
+}
+.StolbyCode
+{
+    vertical-align:top;
+}
+.stolbyDow
+{
+    border:none;
+    font-size:medium;
+    font-weight:bold;
+    text-align:center;
+}
+.sportProg
+{
+    background-color: lightgray;
+}
+.stolbyDayFoot
+{
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}

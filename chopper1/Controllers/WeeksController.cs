@@ -7,6 +7,12 @@ using chopper1.ws1c;
 using chopper1.Models;
 using System.Threading.Tasks;
 using Omu.ValueInjecter;
+using System.Web.Script.Serialization;
+//учеба
+using System.Collections.Concurrent;
+using System.Text;
+using System.Threading;
+using System.Web.Script.Serialization;
 
 
 
@@ -17,6 +23,7 @@ namespace chopper1.Controllers
     {
         private WebСервис1 curWc = MyStartupClass.wc;
         
+
         // GET: Weeks
         public ActionResult Index()
         {
@@ -67,24 +74,28 @@ namespace chopper1.Controllers
 
             }
 
-            WeekTVDayType[] daysOfWeek = getDaysOfWeek(curTvWeek);
+
+            int[] array_channel_codes = new int[1];
+            array_channel_codes[0] = 10;
+            //array_channel_codes[1] = 11;
+            //array_channel_codes[2] = 12;
+
+            List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();
+            //List<WeekTVDayType> SortedList = daysOfWeek.OrderBy(o => o.TVDate).ToList();
             //EfirType[] efirs = getEfirsByTVday(daysOfWeek[20]);
             curWeek.InjectFrom(curTvWeek);
-            curWeek.DaysCount = daysOfWeek.Length;
+            curWeek.DaysCount = daysOfWeek.Count();            
             curWeek.Days = daysOfWeek;
-            ViewData["daysCount"]= daysOfWeek.Length;
-            
+            ViewData["daysCount"]= daysOfWeek.Count();                        
+
             return View(curWeek);
         }
 
-        private WeekTVDayType[] getDaysOfWeek(TVWeekType week)
+        private List<WeekTVDayType> getDaysOfWeek(TVWeekType week, int[] array_channel_codes)
         {
-            int[] array_channel_codes = new int[3];
-            array_channel_codes[0] = 10;
-            array_channel_codes[1] = 21;
-            array_channel_codes[2] = 40;
+            
 
-            WeekTVDayType[] weekTVday = curWc.GetWeekTVDays(week.Ref, array_channel_codes);
+            List<WeekTVDayType> weekTVday = curWc.GetWeekTVDays(week.Ref, array_channel_codes).ToList();
 
             return weekTVday;
         }
@@ -139,5 +150,181 @@ namespace chopper1.Controllers
 
             // Other properties you need in your view
         }
+
+
+
+        public ActionResult Stolby(string week_num = "10")
+        {            
+            Week curWeek = new Week();
+
+            TVWeekType curTvWeek= new TVWeekType();
+
+            curTvWeek = MyStartupClass.tvWeeks[Convert.ToInt32(week_num)];                
+            ViewData["weekName"] = curWeek.Name;
+
+            int[] array_channel_codes = new int[5];
+            array_channel_codes[0] = 10;
+            array_channel_codes[1] = 11;
+            array_channel_codes[2] = 12;
+            array_channel_codes[3] = 13;
+            array_channel_codes[4] = 14;
+
+            List<WeekTVDayType> allDays = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();
+            List<WeekTVDayType> chOneDays = new List<WeekTVDayType>();
+
+            foreach (WeekTVDayType curDay in allDays)
+            {
+                if (curDay.KanalKod==10)
+                {
+                    chOneDays.Add(curDay);
+                }
+            }
+            //Добавляем значения свойств в новый объект из старого
+            curWeek.InjectFrom(curTvWeek);
+            
+            //Собираем дни недели для ПК и орбит
+            List<WeekTVDayType> daysToAdd = new List<WeekTVDayType>();
+            foreach(WeekTVDayType wday in chOneDays)
+            {
+                 daysToAdd.AddRange(getOrbitsByChannelOneDay(wday, allDays));                
+            }
+            curWeek.Days = daysToAdd;
+
+            //Складываем в список дней для проверки
+            //foreach (WeekTVDayType weekDay in curWeek.Days)
+            //{             
+            //    chopper1.MyStartupClass.days_to_check.Add(weekDay);
+            //}
+            curWeek.DaysCount = daysToAdd.Count() / 5; //Т.к. каждый день - это ПК+4 орбиты
+            return View(curWeek);
+        
+        }
+
+
+        private List<WeekTVDayType> getOrbitsByChannelOneDay(WeekTVDayType chOneDay, List<WeekTVDayType> allDays)
+        {
+            List<WeekTVDayType> orbits = new List<WeekTVDayType>();
+            //Добавили Первый канал
+            orbits.Add(chOneDay);
+            //Начали добавлять орбиты
+            for (int chCode = 11; chCode <= 14; chCode++)
+            {
+                TVDayVariantType[] variants = curWc.GetDayVariants(chOneDay.TVDate, chCode);
+                //Если нет вариантов для орбиты - добавляем null
+                if (variants.Count() == 0)
+                {                    
+                    orbits.Add(null);
+                }
+                else
+                {
+                    //Если для данной орбиты есть только один вариант, то добавляем его
+                    if (variants.Count() == 1)
+                    {
+                        foreach (WeekTVDayType day in allDays)
+                        {
+                            if (chOneDay.TVDate == day.TVDate & day.KanalKod == chCode)
+                            {
+                                orbits.Add(day);
+                                break;
+                            }
+                        }
+                    }
+                    //Если для данной орбиты >1 варианты, выбираем совпадающий по номеру с ПК
+                    else
+                    {
+                        foreach (WeekTVDayType day in allDays)
+                        {
+                            if (chOneDay.TVDate == day.TVDate & day.KanalKod == chCode & day.VariantKod == day.VariantKod)
+                            {
+                                orbits.Add(day);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return orbits;
+        }
+
+        public ActionResult CheckDays()
+        {
+            //List<TVDayVariantT> variants = new List<TVDayVariantT>();
+            TVDayVariantT curVariant = new TVDayVariantT();
+            DateTime curDate = DateTime.Now + TimeSpan.FromDays(1);
+            foreach(Day day in chopper1.MyStartupClass.days_to_check)
+            {
+                //curVariant.TVDayRef = day.TVDayRef;
+                //curVariant.VariantNumber = day.VariantKod;
+                //variants.Add(curVariant);
+                if (curDate>day.RenderTime)
+                {
+                    curDate = day.RenderTime;
+                }
+            }
+
+            //TVDayVariantT[] t = variants.ToArray();            
+            string dayToUpdateRef = "";
+            
+            TVDayVariantT[] rez = curWc.CheckVariants(chopper1.MyStartupClass.variants_to_check.ToArray(), curDate);
+            //DateTime curTime = curWc.GetCurrentTime();
+            //int testCount = rez.Count();
+
+            if (rez.Count() > 0)
+            {
+                if (chopper1.MyStartupClass.variants_to_update.Count() == 0)
+                {
+                    chopper1.MyStartupClass.variants_to_update = rez.ToList();
+                }
+                else
+                {
+                    dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;
+                    chopper1.MyStartupClass.variants_to_update.RemoveAt(0);
+                }
+            }
+            
+            var y = "data: "+dayToUpdateRef+"\n\n";            
+            return Content(y, "text/event-stream");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDayStolby()
+        {
+            string curDayRef= Request["HTTP_DAYID"];
+            Day curDay = new Day();
+            TVDayVariantT curVar = new TVDayVariantT();
+            int daysCount = chopper1.MyStartupClass.days_to_check.Count();
+            
+  
+            //chopper1.MyStartupClass.days_to_check.Remove(curDay);
+ 
+            /*
+            foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_check)
+            {
+                if (v.TVDayRef == curDayRef)
+                {
+                    curVar = v;
+                }
+            }
+            */
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef == curDayRef)
+                {
+                    d.RenderTime = curWc.GetCurrentTime();
+                    curDay = d;
+                    //break;
+                }
+            }
+
+
+
+            
+
+
+            curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            return View(curDay);
+        }
+    
     }
 }

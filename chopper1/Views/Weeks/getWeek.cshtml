@@ -8,6 +8,7 @@
 }
 
 <h2>@Model.Note</h2>
+<p id="messages"></p>
 @*
     <div>
         @Html.DisplayFor(model => model.DaysCount)
@@ -20,7 +21,7 @@
     @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
     {        
         
-        <div id="dayrect@(i)" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)">    
+        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)">    
         @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
             <div id="date@(i)" class="date-div">@day.TVDate.Date.ToString("dd/MM/yyyy")</div>
             <div id="shapka@(i)" class="shapka-div"></div>*@
@@ -34,3 +35,15 @@
 </div>
 
 
+<script>
+    function contentLoaded() {
+        var source = new EventSource('weeks/checkdays');
+        var myP = document.getElementById("messages");
+        source.onmessage = function (e) {
+            myP.innerHTML += e.data;
+        }
+    }
+    window.addEventListener("DOMContentLoaded", contentLoaded, false);
+
+
+</script>

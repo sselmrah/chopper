@@ -1,0 +1,6 @@
+﻿@model chopper1.Models.Day
+@{DateTime dt = Model.TVDate;}
+@foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+{
+    Html.RenderAction("StolbyEfir", "Efir", new { curEfir = efir, curDay = dt });
+}

@@ -16,7 +16,11 @@ namespace chopper1.Models
         private int _pureDur;
         private bool _isNextDay;
         private int _r;
+        private int _r99;        
+        private int _sr;        
         private int _t;
+        private int _t99;
+        private int _st;
         private int _a;
         private bool _bold;
         private bool _italic;
@@ -24,6 +28,36 @@ namespace chopper1.Models
         private bool _reserv;
         private int _grayScale;
         private bool _isNews;
+        private int _nakladka;
+
+        public int Nakladka
+        {
+            get { return _nakladka; }
+            set { _nakladka = value; }
+        }
+
+        public int St
+        {
+            get { return _st; }
+            set { _st = value; }
+        }
+
+        public int T99
+        {
+            get { return _t99; }
+            set { _t99 = value; }
+        }
+
+        public int R99
+        {
+            get { return _r99; }
+            set { _r99 = value; }
+        }
+        public int Sr
+        {
+            get { return _sr; }
+            set { _sr = value; }
+        }
 
         public bool IsNews
         {
@@ -84,7 +118,7 @@ namespace chopper1.Models
             get { return _r; }
             set { 
                     _r = value;
-                    rToString(_r);
+                    rToString(_r, "Р");
                 }
         }
 
@@ -129,40 +163,93 @@ namespace chopper1.Models
         {
             //Получаем общий хронометраж рекламы и анонсов (в секундах) + количество точек + чистый хронометраж
             int r = 0;
+            int r99 = 0;
+            int sr = 0;
             int t = 0;
+            int t99 = 0;
+            int st = 0;
             int a = 0;
+            
 
             foreach (ITCType itc in ITCs)
             {
-                if (itc.Title == "Р" || itc.Title == "Р99" || itc.Title == "СР")
+                if (itc.Title == "Р")
                 {
-                    r += itc.Timing;                                        
+                    r += itc.Timing;
+                    t += itc.PointCount;
+                }
+                if (itc.Title == "Р99")
+                {
+                    r99 += itc.Timing;
+                    t99 += itc.PointCount;
+                }
+                if (itc.Title == "СР")
+                {
+                    sr += itc.Timing;
+                    st += itc.PointCount;
                 }
                 if (itc.Title == "А")
                 {
                     a += itc.Timing;
                 }
-                t += itc.PointCount;
+                
             }
             this.R = r;
+            this.R99 = r99;
+            this.Sr = sr;
             this.T = t;
+            this.T99 = t99;
+            this.St = st;
             this.A = a;
-            this.PureDur = this.Timing - r - a;
+            
+            if (r + r99 + sr + a == 0)
+            {
+                this.PureDur = this.Timing;
+            }
+            else
+            {
+                if (this.Timing == r + r99 + sr + a)
+                {
+                    this.PureDur = this.Timing;
+                }
+                else
+                {
+                    this.PureDur = this.Timing - r - r99 - sr - a;
+                }
+            }
         }
 
-        public string getInfoString()
+        public string getInfoString(int reportType = 0)
         {
+            string hourDelim = "\\:";
+            string minDelim = "\\:";
+            //Большие столбы
+            if (reportType == 1)
+            {
+                hourDelim = "\\.";
+                minDelim = "\\'";
+            }
             //Получаем строку с тех. информацией (все, что внутри квадратных скобок)
             string infoString= "";
-            infoString += this.timingToString(this.PureDur);
+            infoString += this.timingToString(this.PureDur, hourDelim, minDelim);
             if (this.R>0)
             {
-                infoString += rToString(this.R);
+                infoString += rToString(this.R,"Р", hourDelim, minDelim);
                 infoString += "(" + this.T.ToString() + ")";
+            }
+            if (this.R99>0)
+            {
+                infoString += rToString(this.R99, "Р99", hourDelim, minDelim);
+                infoString += "(" + this.T99.ToString() + ")";
+            }
+            if (this.Sr > 0)
+            {
+                infoString += rToString(this.Sr, "СР", hourDelim, minDelim);
+                infoString += "(" + this.Sr.ToString() + ")";
             }
             if (this.A>0)
             {
-                infoString += aToString(this.A);
+                infoString += aToString(this.A, hourDelim, minDelim);
             }
 
 
@@ -177,32 +264,49 @@ namespace chopper1.Models
             return newTitle;
         }
 
-        public string timingToString(int pureDur)
+        public string timingToString(int pureDur, string delimHour = "\\:", string delimMin = "\\:")
         {
-            string pureDurStr = "";
+            string pureDurStr = "";            
             if (pureDur > 60 * 60)
             {
-                pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"h\:mm");
+                if (pureDur%60>0)
+                {
+                    //pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"h\:mm\:ss");
+                    pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"h"+@delimHour+@"mm"+@delimMin+@"ss");
+                }
+                else
+                {
+                    //pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"h"+@"\:mm");
+                    pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"h" + @delimHour + @"mm");
+                }
             }
             else
-            {
-                pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"mm");
+            {                
+                if (pureDur % 60 > 0)
+                {
+                    //pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"mm\:ss");
+                    pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"mm" + @delimMin + @"ss");
+                }
+                else
+                {
+                    pureDurStr = TimeSpan.FromSeconds(pureDur).ToString(@"mm");
+                }                                
             }
             return pureDurStr;
         }
 
-        private string rToString(int rDur)
+        private string rToString(int rDur, string rType, string delimHour = "\\:", string delimMin = "\\:")
         {
             string rDurStr;
             if (rDur > 0)
             {
                 if (rDur % 60 > 0)
                 {
-                    rDurStr = " + " + TimeSpan.FromSeconds(rDur).ToString(@"%m\:%s") + "Р";
+                    rDurStr = " + " + TimeSpan.FromSeconds(rDur).ToString(@"%m"+delimMin+@"ss") + rType;
                 }
                 else
                 {
-                    rDurStr = " + " + TimeSpan.FromSeconds(rDur).ToString(@"%m") + "Р";
+                    rDurStr = " + " + TimeSpan.FromSeconds(rDur).ToString(@"%m") + rType;
                 }
             }
             else
@@ -212,14 +316,15 @@ namespace chopper1.Models
             return rDurStr;
             
         }
-        private string aToString(int aDur)
+        private string aToString(int aDur, string delimHour = "\\:", string delimMin = "\\:")
         {
             string aDurStr;
             if (aDur > 0)
             {
                 if (aDur % 60 > 0)
                 {
-                    aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m\:%s") + "А";
+                    //aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m\:%s") + "А";
+                    aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m"+@delimMin+@"%s") + "А";
                 }
                 else
                 {

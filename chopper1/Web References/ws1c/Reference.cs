@@ -1076,6 +1076,10 @@ namespace chopper1.ws1c {
         
         private string aNRField;
         
+        private string capField;
+        
+        private string footField;
+        
         /// <remarks/>
         public VarType Variant {
             get {
@@ -1252,6 +1256,26 @@ namespace chopper1.ws1c {
             }
             set {
                 this.aNRField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Cap {
+            get {
+                return this.capField;
+            }
+            set {
+                this.capField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Foot {
+            get {
+                return this.footField;
+            }
+            set {
+                this.footField = value;
             }
         }
     }
@@ -1594,6 +1618,10 @@ namespace chopper1.ws1c {
         
         private string tVDayRefField;
         
+        private string capField;
+        
+        private string footField;
+        
         /// <remarks/>
         public bool Chk {
             get {
@@ -1651,6 +1679,26 @@ namespace chopper1.ws1c {
             }
             set {
                 this.tVDayRefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Cap {
+            get {
+                return this.capField;
+            }
+            set {
+                this.capField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Foot {
+            get {
+                return this.footField;
+            }
+            set {
+                this.footField = value;
             }
         }
     }

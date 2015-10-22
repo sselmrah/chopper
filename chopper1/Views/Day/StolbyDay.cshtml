@@ -1,0 +1,61 @@
+﻿@model chopper1.Models.Day
+
+@{
+    Layout = null;
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    DateTime dt = Model.TVDate;
+    string chCaption = "Первый канал";
+    if (Model.KanalKod==10)
+    {
+        chCaption += " (Европейская часть РФ)";
+    }
+    else
+    { 
+        chCaption += " (Орбита " + (Model.KanalKod-10).ToString() + ")";
+    }
+    string dayFinalStr = "До ";
+    dayFinalStr += (Model.Efirs[Model.Efirs.Count() - 1].Beg + TimeSpan.FromSeconds(Model.Efirs[Model.Efirs.Count() - 1].Timing)).ToString("H.mm");
+}
+
+<div class="stolbyChannel">
+    <div class="stolbyChannelCaption">
+        @chCaption
+    </div>
+    <div class="stolbyDayCap font-bold">
+        @Model.Cap
+    </div>
+    <table class="stolbyEfirTable" id="@Model.TVDayRef">
+        @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+        {
+            Html.RenderAction("StolbyEfir", "Efir", new { curEfir = efir, curDay = dt });
+        }
+    </table>
+    <div class="stolbyDayFinal">
+        @dayFinalStr
+    </div>
+    <div class="stolbyDayFoot font-bold">
+        @Model.Foot
+    </div>
+</div>
+
+@*
+<script>
+    function contentLoaded() {
+        var source = new EventSource('weeks/checkdays');
+        /*
+        var r = new XMLHttpRequest();
+        r.open("POST", "/weeks/updateday", true);
+        r.onreadystatechange = function () {
+            document.location.reload(true)            
+        };
+        r.send("a=1&b=2&c=3");
+        */
+        //var myP = document.getElementById("messages");
+        //source.onmessage = function (e) {
+        //   myP.innerHTML += e.data;
+        document.getElementById("testP").innerHTML += e.data;
+    }
+    
+    document.getElementById("@Model.TVDayRef").addEventListener("DOMContentLoaded", contentLoaded, false);
+</script>
+*@

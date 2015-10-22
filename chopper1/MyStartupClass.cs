@@ -12,7 +12,11 @@ namespace chopper1
         public static WebСервис1 wc = new WebСервис1();
         public static int selectedID = 2;
         public static TVWeekType[] tvWeeks;
-
+        public static int lastNewsStart = 0;
+        public static int totalBlockDur = 0;
+        public static List<chopper1.Models.Day> days_to_check = new List<chopper1.Models.Day>();
+        public static List<TVDayVariantT> variants_to_check = new List<TVDayVariantT>();
+        public static List<TVDayVariantT> variants_to_update = new List<TVDayVariantT>();
         public static void Init()
         {
             wc.Credentials = new System.Net.NetworkCredential("mike", "123");

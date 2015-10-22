@@ -1,0 +1,75 @@
+﻿
+@model chopper1.Models.Efir
+
+
+@{    
+    Layout = null;
+    string titleClassString = "";
+    if (Model.IsNews) { titleClassString += " font-bold"; }
+    
+    if (Model.ProducerCode=="24")
+    {
+        titleClassString += " sportProg";
+        if (!titleClassString.Contains("font-bold"))
+        {
+            titleClassString += " font-bold";
+        }
+    }
+        
+}
+@{
+    if (Model.Nakladka > 0)
+    {
+        <tr class="StolbyShapka font-bold font-italic font-underline">
+            <td></td>
+            <td>
+                Резерв: @Model.timingToString(Model.Nakladka, "\\.", "\\'")
+            </td>
+            <td></td>
+        </tr>
+    }
+    if (Model.Nakladka < 0)
+    {
+    <tr class="StolbyShapka font-bold font-italic font-underline">
+        <td></td>
+        <td>
+            Накладка: @Model.timingToString(Math.Abs(Model.Nakladka), "\\.", "\\'")
+        </td>
+        <td></td>
+    </tr>
+    }
+    if (Model.Cap.Length > 0)
+    {
+        <tr class="stolbyFoot font-bold">
+            <td></td>
+            <td>
+                @Model.Cap
+            </td>
+            <td></td>
+        </tr>
+    }
+}
+<tr>
+    <td class="StolbyTimeStart @titleClassString">
+        @Model.Beg.ToString("H.mm")
+    </td>
+    <td class="StolbyTitle @titleClassString">
+        @Model.Title [@Model.getInfoString(1)]
+    </td>
+    <td class="StolbyCode @titleClassString">
+        @Model.ProducerCode@Model.SellerCode
+    </td>
+</tr>
+@{
+    if (Model.Foot.Length > 0)
+    {
+        <tr class="stolbyFoot font-bold">
+            <td></td>
+            <td>
+                @Model.Foot
+            </td>
+            <td></td>
+        </tr>
+    }
+}
+
