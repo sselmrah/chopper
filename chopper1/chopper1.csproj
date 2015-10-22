@@ -302,6 +302,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Views\Weeks\UpdateDayStolby.cshtml" />
+    <Content Include="Views\Weeks\UpdateDayWeek.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -291,40 +291,41 @@ namespace chopper1.Controllers
         public ActionResult UpdateDayStolby()
         {
             string curDayRef= Request["HTTP_DAYID"];
-            Day curDay = new Day();
-            TVDayVariantT curVar = new TVDayVariantT();
-            int daysCount = chopper1.MyStartupClass.days_to_check.Count();
-            
-  
-            //chopper1.MyStartupClass.days_to_check.Remove(curDay);
- 
-            /*
-            foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_check)
-            {
-                if (v.TVDayRef == curDayRef)
-                {
-                    curVar = v;
-                }
-            }
-            */
+            Day curDay = new Day();          
+                        
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
             {
                 if (d.TVDayRef == curDayRef)
                 {
                     d.RenderTime = curWc.GetCurrentTime();
                     curDay = d;
-                    //break;
+                    break;
                 }
             }
-
-
-
-            
-
 
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
         }
-    
+
+        [HttpPost]
+        public ActionResult UpdateDayWeek()
+        {
+            string curDayRef = Request["HTTP_DAYID"];
+            Day curDay = new Day();
+
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef == curDayRef)
+                {
+                    d.RenderTime = curWc.GetCurrentTime();
+                    curDay = d;
+                    break;
+                }
+            }
+
+            curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            return View(curDay);
+        }
+
     }
 }

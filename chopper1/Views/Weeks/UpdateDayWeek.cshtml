@@ -14,17 +14,17 @@
     if (efir.Timing >= 60 * 5)
     {
         @*@<p>@efir.Title : @efir.Timing</p>
-    var cur_height = @efir.Timing;
-    string str_height = "height:"+(cur_height / 60).ToString()+"px;";
-    string beg_time = @efir.Beg.ToString("HH:mm");
+            var cur_height = @efir.Timing;
+            string str_height = "height:"+(cur_height / 60).ToString()+"px;";
+            string beg_time = @efir.Beg.ToString("HH:mm");
 
 
 
-    <div draggable="true" class="prog" style="@str_height">
-        @beg_time
-        <br />
-        @efir.Title
-    </div>
+            <div draggable="true" class="prog" style="@str_height">
+                @beg_time
+                <br />
+                @efir.Title
+            </div>
         *@
 
         Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt });
@@ -32,3 +32,5 @@
     }
 
 }
+
+

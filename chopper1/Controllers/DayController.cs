@@ -44,7 +44,16 @@ namespace chopper1.Controllers
             newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
             newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);            
             newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
-            
+
+
+            //Добавляем день в список для проверки
+            newDay.RenderTime = curWc.GetCurrentTime();
+            chopper1.MyStartupClass.days_to_check.Add(newDay);
+            TVDayVariantT curVar = new TVDayVariantT();
+            curVar.VariantNumber = newDay.VariantKod;
+            curVar.TVDayRef = newDay.TVDayRef;
+            chopper1.MyStartupClass.variants_to_check.Add(curVar);
+
             return PartialView(newDay);
         }
         public ActionResult ConstructNormalTimeScale(bool left)

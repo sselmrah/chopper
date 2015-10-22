@@ -36,14 +36,42 @@
 
 
 <script>
-    function contentLoaded() {
-        var source = new EventSource('weeks/checkdays');
-        var myP = document.getElementById("messages");
-        source.onmessage = function (e) {
-            myP.innerHTML += e.data;
-        }
-    }
-    window.addEventListener("DOMContentLoaded", contentLoaded, false);
 
+    document.addEventListener("DOMContentLoaded", function a() {
+        var source = new EventSource('checkdays');
+        var myP = document.getElementById("messages");
+
+        source.onmessage = function (event) {
+            var result = event.data;
+            @*myP.innerHTML += result;*@
+            @*If result not empty - call actionresult to redraw a day*@
+            if (result != "") {
+                var xmlhttp;
+                xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                        if (xmlhttp.status == 200) {
+                            document.getElementById(result).innerHTML = xmlhttp.responseText;
+                        }
+                        else if (xmlhttp.status == 400) {
+                            alert('There was an error 400')
+                        }
+                        else {
+                            alert('something else other than 200 was returned')
+                        }
+                    }
+                }
+                xmlhttp.open("POST", "UpdateDayWeek", true);
+                xmlhttp.setRequestHeader("dayID", result);
+                xmlhttp.send(result);
+            }
+
+        };
+        source.onerror = function (e) {
+            console.log('error-error-error');
+        };
+
+    });
 
 </script>
