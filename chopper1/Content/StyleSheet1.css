@@ -1,5 +1,5 @@
 ﻿.dayrect
-{           width: calc(95%/7);
+{           
             height: 1661px;                      
             background: linear-gradient(slategray 1px, aliceblue 1px);            
             background-size: 100% 60px;
@@ -58,6 +58,10 @@
 }
 
 .news
+{
+    background-color: lightgray;    
+}
+.highlight
 {
     background-color: lightgray;    
 }

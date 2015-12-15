@@ -200,10 +200,62 @@ namespace chopper1.Controllers
         
         }
 
-
-        private List<WeekTVDayType> getOrbitsByChannelOneDay(WeekTVDayType chOneDay, List<WeekTVDayType> allDays)
+        public ActionResult Broadcast(string dateStr="2015-12-17")
         {
-            List<WeekTVDayType> orbits = new List<WeekTVDayType>();
+            Week curWeek = new Week();
+            TVWeekType curTvWeek = new TVWeekType();
+            DateTime curDate = DateTime.Parse(dateStr);
+            List<WeekTVDayType> days = new List<WeekTVDayType>();
+            WeekTVDayType chOneDay = new WeekTVDayType();
+
+            int[] array_channel_codes = new int[5];
+            array_channel_codes[0] = 10;
+            array_channel_codes[1] = 11;
+            array_channel_codes[2] = 12;
+            array_channel_codes[3] = 13;
+            array_channel_codes[4] = 14;
+
+            foreach(TVWeekType TvWeek in MyStartupClass.tvWeeks)
+            {
+                if (curDate >= TvWeek.BegDate & (curDate - TvWeek.BegDate).Days<7)
+                {
+                    curTvWeek = TvWeek;
+                    WeekTVDayType[] weekDays = curWc.GetWeekTVDays(curTvWeek.Ref, array_channel_codes);
+                    foreach (WeekTVDayType day in weekDays)
+                    {
+                        if (day.TVDate == curDate)
+                        {
+                            if (day.KanalKod == 10) chOneDay = day;
+                            days.Add(day);                          
+                        }
+                    }
+                    //Хотя нужно бы по-надежнее все сделать.
+                    break;
+                }
+            }
+
+            //Добавляем значения свойств в новый объект из старого
+            curWeek.InjectFrom(curTvWeek);
+
+            //Собираем дни недели для ПК и орбит
+            List<WeekTVDayType> daysToAdd = new List<WeekTVDayType>();            
+            daysToAdd.AddRange(getOrbitsByChannelOneDay(chOneDay, days, true));            
+            curWeek.Days = daysToAdd;
+
+            //Складываем в список дней для проверки
+            //foreach (WeekTVDayType weekDay in curWeek.Days)
+            //{             
+            //    chopper1.MyStartupClass.days_to_check.Add(weekDay);
+            //}
+            curWeek.DaysCount = daysToAdd.Count() / 5; //Т.к. каждый день - это ПК+4 орбиты
+            return View(curWeek);
+
+        }
+
+
+        private List<WeekTVDayType> getOrbitsByChannelOneDay(WeekTVDayType chOneDay, List<WeekTVDayType> allDays, bool reverse = false)
+        {
+            List<WeekTVDayType> orbits = new List<WeekTVDayType>();            
             //Добавили Первый канал
             orbits.Add(chOneDay);
             //Начали добавлять орбиты
@@ -213,7 +265,8 @@ namespace chopper1.Controllers
                 //Если нет вариантов для орбиты - добавляем null
                 if (variants.Count() == 0)
                 {                    
-                    orbits.Add(null);
+                    //orbits.Add(null);
+                    orbits.Add(new WeekTVDayType());
                 }
                 else
                 {
@@ -224,7 +277,14 @@ namespace chopper1.Controllers
                         {
                             if (chOneDay.TVDate == day.TVDate & day.KanalKod == chCode)
                             {
-                                orbits.Add(day);
+                                if (!reverse)
+                                {
+                                    orbits.Add(day);
+                                }
+                                else
+                                {
+                                    orbits.Insert(1, day);
+                                }
                                 break;
                             }
                         }
@@ -236,13 +296,23 @@ namespace chopper1.Controllers
                         {
                             if (chOneDay.TVDate == day.TVDate & day.KanalKod == chCode & day.VariantKod == day.VariantKod)
                             {
-                                orbits.Add(day);
+                                if (!reverse)
+                                {
+                                    orbits.Add(day);
+                                }
+                                else
+                                {
+                                    orbits.Insert(1, day);
+                                }
                                 break;
                             }
                         }
                     }
                 }
             }
+            
+
+
 
             return orbits;
         }
@@ -309,6 +379,26 @@ namespace chopper1.Controllers
 
         [HttpPost]
         public ActionResult UpdateDayWeek()
+        {
+            string curDayRef = Request["HTTP_DAYID"];
+            Day curDay = new Day();
+
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef == curDayRef)
+                {
+                    d.RenderTime = curWc.GetCurrentTime();
+                    curDay = d;
+                    break;
+                }
+            }
+
+            curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            return View(curDay);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDayBroadcast()
         {
             string curDayRef = Request["HTTP_DAYID"];
             Day curDay = new Day();

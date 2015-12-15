@@ -6,49 +6,74 @@
     //100 - Стандартный отступ на шапки
     position = 100;
     if (Model.IsNextDay)
-    { 
-        position += (Model.Beg.Hour - 5) * 60 + Model.Beg.Minute + 24*60;
+    {
+        position += (Model.Beg.Hour - 5) * 60 + Model.Beg.Minute + 24 * 60;
     }
     else
     {
-        position += (Model.Beg.Hour - 5) * 60 + Model.Beg.Minute;
+        if (Model.IsPrevDay)
+        {
+            position += (Model.Beg.Hour - 5) * 60 + Model.Beg.Minute - 24 * 60;
+        }
+        else
+        {
+            position += (Model.Beg.Hour - 5) * 60 + Model.Beg.Minute;
+        }
     }
-    string strPos = "top: " + position.ToString() + "px";    
+
+    if (Model.ChCode != 10)
+    {
+        position += (5 - (Model.ChCode - 10)) * 2 * 60;
+    }
+
+    string strPos = "top: " + position.ToString() + "px";
     string str_height = "height:" + (Model.Timing / 60).ToString() + "px;";
     string pureDurStr = Model.timingToString(Model.PureDur);
     string durStr = Model.timingToString(Model.Timing);
     string titleClassString = "title-div";
     string fontSize;
     string classReserv = "";
-    if (Model.FontSize>=8)
-    { 
-        fontSize="font-size:" + (Model.FontSize - 2).ToString() + "pt";
+    if (Model.FontSize >= 8)
+    {
+        fontSize = "font-size:" + (Model.FontSize - 2).ToString() + "pt";
     }
     else
     {
-        if (Model.FontSize>=6)
-        {fontSize = "font-size:" + (Model.FontSize - 1).ToString() + "pt";}
+        if (Model.FontSize >= 6)
+        { fontSize = "font-size:" + (Model.FontSize - 1).ToString() + "pt"; }
         else
-        {fontSize = "font-size:" + Model.FontSize.ToString() + "pt"; }
-            
+        { fontSize = "font-size:" + Model.FontSize.ToString() + "pt"; }
+
     }
     string classNews = "";
+    string classHighlight = "";
     if (Model.IsNews) { classNews = "news"; }
-    
-    if (Model.Bold) {titleClassString += " font-bold";}
-    if (Model.Italic) {titleClassString += " font-italic";}
+    if (Model.IsHighlighted) { classHighlight = "highlight"; }
+    if (Model.Bold) { titleClassString += " font-bold"; }
+    if (Model.Italic) { titleClassString += " font-italic"; }
     if (Model.Reserv) { classReserv = "reserv"; }
-    
-    
+
+
 }
 
-<div draggable="false" id="@Model.Ref" class="prog @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
+<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
         @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
     </div>
-    <div class="@titleClassString" style="@fontSize" draggable="false">
-        @Model.ANR.Replace("#", "\n").ToUpper()
-    </div>
+    @if (Model.UseTitle)
+    {
+        <div class="@titleClassString" style="@fontSize" draggable="false">
+            @Model.Title.Replace("#", "\n").ToUpper()
+        </div>
+    }
+    else
+    {
+        <div class="@titleClassString" style="@fontSize" draggable="false">
+            @Model.ANR.Replace("#", "\n").ToUpper()
+        </div>
+    }
+
+    
     <div class="info-div" style="@fontSize" draggable="false">
         [@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)
     </div>
@@ -57,7 +82,7 @@
 
 
 
-    @*
+@*
     @{
         double rDur = 0;
         double aDur = 0;

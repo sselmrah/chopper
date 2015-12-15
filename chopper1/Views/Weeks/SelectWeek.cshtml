@@ -1,0 +1,8 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "SelectWeek";    
+    var curweeknum = ViewBag.weeknum;
+}
+@{Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum});}
+

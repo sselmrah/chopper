@@ -1,45 +1,34 @@
 ﻿@model chopper1.Models.Week
-
-
-
-
 @{
-    ViewBag.Title = Model.Note;
+    ViewBag.Title = Model.Days[0].TVDate.Date.ToString("dd/MM/yyyy");
 }
 
-<h2>@Model.Note</h2>
+<h2>Программа передач Первого канала на @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(Model.Days[0].TVDate.DayOfWeek), @Model.Days[0].TVDate.Date.ToString("dd/MM/yyyy")</h2>
 <p id="messages"></p>
-@*
-    <div>
-        @Html.DisplayFor(model => model.DaysCount)
-    </div>
-*@
 
 <div class="row week_bg">
-    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
+
     @{var i = 0;
-      double dayRectWidth = 95.0/Convert.ToDouble(Model.DaysCount);      
-      string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",",".")+"%";
+    double dayRectWidth = 95.0 / 6;
+    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
     }
+
     @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
     {
-
-        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-            @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
-                <div id="date@(i)" class="date-div">@day.TVDate.Date.ToString("dd/MM/yyyy")</div>
-                <div id="shapka@(i)" class="shapka-div"></div>*@
-            @{Html.RenderAction("ConstructDay", "Day", day);}
-
+        
+        Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = day.KanalKod });
+        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">            
+           @{Html.RenderAction("BroadcastDay", "Day", day);}
         </div>
-            i += 1;
-
+            i += 1;        
     }
-    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = false });}
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    
 </div>
 
 
-<script>
 
+<script>
     document.addEventListener("DOMContentLoaded", function a() {
         var source = new EventSource('checkdays');
         var myP = document.getElementById("messages");
@@ -65,7 +54,7 @@
                         }
                     }
                 }
-                xmlhttp.open("POST", "UpdateDayWeek", true);
+                xmlhttp.open("POST", "UpdateDayBroadcast", true);
                 xmlhttp.setRequestHeader("dayID", result);
                 xmlhttp.send(result);
             }

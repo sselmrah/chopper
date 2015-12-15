@@ -303,6 +303,12 @@
     </Content>
     <Content Include="Views\Weeks\UpdateDayStolby.cshtml" />
     <Content Include="Views\Weeks\UpdateDayWeek.cshtml" />
+    <Content Include="Views\Day\ConstructTimeScale.cshtml" />
+    <Content Include="Views\Day\SDay.cshtml" />
+    <Content Include="Views\Weeks\Broadcast.cshtml" />
+    <Content Include="Views\Day\BroadcastDay.cshtml" />
+    <Content Include="Views\Efir\BroadcastEfir.cshtml" />
+    <Content Include="Views\Weeks\UpdateDayBroadcast.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -14,6 +14,7 @@ namespace chopper1.Models
         private int _aTotalDur;
         private DateTime _endTime;
         private int _pureDur;
+        private bool _isPrevDay;
         private bool _isNextDay;
         private int _r;
         private int _r99;        
@@ -29,6 +30,36 @@ namespace chopper1.Models
         private int _grayScale;
         private bool _isNews;
         private int _nakladka;
+        private int _chCode;
+        private bool _isHighlighted;
+        private bool _useTitle;
+
+        public bool UseTitle
+        {
+            get { return _useTitle; }
+            set { _useTitle = value; }
+        }
+
+        public bool IsHighlighted
+        {
+            get { return _isHighlighted; }
+            set { _isHighlighted = value; }
+        }
+
+        public int ChCode
+        {
+            get { return _chCode; }
+            set { _chCode = value; }
+        }
+        
+
+        public bool IsPrevDay
+        {
+            get { return _isPrevDay; }
+            set { _isPrevDay = value; }
+        }
+
+        
 
         public int Nakladka
         {

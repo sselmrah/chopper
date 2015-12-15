@@ -1,0 +1,54 @@
+﻿@model chopper1.Models.Day
+
+@{
+    Layout = null;
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
+    DateTime dt = Model.TVDate;
+
+    string chStr = "Орбита ";
+    if (Model.KanalKod==10)
+    {
+        chStr = "Первый канал";
+    }
+    else
+    {
+        if (Model.KanalKod>0) 
+        {
+            chStr += (Model.KanalKod-10).ToString();
+        }
+    }
+    if (Model.KanalKod==14)
+    {
+        chStr += " (HD и SD)";
+    }
+    
+    
+    <div id="dow@(day_num)" class="dow-div">@chStr</div>
+    <div id="dow@(day_num)" class="dow-div">Вариант @Model.VariantKod.ToString()</div>
+    <div id="shapka@(day_num)" class="shapka-div"></div>
+}
+
+@foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+{
+    if (efir.Timing >= 60 * 2)
+    {
+        @*@<p>@efir.Title : @efir.Timing</p>
+            var cur_height = @efir.Timing;
+            string str_height = "height:"+(cur_height / 60).ToString()+"px;";
+            string beg_time = @efir.Beg.ToString("HH:mm");
+
+
+
+            <div draggable="true" class="prog" style="@str_height">
+                @beg_time
+                <br />
+                @efir.Title
+            </div>
+        *@
+
+        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode , useTitle = true});
+
+    }
+
+}

@@ -24,11 +24,15 @@ namespace chopper1.Controllers
 
 
 
-        public ActionResult ConstructEfir(EfirType curEfir, DateTime curDay)
+        public ActionResult ConstructEfir(EfirType curEfir, DateTime curDay, int chCode = 10, bool useTitle = false)
         {
 
             Efir newEfir = new Efir();
             newEfir.InjectFrom(curEfir);
+
+            //Ставим код канала
+            newEfir.ChCode = chCode;
+
             //Стандартный размер шрифта
             newEfir.FontSize = 9;
             //Обрабатываем ключи
@@ -40,9 +44,17 @@ namespace chopper1.Controllers
             //}
             //Проверяем, не новостной ли это эфир
             newEfir.IsNews = false;
-            if ((newEfir.ANR.ToUpper().Contains("ВОСКРЕСНОЕ \"ВРЕМЯ\"") || newEfir.ANR.ToUpper().Contains("НОВОСТИ") || newEfir.ANR.ToUpper().Contains("\"ВРЕМЯ\""))) 
+            //if ((newEfir.ANR.ToUpper().Contains("ВОСКРЕСНОЕ \"ВРЕМЯ\"") || newEfir.ANR.ToUpper().Contains("НОВОСТИ") || newEfir.ANR.ToUpper().Contains("\"ВРЕМЯ\""))) 
+            if (newEfir.ProducerCode=="04")
             {
                 newEfir.IsNews = true;
+            }
+
+            //Выделяем другие нужные нам типы эфиров. Пока - спорт
+            newEfir.IsHighlighted = false;
+            if (newEfir.ProducerCode == "24")
+            {
+                newEfir.IsHighlighted = true;
             }
             //Получаем время окончания
             newEfir.EndTime = newEfir.Beg + TimeSpan.FromSeconds(newEfir.Timing);
@@ -50,14 +62,26 @@ namespace chopper1.Controllers
             if (newEfir.Beg.Date == curDay.Date)
             {
                 newEfir.IsNextDay = false;
+                newEfir.IsPrevDay = false;
             }
             else
             {
-                newEfir.IsNextDay = true;
+                if (newEfir.Beg.Date > curDay.Date)
+                {
+                    newEfir.IsNextDay = true;
+                    newEfir.IsPrevDay = false;
+                }
+                else
+                {
+                    newEfir.IsNextDay = false;
+                    newEfir.IsPrevDay = true;
+                }
             }
             //Назначаем высоту в пикселях: 1 минута = 1px
             newEfir.InitHeight = newEfir.Timing / 60;
-
+            
+            //Используем ли Title вместо ANR
+            newEfir.UseTitle = useTitle;
 
             return PartialView(newEfir);
         }

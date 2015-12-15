@@ -3,6 +3,7 @@
 @{
     Layout = null;
     string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
     DateTime dt = Model.TVDate;
     <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
     <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
@@ -27,7 +28,7 @@
     </div>
         *@
 
-        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt });
+        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode });
 
     }
 
