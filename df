@@ -1,0 +1,351 @@
+[33mcommit 46903ed6c18e5c5c7d57bb7dbc32dff60b648202[m
+Reflog: HEAD@{0} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to f57d350952ac34d4f8019cf394a639f754bcfbd4^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Thu Oct 22 19:01:30 2015 +0300
+
+    sse_raskladka
+
+[33mcommit f57d350952ac34d4f8019cf394a639f754bcfbd4[m
+Reflog: HEAD@{1} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to a8ed97e9b6af582578b70e233bdeb1cd3678dd7b^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Tue Dec 15 17:58:08 2015 +0300
+
+    minor_commit
+
+[33mcommit a8ed97e9b6af582578b70e233bdeb1cd3678dd7b[m
+Reflog: HEAD@{2} (Anatoly <amosendz@mail.ru>)
+Reflog message: revert: Revert "minor_commit"
+Author: Anatoly <amosendz@mail.ru>
+Date:   Tue Dec 15 18:01:02 2015 +0300
+
+    Revert "minor_commit"
+    
+    This reverts commit f57d350952ac34d4f8019cf394a639f754bcfbd4.
+
+[33mcommit f57d350952ac34d4f8019cf394a639f754bcfbd4[m
+Reflog: HEAD@{3} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: minor_commit
+Author: Anatoly <amosendz@mail.ru>
+Date:   Tue Dec 15 17:58:08 2015 +0300
+
+    minor_commit
+
+[33mcommit 46903ed6c18e5c5c7d57bb7dbc32dff60b648202[m
+Reflog: HEAD@{4} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: sse_raskladka
+Author: Anatoly <amosendz@mail.ru>
+Date:   Thu Oct 22 19:01:30 2015 +0300
+
+    sse_raskladka
+
+[33mcommit cd0cb8c9821a7d3cb0a5bc0ca336a570c0cf2b5d[m
+Reflog: HEAD@{5} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: sse_full
+Author: Anatoly <amosendz@mail.ru>
+Date:   Thu Oct 22 18:37:56 2015 +0300
+
+    sse_full
+
+[33mcommit d2638b0de9bd28990c6d0a5516ab22c0b2a9e023[m
+Reflog: HEAD@{6} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dropdown finally working right (almost)
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 18:14:25 2015 +0300
+
+    dropdown finally working right (almost)
+
+[33mcommit 51229e0a84c3d39976803e2d1bdb840713931041[m
+Reflog: HEAD@{7} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dropdown5
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 15:31:37 2015 +0300
+
+    dropdown5
+
+[33mcommit 1f8e3f0462d8b236104c3297a202d3cd4949fdea[m
+Reflog: HEAD@{8} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dropdown4
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 15:31:12 2015 +0300
+
+    dropdown4
+
+[33mcommit f5784e1a132bcbce210c9d9c5c574c8081506bf1[m
+Reflog: HEAD@{9} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dropdown3
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 15:30:48 2015 +0300
+
+    dropdown3
+
+[33mcommit 1c8e67c24ccf2891dfb2bb26d4e55dbab3b0cb12[m
+Reflog: HEAD@{10} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dropdown2
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 15:30:18 2015 +0300
+
+    dropdown2
+
+[33mcommit 906d32308ca03a963993b41eab6bbb6ed7f4990b[m
+Reflog: HEAD@{11} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dropdown1
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 15:29:52 2015 +0300
+
+    dropdown1
+
+[33mcommit 0ab7f801968b1ab454885d5c5eae412b6f8ed3e7[m
+Reflog: HEAD@{12} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to 8b15b1c0a1e856fcac15bcd20ca6847c1242c683^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:05:23 2015 +0300
+
+    dnd5
+
+[33mcommit 8b15b1c0a1e856fcac15bcd20ca6847c1242c683[m
+Reflog: HEAD@{13} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: oldDropDown
+Author: Anatoly <amosendz@mail.ru>
+Date:   Wed Oct 7 15:20:31 2015 +0300
+
+    oldDropDown
+
+[33mcommit 0ab7f801968b1ab454885d5c5eae412b6f8ed3e7[m
+Reflog: HEAD@{14} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd5
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:05:23 2015 +0300
+
+    dnd5
+
+[33mcommit 601d8c27b5b732bdbff5f43b5d0510014430f917[m
+Reflog: HEAD@{15} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd4
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:05:04 2015 +0300
+
+    dnd4
+
+[33mcommit c350dad271bd7deba54a8926daa760e7d7c291c2[m
+Reflog: HEAD@{16} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd3
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:04:51 2015 +0300
+
+    dnd3
+
+[33mcommit e4603410f68833a2550661c852d828291d3e7c56[m
+Reflog: HEAD@{17} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd2
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:04:24 2015 +0300
+
+    dnd2
+
+[33mcommit 3633df7bde364320b29c504c8c7c4db00952b44c[m
+Reflog: HEAD@{18} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd1
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:04:05 2015 +0300
+
+    dnd1
+
+[33mcommit 30e79f076ec78a23f2059b3b89e195efb0dab51d[m
+Reflog: HEAD@{19} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to 9a9766fd290aeb1b4a543f8019ed755157b01bb8^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 16:11:42 2015 +0300
+
+    no bootstrap
+
+[33mcommit 9a9766fd290aeb1b4a543f8019ed755157b01bb8[m
+Reflog: HEAD@{20} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 18:00:55 2015 +0300
+
+    dnd
+
+[33mcommit 30e79f076ec78a23f2059b3b89e195efb0dab51d[m
+Reflog: HEAD@{21} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to 204a52ac2116eb94d439a7e4167affdfd32db7b2^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 16:11:42 2015 +0300
+
+    no bootstrap
+
+[33mcommit 204a52ac2116eb94d439a7e4167affdfd32db7b2[m
+Reflog: HEAD@{22} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: dnd1
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 17:59:57 2015 +0300
+
+    dnd1
+
+[33mcommit 30e79f076ec78a23f2059b3b89e195efb0dab51d[m
+Reflog: HEAD@{23} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to d9d2b87caa735126c0a57643fd6a722e77de92a1^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 16:11:42 2015 +0300
+
+    no bootstrap
+
+[33mcommit d9d2b87caa735126c0a57643fd6a722e77de92a1[m
+Reflog: HEAD@{24} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: new d'n'd
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 17:58:48 2015 +0300
+
+    new d'n'd
+
+[33mcommit 30e79f076ec78a23f2059b3b89e195efb0dab51d[m
+Reflog: HEAD@{25} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: no bootstrap
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 16:11:42 2015 +0300
+
+    no bootstrap
+
+[33mcommit f9193b113c0a3b84a19fd4d298de9e7f455c39ff[m
+Reflog: HEAD@{26} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: typo
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 14:28:08 2015 +0300
+
+    typo
+
+[33mcommit 3b71e6cba32aaec7bca1c43b96887489d6b6e4be[m
+Reflog: HEAD@{27} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: ignore
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:54:50 2015 +0300
+
+    ignore
+
+[33mcommit 61e27985a97a5b36c37cd711d3d0c3a00db6e267[m
+Reflog: HEAD@{28} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: ws
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:39:12 2015 +0300
+
+    ws
+
+[33mcommit 6c5e09426d8d4d1834185d59164b8caa5854b122[m
+Reflog: HEAD@{29} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: d2
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:38:45 2015 +0300
+
+    d2
+
+[33mcommit 8ed87831aa9e10faf47a4ed8b4c95b50529b6569[m
+Reflog: HEAD@{30} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: d1
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:37:52 2015 +0300
+
+    d1
+
+[33mcommit 6e1dcf2db9839d6192abf53c8e02d08bd851e20e[m
+Reflog: HEAD@{31} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: scripts
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:36:40 2015 +0300
+
+    scripts
+
+[33mcommit 26ac33a313928e0ca911cc1667da946558ece1db[m
+Reflog: HEAD@{32} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: fonts
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:33:58 2015 +0300
+
+    fonts
+
+[33mcommit fad55f8a8c96aecf57e48164c4474549388b6172[m
+Reflog: HEAD@{33} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: main
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:30:17 2015 +0300
+
+    main
+
+[33mcommit 124e95b1f507e8aefa342715805fd55735e99327[m
+Reflog: HEAD@{34} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to 48c239e6a8673b9f3ef29d6edecd63d4d29602f6^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:36:07 2015 +0300
+
+    Added classes
+
+[33mcommit 48c239e6a8673b9f3ef29d6edecd63d4d29602f6[m
+Reflog: HEAD@{35} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to 3a969cbb3d0e3f2fbe87e2d3a05896e469c639b5^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:48:02 2015 +0300
+
+    everything
+
+[33mcommit 3a969cbb3d0e3f2fbe87e2d3a05896e469c639b5[m
+Reflog: HEAD@{36} (Anatoly <amosendz@mail.ru>)
+Reflog message: reset: moving to ec9ca0f89180b080a00ff15d150121441cc59ee9^
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:48:56 2015 +0300
+
+    Revert "everything"
+    
+    This reverts commit 48c239e6a8673b9f3ef29d6edecd63d4d29602f6.
+
+[33mcommit ec9ca0f89180b080a00ff15d150121441cc59ee9[m
+Reflog: HEAD@{37} (Anatoly <amosendz@mail.ru>)
+Reflog message: revert: Revert "Revert "everything""
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 13:27:10 2015 +0300
+
+    Revert "Revert "everything""
+    
+    This reverts commit 3a969cbb3d0e3f2fbe87e2d3a05896e469c639b5.
+
+[33mcommit 3a969cbb3d0e3f2fbe87e2d3a05896e469c639b5[m
+Reflog: HEAD@{38} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: Revert "everything"
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:48:56 2015 +0300
+
+    Revert "everything"
+    
+    This reverts commit 48c239e6a8673b9f3ef29d6edecd63d4d29602f6.
+
+[33mcommit 48c239e6a8673b9f3ef29d6edecd63d4d29602f6[m
+Reflog: HEAD@{39} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: everything
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:48:02 2015 +0300
+
+    everything
+
+[33mcommit 124e95b1f507e8aefa342715805fd55735e99327[m
+Reflog: HEAD@{40} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: Added classes
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:36:07 2015 +0300
+
+    Added classes
+
+[33mcommit 4ec6a59181e655c090786e48d3696cf010bb0f3a[m
+Reflog: HEAD@{41} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit: Initial Upload
+Author: Anatoly <amosendz@mail.ru>
+Date:   Fri Oct 2 12:33:43 2015 +0300
+
+    Initial Upload
+
+[33mcommit c8c151fbdcef5ca94fb5327e24371328a9251268[m
+Reflog: HEAD@{42} (Anatoly <amosendz@mail.ru>)
+Reflog message: commit (initial): Initial commit to add default .gitIgnore and .gitAttribute files.
+Author: Anatoly <amosendz@mail.ru>
+Date:   Mon Sep 14 15:20:36 2015 +0300
+
+    Initial commit to add default .gitIgnore and .gitAttribute files.
