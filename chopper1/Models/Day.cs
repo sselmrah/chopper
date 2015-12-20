@@ -11,6 +11,7 @@ namespace chopper1.Models
         //Эфиры дня
         private EfirType[] _efirs;
         private string _doWRus;
+        private string _fullCap;
         private TVDayVariantType[] _chOneVariants;
         private TVDayVariantType[] _orb1Variants;
         private TVDayVariantType[] _orb2Variants;
@@ -18,6 +19,12 @@ namespace chopper1.Models
         private TVDayVariantType[] _orb4Variants;
         private DateTime _renderTime;
 
+
+        public string FullCap
+        {
+            get { return _fullCap; }
+            set { _fullCap = value; }
+        }
         public DateTime RenderTime
         {
             get { return _renderTime; }

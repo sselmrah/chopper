@@ -359,10 +359,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://plan12r/plan1cw/ws/ws1.1cws%3fwsdl">
+    <WebReferenceUrl Include="http://tsurface/plan1cw/ws/ws1.1cws%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ws1c\</RelPath>
-      <UpdateFromURL>http://plan12r/plan1cw/ws/ws1.1cws%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://tsurface/plan1cw/ws/ws1.1cws%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

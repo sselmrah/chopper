@@ -28,7 +28,9 @@ namespace chopper1
             }
             catch
             {
-                //Пока ничего
+                wc.Url = "http://tsurface/plan1cw/ws/ws1.1cws";
+                tvWeeks = wc.GetWeeks();
+                selectedID = getWeekInWork(tvWeeks);
             }
         }
         public static int getWeekInWork(TVWeekType[] tvWeeks)

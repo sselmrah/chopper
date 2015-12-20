@@ -39,12 +39,20 @@ namespace chopper1.Controllers
 
             Day newDay = new Day();
             newDay.InjectFrom(curDay);
-
             CultureInfo russian = new CultureInfo("ru-RU");            
             newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
             newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);            
             newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            
 
+            //Собираем шапку дня из Cap и MemoryDates
+            newDay.FullCap += curDay.Cap;
+            if (newDay.FullCap.Length>0)
+            {
+                newDay.FullCap += "\n";
+            }
+            newDay.FullCap += curWc.GetVarTVDayParam(newDay.TVDate, newDay.KanalKod, newDay.VariantKod).MemoryDates;
+            
 
             //Добавляем день в список для проверки
             newDay.RenderTime = curWc.GetCurrentTime();

@@ -7,7 +7,7 @@
     DateTime dt = Model.TVDate;
     <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
     <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
-    <div id="shapka@(day_num)" class="shapka-div"></div>
+    <div id="shapka@(day_num)" class="shapka-div">@Model.FullCap</div>
 }
 
 @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)

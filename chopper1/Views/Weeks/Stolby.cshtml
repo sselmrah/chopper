@@ -18,7 +18,7 @@
             System.Globalization.CultureInfo russian = new System.Globalization.CultureInfo("ru-RU");
             string dowRus = Model.Days[day*5].TVDate.Date.ToString("dddd", russian);
             dowRus = char.ToUpper(dowRus[0]) + dowRus.Substring(1);
-            <div id="dow@(day*5)" class="stolbyDow">@dowRus, @Model.Days[day*5].TVDate.Date.ToString("dd MMMM yyyy") года</div>
+            <div id="dow@(day*5)" class="stolbyDow">@dowRus, @Model.Days[day*5].TVDate.Date.ToString("dd MMMM yyyy") года @Html.ActionLink("(+)", "Stolby", "Weeks")</div>
             <div class="stolbyDay">
                 @{
             int curDayNum;
