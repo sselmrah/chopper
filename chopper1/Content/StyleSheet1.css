@@ -126,6 +126,21 @@
     height: 60px;
     text-align:center;    
 }
+
+.datepickers
+{
+    border: none;
+}
+
+#WeekID
+{    
+    border: none;    
+    font-size:x-large;
+}
+#weekSelectContainer
+{
+    text-align:center;    
+}
 #my_col
 {
             width: 100px;

@@ -1,9 +1,19 @@
 ﻿@model chopper1.Models.Week
 @{
+    string curDate = Model.Days[0].TVDate.Date.ToString("yyyy-MM-dd");
+    string curDow = @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(Model.Days[0].TVDate.DayOfWeek);
+    if (curDow.Right(1)=="а") curDow = curDow.Left(curDow.Length-1)+"у";
+    
     ViewBag.Title = Model.Days[0].TVDate.Date.ToString("dd/MM/yyyy");
 }
 
-<h2>Программа передач Первого канала на @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(Model.Days[0].TVDate.DayOfWeek), @Model.Days[0].TVDate.Date.ToString("dd/MM/yyyy")</h2>
+@using (Html.BeginForm("Broadcast", "Weeks", FormMethod.Get))
+{
+    <fieldset>
+        <h2>Программа передач Первого канала на @curDow, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" value="@curDate" onchange="form.submit();" /></h2>
+    </fieldset>
+}
+
 <p id="messages"></p>
 
 <div class="row week_bg">

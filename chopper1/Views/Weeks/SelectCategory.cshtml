@@ -16,28 +16,11 @@
 
     ViewBag.Title = "Category Select";
     }
-@*
     @using (Html.BeginForm("WeekChosen", "Weeks", FormMethod.Get))
     {
-
         <fieldset>
-            @Html.DropDownListFor(n => n.SelectedWeekId, Model.WeeksList, new { @onchange = "form.submit();" })
+            @Html.DropDownList("WeekID", (SelectList)ViewData["Weeks1"], new { @onchange = "form.submit();" })
         </fieldset>
-
     }
-    *@
-        
-            @using (Html.BeginForm("WeekChosen", "Weeks", FormMethod.Get))
-            {
-
-                <fieldset>
-                    Movie Type
-                    @Html.DropDownList("WeekID", (SelectList)ViewData["Weeks1"], new { @onchange = "form.submit();" })
-                </fieldset>
-
-            }
-
-
-
 </body>
 </html>

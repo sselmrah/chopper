@@ -7,7 +7,8 @@
     ViewBag.Title = Model.Note;
 }
 
-<h2>@Model.Note</h2>
+<!--<h2>@Model.Note</h2>-->
+<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks");}</div>
 <p id="messages"></p>
 @*
     <div>

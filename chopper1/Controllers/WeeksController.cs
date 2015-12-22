@@ -64,8 +64,9 @@ namespace chopper1.Controllers
             try
             {
                // curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
-                TVWeekType[] weeks = curWc.GetWeeks();
-                curTvWeek= weeks[Convert.ToInt32(week_num)];                
+                TVWeekType[] weeks = curWc.GetWeeks();                
+                //curTvWeek= weeks[Convert.ToInt32(week_num)];                
+                curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
                 ViewData["weekName"] = curWeek.Name;
                 
             }
@@ -200,8 +201,26 @@ namespace chopper1.Controllers
         
         }
 
-        public ActionResult Broadcast(string dateStr="2015-12-17")
+        [HttpGet]
+        //public ActionResult Broadcast(string dateStr="2015-12-17")
+        public ActionResult Broadcast()
         {
+            string dateStr = "";
+
+            if (Request["bdate"] == null)
+            {
+                dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+            }       
+            else
+            {                
+                dateStr = Request["bdate"];
+                if (dateStr.Length==0)
+                {
+                    dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                }
+            }
+
+
             Week curWeek = new Week();
             TVWeekType curTvWeek = new TVWeekType();
             DateTime curDate = DateTime.Parse(dateStr);
