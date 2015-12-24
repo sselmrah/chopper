@@ -4,6 +4,7 @@
 
 
 @{
+    Layout = null;
     ViewBag.Title = Model.Note;
 }
 
@@ -16,11 +17,19 @@
     </div>
 *@
 
-<div class="row week_bg">
+<div id="loading">
+    <div id="loadingcontent">
+        <p id="loadingspinner">
+            Searching things...
+        </p>
+    </div>
+</div>
+
+<div class="row week_bg">    
     @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
     @{var i = 0;
-      double dayRectWidth = 95.0/Convert.ToDouble(Model.DaysCount);      
-      string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",",".")+"%";
+    double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
+    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
     }
     @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
     {
@@ -39,11 +48,18 @@
 </div>
 
 
+
+
+
 <script>
 
     document.addEventListener("DOMContentLoaded", function a() {
         var source = new EventSource('checkdays');
         var myP = document.getElementById("messages");
+
+
+        
+
 
         source.onmessage = function (event) {
             var result = event.data;
