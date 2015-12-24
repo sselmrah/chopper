@@ -4,8 +4,8 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -13,7 +13,6 @@
 </head>
 <body>
     @{
-
     ViewBag.Title = "Category Select";
     }
     @using (Html.BeginForm("WeekChosen", "Weeks", FormMethod.Get))
@@ -22,5 +21,7 @@
             @Html.DropDownList("WeekID", (SelectList)ViewData["Weeks1"], new { @onchange = "form.submit();" })
         </fieldset>
     }
+
 </body>
 </html>
+    

@@ -134,13 +134,19 @@
 
 #WeekID
 {    
+    width: 500px;
     border: none;    
-    font-size:x-large;
+    font-size:xx-large;
+    
 }
+
 #weekSelectContainer
 {
-    text-align:center;    
+    text-align:center; 
+    border: none;
+    width: 100%;   
 }
+
 #my_col
 {
             width: 100px;

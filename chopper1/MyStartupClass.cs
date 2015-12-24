@@ -32,6 +32,7 @@ namespace chopper1
                 tvWeeks = wc.GetWeeks();
                 selectedID = getWeekInWork(tvWeeks);
             }
+            tvWeeks.Reverse();
         }
         public static int getWeekInWork(TVWeekType[] tvWeeks)
         {

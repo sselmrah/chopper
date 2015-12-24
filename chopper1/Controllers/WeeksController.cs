@@ -56,17 +56,26 @@ namespace chopper1.Controllers
 
             return View(week);
         }
-        public ActionResult getWeek(string week_num="10")
+        public ActionResult getWeek(string week_num="")
         {
             Week curWeek = new Week();
             //Experiments
             TVWeekType curTvWeek= new TVWeekType();
             try
             {
+                
                // curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
-                TVWeekType[] weeks = curWc.GetWeeks();                
-                //curTvWeek= weeks[Convert.ToInt32(week_num)];                
-                curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
+                TVWeekType[] weeks = curWc.GetWeeks();
+                //If week_num is not specified get the week currently in work
+                if (week_num == "")
+                {
+                    curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
+                }
+                else
+                {
+                    curTvWeek = weeks[weeks.Length-1-Convert.ToInt32(week_num)];
+                }
+ 
                 ViewData["weekName"] = curWeek.Name;
                 
             }
@@ -116,7 +125,7 @@ namespace chopper1.Controllers
                 int i = 0;
                 foreach (TVWeekType week in chopper1.MyStartupClass.tvWeeks)
                 {
-                    weeks.Add(new SelectListItem { Value = i.ToString(), Text = week.Note});
+                    weeks.Add(new SelectListItem { Value = (chopper1.MyStartupClass.tvWeeks.Length-1-i).ToString(), Text = week.Note});
                     i += 1;
                 }
 
@@ -135,6 +144,13 @@ namespace chopper1.Controllers
         
         public ViewResult WeekChosen(string WeekID)
         {
+            //int WeekIDint = Convert.ToInt32(WeekID);
+            //WeekIDint = chopper1.MyStartupClass.tvWeeks.Length - 1 - WeekIDint;
+            //WeekID = WeekIDint.ToString();
+            if (WeekID == "")
+            {
+                WeekID = chopper1.MyStartupClass.getWeekInWork(chopper1.MyStartupClass.tvWeeks).ToString();
+            }
             chopper1.MyStartupClass.selectedID = Convert.ToInt32(WeekID);
             ViewBag.messageString = WeekID;
             ViewBag.weeknum = WeekID;
