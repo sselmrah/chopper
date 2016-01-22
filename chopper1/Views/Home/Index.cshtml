@@ -1,25 +1,27 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    var culture = new System.Globalization.CultureInfo("ru-RU");
+    var day = culture.DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
+    day = day.Substring(0,1).ToUpper() + day.Substring(1);
 }
 @*
-<script>    
-    function contentLoaded() {
-        var source = new EventSource('weeks/checkdays');
-        var myP = document.getElementById("messages");
-        source.onmessage = function (e) {
-            myP.innerHTML += e.data;
+    <script>
+        function contentLoaded() {
+            var source = new EventSource('weeks/checkdays');
+            var myP = document.getElementById("messages");
+            source.onmessage = function (e) {
+                myP.innerHTML += e.data;
+            }
         }
-    }
-    window.addEventListener("DOMContentLoaded", contentLoaded, false);
+        window.addEventListener("DOMContentLoaded", contentLoaded, false);
 
-
-</script>
-    *@
+        <p><input type="date" id="last-start-date" value="@string.Format("{0:yyyy-MM-dd}", "2015-12-22")" /></p>
+    </script>
+*@
 <div class="jumbotron">
-    <h1>ASP.NE</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    <p><input type="date" id="last-start-date" value="@string.Format("{0:yyyy-MM-dd}", "2015-12-22")" /></p>
+    <h1>@day, @DateTime.Today.Date.ToString("dd/MM/yyyy")</h1>
+    <p class="lead">Здесь будет чрезвычайно изящно изображена текущая сетка Первого канала и конкурентов.</p>
+
 </div>
 
 <div class="row">

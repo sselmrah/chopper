@@ -4,12 +4,12 @@
 
 
 @{
-    Layout = null;
+
     ViewBag.Title = Model.Note;
 }
 
 <!--<h2>@Model.Note</h2>-->
-<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks");}</div>
+<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", Model.Ref);}</div>
 <p id="messages"></p>
 @*
     <div>
@@ -17,13 +17,6 @@
     </div>
 *@
 
-<div id="loading">
-    <div id="loadingcontent">
-        <p id="loadingspinner">
-            Searching things...
-        </p>
-    </div>
-</div>
 
 <div class="row week_bg">    
     @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}

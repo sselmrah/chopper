@@ -192,14 +192,14 @@ namespace chopper1.Controllers
                         curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
                     }
                     //Загадочный ключ
-                    if (curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "X" || curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "Х")
+                    if (curEfir.ANR.IndexOf("$") >= 0 & (curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "X" || curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "Х"))
                     {
                         cur_key = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$"), 2);
                         curEfir.Reserv = true;
                         curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
                     }
                     //Заливка
-                    if (curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "C" || curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "С")
+                    if (curEfir.ANR.IndexOf("$") >= 0 & (curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "C" || curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "С"))
                     {
 
                         cur_key = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$"), 4);
