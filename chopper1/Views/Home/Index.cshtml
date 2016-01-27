@@ -1,8 +1,19 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = null;
     var culture = new System.Globalization.CultureInfo("ru-RU");
     var day = culture.DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
-    day = day.Substring(0,1).ToUpper() + day.Substring(1);
+    day = day.Substring(0, 1).ToUpper() + day.Substring(1);
+
+    string curWeek = "";
+    string nextWeek = "";
+    string nextnextWeek = "";
+
+    var curDay = DateTime.Today - TimeSpan.FromDays(Convert.ToDouble(DateTime.Today.DayOfWeek - 1));
+    curWeek = curDay.ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
+    nextWeek = (curDay + TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6 + 7)).ToString("dd/MM/yyyy");
+    nextnextWeek = (curDay + TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6 + 7 + 7)).ToString("dd/MM/yyyy");
+
 }
 @*
     <script>
@@ -18,31 +29,165 @@
         <p><input type="date" id="last-start-date" value="@string.Format("{0:yyyy-MM-dd}", "2015-12-22")" /></p>
     </script>
 *@
-<div class="jumbotron">
-    <h1>@day, @DateTime.Today.Date.ToString("dd/MM/yyyy")</h1>
-    <p class="lead">Здесь будет чрезвычайно изящно изображена текущая сетка Первого канала и конкурентов.</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ChOpper</title>
+    <link href='@Url.Content("~/Content/themes/base/all.css")' rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/Content/StyleSheet1.css">
+    <link rel="stylesheet" href="~/Content/Stolby.css">
+    <link rel="stylesheet" href="~/Content/Index.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Scripts/jquery-ui-1.11.4.js"></script>*@
 
-</div>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/Scripts/JavaScript1.js")*@
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+</head>
+<body id="mb">
+
+    <div class="headerPanel">
+        @day, @DateTime.Today.Date.ToString("dd/MM/yyyy")
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+    <div class="row">
+        <div class="col-md-2 tileGroup">
+            <p>РАСКЛАДКА</p>
+        </div>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur0" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-play"></span>
+
+                <div id="hidden">
+                    <p>@curWeek</p>
+                </div>
+
+            </div>
+        </a>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur1" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-forward"></span>
+                <div id="hidden">
+                    <p>@nextWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur2" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
+                <div id="hidden">
+                    <p>@nextnextWeek</p>
+                </div>
+            </div>
+        </a>
+        <div class="col-md-4 tile">
+            @{Html.RenderAction("SelectCategory", "Weeks", "");}
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="row">
+        <div class="col-md-2 tileGroup">
+            <p>ОРБИТЫ</p>
+        </div>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur0" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-play"></span>
+
+                <div id="hidden">
+                    <p>@curWeek</p>
+                </div>
+
+            </div>
+        </a>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur1" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-forward"></span>
+                <div id="hidden">
+                    <p>@nextWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur2" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
+                <div id="hidden">
+                    <p>@nextnextWeek</p>
+                </div>
+            </div>
+        </a>
+        <div class="col-md-4 tile na">
+            ВЫБОР НЕДЕЛИ
+        </div>
     </div>
-</div>
-<p id="messages"></p>
+    <div class="row">
+        <div class="col-md-2 tileGroup">
+            <p>СТОЛБЫ</p>
+        </div>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur0" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-play"></span>
+                <div id="hidden">
+                    <p>@curWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur1" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-forward"></span>
+                <div id="hidden">
+                    <p>@nextWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur2" }, null)">
+            <div class="col-md-2 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
+                <div id="hidden">
+                    <p>@nextnextWeek</p>
+                </div>
+            </div>
+        </a>
+            <div class="col-md-4 tile">
+                @{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = "15", repType = "stolby"});}
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 tileGroup na bottom">
+            <p>КОНКУРЕНЦИЯ</p>
+        </div>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur0" }, null)">
+            <div class="col-md-2 tile na bottom">
+                <span id="vis" class="glyphicon glyphicon-play"></span>
+                <div id="hidden">
+                    <p>@curWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur1" }, null)">
+            <div class="col-md-2 tile na bottom">
+                <span id="vis" class="glyphicon glyphicon-forward"></span>
+                <div id="hidden">
+                    <p>@nextWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur2" }, null)">
+            <div class="col-md-2 tile na bottom">
+                <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
+                <div id="hidden">
+                    <p>@nextnextWeek</p>
+                </div>
+            </div>
+        </a>
+        <div class="col-md-4 tile na bottom">
+            ВЫБОР НЕДЕЛИ
+        </div>
+    </div>
+
+    <p id="messages"></p>
+</body>
+</html>

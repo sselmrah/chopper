@@ -11,10 +11,22 @@
     }
     else
     { 
+        if (Model.KanalKod>0)
+        { 
         chCaption += " (Орбита " + (Model.KanalKod-10).ToString() + ")";
+        }
+        else
+        {
+            chCaption += " (Орбита )";
+        }
     }
-    string dayFinalStr = "До ";
-    dayFinalStr += (Model.Efirs[Model.Efirs.Count() - 1].Beg + TimeSpan.FromSeconds(Model.Efirs[Model.Efirs.Count() - 1].Timing)).ToString("H.mm");
+    string dayFinalStr = "";
+    if (Model.Efirs.Count() > 0)
+    {
+        dayFinalStr = "До ";
+        dayFinalStr += (Model.Efirs[Model.Efirs.Count() - 1].Beg + TimeSpan.FromSeconds(Model.Efirs[Model.Efirs.Count() - 1].Timing)).ToString("H.mm");
+    }
+    
 }
 
 <div class="stolbyChannel">

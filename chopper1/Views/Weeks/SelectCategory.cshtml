@@ -14,11 +14,14 @@
 <body>
     @{
     ViewBag.Title = "Category Select";
+    string reportType = ViewData["ReportType"].ToString();
     }
     @using (Html.BeginForm("WeekChosen", "Weeks", FormMethod.Get))
     {
         <fieldset>
-            @Html.DropDownList("WeekID", (SelectList)ViewData["Weeks1"], new { @onchange = "form.submit();", @style = "width: 500px;" })
+            @*@Html.DropDownList("WeekID", (SelectList)ViewData["Weeks1"], new { @onchange = "form.submit();", @style = "width: 500px;" })*@
+            @Html.DropDownList("WeekID", (SelectList)ViewData["Weeks1"], new { @onchange = "form.submit();" })
+            @Html.Hidden("repType", reportType);
         </fieldset>
     }
 

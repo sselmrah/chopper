@@ -48,6 +48,20 @@ namespace chopper1
 
             return curWeekId;
         }
+        public static int getCurrentWeek(TVWeekType[] tvWeeks)
+        {
+            int curWeekId = 0;
+            for (int i = 0; i < tvWeeks.Length; i++)
+            {
+                if (tvWeeks[i].BegDate.Date - DateTime.Now.Date <= TimeSpan.FromDays(0))
+                {
+                    curWeekId = i;
+                    break;
+                }
+            }
+
+            return curWeekId;
+        }
 
     }
 

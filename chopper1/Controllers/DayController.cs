@@ -55,13 +55,15 @@ namespace chopper1.Controllers
             
 
             //Добавляем день в список для проверки
-            newDay.RenderTime = curWc.GetCurrentTime();
-            chopper1.MyStartupClass.days_to_check.Add(newDay);
-            TVDayVariantT curVar = new TVDayVariantT();
-            curVar.VariantNumber = newDay.VariantKod;
-            curVar.TVDayRef = newDay.TVDayRef;
-            chopper1.MyStartupClass.variants_to_check.Add(curVar);
-
+            if (newDay.Efirs.Count() > 0)
+            {
+                newDay.RenderTime = curWc.GetCurrentTime();
+                chopper1.MyStartupClass.days_to_check.Add(newDay);
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = newDay.VariantKod;
+                curVar.TVDayRef = newDay.TVDayRef;
+                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+            }
             return PartialView(newDay);
         }
         public ActionResult BroadcastDay(WeekTVDayType curDay)
@@ -113,12 +115,15 @@ namespace chopper1.Controllers
             newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
 
             //Добавляем день в список для проверки
-            newDay.RenderTime = curWc.GetCurrentTime();
-            chopper1.MyStartupClass.days_to_check.Add(newDay);
-            TVDayVariantT curVar = new TVDayVariantT();            
-            curVar.VariantNumber = newDay.VariantKod;
-            curVar.TVDayRef = newDay.TVDayRef;
-            chopper1.MyStartupClass.variants_to_check.Add(curVar);
+            if (newDay.Efirs.Count() > 0)
+            {
+                newDay.RenderTime = curWc.GetCurrentTime();
+                chopper1.MyStartupClass.days_to_check.Add(newDay);
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = newDay.VariantKod;
+                curVar.TVDayRef = newDay.TVDayRef;
+                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+            }
             return PartialView(newDay);
         }
 

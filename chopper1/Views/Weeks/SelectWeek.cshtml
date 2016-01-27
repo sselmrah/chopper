@@ -3,6 +3,18 @@
 @{
     ViewBag.Title = "SelectWeek";    
     var curweeknum = ViewBag.weeknum;
+    string repType = ViewBag.reportType.ToString();
+
+    if (repType=="raskladka")
+    { 
+        Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum});
+    }
+    else
+    {
+        if (repType == "stolby")
+        {
+            Html.RenderAction("Stolby", "Weeks", new { week_num = curweeknum });
+        }
+    }
 }
-@{Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum});}
 

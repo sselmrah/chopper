@@ -1,0 +1,112 @@
+﻿#mb
+{
+    background:#429adb;
+    margin:10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+}
+.headerPanel
+{
+    background:#429adb;
+    height:300px;
+    color:white;
+    line-height:300px;
+    text-align:center;
+    font-size:8em;
+
+}
+
+.tileGroup
+{
+
+    height:250px;  
+    float:left;
+    position:relative;
+    border-top:1px solid #001b65;
+    border-right:1px solid #001b65;
+    border-left:1px solid #001b65;
+    background: #0566bb;        
+    overflow:hidden;
+    text-align: center;    
+    color: white;
+    line-height: 240px;
+    font-size:large;
+} 
+
+.tile
+{
+
+ height:250px;
+ float:left;
+ position:relative;
+ border-top:1px solid #001b65;
+ border-right:1px solid #001b65;
+ background: #429adb;    
+ cursor:pointer;
+ overflow:hidden;
+     text-align: center;    
+
+    color: white;
+    line-height:240px;
+        -webkit-transition: all 0.5s ease-out;
+       -moz-transition: all 0.5s ease-out;
+         -o-transition: all 0.5s ease-out;
+            transition: all 0.5s ease-out;
+}
+
+
+
+
+#hidden {    
+    background: #0566bb;
+    height: 250px;    
+    width:100%;
+    position: absolute; 
+    top: 0;
+    left: 500px;    
+    opacity: 1;    
+    overflow:hidden;
+    text-align: center;   
+    vertical-align:middle; 
+    color: white;
+    line-height:250px;
+
+
+    -webkit-transition: all 0.5s ease-out;
+       -moz-transition: all 0.5s ease-out;
+         -o-transition: all 0.5s ease-out;
+            transition: all 0.5s ease-out;
+}
+
+
+.tile:hover >#hidden {
+  
+    left: 0;
+}
+
+span.glyphicon {
+    font-size: 2em;
+}
+
+#rasklDd
+{
+    font-size:small;
+}
+
+.na 
+{
+    background:#acacac;
+}
+
+.bottom
+{
+    border-bottom:1px solid #001b65;
+}
+
+#WeekID
+{
+    width:100%;
+    font-size:large;
+    color: white;
+    background: #429adb;  
+
+}

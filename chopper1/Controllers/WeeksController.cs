@@ -58,6 +58,9 @@ namespace chopper1.Controllers
         }
         public ActionResult getWeek(string week_num="")
         {
+            //Чистим список проверяемых дней
+            chopper1.MyStartupClass.variants_to_check.Clear();
+
             Week curWeek = new Week();
             //Experiments
             TVWeekType curTvWeek= new TVWeekType();
@@ -66,15 +69,29 @@ namespace chopper1.Controllers
                 
                // curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
                 TVWeekType[] weeks = curWc.GetWeeks();
-                //If week_num is not specified get the week currently in work
-                if (week_num == "")
+                //If week_num is not specified get the week currently in work                
+                if (week_num.Left(3) == "cur")
                 {
-                    curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
-                    MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
+                    int shift = 0;                    
+                    //Current week = cur0
+                    //Current week+1 = cur1
+                    //Current week+2 = cur2
+                    shift = Convert.ToInt32(week_num.Right(1));
+                    
+                    curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks)-shift];
+                    MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks)-shift;
                 }
                 else
                 {
-                    curTvWeek = weeks[weeks.Length-1-Convert.ToInt32(week_num)];
+                    if (week_num == "")
+                    {
+                        curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
+                        MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
+                    }
+                    else
+                    {
+                        curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
+                    }
                 }
  
                 ViewData["weekName"] = curWeek.Name;
@@ -111,7 +128,7 @@ namespace chopper1.Controllers
             return weekTVday;
         }
         
-        public ActionResult SelectCategory(string curWeekRef = "")
+        public ActionResult SelectCategory(string curWeekRef = "", string repType = "raskladka")
         {
             
             List<SelectListItem> weeks = new List<SelectListItem>();
@@ -145,12 +162,13 @@ namespace chopper1.Controllers
             //var selectList = new SelectList(weeks, "Value", "Text", curId);
             
             ViewData["Weeks1"] = selectList;
+            ViewData["ReportType"] = repType;
             ViewBag.Week = weeks;
             return View();
 
         }
-        
-        public ViewResult WeekChosen(string WeekID)
+
+        public ViewResult WeekChosen(string WeekID, string repType)
         {
             //int WeekIDint = Convert.ToInt32(WeekID);
             //WeekIDint = chopper1.MyStartupClass.tvWeeks.Length - 1 - WeekIDint;
@@ -162,11 +180,13 @@ namespace chopper1.Controllers
             chopper1.MyStartupClass.selectedID = chopper1.MyStartupClass.tvWeeks.Length-1-Convert.ToInt32(WeekID);
             ViewBag.messageString = WeekID;
             ViewBag.weeknum = WeekID;
-
+            ViewBag.reportType = repType;
 
             return View("SelectWeek");
 
         }
+
+
 
         public class MyViewModel
         {
@@ -179,13 +199,60 @@ namespace chopper1.Controllers
 
 
         public ActionResult Stolby(string week_num = "10")
-        {            
+        {
+            //Чистим список проверяемых дней
+            chopper1.MyStartupClass.days_to_check.Clear();
+            chopper1.MyStartupClass.variants_to_check.Clear();
+
             Week curWeek = new Week();
 
             TVWeekType curTvWeek= new TVWeekType();
 
-            curTvWeek = MyStartupClass.tvWeeks[Convert.ToInt32(week_num)];                
-            ViewData["weekName"] = curWeek.Name;
+            //***Adding week selector from index page
+            try
+            {             
+                TVWeekType[] weeks = curWc.GetWeeks();
+                //If week_num is not specified get the week currently in work                
+                if (week_num.Left(3) == "cur")
+                {
+                    int shift = 0;
+                    //Current week = cur0
+                    //Current week+1 = cur1
+                    //Current week+2 = cur2
+                    shift = Convert.ToInt32(week_num.Right(1));
+
+                    curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks) - shift];
+                    MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks) - shift;
+                }
+                else
+                {
+                    if (week_num == "")
+                    {
+                        curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
+                        MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
+                    }
+                    else
+                    {
+                        curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
+                    }
+                }
+
+                ViewData["weekName"] = curWeek.Name;
+
+            }
+            catch
+            {
+
+            }
+
+
+
+            
+            //Previous version
+            //curTvWeek = MyStartupClass.tvWeeks[Convert.ToInt32(week_num)];                
+            //ViewData["weekName"] = curWeek.Name;
+
+            //***
 
             int[] array_channel_codes = new int[5];
             array_channel_codes[0] = 10;
@@ -229,6 +296,9 @@ namespace chopper1.Controllers
         //public ActionResult Broadcast(string dateStr="2015-12-17")
         public ActionResult Broadcast()
         {
+            //Чистим список проверяемых дней
+            chopper1.MyStartupClass.variants_to_check.Clear();
+
             string dateStr = "";
 
             if (Request["bdate"] == null)
