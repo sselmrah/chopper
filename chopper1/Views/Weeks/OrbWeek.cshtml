@@ -1,0 +1,84 @@
+﻿@model chopper1.Models.Week
+
+
+
+
+@{
+
+    ViewBag.Title = Model.Note;
+}
+
+<!--<h2>@Model.Note</h2>-->
+<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", Model.Ref);}</div>
+<p id="messages"></p>
+@*
+    <div>
+        @Html.DisplayFor(model => model.DaysCount)
+    </div>
+*@
+
+
+<div class="row week_bg">    
+    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
+    @{
+    double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
+    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
+    }
+    @for (int i = 0; i < Model.Days.Count(); i+=5)
+    {
+        var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+        <div id="@Model.Days[i].TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">     
+            @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+        </div>        
+    }
+    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = false });}
+</div>
+
+
+
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function a() {
+        var source = new EventSource('checkdays');
+        var myP = document.getElementById("messages");
+
+
+        
+
+
+        source.onmessage = function (event) {
+            var result = event.data;
+            @*myP.innerHTML += result;*@
+            @*If result not empty - call actionresult to redraw a day*@
+            if (result != "") {
+                var xmlhttp;
+                xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                        if (xmlhttp.status == 200) {
+                            document.getElementById(result).innerHTML = xmlhttp.responseText;
+                        }
+                        else if (xmlhttp.status == 400) {
+                            alert('There was an error 400')
+                        }
+                        else {
+                            alert('something else other than 200 was returned')
+                        }
+                    }
+                }
+                xmlhttp.open("POST", "UpdateDayWeek", true);
+                xmlhttp.setRequestHeader("dayID", result);
+                xmlhttp.send(result);
+            }
+
+        };
+        source.onerror = function (e) {
+            console.log('error-error-error');
+        };
+
+    });
+
+</script>

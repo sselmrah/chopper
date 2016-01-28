@@ -365,6 +365,85 @@ namespace chopper1.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult OrbWeek(string week_num = "", int part_num = 1)
+        {
+            //Чистим список проверяемых дней
+            chopper1.MyStartupClass.variants_to_check.Clear();
+
+            Week curWeek = new Week();
+            //Experiments
+            TVWeekType curTvWeek = new TVWeekType();
+            try
+            {
+
+                // curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
+                TVWeekType[] weeks = curWc.GetWeeks();
+                //If week_num is not specified get the week currently in work                
+                if (week_num.Left(3) == "cur")
+                {
+                    int shift = 0;
+                    //Current week = cur0
+                    //Current week+1 = cur1
+                    //Current week+2 = cur2
+                    shift = Convert.ToInt32(week_num.Right(1));
+
+                    curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks) - shift];
+                    MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks) - shift;
+                }
+                else
+                {
+                    if (week_num == "")
+                    {
+                        //curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
+                        //MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
+                        curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks)];
+                        MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks);
+                    }
+                    else
+                    {
+                        curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
+                    }
+                }
+
+                ViewData["weekName"] = curWeek.Name;
+
+            }
+            catch
+            {
+
+            }
+
+
+            List<WeekTVDayType> days = new List<WeekTVDayType>();
+            WeekTVDayType chOneDay = new WeekTVDayType();
+
+            int[] array_channel_codes = new int[5];
+            array_channel_codes[0] = 10;
+            array_channel_codes[1] = 11;
+            array_channel_codes[2] = 12;
+            array_channel_codes[3] = 13;
+            array_channel_codes[4] = 14;
+
+
+            List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();            
+            if (part_num == 1)
+            {
+                daysOfWeek = daysOfWeek.Take(20).ToList();
+            }
+            else
+            {
+
+            }
+
+            curWeek.InjectFrom(curTvWeek);
+            curWeek.DaysCount = daysOfWeek.Count()/5;            
+            curWeek.Days = daysOfWeek;
+            ViewData["daysCount"]= daysOfWeek.Count();                                                           
+            return View(curWeek);
+
+        }
+
 
         private List<WeekTVDayType> getOrbitsByChannelOneDay(WeekTVDayType chOneDay, List<WeekTVDayType> allDays, bool reverse = false)
         {
