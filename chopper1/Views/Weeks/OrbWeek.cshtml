@@ -24,12 +24,12 @@
     double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
     string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
     }
-    @for (int i = 0; i < Model.Days.Count(); i+=5)
+    @for (int i = 0; i < Model.Days.Count() / 5; i++)
     {
         var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
-        <div id="@Model.Days[i].TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">     
+        <div id="@Model.Days[i].TVDayRef" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
             @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
-        </div>        
+        </div>
     }
     @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = false });}
 </div>

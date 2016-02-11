@@ -365,7 +365,7 @@ namespace chopper1.Controllers
 
         }
 
-        [HttpGet]
+
         public ActionResult OrbWeek(string week_num = "", int part_num = 1)
         {
             //Чистим список проверяемых дней

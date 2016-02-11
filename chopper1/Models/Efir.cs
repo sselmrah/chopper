@@ -33,6 +33,45 @@ namespace chopper1.Models
         private int _chCode;
         private bool _isHighlighted;
         private bool _useTitle;
+                
+
+        //Свойства для рисования орбитной раскладки
+        //Нужно посмотреть, не сделать ли все это по-другому
+        private bool _orbCh1;
+        private bool _orb1;
+        private bool _orb2;
+        private bool _orb3;
+        private bool _orb4;
+
+        public bool Orb4
+        {
+            get { return _orb4; }
+            set { _orb4 = value; }
+        }
+
+        public bool Orb3
+        {
+            get { return _orb3; }
+            set { _orb3 = value; }
+        }
+
+        public bool Orb2
+        {
+            get { return _orb2; }
+            set { _orb2 = value; }
+        }
+
+        public bool Orb1
+        {
+            get { return _orb1; }
+            set { _orb1 = value; }
+        }
+
+        public bool OrbCh1
+        {
+            get { return _orbCh1; }
+            set { _orbCh1 = value; }
+        }
 
         public bool UseTitle
         {

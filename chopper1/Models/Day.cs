@@ -18,6 +18,14 @@ namespace chopper1.Models
         private TVDayVariantType[] _orb3Variants;
         private TVDayVariantType[] _orb4Variants;
         private DateTime _renderTime;
+        //Учимся рисовать орбиты (см. Efir Model)
+        private Efir[] _orbEfirs;
+
+        public Efir[] OrbEfirs
+        {
+            get { return _orbEfirs; }
+            set { _orbEfirs = value; }
+        }
 
 
         public string FullCap

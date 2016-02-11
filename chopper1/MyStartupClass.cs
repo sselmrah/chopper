@@ -63,6 +63,33 @@ namespace chopper1
             return curWeekId;
         }
 
+        public static int getOrbNumberByChannelCode(int chCode)
+        {
+            int orbNum = chCode - 10;
+            return orbNum;
+        }
+
+        public static int getNearestOrb(int orbNum)
+        {
+            int nearestOrb = 0;
+            switch (orbNum)
+            {
+                case 1:
+                    nearestOrb = 2;
+                    break;
+                case 2:
+                    nearestOrb = 3;
+                    break;
+                case 3:
+                    nearestOrb = 4;
+                    break;
+                case 4:
+                    nearestOrb = 0;
+                    break;
+            }
+            return nearestOrb;
+        }
+
     }
 
 }

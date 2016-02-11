@@ -1,0 +1,81 @@
+﻿.dayrectOrb
+{    
+    height: 1661px;
+    background: linear-gradient(slategray 1px, aliceblue 1px);            
+    background-size: 100% 60px;
+    background-position-y:100px;
+    border:solid 0 black;                        
+    float:left;
+    position:relative;     
+}
+
+
+.orbdowDiv
+{
+        text-align:center;
+        border: 1px solid black;        
+        background-color:white;
+        height:20px;
+        
+}
+
+.orbNameDiv
+{
+    float:left;
+    width:calc(100%/5);    
+    border: 1px solid black;
+    text-align:center;
+    height:20px;
+}
+
+.orbShapkaDiv
+{    
+    background-color: white;
+    border: solid 1px black;    
+    height: 60px;    
+    text-align:center;  
+    float:none;  
+}
+
+
+.width1
+{
+    width: calc((100%/5)*1);
+}
+.width2
+{
+    width: calc((100%/5)*2);
+}
+.width3
+{
+    width: calc((100%/5)*3);
+}
+.width4
+{
+    width: calc((100%/5)*4);
+}
+.width5
+{
+    width: calc((100%/5)*5);
+}
+
+.xpos0
+{
+    left: 0;
+}
+.xpos1
+{
+    left: calc((100%/5)*1);
+}
+.xpos2
+{
+    left: calc((100%/5)*2);
+}
+.xpos3
+{
+    left: calc((100%/5)*3);
+}
+.xpos4
+{
+    left: calc((100%/5)*4);
+}

@@ -201,6 +201,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Index.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\Orbity.css" />
     <Content Include="Content\Stolby.css" />
     <Content Include="Content\StyleSheet1.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -316,6 +317,8 @@
     <Content Include="Views\Efir\BroadcastEfir.cshtml" />
     <Content Include="Views\Weeks\UpdateDayBroadcast.cshtml" />
     <Content Include="Views\Weeks\OrbWeek.cshtml" />
+    <Content Include="Views\Day\ConstructOrbDay.cshtml" />
+    <Content Include="Views\Efir\ConstructOrbEfir.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
