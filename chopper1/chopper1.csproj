@@ -319,6 +319,8 @@
     <Content Include="Views\Weeks\OrbWeek.cshtml" />
     <Content Include="Views\Day\ConstructOrbDay.cshtml" />
     <Content Include="Views\Efir\ConstructOrbEfir.cshtml" />
+    <Content Include="Views\Weeks\OrbWeek4days.cshtml" />
+    <Content Include="Views\Weeks\UpdateDayOrbity.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

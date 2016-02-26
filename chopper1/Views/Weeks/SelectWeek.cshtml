@@ -4,7 +4,7 @@
     ViewBag.Title = "SelectWeek";    
     var curweeknum = ViewBag.weeknum;
     string repType = ViewBag.reportType.ToString();
-
+    /*
     if (repType=="raskladka")
     { 
         Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum});
@@ -14,7 +14,20 @@
         if (repType == "stolby")
         {
             Html.RenderAction("Stolby", "Weeks", new { week_num = curweeknum });
-        }
+        }        
     }
+    */
+    switch (repType)
+    {
+        case "orbity":
+            Html.RenderAction("OrbWeek", "Weeks", new { week_num = curweeknum });
+            break;
+        case "raskladka":
+            Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum });
+            break;
+        case "stolby":
+            Html.RenderAction("Stolby", "Weeks", new { week_num = curweeknum });
+            break;
+    }       
 }
 

@@ -5,6 +5,8 @@
     var day = culture.DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
     day = day.Substring(0, 1).ToUpper() + day.Substring(1);
 
+    string prevprevWeek = "";
+    string prevWeek = "";
     string curWeek = "";
     string nextWeek = "";
     string nextnextWeek = "";
@@ -13,6 +15,8 @@
     curWeek = curDay.ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
     nextWeek = (curDay + TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6 + 7)).ToString("dd/MM/yyyy");
     nextnextWeek = (curDay + TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6 + 7 + 7)).ToString("dd/MM/yyyy");
+    prevWeek = (curDay - TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " - " + (curDay - TimeSpan.FromDays(6 + 7)).ToString("dd/MM/yyyy");
+    prevprevWeek = (curDay - TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " - " + (curDay - TimeSpan.FromDays(6 + 7 + 7)).ToString("dd/MM/yyyy");
 
 }
 @*
@@ -56,21 +60,38 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 tileGroup">
+        <div class="col-md-3 tileGroup">
             <p>РАСКЛАДКА</p>
         </div>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur-2" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevprevWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur-1" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevWeek</p>
+                </div>
+            </div>
+        </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-2 tile">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
 
                 <div id="hidden">
                     <p>@curWeek</p>
                 </div>
-
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-2 tile">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <p>@nextWeek</p>
@@ -78,7 +99,7 @@
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-2 tile">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
                     <p>@nextnextWeek</p>
@@ -90,11 +111,29 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 tileGroup">
+        <div class="col-md-3 tileGroup">
             <p>ОРБИТЫ</p>
         </div>
-        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-2 tile">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur-2" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevprevWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur-1" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur0" }, null)">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
 
                 <div id="hidden">
@@ -103,32 +142,51 @@
 
             </div>
         </a>
-        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-2 tile">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur1" }, null)">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <p>@nextWeek</p>
                 </div>
             </div>
         </a>
-        <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-2 tile">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur2" }, null)">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
                     <p>@nextnextWeek</p>
                 </div>
             </div>
         </a>
-        <div class="col-md-4 tile na">
-            ВЫБОР НЕДЕЛИ
+        <div class="col-md-4 tile">
+            
+            @{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = "15", repType = "orbity" });}
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 tileGroup">
+        <div class="col-md-3 tileGroup">
             <p>СТОЛБЫ</p>
         </div>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-2" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevprevWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-1" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevWeek</p>
+                </div>
+            </div>
+        </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-2 tile">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
                 <div id="hidden">
                     <p>@curWeek</p>
@@ -136,7 +194,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-2 tile">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <p>@nextWeek</p>
@@ -144,7 +202,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-2 tile">
+            <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
                     <p>@nextnextWeek</p>
@@ -156,11 +214,29 @@
             </div>
     </div>
     <div class="row">
-        <div class="col-md-2 tileGroup na bottom">
+        <div class="col-md-3 tileGroup na bottom">
             <p>КОНКУРЕНЦИЯ</p>
         </div>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-2" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevprevWeek</p>
+                </div>
+            </div>
+        </a>
+        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-1" }, null)">
+            <div class="col-md-1 tile">
+                <span id="vis" class="glyphicon glyphicon-backward"></span>
+
+                <div id="hidden">
+                    <p>@prevWeek</p>
+                </div>
+            </div>
+        </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-2 tile na bottom">
+            <div class="col-md-1 tile na bottom">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
                 <div id="hidden">
                     <p>@curWeek</p>
@@ -168,7 +244,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-2 tile na bottom">
+            <div class="col-md-1 tile na bottom">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <p>@nextWeek</p>
@@ -176,7 +252,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-2 tile na bottom">
+            <div class="col-md-1 tile na bottom">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
                     <p>@nextnextWeek</p>

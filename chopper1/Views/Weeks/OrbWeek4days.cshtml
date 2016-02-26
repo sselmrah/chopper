@@ -17,25 +17,18 @@
     </div>
 *@
 
-
 <div class="row week_bg">    
     @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
-    @{var i = 0;
+    @{
     double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
     string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
     }
-    @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
+    @for (int i = 0; i < Model.Days.Count() / 5; i++)
     {
-
-        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-            @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
-                <div id="date@(i)" class="date-div">@day.TVDate.Date.ToString("dd/MM/yyyy")</div>
-                <div id="shapka@(i)" class="shapka-div"></div>*@
-            @{Html.RenderAction("ConstructDay", "Day", day);}
-
+        var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+        <div id="@Model.Days[i].TVDayRef" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+            @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
         </div>
-            i += 1;
-
     }
     @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = false });}
 </div>
@@ -77,14 +70,12 @@
                 }
                 xmlhttp.open("POST", "UpdateDayWeek", true);
                 xmlhttp.setRequestHeader("dayID", result);
-                console.log(result);
                 xmlhttp.send(result);
             }
 
         };
         source.onerror = function (e) {
             console.log('error-error-error');
-            
         };
 
     });

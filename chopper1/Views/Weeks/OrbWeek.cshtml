@@ -9,14 +9,13 @@
 }
 
 <!--<h2>@Model.Note</h2>-->
-<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", Model.Ref);}</div>
+<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
 <p id="messages"></p>
 @*
     <div>
         @Html.DisplayFor(model => model.DaysCount)
     </div>
 *@
-
 
 <div class="row week_bg">    
     @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
@@ -58,8 +57,9 @@
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                        
                         if (xmlhttp.status == 200) {
-                            document.getElementById(result).innerHTML = xmlhttp.responseText;
+                            document.getElementById(result).innerHTML = xmlhttp.responseText;                            
                         }
                         else if (xmlhttp.status == 400) {
                             alert('There was an error 400')
@@ -69,8 +69,9 @@
                         }
                     }
                 }
-                xmlhttp.open("POST", "UpdateDayWeek", true);
+                xmlhttp.open("POST", "UpdateDayOrbity", true);
                 xmlhttp.setRequestHeader("dayID", result);
+                console.log(result);
                 xmlhttp.send(result);
             }
 

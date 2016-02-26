@@ -59,6 +59,7 @@ namespace chopper1.Controllers
         public ActionResult getWeek(string week_num="")
         {
             //Чистим список проверяемых дней
+            chopper1.MyStartupClass.days_to_check.Clear();
             chopper1.MyStartupClass.variants_to_check.Clear();
 
             Week curWeek = new Week();
@@ -76,7 +77,7 @@ namespace chopper1.Controllers
                     //Current week = cur0
                     //Current week+1 = cur1
                     //Current week+2 = cur2
-                    shift = Convert.ToInt32(week_num.Right(1));
+                    shift = Convert.ToInt32(week_num.Right(week_num.Length-3));
                     
                     curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks)-shift];
                     MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks)-shift;
@@ -386,7 +387,7 @@ namespace chopper1.Controllers
                     //Current week = cur0
                     //Current week+1 = cur1
                     //Current week+2 = cur2
-                    shift = Convert.ToInt32(week_num.Right(1));
+                    shift = Convert.ToInt32(week_num.Right(week_num.Length - 3));
 
                     curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks) - shift];
                     MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks) - shift;
@@ -427,6 +428,12 @@ namespace chopper1.Controllers
 
 
             List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();            
+            
+            //Рисуем неделю целиком
+            daysOfWeek = daysOfWeek.ToList();
+
+            /*
+             * Разбиваем неделю на две части. Рисуем в два приема.
             if (part_num == 1)
             {
                 daysOfWeek = daysOfWeek.Take(20).ToList();
@@ -435,7 +442,7 @@ namespace chopper1.Controllers
             {
 
             }
-
+            */
             curWeek.InjectFrom(curTvWeek);
             curWeek.DaysCount = daysOfWeek.Count()/5;            
             curWeek.Days = daysOfWeek;
@@ -542,6 +549,19 @@ namespace chopper1.Controllers
                 {
                     dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;
                     chopper1.MyStartupClass.variants_to_update.RemoveAt(0);
+
+                    //Довольно странная версия проверки времени рендера
+                    //Сейчас после нахождения хотя бы одного дня для обновления
+                    //всем остальным присваивается текущее время для того, чтобы потом
+                    //минимальное время было не меньше текущего
+                    //***Нужно бы переделать, хотя работает***
+                    if (chopper1.MyStartupClass.variants_to_update.Count() == 1)
+                    {
+                        foreach (Day day in chopper1.MyStartupClass.days_to_check)
+                        {
+                            day.RenderTime = curWc.GetCurrentTime();
+                        }
+                    }
                 }
             }
             
@@ -586,6 +606,27 @@ namespace chopper1.Controllers
             }
 
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            return View(curDay);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDayOrbity()
+        {
+            string curDayRef = Request["HTTP_DAYID"];
+            Day curDay = new Day();
+
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef == curDayRef)
+                {
+                    d.RenderTime = curWc.GetCurrentTime();
+                    curDay = d;
+                    break;
+                }
+            }
+
+            curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            curDay.OrbEfirs = chopper1.Controllers.DayController.getOrbEfirsList(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
         }
 
