@@ -1,58 +1,47 @@
 ﻿@model chopper1.Models.Week
 
-
-
-
 @{
 
     ViewBag.Title = Model.Note;
+    int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
 }
 
 <!--<h2>@Model.Note</h2>-->
-<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", Model.Ref);}</div>
-<p id="messages"></p>
-@*
-    <div>
-        @Html.DisplayFor(model => model.DaysCount)
+
+<div class="weekPickerContainer">
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+        </a>
     </div>
-*@
-
-
-<div class="row week_bg">    
-    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
+    <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref });}</div>
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+        </a>
+    </div>
+</div>
+<p id="messages"></p>
+<div class="row week_bg">
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
     @{var i = 0;
     double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
     string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
     }
     @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
     {
-
-        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-            @*<div id="dow@(i)" class="dow-div">@Enum.Parse(typeof(DayOfWeek), i.ToString())</div>
-                <div id="date@(i)" class="date-div">@day.TVDate.Date.ToString("dd/MM/yyyy")</div>
-                <div id="shapka@(i)" class="shapka-div"></div>*@
-            @{Html.RenderAction("ConstructDay", "Day", day);}
-
+        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">            
+            @{Html.RenderAction("ConstructDay", "Day", day);}            
         </div>
-            i += 1;
-
+        i += 1;
     }
-    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = false });}
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
 </div>
-
-
-
-
-
 <script>
 
     document.addEventListener("DOMContentLoaded", function a() {
         var source = new EventSource('checkdays');
         var myP = document.getElementById("messages");
-
-
-        
-
 
         source.onmessage = function (event) {
             var result = event.data;
@@ -80,11 +69,10 @@
                 console.log(result);
                 xmlhttp.send(result);
             }
-
         };
+
         source.onerror = function (e) {
             console.log('error-error-error');
-            
         };
 
     });

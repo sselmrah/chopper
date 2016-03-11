@@ -2,6 +2,7 @@
 {           
             height: 1661px;                      
             background: linear-gradient(slategray 1px, aliceblue 1px);            
+            max-width: 200px;
             background-size: 100% 60px;
             background-position-y:100px;
             border:solid 0 black;                        
@@ -9,7 +10,7 @@
             position:relative;            
 }
 
-.ruler-div
+.rulerDivLeft
 {
     float:left;
     width:10px;        
@@ -18,7 +19,20 @@
     top:100px;
     background: linear-gradient(black 1px, white 1px);        
     background-size: 50% 10px;
+    border-right: solid black 1px;
 }
+.rulerDivRight
+{
+    float:left;
+    width:10px;        
+    margin-bottom: 30px;
+    position:relative;
+    top:100px;
+    background: linear-gradient(black 1px, white 1px);        
+    background-size: 50% 10px;
+    border-left: solid black 1px;
+}
+
 .margin-div
 {
     float:left;
@@ -46,15 +60,14 @@
     height:30px;
 }
 
-.prog
-{
-        width: 100%;
-        margin: 0 0 0 0;
-        border: solid 1px black;
-        background: white;
-        overflow: hidden;  
-        position: absolute;   
-        float: left;   
+.prog {
+    width: 100%;
+    margin: 0 0 0 0;
+    border: solid 1px black;
+    background: white;
+    overflow: hidden;
+    position: absolute;
+    float: left;
 }
 
 .news
@@ -112,6 +125,7 @@
     height: 20px;
     text-align:center;
 }
+
 .date-div
 {
     background-color: white;
@@ -119,6 +133,7 @@
     height:20px;
     text-align:center;    
 }
+
 .shapka-div
 {
     background-color: white;
@@ -141,10 +156,12 @@
 }
 
 #weekSelectContainer
-{
-    text-align:center; 
-    border: none;
-    width: 100%;   
+{    
+    position: relative;
+	top: 10%;
+    float: left;
+    border: 0 solid black;
+    width: 80%;       
 }
 
 #my_col
@@ -165,7 +182,53 @@
 }
 
 
+.weekPickerIcon 
+{
+    font-size: 2em;
+}
 
 
+#catSearchTb
+{
+    align-self:center;
+    background-color: #001b65;
+    border: 1px solid #0566bb;    
+    padding-bottom:0;
+    padding-left:5px;
+    margin-top:13px;        
+    color:#999999;    
+    vertical-align:middle;
+}
 
-
+#searchResultTable
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: #fff;
+	margin: 45px;
+	width: 90%;
+    max-width:1200px;
+	border-collapse: collapse;
+	text-align: left;
+}
+#searchResultTable th
+{
+	font-size: 14px;
+	font-weight: normal;
+	color: #039;
+	padding: 10px 8px;
+	border-bottom: 2px solid #6678b1;
+}
+#searchResultTable td
+{
+	color: #669;
+	padding: 9px 8px 0 8px;
+}
+#searchResultTable tbody tr:hover td
+{
+	color: #009;
+}
+.titleCol
+{
+    width:200px;
+}

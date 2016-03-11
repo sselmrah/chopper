@@ -6,10 +6,30 @@
 @{
 
     ViewBag.Title = Model.Note;
+    int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
 }
 
 <!--<h2>@Model.Note</h2>-->
-<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
+
+<div class="weekPickerContainer">
+   @* <div class="weekPickerArrow">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:blue"></span>
+        </a>
+    </div>*@
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+        </a>
+    </div>
+
+    <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+        </a>
+    </div>
+</div>
 <p id="messages"></p>
 @*
     <div>
@@ -17,22 +37,31 @@
     </div>
 *@
 
-<div class="row week_bg">    
-    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = true });}
+<div class="row week_bg">
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
     @{
-    double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
-    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
+        double dayRectWidth = 92.0 / Convert.ToDouble(Model.DaysCount);
+        string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
     }
     @for (int i = 0; i < Model.Days.Count() / 5; i++)
-    {
-        var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
-        <div id="@Model.Days[i].TVDayRef" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-            @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
-        </div>
+     { 
+            var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+            <div id="@Model.Days[i*5].TVDayRef" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+            </div>        
     }
-    @{Html.RenderAction("ConstructNormalTimeScale", "Day", new { left = false });}
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    <div class="visible-lg">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 14 });}
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 13 });}
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 12 });}
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 11 });}
+    </div>
 </div>
 
+@*<div id="spinner">
+    <img src="~/Content/themes/base/images/logos/1logo_app.PNG" />
+</div>*@
 
 
 
@@ -40,11 +69,11 @@
 <script>
 
     document.addEventListener("DOMContentLoaded", function a() {
-        var source = new EventSource('checkdays');
+        var source = new EventSource('checkdaysorb');
         var myP = document.getElementById("messages");
 
 
-        
+
 
 
         source.onmessage = function (event) {
@@ -57,9 +86,12 @@
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                        
-                        if (xmlhttp.status == 200) {
-                            document.getElementById(result).innerHTML = xmlhttp.responseText;                            
+                        console.log(result);
+                        console.log(xmlhttp.status);
+
+                        if (xmlhttp.status == 200) {                            
+                            document.getElementById(result).innerHTML = xmlhttp.responseText;
+                            
                         }
                         else if (xmlhttp.status == 400) {
                             alert('There was an error 400')
@@ -70,8 +102,7 @@
                     }
                 }
                 xmlhttp.open("POST", "UpdateDayOrbity", true);
-                xmlhttp.setRequestHeader("dayID", result);
-                console.log(result);
+                xmlhttp.setRequestHeader("dayID", result);                
                 xmlhttp.send(result);
             }
 
@@ -81,5 +112,7 @@
         };
 
     });
+
+
 
 </script>

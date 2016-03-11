@@ -49,6 +49,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -170,6 +171,8 @@
     <Compile Include="Controllers\DayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlanCatController.cs" />
+    <Compile Include="Controllers\planCatDbController.cs" />
     <Compile Include="Controllers\WeeksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -179,6 +182,25 @@
     <Compile Include="Models\Efir.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PlanCat.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanCat.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PlanCat.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanCat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PlanCat.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanCat.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\planCatDb.cs" />
+    <Compile Include="Models\TCBCList4Themes.cs">
+      <DependentUpon>PlanCat.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Week.cs" />
     <Compile Include="MyStartupClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,6 +219,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\themes\base\images\logos\1logo_app.PNG" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Index.css" />
@@ -213,6 +236,7 @@
     <Content Include="Content\themes\base\datepicker.css" />
     <Content Include="Content\themes\base\dialog.css" />
     <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\logos\preloader-01.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -243,6 +267,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\PlanCat.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PlanCat.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\PlanCat.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PlanCat.edmx</DependentUpon>
+      <LastGenOutput>PlanCat.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\PlanCat.edmx.diagram">
+      <DependentUpon>PlanCat.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\PlanCat.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PlanCat.edmx</DependentUpon>
+      <LastGenOutput>PlanCat.cs</LastGenOutput>
+    </Content>
     <None Include="Properties\PublishProfiles\Manual.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -321,6 +362,14 @@
     <Content Include="Views\Efir\ConstructOrbEfir.cshtml" />
     <Content Include="Views\Weeks\OrbWeek4days.cshtml" />
     <Content Include="Views\Weeks\UpdateDayOrbity.cshtml" />
+    <Content Include="Views\planCatDb\Index.cshtml" />
+    <Content Include="Views\PlanCat\Create.cshtml" />
+    <Content Include="Views\PlanCat\Delete.cshtml" />
+    <Content Include="Views\PlanCat\Details.cshtml" />
+    <Content Include="Views\PlanCat\Edit.cshtml" />
+    <Content Include="Views\PlanCat\Index.cshtml" />
+    <Content Include="Views\PlanCat\Browse.cshtml" />
+    <Content Include="Views\planCatDb\Search.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -382,6 +431,9 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>chopper1_ws1c_WebСервис1</CachedSettingsPropName>
     </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

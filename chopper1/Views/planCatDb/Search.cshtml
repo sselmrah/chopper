@@ -1,0 +1,96 @@
+﻿@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+<table id="searchResultTable">
+    <thead>
+        <tr>
+            @foreach (System.Data.DataColumn col in Model.Columns)
+            {
+                switch (col.ColumnName)
+                {
+                    case "BCDate":
+                        <th>Дата</th>
+                        break;
+                    case "BeginTimeText":
+                        <th>Время начала</th>
+                        break;
+                    case "TimingText":
+                        <th>Хронометраж</th>
+                        break;
+                    case "Title":
+                        <th class="titleCol">Название</th>
+                        break;
+                    case "Bit_Repetition":
+                    <th>Повтор</th>
+                        break;
+                    case "DSti":
+                    <th>СТИ</th>
+                        break;
+                    case "DM":
+                    <th>DM</th>
+                        break;
+                    case "DR":
+                    <th>DR</th>
+                        break;
+                    case "ProducerCode":
+                    <th>Код дирекции</th>
+                        break;
+                    default:
+                        <th>@col.ColumnName</th>
+                        break;
+                }
+            }
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                @foreach (System.Data.DataColumn col in Model.Columns)
+                {
+                    switch (col.ColumnName)
+                    {
+                        case "BCDate":
+                            DateTime curDate = Convert.ToDateTime(row[col.ColumnName]);
+                            <td>@curDate.ToString("dd/MM/yyyy")</td>
+                            break;
+                        case "BeginTimeText":
+                            string curTime = row[col.ColumnName].ToString().Left(5);
+                            <td>@curTime</td>
+                            break;
+                        case "Title":
+                        <td class="titleCol">@row[col.ColumnName]</td>
+                            break;
+                        case "Bit_Repetition":
+                            if (Convert.ToBoolean(row[col.ColumnName]))
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td><span class="glyphicon glyphicon-ok-circle"></span></td>
+                            }
+
+
+                            break;
+                        default:
+                        <td>@row[col.ColumnName]</td>
+                            break;
+                    }
+
+
+
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

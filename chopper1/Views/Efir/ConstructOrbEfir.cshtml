@@ -155,6 +155,7 @@
 
 }
 
+
 <div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv @classWidth @classXPos" style="@strHeight @strPosY" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
     @if (Model.UseTitle)
     {
@@ -171,4 +172,12 @@
     <div class="info-div" style="@fontSize" draggable="false">
         [@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)
     </div>
+
 </div>
+ <div class="profile-hover">
+    <span>@Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)</span>
+    <br />
+    <span>@Model.Title.Replace("#", "\n").ToUpper()</span>
+    <br />
+    <span>[@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)</span>
+</div>   

@@ -66,9 +66,9 @@
     opacity: 1;    
     overflow:hidden;
     text-align: center;   
-    vertical-align:middle; 
+    
     color: white;
-    line-height:250px;
+    display: inline-block;
 
 
     -webkit-transition: all 0.5s ease-out;
@@ -77,6 +77,21 @@
             transition: all 0.5s ease-out;
 }
 
+.weekNameSpan
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.weekNameContainer
+{
+    position: relative;
+    display: inline-block;
+    border: solid 0 black;
+    line-height:normal;
+    text-align:left;
+    padding-left: 5px;
+}
 
 .tile:hover >#hidden {
   

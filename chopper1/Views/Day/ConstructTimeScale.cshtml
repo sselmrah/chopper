@@ -1,29 +1,42 @@
 ﻿@model int
 @{
+    
     var left = ViewBag.Left;
+    string rulerClass = "";
     if (left)
     {
         <div class="margin-div"></div>
     }
-    
+    if (left)
+    {
+        rulerClass = "rulerDivLeft";
+    }
+    else
+    {
+        rulerClass = "rulerDivRight";
+    }
+
     var startHour = 5;
     var shift = (5 - (Model - 10)) * 2;
 
-    if (Model!=10 & Model>0)
-    { 
+    if (Model != 10 & Model > 0)
+    {
         startHour -= shift;
     }
-    
-    if (startHour<0)
+
+    if (startHour < 0)
     {
         startHour += 24;
     }
-    
-    
+
+
     int curHour;
     string curHourStr;
+
+
 }
-<div class="ruler-div">
+
+<div class=@rulerClass>
     <ul class="ruler-ul">
         @{
             for (int i = 0; i < 27; i++)
@@ -43,9 +56,6 @@
             }
         }
     </ul>
-
-
-
 </div>
 @{
                 if (!left)

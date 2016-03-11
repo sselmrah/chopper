@@ -64,7 +64,9 @@ namespace chopper1.Controllers
 
             Week curWeek = new Week();
             //Experiments
+            
             TVWeekType curTvWeek= new TVWeekType();
+            /*
             try
             {
                 
@@ -81,6 +83,8 @@ namespace chopper1.Controllers
                     
                     curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks)-shift];
                     MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks)-shift;
+
+                    ViewBag.WeekId = (MyStartupClass.getCurrentWeek(weeks) - shift).ToString();
                 }
                 else
                 {
@@ -88,10 +92,12 @@ namespace chopper1.Controllers
                     {
                         curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
                         MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
+                        ViewBag.WeekId = MyStartupClass.getCurrentWeek(weeks).ToString();
                     }
                     else
                     {
                         curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
+                        ViewBag.WeekId = week_num;
                     }
                 }
  
@@ -102,7 +108,11 @@ namespace chopper1.Controllers
             {
 
             }
+            */
 
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
 
             int[] array_channel_codes = new int[1];
             array_channel_codes[0] = 10;
@@ -159,7 +169,8 @@ namespace chopper1.Controllers
                 
             }*/
 
-            var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length-1- chopper1.MyStartupClass.selectedID);
+            //var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length-1- chopper1.MyStartupClass.selectedID);
+                var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length - 1 - curId);
             //var selectList = new SelectList(weeks, "Value", "Text", curId);
             
             ViewData["Weeks1"] = selectList;
@@ -207,8 +218,9 @@ namespace chopper1.Controllers
 
             Week curWeek = new Week();
 
-            TVWeekType curTvWeek= new TVWeekType();
 
+            TVWeekType curTvWeek= new TVWeekType();
+            /*
             //***Adding week selector from index page
             try
             {             
@@ -224,6 +236,8 @@ namespace chopper1.Controllers
 
                     curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks) - shift];
                     MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks) - shift;
+
+                    ViewBag.WeekId = (MyStartupClass.getCurrentWeek(weeks) - shift).ToString();
                 }
                 else
                 {
@@ -231,10 +245,12 @@ namespace chopper1.Controllers
                     {
                         curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
                         MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
+                        ViewBag.WeekId = MyStartupClass.getCurrentWeek(weeks).ToString();
                     }
                     else
                     {
                         curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
+                        ViewBag.WeekId = Convert.ToInt32(week_num).ToString();
                     }
                 }
 
@@ -245,9 +261,11 @@ namespace chopper1.Controllers
             {
 
             }
+            */
 
-
-
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
             
             //Previous version
             //curTvWeek = MyStartupClass.tvWeeks[Convert.ToInt32(week_num)];                
@@ -295,10 +313,11 @@ namespace chopper1.Controllers
 
         [HttpGet]
         //public ActionResult Broadcast(string dateStr="2015-12-17")
-        public ActionResult Broadcast()
+        public ActionResult Broadcast(string bdate = "")
         {
             //Чистим список проверяемых дней
             chopper1.MyStartupClass.variants_to_check.Clear();
+            chopper1.MyStartupClass.days_to_check.Clear();
 
             string dateStr = "";
 
@@ -373,8 +392,11 @@ namespace chopper1.Controllers
             chopper1.MyStartupClass.variants_to_check.Clear();
 
             Week curWeek = new Week();
+
             //Experiments
+            
             TVWeekType curTvWeek = new TVWeekType();
+            /*
             try
             {
 
@@ -391,6 +413,8 @@ namespace chopper1.Controllers
 
                     curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks) - shift];
                     MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks) - shift;
+                    ViewBag.WeekId = (MyStartupClass.tvWeeks.Length-1-MyStartupClass.getCurrentWeek(weeks)+shift).ToString();
+
                 }
                 else
                 {
@@ -400,10 +424,12 @@ namespace chopper1.Controllers
                         //MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
                         curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks)];
                         MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks);
+                        ViewBag.WeekId = (MyStartupClass.tvWeeks.Length-1-MyStartupClass.getCurrentWeek(weeks)).ToString();
                     }
                     else
                     {
                         curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
+                        ViewBag.WeekId = Convert.ToInt32(week_num).ToString();
                     }
                 }
 
@@ -414,7 +440,11 @@ namespace chopper1.Controllers
             {
 
             }
+            */
 
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
 
             List<WeekTVDayType> days = new List<WeekTVDayType>();
             WeekTVDayType chOneDay = new WeekTVDayType();
@@ -446,7 +476,11 @@ namespace chopper1.Controllers
             curWeek.InjectFrom(curTvWeek);
             curWeek.DaysCount = daysOfWeek.Count()/5;            
             curWeek.Days = daysOfWeek;
-            ViewData["daysCount"]= daysOfWeek.Count();                                                           
+            ViewData["daysCount"]= daysOfWeek.Count();
+            ViewBag.reportType = "orbity";
+            
+            
+        
             return View(curWeek);
 
         }
@@ -547,7 +581,62 @@ namespace chopper1.Controllers
                 }
                 else
                 {
-                    dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;
+                    dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;                                       
+                    //dayToUpdateRef = getTVDayReftoUpdate(chopper1.MyStartupClass.variants_to_update[0].TVDayRef);
+                    
+
+                    //Довольно странная версия проверки времени рендера
+                    //Сейчас после нахождения хотя бы одного дня для обновления
+                    //всем остальным присваивается текущее время для того, чтобы потом
+                    //минимальное время было не меньше текущего
+                    //***Нужно бы переделать, хотя работает***
+                    if (chopper1.MyStartupClass.variants_to_update.Count() > 0)
+                    {                        
+                        foreach (Day day in chopper1.MyStartupClass.days_to_check)
+                        {
+                            day.RenderTime = curWc.GetCurrentTime();
+                        }
+                        chopper1.MyStartupClass.variants_to_update.RemoveAt(0);
+                    }
+                }
+            }
+            
+            var y = "data: "+dayToUpdateRef+"\n\n";            
+            return Content(y, "text/event-stream");
+        }
+        public ActionResult CheckDaysOrb()
+        {
+            //List<TVDayVariantT> variants = new List<TVDayVariantT>();
+            TVDayVariantT curVariant = new TVDayVariantT();
+            DateTime curDate = DateTime.Now + TimeSpan.FromDays(1);
+            foreach (Day day in chopper1.MyStartupClass.days_to_check)
+            {
+                //curVariant.TVDayRef = day.TVDayRef;
+                //curVariant.VariantNumber = day.VariantKod;
+                //variants.Add(curVariant);
+                if (curDate > day.RenderTime)
+                {
+                    curDate = day.RenderTime;
+                }
+            }
+
+            //TVDayVariantT[] t = variants.ToArray();            
+            string dayToUpdateRef = "";
+
+            TVDayVariantT[] rez = curWc.CheckVariants(chopper1.MyStartupClass.variants_to_check.ToArray(), curDate);
+            //DateTime curTime = curWc.GetCurrentTime();
+            //int testCount = rez.Count();
+
+            if (rez.Count() > 0)
+            {
+                if (chopper1.MyStartupClass.variants_to_update.Count() == 0)
+                {
+                    chopper1.MyStartupClass.variants_to_update = rez.ToList();
+                }
+                else
+                {
+                    //dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;                                       
+                    dayToUpdateRef = getTVDayReftoUpdate(chopper1.MyStartupClass.variants_to_update[0].TVDayRef);
                     chopper1.MyStartupClass.variants_to_update.RemoveAt(0);
 
                     //Довольно странная версия проверки времени рендера
@@ -564,10 +653,11 @@ namespace chopper1.Controllers
                     }
                 }
             }
-            
-            var y = "data: "+dayToUpdateRef+"\n\n";            
+
+            var y = "data: " + dayToUpdateRef + "\n\n";
             return Content(y, "text/event-stream");
         }
+       
 
         [HttpPost]
         public ActionResult UpdateDayStolby()
@@ -649,6 +739,71 @@ namespace chopper1.Controllers
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
         }
+
+
+        public static string getWeekNum(string week_num)
+        {
+            string weekNum = "";
+
+            try
+            {
+                if (week_num.Left(3) == "cur")
+                {
+                    int shift = 0;                    
+                    shift = Convert.ToInt32(week_num.Right(week_num.Length - 3));
+                    weekNum = (MyStartupClass.tvWeeks.Length - 1 - MyStartupClass.getCurrentWeek(MyStartupClass.tvWeeks) + shift).ToString();
+
+                }
+                else
+                {
+                    if (week_num == "")
+                    {
+                        weekNum = (MyStartupClass.tvWeeks.Length - 1 - MyStartupClass.getCurrentWeek(MyStartupClass.tvWeeks)).ToString();
+                    }
+                    else
+                    {                     
+                        weekNum = Convert.ToInt32(week_num).ToString();
+                    }
+                }                
+            }
+            catch
+            {
+
+            }
+
+            return weekNum;
+        }
+
+        public static string getTVDayReftoUpdate(string curRef="")
+        {
+            string tvDayRef = "";
+            DateTime curDate = DateTime.Now;
+            //Определяем дату по референсу дня
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef==curRef)
+                {
+                    curDate = d.TVDate;
+                    break;
+                }
+            }
+            //Получаем референс дня для ПК
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDate == curDate)
+                {
+                    if (d.KanalKod==10)
+                    {
+                        tvDayRef = d.TVDayRef;
+                        break;
+                    }
+                }
+            }
+
+            return tvDayRef;
+        }
+
+        
 
     }
 }

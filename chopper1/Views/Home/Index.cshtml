@@ -6,17 +6,37 @@
     day = day.Substring(0, 1).ToUpper() + day.Substring(1);
 
     string prevprevWeek = "";
+    string prevprevWeek1 = "";
+    string prevprevWeek2 = "";
     string prevWeek = "";
+    string prevWeek1 = "";
+    string prevWeek2 = "";
     string curWeek = "";
+    string curWeek1 = "";
+    string curWeek2 = "";
     string nextWeek = "";
+    string nextWeek1 = "";
+    string nextWeek2 = "";
     string nextnextWeek = "";
+    string nextnextWeek1 = "";
+    string nextnextWeek2 = "";
 
     var curDay = DateTime.Today - TimeSpan.FromDays(Convert.ToDouble(DateTime.Today.DayOfWeek - 1));
     curWeek = curDay.ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
+    curWeek1 = curDay.ToString("dd/MM/yyyy") + " -";
+    curWeek2 = (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
     nextWeek = (curDay + TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6 + 7)).ToString("dd/MM/yyyy");
+    nextWeek1 = (curDay + TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " -";
+    nextWeek2 = (curDay + TimeSpan.FromDays(6 + 7)).ToString("dd/MM/yyyy");
     nextnextWeek = (curDay + TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6 + 7 + 7)).ToString("dd/MM/yyyy");
+    nextnextWeek1 = (curDay + TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " -";
+    nextnextWeek2 = (curDay + TimeSpan.FromDays(6 + 7 + 7)).ToString("dd/MM/yyyy");
     prevWeek = (curDay - TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " - " + (curDay - TimeSpan.FromDays(6 + 7)).ToString("dd/MM/yyyy");
+    prevWeek1 = (curDay - TimeSpan.FromDays(7)).ToString("dd/MM/yyyy") + " -";
+    prevWeek2 = (curDay - TimeSpan.FromDays(7 - 6)).ToString("dd/MM/yyyy");
     prevprevWeek = (curDay - TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " - " + (curDay - TimeSpan.FromDays(6 + 7 + 7)).ToString("dd/MM/yyyy");
+    prevprevWeek1 = (curDay - TimeSpan.FromDays(7 + 7)).ToString("dd/MM/yyyy") + " -";
+    prevprevWeek2 = (curDay - TimeSpan.FromDays(7 + 7 - 6)).ToString("dd/MM/yyyy");
 
 }
 @*
@@ -51,10 +71,9 @@
     @Scripts.Render("~/bundles/modernizr")
     @*@Scripts.Render("~/Scripts/JavaScript1.js")*@
 
-
 </head>
-<body id="mb">
 
+<body id="mb">
     <div class="headerPanel">
         @day, @DateTime.Today.Date.ToString("dd/MM/yyyy")
     </div>
@@ -68,7 +87,10 @@
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevprevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevprevWeek1</span>
+                        <span class="weekNameSpan">@prevprevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -77,7 +99,10 @@
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevWeek1</span>
+                        <span class="weekNameSpan">@prevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -86,7 +111,10 @@
                 <span id="vis" class="glyphicon glyphicon-play"></span>
 
                 <div id="hidden">
-                    <p>@curWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@curWeek1</span>                        
+                        <span class="weekNameSpan">@curWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -94,15 +122,23 @@
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
-                    <p>@nextWeek</p>
+                    <div class="weekNameContainer">
+                        <div class="weekNameContainer">
+                            <span class="weekNameSpan">@nextWeek1</span>
+                            <span class="weekNameSpan">@nextWeek2</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur2" }, null)">
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
-                <div id="hidden">
-                    <p>@nextnextWeek</p>
+                <div id="hidden">                    
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextnextWeek1</span>
+                        <span class="weekNameSpan">@nextnextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -119,7 +155,10 @@
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevprevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevprevWeek1</span>
+                        <span class="weekNameSpan">@prevprevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -128,7 +167,10 @@
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevWeek1</span>
+                        <span class="weekNameSpan">@prevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -137,7 +179,10 @@
                 <span id="vis" class="glyphicon glyphicon-play"></span>
 
                 <div id="hidden">
-                    <p>@curWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@curWeek1</span>
+                        <span class="weekNameSpan">@curWeek2</span>
+                    </div>
                 </div>
 
             </div>
@@ -146,7 +191,10 @@
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
-                    <p>@nextWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextWeek1</span>
+                        <span class="weekNameSpan">@nextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -154,12 +202,14 @@
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
-                    <p>@nextnextWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextnextWeek1</span>
+                        <span class="weekNameSpan">@nextnextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
-        <div class="col-md-4 tile">
-            
+        <div class="col-md-4 tile">            
             @{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = "15", repType = "orbity" });}
         </div>
     </div>
@@ -172,7 +222,10 @@
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevprevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevprevWeek1</span>
+                        <span class="weekNameSpan">@prevprevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -181,7 +234,10 @@
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevWeek1</span>
+                        <span class="weekNameSpan">@prevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -189,7 +245,10 @@
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
                 <div id="hidden">
-                    <p>@curWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@curWeek1</span>
+                        <span class="weekNameSpan">@curWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -197,7 +256,10 @@
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
-                    <p>@nextWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextWeek1</span>
+                        <span class="weekNameSpan">@nextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -205,7 +267,10 @@
             <div class="col-md-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
-                    <p>@nextnextWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextnextWeek1</span>
+                        <span class="weekNameSpan">@nextnextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -222,7 +287,10 @@
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevprevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevprevWeek1</span>
+                        <span class="weekNameSpan">@prevprevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -231,7 +299,10 @@
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
-                    <p>@prevWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@prevWeek1</span>
+                        <span class="weekNameSpan">@prevWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -239,7 +310,10 @@
             <div class="col-md-1 tile na bottom">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
                 <div id="hidden">
-                    <p>@curWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@curWeek1</span>
+                        <span class="weekNameSpan">@curWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -247,7 +321,10 @@
             <div class="col-md-1 tile na bottom">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
-                    <p>@nextWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextWeek1</span>
+                        <span class="weekNameSpan">@nextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>
@@ -255,7 +332,10 @@
             <div class="col-md-1 tile na bottom">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
-                    <p>@nextnextWeek</p>
+                    <div class="weekNameContainer">
+                        <span class="weekNameSpan">@nextnextWeek1</span>
+                        <span class="weekNameSpan">@nextnextWeek2</span>
+                    </div>
                 </div>
             </div>
         </a>

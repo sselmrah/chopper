@@ -2,90 +2,90 @@
 
    
 
-
-<div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "stolby" });}</div>
-<p id="messages"></p>
-
-@*
-    <div>
-        @Html.DisplayFor(model => model.DaysCount)
-    </div> 
-*@
-<div class="row">
-    @{
-        for (int day = 0; day < Model.DaysCount; day++)
-        {
-            System.Globalization.CultureInfo russian = new System.Globalization.CultureInfo("ru-RU");
-            string dowRus = Model.Days[day*5].TVDate.Date.ToString("dddd", russian);
-            dowRus = char.ToUpper(dowRus[0]) + dowRus.Substring(1);
-            <div id="dow@(day*5)" class="stolbyDow">@dowRus, @Model.Days[day*5].TVDate.Date.ToString("dd MMMM yyyy") года</div>
-            <div class="stolbyDay">
-                @{
-            int curDayNum;
-            for (int chCode = 0; chCode <= 4; chCode++)
-            {
-                curDayNum = day * 5 + chCode;
-                string chCaption = "Первый канал (Орбита " + chCode.ToString() + ")";
-
-                if (Model.Days[curDayNum] != null)
-                {
-                    Html.RenderAction("StolbyDay", "Day", Model.Days[curDayNum]);
-                }
-                else
-                {
-                    <div class="stolbyChannel">
-                        <div class="stolbyChannelCaption">
-                            @chCaption
-                        </div>
-                        <table class="stolbyEfirTable"></table>
-                    </div>
-                }
-            }
-                }
-            </div>
-        
-        }     
-    }
+<div class="weekPickerContainer">
+    <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "stolby" });}</div>
 </div>
+    <p id="messages"></p>
+    <div></div>
+    @*
+        <div>
+            @Html.DisplayFor(model => model.DaysCount)
+        </div>
+    *@
+    <div class="row">
+        @{
+            for (int day = 0; day < Model.DaysCount; day++)
+            {
+                System.Globalization.CultureInfo russian = new System.Globalization.CultureInfo("ru-RU");
+                string dowRus = Model.Days[day * 5].TVDate.Date.ToString("dddd", russian);
+                dowRus = char.ToUpper(dowRus[0]) + dowRus.Substring(1);
+                <div id="dow@(day*5)" class="stolbyDow">@dowRus, @Model.Days[day * 5].TVDate.Date.ToString("dd MMMM yyyy") года</div>
+                <div class="stolbyDay">
+                    @{
+                int curDayNum;
+                for (int chCode = 0; chCode <= 4; chCode++)
+                {
+                    curDayNum = day * 5 + chCode;
+                    string chCaption = "Первый канал (Орбита " + chCode.ToString() + ")";
 
-
-<script>
-
-    document.addEventListener("DOMContentLoaded", function a() {
-        var source = new EventSource('checkdays');
-        var myP = document.getElementById("messages");
-        
-        source.onmessage = function (event) {
-            var result = event.data;
-            @*myP.innerHTML += result;*@
-            @*If result not empty - call actionresult to redraw a day*@
-            if (result != "") {
-                var xmlhttp;
-                xmlhttp = new XMLHttpRequest();
-
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                        if (xmlhttp.status == 200) {
-                            document.getElementById(result).innerHTML = xmlhttp.responseText;
-                        }
-                        else if (xmlhttp.status == 400) {
-                            alert('There was an error 400')
-                        }
-                        else {
-                            alert('something else other than 200 was returned')
-                        }
+                    if (Model.Days[curDayNum] != null)
+                    {
+                        Html.RenderAction("StolbyDay", "Day", Model.Days[curDayNum]);
+                    }
+                    else
+                    {
+                        <div class="stolbyChannel">
+                            <div class="stolbyChannelCaption">
+                                @chCaption
+                            </div>
+                            <table class="stolbyEfirTable"></table>
+                        </div>
                     }
                 }
-                xmlhttp.open("POST", "UpdateDayStolby", true);
-                xmlhttp.setRequestHeader("dayID", result);
-                xmlhttp.send(result);
+                    }
+                </div>
+
             }
+        }
+    </div>
 
-        };
-        source.onerror = function (e) {          
-            console.log('error-error-error');
-        };
-        
-    });
+    <script>
 
-</script>
+        document.addEventListener("DOMContentLoaded", function a() {
+            var source = new EventSource('checkdays');
+            var myP = document.getElementById("messages");
+
+            source.onmessage = function (event) {
+                var result = event.data;
+                @*myP.innerHTML += result;*@
+                @*If result not empty - call actionresult to redraw a day*@
+                if (result != "") {
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                            if (xmlhttp.status == 200) {
+                                document.getElementById(result).innerHTML = xmlhttp.responseText;
+                            }
+                            else if (xmlhttp.status == 400) {
+                                alert('There was an error 400')
+                            }
+                            else {
+                                alert('something else other than 200 was returned')
+                            }
+                        }
+                    }
+                    xmlhttp.open("POST", "UpdateDayStolby", true);
+                    xmlhttp.setRequestHeader("dayID", result);
+                    xmlhttp.send(result);
+                }
+
+            };
+            source.onerror = function (e) {
+                console.log('error-error-error');
+            };
+
+        });
+
+    </script>

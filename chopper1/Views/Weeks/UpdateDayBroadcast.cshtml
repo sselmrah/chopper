@@ -45,7 +45,7 @@
             </div>
         *@
 
-        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt });
+        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = Model.KanalKod, useTitle = true });
 
     }
 

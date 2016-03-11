@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PlanCatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TCBCList4Themes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChannelCode" Type="smallint" />
+          <Property Name="BCDate" Type="datetime" />
+          <Property Name="ProducerCode" Type="smallint" />
+          <Property Name="SellerCode" Type="smallint" />
+          <Property Name="BeginHours" Type="tinyint" />
+          <Property Name="BeginMinutes" Type="tinyint" />
+          <Property Name="BeginSeconds" Type="tinyint" />
+          <Property Name="BeginTime" Type="int" />
+          <Property Name="DaysCount" Type="tinyint" />
+          <Property Name="TimingHours" Type="tinyint" Nullable="false" />
+          <Property Name="TimingMinutes" Type="tinyint" Nullable="false" />
+          <Property Name="TimingSeconds" Type="tinyint" Nullable="false" />
+          <Property Name="Timing" Type="int" />
+          <Property Name="Title" Type="varchar" MaxLength="512" />
+          <Property Name="Contents" Type="varchar" MaxLength="512" />
+          <Property Name="Wildcard" Type="varchar" MaxLength="128" />
+          <Property Name="AutorRights" Type="varchar" MaxLength="100" />
+          <Property Name="MainID" Type="int" />
+          <Property Name="PremiereDate" Type="datetime" />
+          <Property Name="Bit_Repetition" Type="bit" />
+          <Property Name="TimingFrames" Type="int" />
+          <Property Name="BeginFrames" Type="int" />
+          <Property Name="RR" Type="float" />
+          <Property Name="RM" Type="float" />
+          <Property Name="DR" Type="float" />
+          <Property Name="DM" Type="float" />
+          <Property Name="BeginTimeText" Type="varchar" MaxLength="8" />
+          <Property Name="TimingText" Type="varchar" MaxLength="8" />
+          <Property Name="report" Type="bit" Nullable="false" />
+          <Property Name="PremiereText" Type="varchar" MaxLength="50" />
+          <Property Name="CelebrationText" Type="varchar" MaxLength="50" />
+          <Property Name="CycleTitle" Type="varchar" MaxLength="50" />
+          <Property Name="archiv" Type="bit" Nullable="false" />
+          <Property Name="CelebrationDay" Type="bit" Nullable="false" />
+          <Property Name="NormedBegin" Type="int" />
+          <Property Name="DSTI" Type="float" />
+          <Property Name="IsForeign" Type="int" Nullable="false" />
+          <Property Name="RRstr" Type="varchar" MaxLength="50" />
+          <Property Name="RMstr" Type="varchar" MaxLength="50" />
+          <Property Name="DRstr" Type="varchar" MaxLength="50" />
+          <Property Name="DMstr" Type="varchar" MaxLength="50" />
+          <Property Name="DSTIstr" Type="varchar" MaxLength="50" />
+          <Property Name="AgeLimit" Type="int" />
+        </EntityType>
+        <EntityContainer Name="PlanCatModelStoreContainer">
+          <EntitySet Name="TCBCList4Themes" EntityType="Self.TCBCList4Themes" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PlanCatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TCBCList4Themes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelCode" Type="Int16" />
+          <Property Name="BCDate" Type="DateTime" Precision="3" />
+          <Property Name="ProducerCode" Type="Int16" />
+          <Property Name="SellerCode" Type="Int16" />
+          <Property Name="BeginHours" Type="Byte" />
+          <Property Name="BeginMinutes" Type="Byte" />
+          <Property Name="BeginSeconds" Type="Byte" />
+          <Property Name="BeginTime" Type="Int32" />
+          <Property Name="DaysCount" Type="Byte" />
+          <Property Name="TimingHours" Type="Byte" Nullable="false" />
+          <Property Name="TimingMinutes" Type="Byte" Nullable="false" />
+          <Property Name="TimingSeconds" Type="Byte" Nullable="false" />
+          <Property Name="Timing" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Contents" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Wildcard" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="AutorRights" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MainID" Type="Int32" />
+          <Property Name="PremiereDate" Type="DateTime" Precision="3" />
+          <Property Name="Bit_Repetition" Type="Boolean" />
+          <Property Name="TimingFrames" Type="Int32" />
+          <Property Name="BeginFrames" Type="Int32" />
+          <Property Name="RR" Type="Double" />
+          <Property Name="RM" Type="Double" />
+          <Property Name="DR" Type="Double" />
+          <Property Name="DM" Type="Double" />
+          <Property Name="BeginTimeText" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="TimingText" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="report" Type="Boolean" Nullable="false" />
+          <Property Name="PremiereText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CelebrationText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CycleTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="archiv" Type="Boolean" Nullable="false" />
+          <Property Name="CelebrationDay" Type="Boolean" Nullable="false" />
+          <Property Name="NormedBegin" Type="Int32" />
+          <Property Name="DSTI" Type="Double" />
+          <Property Name="IsForeign" Type="Int32" Nullable="false" />
+          <Property Name="RRstr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RMstr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DRstr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DMstr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DSTIstr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgeLimit" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="PlanCatEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TCBCList4Themes" EntityType="Self.TCBCList4Themes" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PlanCatModelStoreContainer" CdmEntityContainer="PlanCatEntities">
+          <EntitySetMapping Name="TCBCList4Themes">
+            <EntityTypeMapping TypeName="PlanCatModel.TCBCList4Themes">
+              <MappingFragment StoreEntitySet="TCBCList4Themes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ChannelCode" ColumnName="ChannelCode" />
+                <ScalarProperty Name="BCDate" ColumnName="BCDate" />
+                <ScalarProperty Name="ProducerCode" ColumnName="ProducerCode" />
+                <ScalarProperty Name="SellerCode" ColumnName="SellerCode" />
+                <ScalarProperty Name="BeginHours" ColumnName="BeginHours" />
+                <ScalarProperty Name="BeginMinutes" ColumnName="BeginMinutes" />
+                <ScalarProperty Name="BeginSeconds" ColumnName="BeginSeconds" />
+                <ScalarProperty Name="BeginTime" ColumnName="BeginTime" />
+                <ScalarProperty Name="DaysCount" ColumnName="DaysCount" />
+                <ScalarProperty Name="TimingHours" ColumnName="TimingHours" />
+                <ScalarProperty Name="TimingMinutes" ColumnName="TimingMinutes" />
+                <ScalarProperty Name="TimingSeconds" ColumnName="TimingSeconds" />
+                <ScalarProperty Name="Timing" ColumnName="Timing" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="Wildcard" ColumnName="Wildcard" />
+                <ScalarProperty Name="AutorRights" ColumnName="AutorRights" />
+                <ScalarProperty Name="MainID" ColumnName="MainID" />
+                <ScalarProperty Name="PremiereDate" ColumnName="PremiereDate" />
+                <ScalarProperty Name="Bit_Repetition" ColumnName="Bit_Repetition" />
+                <ScalarProperty Name="TimingFrames" ColumnName="TimingFrames" />
+                <ScalarProperty Name="BeginFrames" ColumnName="BeginFrames" />
+                <ScalarProperty Name="RR" ColumnName="RR" />
+                <ScalarProperty Name="RM" ColumnName="RM" />
+                <ScalarProperty Name="DR" ColumnName="DR" />
+                <ScalarProperty Name="DM" ColumnName="DM" />
+                <ScalarProperty Name="BeginTimeText" ColumnName="BeginTimeText" />
+                <ScalarProperty Name="TimingText" ColumnName="TimingText" />
+                <ScalarProperty Name="report" ColumnName="report" />
+                <ScalarProperty Name="PremiereText" ColumnName="PremiereText" />
+                <ScalarProperty Name="CelebrationText" ColumnName="CelebrationText" />
+                <ScalarProperty Name="CycleTitle" ColumnName="CycleTitle" />
+                <ScalarProperty Name="archiv" ColumnName="archiv" />
+                <ScalarProperty Name="CelebrationDay" ColumnName="CelebrationDay" />
+                <ScalarProperty Name="NormedBegin" ColumnName="NormedBegin" />
+                <ScalarProperty Name="DSTI" ColumnName="DSTI" />
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="RRstr" ColumnName="RRstr" />
+                <ScalarProperty Name="RMstr" ColumnName="RMstr" />
+                <ScalarProperty Name="DRstr" ColumnName="DRstr" />
+                <ScalarProperty Name="DMstr" ColumnName="DMstr" />
+                <ScalarProperty Name="DSTIstr" ColumnName="DSTIstr" />
+                <ScalarProperty Name="AgeLimit" ColumnName="AgeLimit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

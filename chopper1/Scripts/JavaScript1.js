@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿/*$(function () {
     $(".draggable").draggable();
 
 });
@@ -11,6 +11,24 @@ $(function () {
         }
     })
 });
+*/
+$(document).ready(function () {
+    $('#spinner').hide();
+    console.log("111");
+    $.ajaxSetup({
+        beforeSend: function () {
+            $('#spinner').show()
+        },
+        complete: function () {
+            $('#spinner').hide()
+        },
+        error: function () {
+            $('#spinner').hide()
+        }
+    });
+});
+
+
 
 
 /*$( ".droppable" ).droppable({

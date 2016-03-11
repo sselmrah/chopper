@@ -1,0 +1,362 @@
+﻿@model chopper1.Models.TCBCList4Themes
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TCBCList4Themes</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ChannelCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChannelCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BCDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BCDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProducerCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProducerCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SellerCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SellerCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginMinutes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginMinutes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginSeconds)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginSeconds)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DaysCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaysCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimingHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimingHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimingMinutes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimingMinutes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimingSeconds)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimingSeconds)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contents)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contents)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Wildcard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wildcard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AutorRights)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AutorRights)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MainID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PremiereDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PremiereDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bit_Repetition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bit_Repetition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimingFrames)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimingFrames)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginFrames)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginFrames)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginTimeText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginTimeText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimingText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimingText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.report)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.report)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PremiereText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PremiereText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CelebrationText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CelebrationText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CycleTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CycleTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.archiv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.archiv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CelebrationDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CelebrationDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NormedBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NormedBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DSTI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DSTI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsForeign)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsForeign)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RRstr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RRstr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RMstr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RMstr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DRstr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DRstr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DMstr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMstr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DSTIstr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DSTIstr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AgeLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgeLimit)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
