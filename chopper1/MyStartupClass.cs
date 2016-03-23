@@ -17,6 +17,7 @@ namespace chopper1
         public static List<chopper1.Models.Day> days_to_check = new List<chopper1.Models.Day>();
         public static List<TVDayVariantT> variants_to_check = new List<TVDayVariantT>();
         public static List<TVDayVariantT> variants_to_update = new List<TVDayVariantT>();
+        public static string curCatConnection = "PlanCatConnection";
         public static void Init()
         {
             wc.Credentials = new System.Net.NetworkCredential("mike", "123");
@@ -31,6 +32,7 @@ namespace chopper1
                 wc.Url = "http://tsurface/plan1cw/ws/ws1.1cws";
                 tvWeeks = wc.GetWeeks();
                 selectedID = getWeekInWork(tvWeeks);
+                curCatConnection = "TSurfaceCatConnection";
             }
             tvWeeks.Reverse();
         }

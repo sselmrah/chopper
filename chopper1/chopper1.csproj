@@ -167,6 +167,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\advSearchController.cs" />
     <Compile Include="Controllers\EfirController.cs" />
     <Compile Include="Controllers\DayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -178,6 +179,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\advSearch.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\Efir.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -370,6 +372,8 @@
     <Content Include="Views\PlanCat\Index.cshtml" />
     <Content Include="Views\PlanCat\Browse.cshtml" />
     <Content Include="Views\planCatDb\Search.cshtml" />
+    <Content Include="Views\advSearch\advSearchPanel.cshtml" />
+    <Content Include="Views\advSearch\PerformAdvSearch.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

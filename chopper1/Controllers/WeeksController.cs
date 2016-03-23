@@ -581,23 +581,35 @@ namespace chopper1.Controllers
                 }
                 else
                 {
-                    dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;                                       
+                    dayToUpdateRef = chopper1.MyStartupClass.variants_to_update[0].TVDayRef;
+                    //chopper1.MyStartupClass.variants_to_update.RemoveAt(0);                 
                     //dayToUpdateRef = getTVDayReftoUpdate(chopper1.MyStartupClass.variants_to_update[0].TVDayRef);
-                    
-
+                    /*
+                    for (int i=0;i<chopper1.MyStartupClass.days_to_check.Count();i++)
+                    {
+                        if (chopper1.MyStartupClass.days_to_check[i].TVDayRef == dayToUpdateRef)
+                        {
+                            chopper1.MyStartupClass.days_to_check[i].RenderTime = curWc.GetCurrentTime();
+                        }
+                    }
+                    */
                     //Довольно странная версия проверки времени рендера
                     //Сейчас после нахождения хотя бы одного дня для обновления
                     //всем остальным присваивается текущее время для того, чтобы потом
                     //минимальное время было не меньше текущего
                     //***Нужно бы переделать, хотя работает***
-                    if (chopper1.MyStartupClass.variants_to_update.Count() > 0)
-                    {                        
+                    
+                    
+                    if (chopper1.MyStartupClass.variants_to_update.Count() == 1)
+                    {
+                        DateTime curTime = curWc.GetCurrentTime();
                         foreach (Day day in chopper1.MyStartupClass.days_to_check)
                         {
-                            day.RenderTime = curWc.GetCurrentTime();
-                        }
-                        chopper1.MyStartupClass.variants_to_update.RemoveAt(0);
+                            day.RenderTime = curTime;
+                        }                        
                     }
+                    
+                     
                 }
             }
             
@@ -644,11 +656,12 @@ namespace chopper1.Controllers
                     //всем остальным присваивается текущее время для того, чтобы потом
                     //минимальное время было не меньше текущего
                     //***Нужно бы переделать, хотя работает***
-                    if (chopper1.MyStartupClass.variants_to_update.Count() == 1)
+                    if (chopper1.MyStartupClass.variants_to_update.Count() == 0)
                     {
+                        DateTime curTime = curWc.GetCurrentTime();
                         foreach (Day day in chopper1.MyStartupClass.days_to_check)
                         {
-                            day.RenderTime = curWc.GetCurrentTime();
+                            day.RenderTime = curTime;
                         }
                     }
                 }
@@ -663,8 +676,9 @@ namespace chopper1.Controllers
         public ActionResult UpdateDayStolby()
         {
             string curDayRef= Request["HTTP_DAYID"];
+            chopper1.MyStartupClass.lastNewsStart = 0;
             Day curDay = new Day();          
-                        
+            /*            
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
             {
                 if (d.TVDayRef == curDayRef)
@@ -674,6 +688,33 @@ namespace chopper1.Controllers
                     break;
                 }
             }
+            */
+
+            //Находим день и меняем время отрисовки
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef == curDayRef)
+                {
+                    d.RenderTime = curWc.GetCurrentTime();
+                    curDay = d;
+                    break;
+                }
+            }
+
+            //Находим вариант в списке на обновление и убираем его оттуда
+            int counter = 0;
+            foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_update)
+            {
+                if (v.TVDayRef == curDayRef)
+                {
+                    break;
+                }
+                else
+                {
+                    counter += 1;
+                }
+            }
+            chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
 
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
@@ -684,7 +725,7 @@ namespace chopper1.Controllers
         {
             string curDayRef = Request["HTTP_DAYID"];
             Day curDay = new Day();
-
+            /*
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
             {
                 if (d.TVDayRef == curDayRef)
@@ -694,6 +735,33 @@ namespace chopper1.Controllers
                     break;
                 }
             }
+            */
+            //Находим день и меняем время отрисовки
+            foreach (Day d in chopper1.MyStartupClass.days_to_check)
+            {
+                if (d.TVDayRef == curDayRef)
+                {
+                    d.RenderTime = curWc.GetCurrentTime();
+                    curDay = d;
+                    break;
+                }
+            }
+
+            //Находим вариант в списке на обновление и убираем его оттуда
+            int counter = 0;
+            foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_update)
+            {
+                if (v.TVDayRef == curDayRef)
+                {
+                    break;
+                }
+                else
+                {
+                    counter += 1;
+                }
+            }
+            chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
+
 
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
@@ -726,6 +794,7 @@ namespace chopper1.Controllers
             string curDayRef = Request["HTTP_DAYID"];
             Day curDay = new Day();
 
+            //Находим день и меняем время отрисовки
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
             {
                 if (d.TVDayRef == curDayRef)
@@ -735,6 +804,21 @@ namespace chopper1.Controllers
                     break;
                 }
             }
+
+            //Находим вариант в списке на обновление и убираем его оттуда
+            int counter = 0;
+            foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_update)
+            {
+                if (v.TVDayRef == curDayRef)
+                {
+                    break;
+                }
+                else
+                {
+                    counter += 1;
+                }
+            }
+            chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
 
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);

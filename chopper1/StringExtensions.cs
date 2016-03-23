@@ -9,7 +9,7 @@ namespace chopper1
     {
         public static string Left(this string s, int left)
         {
-            if (s.Length >= left)
+            if (s.Length >= left & left>0)
             {
                 return s.Substring(0, left);
             }
@@ -21,7 +21,7 @@ namespace chopper1
         }
         public static string Right(this string s, int right)
         {
-            if (s.Length >= right)
+            if (s.Length >= right & right > 0)
             {
                 return s.Substring(s.Length - right, right);
             }

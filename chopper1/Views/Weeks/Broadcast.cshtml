@@ -14,7 +14,7 @@
     </fieldset>
 }
 
-<p id="messages"></p>
+<p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
 
 <div class="row week_bg">
 
@@ -40,38 +40,47 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function a() {
-        var source = new EventSource('checkdays');
-        var myP = document.getElementById("messages");
+        try {
+            var source = new EventSource('checkdays');
+            var myP = document.getElementById("messages");
 
-        source.onmessage = function (event) {
-            var result = event.data;
-            @*myP.innerHTML += result;*@
-            @*If result not empty - call actionresult to redraw a day*@
-            if (result != "") {
-                var xmlhttp;
-                xmlhttp = new XMLHttpRequest();
+            source.onmessage = function (event) {
+                var result = event.data;
+                @*myP.innerHTML += result;*@
+                @*If result not empty - call actionresult to redraw a day*@
+                if (result != "") {
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
 
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                        if (xmlhttp.status == 200) {
-                            document.getElementById(result).innerHTML = xmlhttp.responseText;
-                        }
-                        else if (xmlhttp.status == 400) {
-                            alert('There was an error 400')
-                        }
-                        else {
-                            alert('something else other than 200 was returned')
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                            console.log(result);
+                            if (xmlhttp.status == 200) {
+                                document.getElementById(result).innerHTML = xmlhttp.responseText;
+                                document.getElementById("timestampDiv").innerHTML = getTimeStamp();                                
+                            }
+                            else if (xmlhttp.status == 400) {
+                                @*alert('There was an error 400')*@
+                                console.log(xmlhttp.statusText);
+                            }
+                            else {
+                                @*alert('something else other than 200 was returned')*@
+                                console.log(xmlhttp.statusText);
+                            }
                         }
                     }
+                    xmlhttp.open("POST", "UpdateDayBroadcast", true);
+                    xmlhttp.setRequestHeader("dayID", result);
+                    xmlhttp.send(result);
                 }
-                xmlhttp.open("POST", "UpdateDayBroadcast", true);
-                xmlhttp.setRequestHeader("dayID", result);
-                xmlhttp.send(result);
-            }
 
-        };
-        source.onerror = function (e) {
-            console.log('error-error-error');
+            };
+        }
+        catch (err)
+        {
+            console.log(err.message)
+        }
+        source.onerror = function (e) {            
         };
 
     });

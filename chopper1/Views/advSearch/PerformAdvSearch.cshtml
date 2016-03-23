@@ -1,0 +1,139 @@
+﻿@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Search";
+    int counter = 1;
+}
+
+<div style="float:left"><h2 style="float:left">Результаты поиска по запросу: "@ViewBag.stitle"</h2></div>
+<div id="advSearchExpand">
+    <a href="#advSearchHidden">
+        <span class="glyphicon glyphicon-download"></span>
+    </a>
+</div>
+
+@{Html.RenderAction("advSearchPanel", "advSearch", new { title = ViewBag.stitle });}
+
+
+@if (Model.Columns.Count > 0)
+{
+    <table id="searchResultTable">
+        <thead>
+            <tr>
+                <th>#</th>
+
+                @foreach (System.Data.DataColumn col in Model.Columns)
+                {
+                    switch (col.ColumnName)
+                    {
+                        case "strDate":
+                            <th>Дата</th>
+                            break;
+                        case "DoW":
+                        <th>День</th>
+                            break;
+                        case "BeginTimeText":
+                        <th>Время</th>
+                            break;
+                        case "TimingText":
+                        <th>Хрон.</th>
+                            break;
+                        case "Title":
+                        <th class="titleCol">Название</th>
+                            break;
+                        case "Bit_Repetition":
+                        <th>Повтор</th>
+                            break;
+                        case "DSti":
+                        <th>СТИ</th>
+                            break;
+                        case "DM":
+                        <th>DM</th>
+                            break;
+                        case "DR":
+                        <th>DR</th>
+                            break;
+                        case "ProducerCode":
+                        <th>Дирекция</th>
+                            break;
+                        default:
+                        <th>@col.ColumnName</th>
+                            break;
+                    }
+                }
+            </tr>
+
+        </thead>
+        <tbody>
+
+            @foreach (System.Data.DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@counter</td>
+                    @{counter += 1;}
+                    @foreach (System.Data.DataColumn col in Model.Columns)
+                    {
+                        switch (col.ColumnName)
+                        {
+                            case "BCDate":
+                                DateTime curDate = Convert.ToDateTime(row[col.ColumnName]);
+                                <td>@curDate.ToString("dd/MM/yyyy")</td>
+                                break;
+                            case "BeginTimeText":
+                                string curTime = row[col.ColumnName].ToString().Left(5);
+                                <td>@curTime</td>
+                                break;
+                            case "Title":
+                            <td class="titleCol">@row[col.ColumnName]</td>
+                                break;
+                            case "Bit_Repetition":
+                                if (Convert.ToBoolean(row[col.ColumnName]))
+                                {
+                                    <td><span class="glyphicon glyphicon-ok-circle"></span></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                break;
+                            case "DoW":
+                                switch (row[col.ColumnName].ToString())
+                                {
+                                    case "Monday":
+                                        <td>Пн</td>
+                                        break;
+                                    case "Tuesday":
+                                    <td>Вт</td>
+                                        break;
+                                    case "Wednesday":
+                                    <td>Ср</td>
+                                        break;
+                                    case "Thursday":
+                                    <td>Чт</td>
+                                        break;
+                                    case "Friday":
+                                    <td>Пт</td>
+                                        break;
+                                    case "Saturday":
+                                    <td>Сб</td>
+                                        break;
+                                    case "Sunday":
+                                    <td>Вс</td>
+                                        break;
+                                }
+                                break;
+                            default:
+                            <td>@row[col.ColumnName]</td>
+                                break;
+                        }
+
+
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

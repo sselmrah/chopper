@@ -18,7 +18,7 @@ namespace chopper1.Controllers
 
         public ActionResult Index()
         {
-            bool i = planDb.Open();
+            bool i = planDb.Open(MyStartupClass.curCatConnection);
             /*
             if (i)
             {
@@ -39,10 +39,15 @@ namespace chopper1.Controllers
         public ActionResult Search(string title="заговор диетологов")
         {
             title = Request.Form["catSearchTb"].ToString();
-            bool i = planDb.Open();
+            bool i = planDb.Open(MyStartupClass.curCatConnection);
             DataTable dt = planDb.getDataTest2(title);
+            ViewBag.stitle = title;
             return View(dt);
         }
+
+
+
+
     }
 
  

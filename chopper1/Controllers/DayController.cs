@@ -52,7 +52,7 @@ namespace chopper1.Controllers
                 newDay.FullCap += "\n";
             }
             newDay.FullCap += curWc.GetVarTVDayParam(newDay.TVDate, newDay.KanalKod, newDay.VariantKod).MemoryDates;
-            
+            newDay.FullCap.Replace("#", "\n");
 
             //Добавляем день в список для проверки
             if (newDay.Efirs.Count() > 0)
@@ -133,6 +133,16 @@ namespace chopper1.Controllers
                 newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
                 newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
 
+                //Собираем шапку дня из Cap и MemoryDates
+                newDay.FullCap += curDay.Cap;
+                if (newDay.FullCap.Length > 0)
+                {
+                    newDay.FullCap += "\n";
+                }
+                newDay.FullCap += curWc.GetVarTVDayParam(newDay.TVDate, newDay.KanalKod, newDay.VariantKod).MemoryDates;
+                newDay.FullCap.Replace("#", "\n");
+            
+
                 if (dt.KanalKod==10)
                 {
                     newDay.OrbEfirs = getOrbEfirsList(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
@@ -187,6 +197,9 @@ namespace chopper1.Controllers
             }
             return PartialView(newDay);
         }
+
+
+
 
         public static Efir[] getOrbEfirsList(DateTime curTVDate, int curKanalKod, int curVariantKod = 1)
         {

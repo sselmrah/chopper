@@ -1,0 +1,92 @@
+﻿@model chopper1.Models.advSearch
+@{Layout = null;}
+<script>
+    document.getElementById('#minDate').datepicker();
+</script>
+
+<div id="advSearchHidden">
+    @using (Html.BeginForm("PerformAdvSearch", "AdvSearch", FormMethod.Post))
+    {
+        <fieldset style="position:relative">
+            <legend>Расширенный поиск</legend>
+            <div class="searchMetaGroup" style="float:left">
+                <div id="asTitle" class="searchGroup" style="float:left">
+                    <div class="asGroupCaption">@Html.Label("Название программы:")</div>
+                    <div class="asField">@Html.TextBoxFor(model => model.Title)</div>
+                </div>
+                <div id="asDate" class="searchGroup" style="clear:left">
+                    <div class="asGroupCaption">@Html.Label("Дата выхода в эфир:")</div>
+                    <div class="sameWidth">
+                        <div class="asCaption" style="float:left">@Html.Label("после  ")</div>
+                        <div class="asField datepicker" style="float:left">@Html.EditorFor(model => model.DateMin, new { @class = "datepicker", @id = "minDate" })</div>
+                    </div>
+                    <div class="sameWidth">
+                        <div class="asCaption" style="float:left">@Html.Label("до  ")</div>
+                        <div class="asField datepicker" style="float:left">@Html.EditorFor(model => model.DateMax, new { @class = "datepicker", @id = "maxDate" })</div>
+                    </div>
+                </div>
+                <div id="asTimeStart" class="searchGroup" style="clear:left">
+                    <div class="asGroupCaption">@Html.Label("Время выхода в эфир:")</div>
+                    <div class="sameWidth">
+                        <div class="asCaption" style="float:left">@Html.Label("после  ")</div>
+                        <div class="asField" style="float:left">@Html.EditorFor(model => model.TimeStartMin, new { @class = "datepicker", @id = "minTime" })</div>
+                    </div>
+                    <div class="sameWidth">
+                        <div class="asCaption" style="float:left">@Html.Label("до  ")</div>
+                        <div class="asField" style="float:left">@Html.EditorFor(model => model.TimeStartMax, new { @class = "datepicker", @id = "maxTime" })</div>
+                    </div>
+                </div>
+                <div id="asTiming" class="searchGroup" style="clear:left">
+                    <div class="asGroupCaption">@Html.Label("Хронометраж:")</div>
+                    <div class="sameWidth">
+                        <div class="asCaption" style="float:left">@Html.Label("более  ")</div>
+                        <div class="asField" style="float:left">@Html.EditorFor(model => model.TimingMin, new { @class = "datepicker", @id = "minTiming" })</div>
+                    </div>
+                    <div class="sameWidth">
+                        <div class="asCaption" style="float:left">@Html.Label("менее  ")</div>
+                        <div class="asField" style="float:left">@Html.EditorFor(model => model.TimingMax, new { @class = "datepicker", @id = "maxTiming" })</div>
+                    </div>
+                </div>
+                <div id="asRepeat" class="searchGroup" style="clear:left">
+                    <div class="asGroupCaption">@Html.Label("Искать:")</div>
+                    <div class="sameWidth">
+                        @Html.CheckBoxFor(model => model.BitOriginal, new { @checked = "checked" })
+                        @Html.Label("Оригинальные выпуски")
+                    </div>
+                    <div class="sameWidth">
+                        @Html.CheckBoxFor(model => model.BitRepetition, new { @checked = "checked" })
+                        @Html.Label("Повторы")
+                    </div>
+                </div>
+            </div>
+            <div class="searchMetaGroup" style="float:left">
+                <div id="asWeekdays" class="searchGroup" style="float:left">
+                    <div class="asGroupCaption">@Html.Label("Дни недели:")</div>
+                    @Html.CheckBoxFor(model => model.Monday, new { @checked = "checked" })
+                    @Html.Label("Пн")
+                    @Html.CheckBoxFor(model => model.Tuesday, new { @checked = "checked" })
+                    @Html.Label("Вт")
+                    @Html.CheckBoxFor(model => model.Wednesday, new { @checked = "checked" })
+                    @Html.Label("Ср")
+                    @Html.CheckBoxFor(model => model.Thursday, new { @checked = "checked" })
+                    @Html.Label("Чт")
+                    @Html.CheckBoxFor(model => model.Friday, new { @checked = "checked" })
+                    @Html.Label("Пт")
+                    @Html.CheckBoxFor(model => model.Saturday, new { @checked = "checked" })
+                    @Html.Label("Сб")
+                    @Html.CheckBoxFor(model => model.Sunday, new { @checked = "checked" })
+                    @Html.Label("Вс")
+                </div>
+                <div id="asProducers" style="clear:left">
+                    <div class="asGroupCaption">@Html.Label("Код дирекции:")</div>
+                    @Html.ListBoxFor(m => m.Producers, new MultiSelectList((List<string>)ViewData["prodList"]), new { id = "prodListBox", style = "display:block;" })
+                </div>
+
+                <div style="clear:left; margin-top:10px">
+                    <input type="submit" value="Найти" />
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+<hr />
