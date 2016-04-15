@@ -18,6 +18,10 @@ namespace chopper1
         public static List<TVDayVariantT> variants_to_check = new List<TVDayVariantT>();
         public static List<TVDayVariantT> variants_to_update = new List<TVDayVariantT>();
         public static string curCatConnection = "PlanCatConnection";
+
+        public static int[] fullChannelCodesArray = new int[] { 10, 11, 12, 13, 14 };
+
+
         public static void Init()
         {
             wc.Credentials = new System.Net.NetworkCredential("mike", "123");
@@ -63,6 +67,21 @@ namespace chopper1
             }
 
             return curWeekId;
+        }
+
+        public static string getWeekRefByDate(DateTime curDate)
+        {
+            string weekRef = "";
+            for (int i = 0; i < tvWeeks.Length; i++)
+            {
+                if (tvWeeks[i].BegDate.Date - curDate.Date <= TimeSpan.FromDays(0))
+                {
+                    weekRef = tvWeeks[i].Ref;
+                    break;
+                }
+            }
+
+            return weekRef;
         }
 
         public static int getOrbNumberByChannelCode(int chCode)

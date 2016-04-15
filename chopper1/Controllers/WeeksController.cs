@@ -168,9 +168,10 @@ namespace chopper1.Controllers
             {
                 
             }*/
-
+            
             //var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length-1- chopper1.MyStartupClass.selectedID);
                 var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length - 1 - curId);
+            
             //var selectList = new SelectList(weeks, "Value", "Text", curId);
             
             ViewData["Weeks1"] = selectList;
@@ -381,6 +382,8 @@ namespace chopper1.Controllers
             //    chopper1.MyStartupClass.days_to_check.Add(weekDay);
             //}
             curWeek.DaysCount = daysToAdd.Count() / 5; //Т.к. каждый день - это ПК+4 орбиты
+
+            
             return View(curWeek);
 
         }
@@ -787,6 +790,7 @@ namespace chopper1.Controllers
             curDay.OrbEfirs = chopper1.Controllers.DayController.getOrbEfirsList(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
         }
+
 
         [HttpPost]
         public ActionResult UpdateDayBroadcast()

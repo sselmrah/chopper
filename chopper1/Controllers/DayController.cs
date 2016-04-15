@@ -52,7 +52,7 @@ namespace chopper1.Controllers
                 newDay.FullCap += "\n";
             }
             newDay.FullCap += curWc.GetVarTVDayParam(newDay.TVDate, newDay.KanalKod, newDay.VariantKod).MemoryDates;
-            newDay.FullCap.Replace("#", "\n");
+            //newDay.FullCap = newDay.FullCap.Replace("#", "\n");
 
             //Добавляем день в список для проверки
             if (newDay.Efirs.Count() > 0)
@@ -64,6 +64,17 @@ namespace chopper1.Controllers
                 curVar.TVDayRef = newDay.TVDayRef;
                 chopper1.MyStartupClass.variants_to_check.Add(curVar);
             }
+            //Пытаемся работать с вариантами
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            var query = new SelectList(curDayVariantsArray);
+            ViewData["VariantKod"] = query;
+
+
             return PartialView(newDay);            
         }
         public ActionResult BroadcastDay(WeekTVDayType curDay)
@@ -77,6 +88,38 @@ namespace chopper1.Controllers
             newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
             newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
 
+            //Пытаемся работать с вариантами
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i=0; i<curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            switch (curDay.KanalKod)
+            {
+                case 10:
+                    newDay.ChOneVariants = curDayVariants;
+                    break;
+                case 11:
+                    newDay.Orb1Variants= curDayVariants;
+                    break;
+                case 12:
+                    newDay.Orb2Variants = curDayVariants;
+                    break;
+                case 13:
+                    newDay.Orb3Variants = curDayVariants;
+                    break;
+                case 14:
+                    newDay.Orb4Variants = curDayVariants;
+                    break;
+            }
+            
+
+            var query = new SelectList(curDayVariantsArray);
+            SelectList selectList = new SelectList(curDayVariants);
+            ViewData["DayVariants"] = query;
+            ViewData["VariantKod"] = query;
+            
 
             //Добавляем день в список для проверки
             newDay.RenderTime = curWc.GetCurrentTime();
@@ -91,6 +134,62 @@ namespace chopper1.Controllers
             return PartialView(newDay);
         }
 
+        public PartialViewResult BroadcastDay_new(Day newDay)
+        {
+
+            //Day newDay = new Day();
+            //DateTime dt = DateTime.Parse(dtStr);
+
+            CultureInfo russian = new CultureInfo("ru-RU");
+            newDay.DoWRus = newDay.TVDate.ToString("dddd", russian);
+            newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+            newDay.Efirs = curWc.GetEfirs(newDay.TVDate.Date, newDay.KanalKod, newDay.VariantKod);
+
+            //Пытаемся работать с вариантами
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(newDay.TVDate.Date, newDay.VariantKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            switch (newDay.VariantKod)
+            {
+                case 10:
+                    newDay.ChOneVariants = curDayVariants;
+                    break;
+                case 11:
+                    newDay.Orb1Variants = curDayVariants;
+                    break;
+                case 12:
+                    newDay.Orb2Variants = curDayVariants;
+                    break;
+                case 13:
+                    newDay.Orb3Variants = curDayVariants;
+                    break;
+                case 14:
+                    newDay.Orb4Variants = curDayVariants;
+                    break;
+            }
+            //var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length - 1 - curId);
+
+            var query = new SelectList(curDayVariantsArray);
+            SelectList selectList = new SelectList(curDayVariants);
+            ViewData["VariantKod"] = query;
+            ViewData["DayVariants"] = query;
+
+
+            //Добавляем день в список для проверки
+            newDay.RenderTime = curWc.GetCurrentTime();
+            if (newDay.KanalKod > 0)
+            {
+                chopper1.MyStartupClass.days_to_check.Add(newDay);
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = newDay.VariantKod;
+                curVar.TVDayRef = newDay.TVDayRef;
+                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+            }
+            return PartialView(newDay);
+        }
         
         public ActionResult ConstructOrbDay(List<WeekTVDayType> curDayList)
         {
@@ -140,7 +239,7 @@ namespace chopper1.Controllers
                     newDay.FullCap += "\n";
                 }
                 newDay.FullCap += curWc.GetVarTVDayParam(newDay.TVDate, newDay.KanalKod, newDay.VariantKod).MemoryDates;
-                newDay.FullCap.Replace("#", "\n");
+                //newDay.FullCap = newDay.FullCap.Replace("#", "<br>");
             
 
                 if (dt.KanalKod==10)
@@ -184,6 +283,11 @@ namespace chopper1.Controllers
             newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
             newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
             newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            //Собираем шапку дня из Cap и MemoryDates
+            newDay.FullCap += curDay.Cap;
+            
+            //newDay.FullCap.Replace("#", "\n");
+
 
             //Добавляем день в список для проверки
             if (newDay.Efirs.Count() > 0)
@@ -195,10 +299,83 @@ namespace chopper1.Controllers
                 curVar.TVDayRef = newDay.TVDayRef;
                 chopper1.MyStartupClass.variants_to_check.Add(curVar);
             }
+            //Пытаемся работать с вариантами
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            var query = new SelectList(curDayVariantsArray);
+            ViewData["VariantKod"] = query;
+
             return PartialView(newDay);
         }
 
+        public ViewResult SelectVariant(SelectList variantList)
+        {
+                                    
+            return View();
+        }
 
+
+        public ViewResult VariantChosen(string VariantKod = "", string curDate = "", string chCode = "", string repType="")
+        {
+
+            int curVariant = Convert.ToInt32(VariantKod.Right(VariantKod.Length - 8));
+            int KanalKod = Convert.ToInt32(chCode);
+            
+            DateTime curDt = DateTime.Parse(curDate);
+            Day newDay = new Day();
+            newDay.Efirs = curWc.GetEfirs(curDt, KanalKod, curVariant);
+            //Пытаемся работать с вариантами
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDt, KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            var query = new SelectList(curDayVariantsArray);                        
+            ViewData["VariantKod"] = query;
+
+
+
+            
+            CultureInfo russian = new CultureInfo("ru-RU");
+            newDay.DoWRus = curDt.ToString("dddd", russian);
+            newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+            newDay.KanalKod = KanalKod;
+            newDay.VariantKod = curVariant;
+            newDay.TVDate = curDt;
+
+            var x = curWc.GetVarTVDayParam(curDt, newDay.KanalKod, newDay.VariantKod);
+            newDay.TVDayRef = x.TVDayRef;
+
+            //Собираем шапку дня из Cap и MemoryDates            
+
+            //Добавляем день в список для проверки
+            if (newDay.Efirs.Count() > 0)
+            {
+                
+                newDay.RenderTime = curWc.GetCurrentTime();
+                chopper1.MyStartupClass.days_to_check.Add(newDay);
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = newDay.VariantKod;
+                curVar.TVDayRef = newDay.TVDayRef;
+
+                //chopper1.MyStartupClass.variants_to_check.Add(curVar);
+            }
+
+
+
+
+            ViewData["curChCode"] = KanalKod.ToString();
+            ViewData["curVariant"] = curVariant.ToString();
+            ViewData["curDt"] = curDt.Date.ToString();
+            ViewData["repType"] = repType;
+            return View(newDay);
+
+        }
 
 
         public static Efir[] getOrbEfirsList(DateTime curTVDate, int curKanalKod, int curVariantKod = 1)

@@ -1,0 +1,160 @@
+﻿@model chopper1.Models.Day
+
+@*{    
+    Layout = null;
+
+    int KanalKod = Convert.ToInt32(ViewData["curChCode"]);
+    int curVariant = Convert.ToInt32(ViewData["curVariant"]);
+    string dt = ViewData["curDt"].ToString();
+    chopper1.Models.Day newDay = new chopper1.Models.Day();
+    newDay.KanalKod = KanalKod;
+    newDay.VariantKod = curVariant;
+    newDay.TVDate = DateTime.Parse(dt);
+    newDay.Efirs = Model.Efirs;
+    
+    Html.Partial("~/Views/Day/BroadcastDay_new.cshtml", newDay);
+    
+}*@
+
+@{
+    Layout = null;
+    var repType = ViewData["repType"];
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
+    DateTime dt = Model.TVDate;
+
+    string chStr = "Орбита ";
+    if (Model.KanalKod == 10)
+    {
+        chStr = "Первый канал";
+    }
+    else
+    {
+        if (Model.KanalKod > 0)
+        {
+            chStr += (Model.KanalKod - 10).ToString();
+        }
+    }
+    if (Model.KanalKod == 14)
+    {
+        chStr += " (HD и SD)";
+    }
+
+    if (repType.ToString() == "broadcast")
+    {
+        <div id="dow@(day_num)" class="dow-div">@chStr</div>
+        <div id="var@(day_num)" class="varCode-div">
+            @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
+            {
+                <fieldset>
+                    @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], new { @onchange = "$(this.form).submit();" })
+                    @Html.Hidden("curDate", Model.TVDate.ToString())
+                    @Html.Hidden("chCode", Model.KanalKod.ToString())
+                </fieldset>
+            }
+        </div>
+        <div id="shapka@(day_num)" class="shapka-div"></div>
+    }
+    if (repType.ToString() == "raskladka")
+    {
+        <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
+        <a href="@Url.Action("Broadcast", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd") }, null)">
+            <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
+        </a>
+        <div id="var@(day_num)" class="varCode-div">
+            @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
+            {
+                <fieldset>
+                    @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], new { @onchange = "$(this.form).submit();" })
+                    @Html.Hidden("curDate", Model.TVDate.ToString())
+                    @Html.Hidden("chCode", Model.KanalKod.ToString())
+                    @Html.Hidden("repType", "raskladka")
+                </fieldset>
+            }
+        </div>
+        <div id="shapka@(day_num)" class="shapka-div">@Html.Raw(Html.Encode(Model.FullCap).Replace("#", "<br />"))</div>
+    }
+    if (repType.ToString() == "stolby")
+    {
+        
+        
+        string chCaption = "Первый канал";
+        if (Model.KanalKod == 10)
+        {
+            chCaption += " (Европейская часть РФ)";
+        }
+        else
+        {
+            if (Model.KanalKod > 0)
+            {
+                chCaption += " (Орбита " + (Model.KanalKod - 10).ToString() + ")";
+            }
+            else
+            {
+                chCaption += " (Орбита )";
+            }
+        }
+        string dayFinalStr = "";
+        if (Model.Efirs.Count() > 0)
+        {
+            dayFinalStr = "До ";
+            dayFinalStr += (Model.Efirs[Model.Efirs.Count() - 1].Beg + TimeSpan.FromSeconds(Model.Efirs[Model.Efirs.Count() - 1].Timing)).ToString("H.mm");
+        }
+        <div class="stolbyChannelCaption">
+            @chCaption
+        </div>
+
+        <div id="var@(day_num)" class="varCode-div">
+            @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
+            {
+                <fieldset>
+                    @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], new { @onchange = "$(this.form).submit();" })
+                    @Html.Hidden("curDate", Model.TVDate.ToString())
+                    @Html.Hidden("chCode", Model.KanalKod.ToString())
+                    @Html.Hidden("repType", "stolby")
+                </fieldset>
+            }
+        </div>
+
+        <div class="stolbyDayCap font-bold">
+            @Model.FullCap
+        </div>
+        <table class="stolbyEfirTable" id="@Model.TVDayRef">
+            @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+            {
+                Html.RenderAction("StolbyEfir", "Efir", new { curEfir = efir, curDay = dt });
+            }
+        </table>
+        <div class="stolbyDayFinal">
+            @dayFinalStr
+        </div>
+        <div class="stolbyDayFoot font-bold">
+            @Model.Foot
+        </div>
+    }
+    if (repType.ToString() != "stolby")
+    {
+        foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+        {
+            if (efir.Timing >= 60 * 2)
+            {
+                Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

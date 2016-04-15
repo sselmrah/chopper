@@ -16,7 +16,7 @@
             <div id="capOrb1" class="orbNameDiv">O1</div>
         </div>
         <div class="orbdowDiv"></div>
-        <div class="shapka-div">@Model.FullCap</div>
+        <div class="shapka-div">@Html.Raw(Html.Encode(Model.FullCap).Replace("#", "<br />"))</div>
 }
 
         @foreach (chopper1.Models.Efir efir in Model.OrbEfirs)

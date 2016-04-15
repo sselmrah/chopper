@@ -64,8 +64,7 @@ namespace chopper1.Controllers
             return Content(y, "text/event-stream");
 
             //return Content(sb.ToString(), "text/event-stream");
-        }        
-
+        }
 
     }
 }

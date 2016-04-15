@@ -337,7 +337,7 @@ namespace chopper1.Models
         public string timingToString(int pureDur, string delimHour = "\\:", string delimMin = "\\:")
         {
             string pureDurStr = "";            
-            if (pureDur > 60 * 60)
+            if (pureDur >= 60 * 60)
             {
                 if (pureDur%60>0)
                 {

@@ -3,8 +3,8 @@
 
 @{
     double position;
-    //100 - Стандартный отступ на шапки
-    position = 100;
+    //120 - Стандартный отступ на шапки
+    position = 120;
     if (Model.IsNextDay)
     {
         position += (Model.Beg.Hour - 5) * 60 + Model.Beg.Minute + 24 * 60;
@@ -43,7 +43,6 @@
         { fontSize = "font-size:" + (Model.FontSize - 1).ToString() + "pt"; }
         else
         { fontSize = "font-size:" + Model.FontSize.ToString() + "pt"; }
-
     }
     string classNews = "";
     string classHighlight = "";
@@ -52,160 +51,35 @@
     if (Model.Bold) { titleClassString += " font-bold"; }
     if (Model.Italic) { titleClassString += " font-italic"; }
     if (Model.Reserv) { classReserv = "reserv"; }
-
-
 }
 
 <div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
-    <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
-        @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
-    </div>
-    @if (Model.UseTitle)
-    {
-        <div class="@titleClassString" style="@fontSize" draggable="false">
-            @Model.Title.Replace("#", "\n").ToUpper()
-        </div>
-    }
-    else
-    {
-        <div class="@titleClassString" style="@fontSize" draggable="false">
-            @Model.ANR.Replace("#", "\n").ToUpper()
-        </div>
-    }
-
-    
-    <div class="info-div" style="@fontSize" draggable="false">
-        [@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)
-    </div>
-
+<div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
+    @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
 </div>
 
-
-
-@*
-    @{
-        double rDur = 0;
-        double aDur = 0;
-
-        double pureDur = Model.Timing;
-        DateTime endTime = Model.Beg;
-
-        //Считаем общий хронометраж рекламы и анонсов
-        if (Model.ITC.Length > 0)
-        {
-            foreach (chopper1.ws1c.ITCType itc in Model.ITC)
-            {
-                if (itc.Title == "Р" || itc.Title == "Р99" || itc.Title == "СР")
-                {
-                    rDur += itc.Timing;
-                }
-                if (itc.Title == "А")
-                {
-                    aDur += itc.Timing;
-                }
-            }
-        }
-
-
-        //Чистый хронометраж
-        pureDur -= rDur;
-        pureDur -= aDur;
-        //Время окончания
-        endTime += TimeSpan.FromSeconds(Model.Timing);
-
-        string str_height = "height:" + (Model.Timing / 60).ToString() + "px;";
-
-        //Делаем две версии полного хронометража
-        string timingStr;
-        if (Model.Timing>60*60)
-        {
-            timingStr = TimeSpan.FromSeconds(Model.Timing).ToString(@"h\:mm");
-        }
-        else
-        {
-            timingStr = TimeSpan.FromSeconds(Model.Timing).ToString(@"mm");
-        }
-
-        //Делаем две версии чистого хронометража
-        string pureDurStr;
-        if (pureDur > 60 * 60)
-        {
-            pureDurStr= TimeSpan.FromSeconds(pureDur).ToString(@"h\:mm");
-        }
-        else
-        {
-            pureDurStr= TimeSpan.FromSeconds(pureDur).ToString(@"mm");
-        }
-
-        //Делаем строку рекламы
-        string rDurStr;
-        if (rDur>0)
-        {
-            if (rDur < 60 || rDur % 60 > 0)
-            {
-                rDurStr = " + " + TimeSpan.FromSeconds(rDur).ToString(@"%m\:%s") + "Р";
-            }
-            else
-            {
-                rDurStr = " + " + TimeSpan.FromSeconds(rDur).ToString(@"%m") + "Р";
-            }
-        }
-        else
-        {
-            rDurStr = "";
-        }
-        //Делаем строку анонсов
-        string aDurStr;
-        if (aDur > 0)
-        {
-            if (aDur<60 || aDur%60>0)
-            {
-                aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m\:%s") + "А";
-            }
-            else
-            {
-                aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m") + "А";
-            }
-        }
-        else
-        {
-            aDurStr = "";
-        }
-    }
-
-    @{
-        string timingClass;
-        string titleClass;
-        string infoClass;
-        if (Model.Timing>30*60)
-        {
-            timingClass = "timing-div xsmall-text";
-            titleClass = "title-div small-text";
-            infoClass = "info-div xsmall-text";
-        }
-        else
-        {
-            timingClass = "timing-div xxsmall-text";
-            titleClass = "smalltitle-div xsmall-text";
-            infoClass = "smallinfo-div xxsmall-text";
-        }
-        double position;
-        position = (Model.Beg.Hour-5)*60+Model.Beg.Minute;
-        string strPos = "top: "+position.ToString()+"px";
-    }
-
-    <div draggable="true" class="prog" style="@str_height @strPos">
-        <div class="@timingClass">
-            @Model.Beg.ToString("H:mm") - @endTime.ToString("H:mm") (@timingStr)
-        </div>
-        <div class="@titleClass">
-            @Model.Title
-        </div>
-        <div class="@infoClass">
-            [@pureDurStr@rDurStr@aDurStr] (@Model.ProducerCode@Model.SellerCode)
-        </div>
-
+@if (Model.UseTitle)
+{
+    <div class="@titleClassString" style="@fontSize" draggable="false">
+        @Model.Title.Replace("#", "\n").ToUpper()
     </div>
+}
+else
+{
+    <div class="@titleClassString" style="@fontSize" draggable="false">
+        @Model.ANR.Replace("#", "\n").ToUpper()
+    </div>
+}
+    
+<div class="info-div" style="@fontSize" draggable="false">
+    [@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)
+</div>
 
-
-*@
+</div>
+<div class="profile-hover">
+    <span>@Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)</span>
+    <br />
+    <span>@Model.Title.Replace("#", "\n").ToUpper()</span>
+    <br />
+    <span>[@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)</span>
+</div>   

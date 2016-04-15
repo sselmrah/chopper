@@ -29,10 +29,23 @@
     
 }
 
-<div class="stolbyChannel">
+<div class="stolbyChannel" id=@Model.TVDayRef>
     <div class="stolbyChannelCaption">
         @chCaption
     </div>
+
+    <div id="var@(day_num)" class="varCode-div">
+        @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
+        {
+            <fieldset>
+                @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], new { @onchange = "$(this.form).submit();" })
+                @Html.Hidden("curDate", Model.TVDate.ToString())
+                @Html.Hidden("chCode", Model.KanalKod.ToString())
+                @Html.Hidden("repType", "stolby")
+            </fieldset>
+        }
+    </div>
+
     <div class="stolbyDayCap font-bold">
         @Model.FullCap
     </div>

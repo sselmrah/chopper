@@ -40,6 +40,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Omu.ValueInjecter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -178,6 +184,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\DayUpdate.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\advSearch.cs" />
     <Compile Include="Models\Day.cs" />
@@ -211,6 +219,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SignalR.Sample\Startup.cs" />
+    <Compile Include="SignalR.Sample\Stock.cs" />
+    <Compile Include="SignalR.Sample\StockTicker.cs" />
+    <Compile Include="SignalR.Sample\StockTickerHub.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="test.cs" />
@@ -298,14 +310,29 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SignalR.Sample\jquery-1.10.2.min.js" />
+    <Content Include="SignalR.Sample\jquery.color-2.1.2.min.js" />
+    <Content Include="SignalR.Sample\SignalR.StockTicker.js" />
+    <Content Include="SignalR.Sample\StockTicker.css" />
+    <Content Include="SignalR.Sample\StockTicker.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -358,7 +385,7 @@
     <Content Include="Views\Weeks\Broadcast.cshtml" />
     <Content Include="Views\Day\BroadcastDay.cshtml" />
     <Content Include="Views\Efir\BroadcastEfir.cshtml" />
-    <Content Include="Views\Weeks\UpdateDayBroadcast.cshtml" />
+    <Content Include="Views\Weeks\UpdateDayBroadcast_websocket.cshtml" />
     <Content Include="Views\Weeks\OrbWeek.cshtml" />
     <Content Include="Views\Day\ConstructOrbDay.cshtml" />
     <Content Include="Views\Efir\ConstructOrbEfir.cshtml" />
@@ -374,6 +401,12 @@
     <Content Include="Views\planCatDb\Search.cshtml" />
     <Content Include="Views\advSearch\advSearchPanel.cshtml" />
     <Content Include="Views\advSearch\PerformAdvSearch.cshtml" />
+    <Content Include="SignalR.Sample\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Weeks\Broadcast_sse.cshtml" />
+    <Content Include="Views\Weeks\UpdateDayBroadcast.cshtml" />
+    <Content Include="Views\Day\SelectVariant.cshtml" />
+    <Content Include="Views\Day\VariantChosen.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

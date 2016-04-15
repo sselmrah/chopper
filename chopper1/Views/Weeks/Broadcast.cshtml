@@ -37,52 +37,73 @@
 </div>
 
 
+@section scripts {
+<script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script>
+    $(function () {
+        var dUpdate = $.connection.DayUpdate;
+        dUpdate.client.addNewMessageToPage = function (dayid, daycontents) {
+            // Add the message to the page.
+            //$('#discussion').append('<li><strong>' + htmlEncode(name)
+            //    + '</strong>: ' + htmlEncode(message) + '</li>');
+            $(dayid).contents(daycontents);
+        };
+        // Start the connection.
+        $.connection.hub.start();
+            });
+</script>
+    }
 
 <script>
-    document.addEventListener("DOMContentLoaded", function a() {
-        try {
-            var source = new EventSource('checkdays');
-            var myP = document.getElementById("messages");
+document.addEventListener("DOMContentLoaded", function a() {
+    try {
+        var source = new EventSource('checkdays');
+        var myP = document.getElementById("messages");
 
-            source.onmessage = function (event) {
-                var result = event.data;
-                @*myP.innerHTML += result;*@
-                @*If result not empty - call actionresult to redraw a day*@
-                if (result != "") {
-                    var xmlhttp;
-                    xmlhttp = new XMLHttpRequest();
+        source.onmessage = function (event) {
+            var result = event.data;
+            @*myP.innerHTML += result;*@
+            @*If result not empty - call actionresult to redraw a day*@
+            if (result != "") {
+                var xmlhttp;
+                xmlhttp = new XMLHttpRequest();
 
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                            console.log(result);
-                            if (xmlhttp.status == 200) {
-                                document.getElementById(result).innerHTML = xmlhttp.responseText;
-                                document.getElementById("timestampDiv").innerHTML = getTimeStamp();                                
-                            }
-                            else if (xmlhttp.status == 400) {
-                                @*alert('There was an error 400')*@
-                                console.log(xmlhttp.statusText);
-                            }
-                            else {
-                                @*alert('something else other than 200 was returned')*@
-                                console.log(xmlhttp.statusText);
-                            }
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                        console.log(result);
+                        if (xmlhttp.status == 200) {
+                            document.getElementById(result).innerHTML = xmlhttp.responseText;
+                            document.getElementById("timestampDiv").innerHTML = getTimeStamp();
+                        }
+                        else if (xmlhttp.status == 400) {
+                            @*alert('There was an error 400')*@
+                            console.log(xmlhttp.statusText);
+                        }
+                        else {
+                            @*alert('something else other than 200 was returned')*@
+                            console.log(xmlhttp.statusText);
                         }
                     }
-                    xmlhttp.open("POST", "UpdateDayBroadcast", true);
-                    xmlhttp.setRequestHeader("dayID", result);
-                    xmlhttp.send(result);
                 }
+                xmlhttp.open("POST", "UpdateDayBroadcast", true);
+                xmlhttp.setRequestHeader("dayID", result);
+                xmlhttp.send(result);
+            }
 
-            };
-        }
-        catch (err)
-        {
-            console.log(err.message)
-        }
-        source.onerror = function (e) {            
         };
+    }
+    catch (err)
+    {
+        console.log(err.message)
+    }
+    source.onerror = function (e) {
+    };
 
-    });
+});
 
 </script>
+
+
+
+
