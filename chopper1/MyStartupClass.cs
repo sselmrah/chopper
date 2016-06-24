@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using chopper1.ws1c;
+using chopper1.Models;
+using System.Web.Mvc;
+
 
 namespace chopper1
 {
@@ -27,8 +30,8 @@ namespace chopper1
             wc.Credentials = new System.Net.NetworkCredential("mike", "123");
             try
             {
-                wc.Url = "http://plan12r/plan1cw/ws/ws1.1cws";
-                tvWeeks = wc.GetWeeks();
+                wc.Url = "http://plan12r/plan1cw/ws/ws1.1cws";                
+                tvWeeks = wc.GetWeeks();                
                 selectedID = getWeekInWork(tvWeeks);
             }
             catch
@@ -40,6 +43,54 @@ namespace chopper1
             }
             tvWeeks.Reverse();
         }
+
+
+        public static SelectList getVariantsSelectList(DateTime dt, int chCode)
+        {
+
+            TVDayVariantType[] curDayVariants = wc.GetDayVariants(dt, chCode);
+            
+
+            if (curDayVariants.Length > 0)
+            {
+                string[] curDayVariantsArray = new string[curDayVariants.Length];
+                for (int i = 0; i < curDayVariants.Length; i++)
+                {                    
+                    curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+                    
+                }
+                var query = new SelectList(curDayVariantsArray);                                        
+                return query;
+            }
+            else
+            {
+                curDayVariants = wc.GetDayVariants(dt, chCode);
+                string[] curDayVariantsArray = new string[1];
+                curDayVariantsArray[0] = "Вариант 1";
+                var query = new SelectList(curDayVariantsArray);
+                //SelectList selectList = new SelectList(curDayVariants);
+                return query;
+            }
+        }
+
+        
+
+        public static TVDayVariantT[] getTVDayVariantTArray(string[] days, string[] vars)
+        {
+            TVDayVariantT[] res;
+            List<TVDayVariantT> varList= new List<TVDayVariantT>();
+            for (int i = 0; i < days.Length; i++)
+            {
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = Convert.ToInt32(vars[i]);
+                curVar.TVDayRef = days[i];
+                varList.Add(curVar);
+            }
+            res = varList.ToArray();
+
+            return res;
+        }
+
         public static int getWeekInWork(TVWeekType[] tvWeeks)
         {
             int curWeekId = 0;
@@ -111,11 +162,55 @@ namespace chopper1
             return nearestOrb;
         }
 
+        public static Day getDayByDateAndVariantCode(DateTime curDate, int curVar, int chCode = 10)
+        {
+            Day curDay = new Day();
+
+            curDay.KanalKod = chCode;
+            curDay.VariantKod = curVar;
+            curDay.TVDate = curDate;
+            
+
+            TVDayVariantType[] v = wc.GetDayVariants(curDate, chCode);
+            if (v.Count() > 0)
+            {
+                curDay.Efirs = wc.GetEfirs(curDate, chCode, curVar);
+
+                TVDayVariantParam curParam = wc.GetVarTVDayParam(curDate, chCode, curVar);
+                curDay.TVDayRef = curParam.TVDayRef;
+                if (curDay.TVDayRef.Length == 0)
+                {
+                    curDay.TVDayRef = "dummyRef";
+                    curDay.TVDayRef += curDate.Date.ToString("yyyyMMdd");
+                    curDay.TVDayRef += "var";
+                    curDay.TVDayRef += curVar.ToString();
+                }
+                curDay.Cap = curParam.Cap;
+                curDay.Foot = curParam.Foot;
+                curDay.FullCap += curDay.Cap;
+                if (curDay.FullCap.Length > 0)
+                {
+                    curDay.FullCap += "\n";
+                }
+                curDay.FullCap += curParam.MemoryDates;
+            
+            }
+            else
+            {
+                curDay.TVDayRef = "dummyRef";
+                curDay.TVDayRef += curDate.Date.ToString("yyyyMMdd");
+                curDay.TVDayRef += "var";
+                curDay.TVDayRef += curVar.ToString();
+            }
+            return curDay;
+        }
 
         
 
 
 
     }
+
+   
 
 }

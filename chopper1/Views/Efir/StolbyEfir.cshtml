@@ -5,8 +5,9 @@
 @{    
     Layout = null;
     string titleClassString = "";
-    if (Model.IsNews) { titleClassString += " font-bold"; }
-    
+    string ageCat = "";
+    if (Model.AgeCat.Length > 0) { ageCat = Model.AgeCat; }
+    if (Model.IsNews) { titleClassString += " font-bold"; }    
     if (Model.ProducerCode=="24" || Model.ProducerCode=="04")
     {
         titleClassString += " sportProg";
@@ -14,8 +15,7 @@
         {
             titleClassString += " font-bold";
         }
-    }
-        
+    }        
 }
 @{
     if (Model.Nakladka > 0)
@@ -54,7 +54,13 @@
         @Model.Beg.ToString("H.mm")
     </td>
     <td class="StolbyTitle @titleClassString">
-        @Model.Title [@Model.getInfoString(1)]
+        @Model.Title
+        @if (Model.AgeCat.Length > 0)
+        {
+            <b> (@Model.AgeCat)</b>
+        }
+        [@Model.getInfoString(1)]
+
     </td>
     <td class="StolbyCode @titleClassString">
         @Model.ProducerCode@Model.SellerCode

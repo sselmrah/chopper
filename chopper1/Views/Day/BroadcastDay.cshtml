@@ -6,7 +6,9 @@
     string day_num = Model.TVDate.DayOfWeek.ToString();
     int chanCode = Model.KanalKod;
     DateTime dt = Model.TVDate;
-
+    string varStr = "Вариант ";
+    varStr += Model.VariantKod.ToString();
+    
     string chStr = "Орбита ";
     if (Model.KanalKod == 10)
     {
@@ -26,11 +28,12 @@
 }
 
 <div id="dow@(day_num)" class="dow-div">@chStr</div>    
-<div id="var@(day_num)" class="varCode-div">               
+<div id="var@(Model.VariantKod.ToString())" class="varCode-div">
     @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
     {
         <fieldset>
-            @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], new { @onchange = "$(this.form).submit();" })
+            @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], varStr, new { @onchange = "$(this.form).submit();" })
+
             @Html.Hidden("curDate", Model.TVDate.ToString())
             @Html.Hidden("chCode", Model.KanalKod.ToString())
             @Html.Hidden("repType", "broadcast")
@@ -39,10 +42,16 @@
 </div>
 <div id="shapka@(day_num)" class="shapka-div"></div>
 
-@foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
-{
-    if (efir.Timing >= 60 * 2)
+@if (Model.Efirs != null)
+{ 
+    if (Model.Efirs.Count() > 0)
     {
-        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+        foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+        {
+            if (efir.Timing >= 60 * 2)
+            {
+                Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+            }
+        }
     }
 }

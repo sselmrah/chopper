@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using chopper1.ws1c;
+using System.ComponentModel;
 
 namespace chopper1.Controllers
 {
@@ -92,7 +94,7 @@ namespace chopper1.Controllers
             return View(advSPanel);
         }
 
-        public ActionResult PerformAdvSearch(string Title = "", DateTime? DateMin = null, DateTime? DateMax = null, DateTime? TimeStartMin = null, DateTime? TimeStartMax = null, DateTime? TimingMin = null, DateTime? TimingMax = null, bool Monday = true, bool Tuesday = true, bool Wednesday = true, bool Thursday = true, bool Friday = true, bool Saturday = true, bool Sunday = true, List<string> Producers = null, bool BitOriginal = true, bool BitRepetition = true)
+        public ActionResult PerformAdvSearch0(string Title = "", DateTime? DateMin = null, DateTime? DateMax = null, DateTime? TimeStartMin = null, DateTime? TimeStartMax = null, DateTime? TimingMin = null, DateTime? TimingMax = null, bool Monday = true, bool Tuesday = true, bool Wednesday = true, bool Thursday = true, bool Friday = true, bool Saturday = true, bool Sunday = true, List<string> Producers = null, bool BitOriginal = true, bool BitRepetition = true)
         {
             
 
@@ -104,6 +106,60 @@ namespace chopper1.Controllers
             return View(prodDt);
         }
 
+        public ActionResult PerformAdvSearch(string Title = "", DateTime? DateMin = null, DateTime? DateMax = null, DateTime? TimeStartMin = null, DateTime? TimeStartMax = null, DateTime? TimingMin = null, DateTime? TimingMax = null, bool Monday = true, bool Tuesday = true, bool Wednesday = true, bool Thursday = true, bool Friday = true, bool Saturday = true, bool Sunday = true, List<string> Producers = null, bool BitOriginal = true, bool BitRepetition = true)
+        {
+
+            WebСервис1 curWc = MyStartupClass.wc;
+            PokazType[] resultArray = curWc.GetPokazs(DateMin, DateMax, Title);
+            List<PokazType> filteredResultList = new List<PokazType>();
+            DateTime n = Convert.ToDateTime(TimeStartMin);
+
+            if (DateMin == null)
+            {
+                DateMin = DateTime.Parse("2005-01-01 00:00:00");
+                TimeStartMin = DateMin;
+            }
+            if (DateMax == null)
+            {
+                DateMax = DateTime.Now;
+                TimeStartMax = DateTime.Now.Date+TimeSpan.FromMinutes(23*60+59);
+            }
+            if (TimingMin == null)
+            {
+                TimingMin = DateTime.Now.Date + TimeSpan.FromMinutes(00 * 60 + 01);
+            }
+            if (TimingMax == null)
+            {
+                TimingMax = DateTime.Now.Date + TimeSpan.FromMinutes(10 * 60 + 00);
+            }
+
+            foreach (PokazType p in resultArray)
+            {
+                if (p.Beg.Hour * 60 + p.Beg.Minute >= Convert.ToDateTime(TimeStartMin).Hour * 60 + Convert.ToDateTime(TimeStartMin).Minute & p.Beg.Hour * 60 + p.Beg.Minute <= Convert.ToDateTime(TimeStartMax).Hour * 60 + Convert.ToDateTime(TimeStartMax).Minute)
+                {
+                    if (p.Timing >= Convert.ToDateTime(TimingMin).Hour * 60 * 60 + Convert.ToDateTime(TimingMin).Minute * 60 & p.Timing <= Convert.ToDateTime(TimingMax).Hour * 60 * 60 + Convert.ToDateTime(TimingMax).Minute * 60)
+                    {
+                        if ((p.TVData.DayOfWeek==DayOfWeek.Monday & Monday) | (p.TVData.DayOfWeek==DayOfWeek.Tuesday & Tuesday) |(p.TVData.DayOfWeek==DayOfWeek.Wednesday & Wednesday) |(p.TVData.DayOfWeek==DayOfWeek.Thursday & Thursday) |(p.TVData.DayOfWeek==DayOfWeek.Friday & Friday) |(p.TVData.DayOfWeek==DayOfWeek.Saturday & Saturday) |(p.TVData.DayOfWeek==DayOfWeek.Sunday & Sunday))
+                        {
+                            if ((BitOriginal & BitRepetition) | (BitOriginal&!BitRepetition&p.Premiere) | (BitRepetition&!BitOriginal&!p.Premiere))
+                            {
+                                filteredResultList.Add(p);
+                            }
+                        }
+                    }
+                }
+            }
+
+           
+            DataTable prodDt = ConvertToDatatable(filteredResultList);
+
+
+
+                        
+            ViewBag.stitle = Title;
+            return View(prodDt);
+        } 
+
         private List<string> getProducersList()
         {
 
@@ -114,6 +170,52 @@ namespace chopper1.Controllers
             var prodList = Array.ConvertAll(rows, row => row[0].ToString());
             pDb.Close();
             return prodList.ToList();
+        }
+
+        private static DataTable ConvertToDatatable<T>(List<T> data)
+        {
+            PropertyDescriptorCollection props =
+                TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            for (int i = 0; i < props.Count; i++)
+            {
+                PropertyDescriptor prop = props[i];
+                
+                if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    table.Columns.Add(prop.Name, prop.PropertyType.GetGenericArguments()[0]);
+                else
+                    table.Columns.Add(prop.Name, prop.PropertyType);
+                
+            }
+            //object[] values = new object[props.Count];
+            object[] values = new object[table.Columns.Count];
+            foreach (T item in data)
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    values[i] = props[i].GetValue(item);
+                }
+                table.Rows.Add(values);
+            }
+
+
+
+            table.Columns["Timing"].SetOrdinal(0);
+            table.Columns["BriefTitle"].SetOrdinal(1);
+            table.Columns["RepeatFrom"].SetOrdinal(2);
+            table.Columns["TVData"].SetOrdinal(3);
+            table.Columns["WeekDay"].SetOrdinal(4);
+            table.Columns["Beg"].SetOrdinal(5);
+            table.Columns["DSTI"].SetOrdinal(6);
+            table.Columns["DM"].SetOrdinal(7);
+            table.Columns["DR"].SetOrdinal(8);
+            table.Columns["ProducerCode"].SetOrdinal(9);
+            table.Columns["SellerCode"].SetOrdinal(10);
+
+            table.DefaultView.Sort = "TVData, Beg";
+            table = table.DefaultView.ToTable();
+
+            return table;
         }
 
 

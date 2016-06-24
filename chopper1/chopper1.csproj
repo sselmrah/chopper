@@ -382,8 +382,8 @@
     <Content Include="Views\Weeks\UpdateDayWeek.cshtml" />
     <Content Include="Views\Day\ConstructTimeScale.cshtml" />
     <Content Include="Views\Day\SDay.cshtml" />
-    <Content Include="Views\Weeks\Broadcast.cshtml" />
-    <Content Include="Views\Day\BroadcastDay.cshtml" />
+    <Content Include="Views\Weeks\Broadcast_old.cshtml" />
+    <Content Include="Views\Day\BroadcastDay_old.cshtml" />
     <Content Include="Views\Efir\BroadcastEfir.cshtml" />
     <Content Include="Views\Weeks\UpdateDayBroadcast_websocket.cshtml" />
     <Content Include="Views\Weeks\OrbWeek.cshtml" />
@@ -402,11 +402,29 @@
     <Content Include="Views\advSearch\advSearchPanel.cshtml" />
     <Content Include="Views\advSearch\PerformAdvSearch.cshtml" />
     <Content Include="SignalR.Sample\jquery-1.10.2.min.map" />
-    <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Chat.html" />
     <Content Include="Views\Weeks\Broadcast_sse.cshtml" />
     <Content Include="Views\Weeks\UpdateDayBroadcast.cshtml" />
     <Content Include="Views\Day\SelectVariant.cshtml" />
     <Content Include="Views\Day\VariantChosen.cshtml" />
+    <Content Include="Views\Day\ConstructOrbDayAjax.cshtml" />
+    <Content Include="Views\Weeks\OrbWeekAjax.cshtml" />
+    <Content Include="Views\Weeks\Svodka.cshtml" />
+    <Content Include="Views\Day\SvodkaDay.cshtml" />
+    <Content Include="Views\Weeks\SvodkaText.cshtml" />
+    <Content Include="Views\Day\SvodkaTextDay.cshtml" />
+    <Content Include="Views\Weeks\Broadcast.cshtml" />
+    <Content Include="Views\Day\BroadcastDay.cshtml" />
+    <Content Include="Web References\ws1c\PokazType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws1c\RatEfirType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Views\Weeks\Ratings.cshtml" />
+    <Content Include="Views\Day\RatingsDay.cshtml" />
+    <Content Include="Views\Efir\ConstructRatEfir.cshtml" />
+    <Content Include="Views\advSearch\PerformAdvSearch2.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -457,10 +475,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://tsurface/plan1cw/ws/ws1.1cws%3fwsdl">
+    <WebReferenceUrl Include="http://plan12r/plan1cw/ws/ws1.1cws%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ws1c\</RelPath>
-      <UpdateFromURL>http://tsurface/plan1cw/ws/ws1.1cws%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://plan12r/plan1cw/ws/ws1.1cws%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

@@ -37,6 +37,145 @@
     }
     @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
 </div>
+
+
+
+
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(function () {
+            var dUpdate = $.connection.dayUpdate;
+            var xmlhttp;
+            xmlhttp = new XMLHttpRequest();
+
+
+            dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
+                console.log(serverTime);
+                if (tvdayref != "") {
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                            console.log(tvdayref + '-' + serverTime);
+                            if (xmlhttp.status == 200) {
+                                document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                document.getElementById("timestampDiv").innerHTML = serverTime;
+                            }
+                            else if (xmlhttp.status == 400) {
+                                console.log(xmlhttp.statusText);
+                            }
+                            else {
+                                console.log(xmlhttp.statusText);
+                                console.log(xmlhttp.responseText);
+                            }
+                        }
+                    }
+                    xmlhttp.open("POST", "UpdateDayWeek", true);
+                    xmlhttp.setRequestHeader("dayID", tvdayref);
+                    xmlhttp.setRequestHeader("varNum", varNum);
+                    xmlhttp.send(tvdayref);
+                }
+            };
+
+            /*Added 22/06/16*/
+            $.connection.hub.disconnected(function () {
+                console.log("reconnected at " + Date.now());
+                setTimeout(function () {
+                    $.connection.hub.start();
+                }, 5000); // Restart connection after 5 seconds.
+            });
+
+            $.connection.hub.start().done(function () {
+                var allDayRects1 = document.getElementsByClassName("dayrect");
+                for (var i = 0; i < allDayRects1.length; i++) {
+                    dUpdate.server.subscribe(allDayRects1.item(i).id);
+                }
+                setInterval(function () {
+                    var allDayRects2 = document.getElementsByClassName("dayrect");
+                    for (var i = 0; i < allDayRects2.length; i++) {
+                        if (allDayRects1.item(i).id != allDayRects2.item(i).id) {
+                            dUpdate.server.subscribe(allDayRects2.item(i).id);
+                        }
+                    }
+                    allDayRects1 = allDayRects2;
+                }, 3000);
+            });
+        });
+    </script>
+    }
+    @*
+    <script>
+        $(function () {
+            var xmlhttp;
+            xmlhttp = new XMLHttpRequest();
+
+            var dUpdate = $.connection.dayUpdate;
+            dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
+
+                if (tvdayref != "") {
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                            console.log(tvdayref + '-' + serverTime);
+                            if (xmlhttp.status == 200) {                                
+                                document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                document.getElementById("timestampDiv").innerHTML = serverTime;
+                            }
+                            else if (xmlhttp.status == 400) {
+                                console.log(xmlhttp.statusText);
+                            }
+                            else {
+                                console.log(xmlhttp.statusText);
+                            }
+                        }
+                    }
+                    xmlhttp.open("POST", "UpdateDayWeek", true);
+                    xmlhttp.setRequestHeader("dayID", tvdayref);
+                    xmlhttp.setRequestHeader("varNum", varNum);
+                    xmlhttp.send(tvdayref);
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                var allDayRects1 = document.getElementsByClassName("dayrect");
+                for (var i = 0; i < allDayRects1.length; i++) {
+                    dUpdate.server.subscribe(allDayRects1.item(i).id);
+                }
+                setInterval(function () {
+                    var allDayRects2 = document.getElementsByClassName("dayrect");
+                    var days = new Array();
+                    //var vars = new Array();
+                    var allvars = document.getElementsByClassName("varCode-div");
+                    var vars2 = new Array();
+                    for (var i = 0; i < allvars.length; i++) {
+                        vars2.push(allvars.item(i).id.substring(3));
+                    }
+                    for (var i = 0; i < allDayRects2.length; i++) {
+                        if (allDayRects1.item(i).id != allDayRects2.item(i).id) {
+                            dUpdate.server.subscribe(allDayRects2.item(i).id);
+                        }
+                        days.push(allDayRects2.item(i).id);
+                        //vars.push(allDayRects.item(i).getAttribute('data-varnum'));
+                        //dUpdate.server.subscribe(allDayRects.item(i).id);
+                    }
+
+                    var timestamp = document.getElementById("timestampDiv").innerText;
+                    dUpdate.server.updateDay(days, vars2, timestamp);
+
+                }, 5000);
+                // Call the Send method on the hub.
+            });
+        });
+    </script>
+}
+
 <script>
 
     document.addEventListener("DOMContentLoaded", function a() {
@@ -46,8 +185,6 @@
 
             source.onmessage = function (event) {
                 var result = event.data;
-                @*myP.innerHTML += result;*@
-                @*If result not empty - call actionresult to redraw a day*@
                 if (result != "") {
                     var xmlhttp;
                     xmlhttp = new XMLHttpRequest();
@@ -60,11 +197,11 @@
                                 document.getElementById("timestampDiv").innerHTML = getTimeStamp();
                             }
                             else if (xmlhttp.status == 400) {
-                                @*alert('There was an error 400')*@                                
+                          
                                 console.log(xmlhttp.statusText);
                             }
                             else {
-                                @*alert('something else other than 200 was returned')*@
+
                                 console.log(xmlhttp.statusText);
                             }
                         }
@@ -86,4 +223,4 @@
 
     });
 
-</script>
+</script>*@

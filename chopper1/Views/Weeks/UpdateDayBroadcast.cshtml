@@ -2,9 +2,11 @@
 
 @{
     Layout = null;
-    string day_num = Model.TVDate.DayOfWeek.ToString();
+    string day_num = Model.TVDate.DayOfWeek.ToString();    
     DateTime dt = Model.TVDate;
-
+    string varStr = "Вариант ";
+    varStr += Model.VariantKod.ToString();
+    
     string chStr = "Орбита ";
     if (Model.KanalKod == 10)
     {
@@ -21,35 +23,31 @@
     {
         chStr += " (HD и SD)";
     }
-
-    <div id="dow@(day_num)" class="dow-div">@chStr</div>
-    <div id="date@(day_num)" class="dow-div">Вариант @Model.VariantKod.ToString()</div>
-    <div id="shapka@(day_num)" class="shapka-div"></div>
 }
 
-@foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
-{
-    if (efir.Timing >= 60 * 2)
+<div id="dow@(day_num)" class="dow-div">@chStr</div>
+<div id="var@(Model.VariantKod.ToString())" class="varCode-div">
+    @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
     {
-        @*@<p>@efir.Title : @efir.Timing</p>
-            var cur_height = @efir.Timing;
-            string str_height = "height:"+(cur_height / 60).ToString()+"px;";
-            string beg_time = @efir.Beg.ToString("HH:mm");
+        <fieldset>
+            @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], varStr, new { @onchange = "$(this.form).submit();" })
+            @Html.Hidden("curDate", Model.TVDate.ToString())
+            @Html.Hidden("chCode", Model.KanalKod.ToString())
+            @Html.Hidden("repType", "broadcast")
+        </fieldset>
+    }
+</div>
+<div id="shapka@(day_num)" class="shapka-div"></div>
 
 
-
-            <div draggable="true" class="prog" style="@str_height">
-                @beg_time
-                <br />
-                @efir.Title
-            </div>
-        *@
-
-        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = Model.KanalKod, useTitle = true });
-
+    @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+    {
+        if (efir.Timing >= 60 * 2)
+        {
+            Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = Model.KanalKod, useTitle = true });
+        }
     }
 
-}
 
 
 

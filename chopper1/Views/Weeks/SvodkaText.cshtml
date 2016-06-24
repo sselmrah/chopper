@@ -1,0 +1,94 @@
+﻿@model chopper1.Models.Week
+
+   @{
+       DateTime prevWeekBeg = Model.Days[0].TVDate - TimeSpan.FromDays(7);
+       DateTime nextWeekBeg = Model.Days[0].TVDate + TimeSpan.FromDays(7);
+   }
+
+
+<div class="weekPickerContainer">
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("SvodkaText", "Weeks", new { bdate = @prevWeekBeg.ToString("yyyy-MM-dd") }, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+        </a>
+    </div>
+    <div id="weekSelectContainer"><h1><span>Эфирная сводка на неделю @Model.Days[0].TVDate.ToString("dd.MM.yyyy")-@Model.Days[Model.Days.Count() - 1].TVDate.ToString("dd.MM.yyyy")</span></h1></div>
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("SvodkaText", "Weeks", new { bdate = @nextWeekBeg.ToString("yyyy-MM-dd") }, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+        </a>
+    </div>
+</div>
+@*
+<div class="weekPickerContainer">
+    <div class="weekPickerArrow">
+        
+        <a href="@Url.Action("SvodkaText", "Weeks", new { bdate = @prevWeekBeg.ToString("yyyy-MM-dd")}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+        </a>
+    </div>
+    <div id ="svodkaWeekCaption"><h1><span>Эфирная сводка на неделю @Model.Days[0].TVDate.ToString("dd.MM.yyyy")-@Model.Days[Model.Days.Count() - 1].TVDate.ToString("dd.MM.yyyy")</span></h1></div>
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("SvodkaText", "Weeks", new { bdate = @nextWeekBeg.ToString("yyyy-MM-dd")}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+        </a>
+    </div>
+</div>
+    *@
+    <p id="messages"></p>
+    <div></div>
+    @*
+        <div>
+            @Html.DisplayFor(model => model.DaysCount)
+        </div>
+    *@
+    <div class="row">
+        @{
+            for (int day = 0; day < Model.DaysCount; day++)
+            {
+                System.Globalization.CultureInfo russian = new System.Globalization.CultureInfo("ru-RU");
+                string dowRus = Model.Days[day * 5].TVDate.Date.ToString("dddd", russian);
+                dowRus = char.ToUpper(dowRus[0]) + dowRus.Substring(1);
+                <div id="dowlink@(day*5)" class="dowlink"></div>
+                <div id="dow@(day*5)" class="stolbyDow">
+                    <a href="@Url.Action("Svodka", "Weeks", new { bdate = @Model.Days[day*5].TVDate.Date.ToString("yyyy-MM-dd") }, null)">
+                        <div id="dowCaption">@dowRus, @Model.Days[day * 5].TVDate.Date.ToString("dd MMMM yyyy") года</div>
+                    </a>
+                    <div id="dowSwitch">
+                        <a href="#dowlink0">Пн </a>
+                        <a href="#dowlink5">Вт </a>
+                        <a href="#dowlink10">Ср </a>
+                        <a href="#dowlink15">Чт </a>
+                        <a href="#dowlink20">Пт </a>
+                        <a href="#dowlink25">Сб </a>
+                        <a href="#dowlink30">Вс</a>
+                    </div>
+                </div>
+                <div class="stolbyDay">
+            @{
+                        
+                int curDayNum;
+                for (int chCode = 0; chCode <= 4; chCode++)
+                {
+                    curDayNum = day * 5 + chCode;
+                    string chCaption = "Первый канал (Орбита " + chCode.ToString() + ")";
+                    
+                    if (Model.Days[curDayNum] != null)
+                    {
+                        Html.RenderAction("SvodkaTextDay", "Day", Model.Days[curDayNum]);
+                    }
+                    else
+                    {
+                        <div class="stolbyChannel">
+                            <div class="stolbyChannelCaption">
+                                @chCaption
+                            </div>
+                            <table class="stolbyEfirTable"></table>
+                        </div>
+                    }
+                 }
+            }
+                </div>
+            }
+         }
+    </div>

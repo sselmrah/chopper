@@ -1,0 +1,132 @@
+﻿@model chopper1.Models.Week
+
+
+
+
+@{
+
+    ViewBag.Title = Model.Note;
+    int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
+
+}
+
+<!--<h2>@Model.Note</h2>-->
+
+<div class="weekPickerContainer">
+    @* <div class="weekPickerArrow">
+            <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:blue"></span>
+            </a>
+        </div>*@
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+        </a>
+    </div>
+
+    <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
+    <div class="weekPickerArrow">
+        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+        </a>
+    </div>
+</div>
+<p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+@*
+    <div>
+        @Html.DisplayFor(model => model.DaysCount)
+    </div>
+*@
+
+<div class="row week_bg">
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+    @{
+        double dayRectWidth = 92.0 / Convert.ToDouble(Model.DaysCount);
+        string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
+    }
+    @for (int i = 0; i < Model.Days.Count() / 5; i++)
+    {
+        var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+        <div id="@Model.Days[i*5].TVDayRef" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+            @{Html.Partial("ConstructOrbDayAjax", daysList);}
+        </div>
+    }
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    <div class="visible-lg">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 14 });}
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 13 });}
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 12 });}
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 11 });}
+    </div>
+</div>
+
+@*<div id="spinner">
+        <img src="~/Content/themes/base/images/logos/1logo_app.PNG" />
+    </div>*@
+
+@*
+<script>
+    $(document).ready(function () {
+        var custID = @Model.Days.GetRange(0,5);
+        $("#@Model.Days[0].TVDayRef").load("/Day/ConstructOrbDayAjax", { curDayList: custID});
+        console.log("Test:");
+        console.log(custID.toString());
+    });
+</script>
+    *@
+<script>
+
+    document.addEventListener("DOMContentLoaded", function a() {
+        try {
+            var source = new EventSource('checkdaysorb');
+            var myP = document.getElementById("messages");
+
+            source.onmessage = function (event) {
+                var result = event.data;
+                @*myP.innerHTML += result;*@
+                @*If result not empty - call actionresult to redraw a day*@
+                if (result != "") {
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                            console.log(result);
+                            if (xmlhttp.status == 200) {
+                                document.getElementById(result).innerHTML = xmlhttp.responseText;
+                                @*documnet.getElementById("timestampDiv").innerHTML = @DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss");*@
+
+                                document.getElementById("timestampDiv").innerHTML = getTimeStamp();
+                            }
+                            else if (xmlhttp.status == 400) {
+                                @*alert('There was an error 400')*@
+                                console.log(xmlhttp.statusText);
+                            }
+                            else {
+                                @*alert('something else other than 200 was returned')*@
+                                console.log(xmlhttp.statusText);
+                            }
+                        }
+                    }
+                    xmlhttp.open("POST", "UpdateDayOrbity", true);
+                    xmlhttp.setRequestHeader("dayID", result);
+                    xmlhttp.send(result);
+                }
+
+            };
+        }
+        catch (err)
+        {
+            console.log(err.message)
+
+        }
+        source.onerror = function (e) {
+            console.log();
+        };
+
+    });
+
+
+
+</script>
+

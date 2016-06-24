@@ -1,0 +1,49 @@
+﻿@model chopper1.Models.Day
+@{
+    Layout = null;
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
+    DateTime dt = Model.TVDate;
+
+    string chStr = "";
+
+    switch (Model.KanalKod)
+    {
+        case 10:
+            chStr = "Первый канал";
+            break;
+        case 21:
+            chStr = "Россия-1";
+            break;
+        case 40:
+            chStr = "НТВ";
+            break;
+        case 52:
+            chStr = "СТС";
+            break;
+        case 51:
+            chStr = "ТНТ";
+            break;
+        case 53:
+            chStr = "ТВЦ";
+            break;
+    }
+}
+<div id="dow@(day_num)" class="dow-div">@chStr</div>
+<div id="var@(day_num)" class="varCode-div">
+    @{
+        if (Model.KanalKod == 10)
+        {
+            <a href="@Url.Action("Svodka", "Weeks", new { bdate = Model.TVDate.ToString("yyyy-MM-dd") }, null)">Сводка</a>
+        }
+    }    
+</div>
+<div id="shapka@(day_num)" class="shapka-div"></div>
+
+@foreach (chopper1.Models.Efir efir in Model.RatEfirs)
+{
+    if (efir.Timing >= 60 * 2)
+    {
+        Html.RenderAction("ConstructRatEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+    }
+}

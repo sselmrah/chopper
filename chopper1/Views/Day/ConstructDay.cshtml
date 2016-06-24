@@ -5,18 +5,22 @@
     string day_num = Model.TVDate.DayOfWeek.ToString();
     int chanCode = Model.KanalKod;
     DateTime dt = Model.TVDate;
+    string varStr = "Вариант ";
+    varStr += Model.VariantKod.ToString();
 }
 
-<div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
-<a href="@Url.Action("Broadcast", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd") }, null)">
+<a href="@Url.Action("Ratings", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd")}, null)">
+    <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
+</a>
+<a href="@Url.Action("Broadcast", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd"), variantNum = @Model.VariantKod}, null)">
     <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
 </a>
 
-<div id="var@(day_num)" class="varCode-div">
+<div id="var@(Model.VariantKod.ToString())" class="varCode-div">
     @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
     {
         <fieldset>
-            @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], new { @onchange = "$(this.form).submit();" })
+            @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], varStr, new { @onchange = "$(this.form).submit();" })
             @Html.Hidden("curDate", Model.TVDate.ToString())
             @Html.Hidden("chCode", Model.KanalKod.ToString())
             @Html.Hidden("repType", "raskladka")

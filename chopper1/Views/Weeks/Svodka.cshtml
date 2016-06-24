@@ -1,0 +1,37 @@
+﻿@model chopper1.Models.Week
+@{
+    string curDate = Model.Days[0].TVDate.Date.ToString("yyyy-MM-dd");
+    string curDow = @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetDayName(Model.Days[0].TVDate.DayOfWeek);
+    if (curDow.Right(1)=="а") curDow = curDow.Left(curDow.Length-1)+"у";
+    
+    ViewBag.Title = Model.Days[0].TVDate.Date.ToString("dd/MM/yyyy");
+}
+
+@using (Html.BeginForm("Svodka", "Weeks", FormMethod.Get))
+{
+    <fieldset>
+        <h2><a href="@Url.Action("SvodkaText", "Weeks", new { bdate = @curDate }, null)">Эфирная сводка на @curDow</a>, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" required="required" value="@curDate" onchange="form.submit();" /></h2>
+    </fieldset>
+}
+
+<div class="row week_bg">
+
+    @{var i = 0;
+    double dayRectWidth = 95.0 / 6;
+    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
+    }
+
+    @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
+    {        
+        Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = day.KanalKod });
+        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">            
+           @{Html.RenderAction("SvodkaDay", "Day", day);}
+        </div>
+        i += 1;        
+    }
+    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    
+</div>
+
+
+

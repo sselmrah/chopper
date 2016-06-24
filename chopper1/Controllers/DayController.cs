@@ -9,6 +9,8 @@ using chopper1.Controllers;
 using Omu.ValueInjecter;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Data;
 
 
 namespace chopper1.Controllers
@@ -62,7 +64,10 @@ namespace chopper1.Controllers
                 TVDayVariantT curVar = new TVDayVariantT();
                 curVar.VariantNumber = newDay.VariantKod;
                 curVar.TVDayRef = newDay.TVDayRef;
-                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
             }
             //Пытаемся работать с вариантами
             TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
@@ -77,9 +82,213 @@ namespace chopper1.Controllers
 
             return PartialView(newDay);            
         }
-        public ActionResult BroadcastDay(WeekTVDayType curDay)
+
+        public ActionResult SvodkaDay(WeekTVDayType curDay)
         {
 
+            Day newDay = new Day();
+            newDay.InjectFrom(curDay);
+
+            CultureInfo russian = new CultureInfo("ru-RU");
+            newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
+            newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+            newDay.Efirs = getEfirTypeArraySvodka(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            
+            return PartialView(newDay);
+        }
+
+        public ActionResult RatingsDay(WeekTVDayType curDay)
+        {
+
+            Day newDay = new Day();
+            newDay.InjectFrom(curDay);
+
+            CultureInfo russian = new CultureInfo("ru-RU");
+            newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
+            newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+            RatEfirType[] ratEfirs = curWc.GetRatEfirs(curDay.KanalKod,curDay.TVDate);
+            if (ratEfirs.Count() == 0)
+            {
+                EfirType[] efTypes = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+                newDay.RatEfirs = getRatEfirTypeArrayNoRatings(efTypes);
+            }
+            else
+            {
+                newDay.RatEfirs = getRatEfirTypeArrayRatings(ratEfirs);
+            }
+
+
+            return PartialView(newDay);
+        }
+
+
+        private Efir[] getRatEfirTypeArrayRatings(RatEfirType[] ratEfirs)
+        {
+            List<Efir> efirs = new List<Efir>();
+
+            foreach(RatEfirType r in ratEfirs)
+            {
+                Efir newEfir = new Efir();
+                newEfir.Beg = r.Beg;
+                newEfir.EndTime = r.End;
+                TimeSpan ts = r.End - r.Beg;
+                newEfir.Timing = Convert.ToInt32(ts.TotalSeconds);
+                //newEfir.Timing = r.Timing;
+                newEfir.Title = r.Title;
+                newEfir.ANR = r.Title;
+                newEfir.ProducerCode = "";                               
+                newEfir.SellerCode = "";
+                newEfir.Age = 0;
+                newEfir.AgeCat = "";
+                newEfir.TVDayRef = "";
+                newEfir.Cap = "";
+                newEfir.Foot = "";
+                //Рейтинги
+                newEfir.DSti = r.DSTI;
+                newEfir.DM = r.DM;
+                newEfir.DR = r.DR;
+                newEfir.RM = r.RM;
+                newEfir.RR = r.RR;
+
+                efirs.Add(newEfir);
+            }
+
+
+            return efirs.ToArray();
+        }
+
+        private Efir[] getRatEfirTypeArrayNoRatings(EfirType[] ratEfirs)
+        {
+            List<Efir> efirs = new List<Efir>();
+
+            foreach (EfirType r in ratEfirs)
+            {
+                Efir newEfir = new Efir();
+                newEfir.Beg = r.Beg;
+                newEfir.EndTime = r.Beg + TimeSpan.FromSeconds(r.Timing);                
+                newEfir.Timing = r.Timing;                
+                newEfir.Title = r.Title;
+                newEfir.ANR = r.Title;
+                newEfir.ProducerCode = r.ProducerCode;
+                newEfir.SellerCode = r.SellerCode;
+                newEfir.Age = r.Age;
+                newEfir.AgeCat = "";
+                newEfir.TVDayRef = r.TVDayRef;
+                newEfir.Cap = r.Cap;
+                newEfir.Foot = r.Foot;
+                //Рейтинги
+                newEfir.DSti = 0;
+                newEfir.DM = 0;
+                newEfir.DR = 0;
+                newEfir.RM = 0;
+                newEfir.RR = 0;
+
+                efirs.Add(newEfir);
+            }
+
+
+            return efirs.ToArray();
+        }
+
+
+
+        private EfirType[] getEfirTypeArraySvodka(DateTime TVDate, int KanalKod, int VariantKod = 1)
+        {
+            planCatDb pDb = new planCatDb();
+            pDb.Open(MyStartupClass.curCatConnection);            
+            DataTable EfirsDt = pDb.GetEfirsSvodka(TVDate, KanalKod, VariantKod);
+            
+            List<EfirType> efirTypeList = new List<EfirType>();
+
+            
+            List<ITCType> itcList = new List<ITCType>(); 
+            int counter = 0;
+            foreach (DataRow row in EfirsDt.Rows)
+            {
+                EfirType newEfir = new EfirType();
+                newEfir.Beg = DateTime.Parse(row["BCDateTime"].ToString());
+                if (KanalKod==11 | KanalKod ==12)
+                {
+                    newEfir.Beg -= TimeSpan.FromDays(1);
+                }
+                /*
+                newEfir.Beg = TVDate + TimeSpan.FromSeconds(Convert.ToInt32(row["NormedBegin"]));     
+                if (DateTime.Parse(row["BCDateTime"].ToString()).Date==TVDate & (KanalKod==11 | KanalKod==12))
+                {
+                    newEfir.Beg -= TimeSpan.FromDays(1);
+                }
+                if (DateTime.Parse(row["BCDateTime"].ToString()).Date > TVDate & (KanalKod == 10 | KanalKod == 14 | KanalKod == 13))
+                {
+                    newEfir.Beg += TimeSpan.FromDays(1);
+                }
+                 */ 
+                newEfir.Timing = Convert.ToInt32(row["Timing"]);
+                newEfir.Title = row["Title"].ToString();
+                newEfir.ANR = newEfir.Title;
+                newEfir.ProducerCode = row["ProducerCode"].ToString();
+                if (newEfir.ProducerCode.Length == 1) newEfir.ProducerCode = "0" + newEfir.ProducerCode;
+                if (newEfir.ProducerCode == "04" & newEfir.Title.ToLower().Contains("передача внутри передачи")) newEfir.ProducerCode = "06";
+                newEfir.SellerCode = "0"+row["SellerCode"].ToString();
+                if (newEfir.SellerCode.Length == 2) newEfir.SellerCode = "0" + newEfir.SellerCode;
+                if (row["Age"].ToString() != null)
+                {
+                    newEfir.Age = Convert.ToInt32(row["Age"]);
+                }
+                newEfir.TVDayRef = "";
+                newEfir.Cap = "";
+                newEfir.Foot = "";
+                
+                if (Convert.ToInt32(newEfir.ProducerCode) == 6 & newEfir.Title.ToLower().Contains("внутри"))
+                {
+                    ITCType newITC = new ITCType();
+                    newITC.Title = "А";
+                    newITC.Timing = newEfir.Timing;
+                    itcList.Add(newITC);
+                }
+                if (Convert.ToInt32(newEfir.ProducerCode) == 0 & newEfir.Title.ToLower().Contains("внутри"))
+                {
+                    ITCType newITC = new ITCType();
+                    newITC.Title = "Р";
+                    newITC.Timing = newEfir.Timing;
+                    newITC.PointCount = 0;
+                    itcList.Add(newITC);
+                }
+
+
+                if ((Convert.ToInt32(newEfir.ProducerCode) != 6 & Convert.ToInt32(newEfir.ProducerCode) != 0) | (newEfir.Title.ToLower().Contains("спецпроект")))
+                {
+                    if (efirTypeList.Count() > 0)
+                    {
+                        efirTypeList[efirTypeList.Count() - 1].ITC = itcList.ToArray();
+                        int itcTiming = 0;
+                        if (itcList.Count()>0)
+                        {
+                            foreach (ITCType i in itcList)
+                            {
+                                itcTiming += i.Timing;
+                            }
+                        }
+                        efirTypeList[efirTypeList.Count() - 1].Timing += itcTiming;
+                    }
+                    itcList.Clear();
+                    efirTypeList.Add(newEfir);
+                }                
+
+                counter += 1;
+                if (KanalKod==11)
+                {
+                    var x = 0;
+                }
+            }
+            EfirType[] efirTypeArray = efirTypeList.ToArray();
+            pDb.Close();
+            return efirTypeArray;
+        }
+
+
+        public ActionResult BroadcastDay_old(WeekTVDayType curDay)
+        {
+            //uses weektvdaytype
             Day newDay = new Day();
             newDay.InjectFrom(curDay);
 
@@ -129,9 +338,84 @@ namespace chopper1.Controllers
                 TVDayVariantT curVar = new TVDayVariantT();
                 curVar.VariantNumber = newDay.VariantKod;
                 curVar.TVDayRef = newDay.TVDayRef;
-                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
             }
             return PartialView(newDay);
+        }
+
+        public ActionResult BroadcastDay(Day curDay)
+        {
+            /*
+            Day newDay = new Day();
+            newDay.InjectFrom(curDay);
+
+            CultureInfo russian = new CultureInfo("ru-RU");
+            newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
+            newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+            newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            */
+
+            CultureInfo russian = new CultureInfo("ru-RU");
+            curDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
+            curDay.DoWRus = char.ToUpper(curDay.DoWRus[0]) + curDay.DoWRus.Substring(1);
+
+
+            //Пытаемся работать с вариантами
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            /*
+            switch (curDay.KanalKod)
+            {
+                case 10:
+                    curDay.ChOneVariants = curDayVariants;
+                    break;
+                case 11:
+                    curDay.Orb1Variants = curDayVariants;
+                    break;
+                case 12:
+                    curDay.Orb2Variants = curDayVariants;
+                    break;
+                case 13:
+                    curDay.Orb3Variants = curDayVariants;
+                    break;
+                case 14:
+                    curDay.Orb4Variants = curDayVariants;
+                    break;
+            }
+            */
+
+            var query = new SelectList(curDayVariantsArray);
+            SelectList selectList = new SelectList(curDayVariants);
+            
+            ViewData["DayVariants"] = query;
+            ViewData["VariantKod"] = query;
+
+
+            //Добавляем день в список для проверки
+            curDay.RenderTime = curWc.GetCurrentTime();
+
+            if (curDay.KanalKod > 0 & curDay.TVDayRef.Left(8) != "dummyRef")
+            {
+                chopper1.MyStartupClass.days_to_check.Add(curDay);
+                
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = curDay.VariantKod;
+                curVar.TVDayRef = curDay.TVDayRef;
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
+                 
+            }
+             
+            return PartialView(curDay);
         }
 
         public PartialViewResult BroadcastDay_new(Day newDay)
@@ -186,7 +470,10 @@ namespace chopper1.Controllers
                 TVDayVariantT curVar = new TVDayVariantT();
                 curVar.VariantNumber = newDay.VariantKod;
                 curVar.TVDayRef = newDay.TVDayRef;
-                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
             }
             return PartialView(newDay);
         }
@@ -253,12 +540,69 @@ namespace chopper1.Controllers
                     chopper1.MyStartupClass.days_to_check.Add(newDay);
                     curVar.VariantNumber = dt.VariantKod;
                     curVar.TVDayRef = dt.TVDayRef;
-                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                    if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                    {
+                        chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                    }
                 }
             }
 
 
             return PartialView(mainDay);
+        }
+
+
+        private async Task<Day> createDayAjax(List<WeekTVDayType> curDayList)
+        {
+            WeekTVDayType curDay = curDayList[0];
+            Day mainDay = new Day();
+
+            foreach (WeekTVDayType dt in curDayList)
+            {
+                Day newDay = new Day();
+                TVDayVariantT curVar = new TVDayVariantT();
+                newDay.InjectFrom(dt);
+
+                CultureInfo russian = new CultureInfo("ru-RU");
+                newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
+                newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+
+                //Собираем шапку дня из Cap и MemoryDates
+                newDay.FullCap += curDay.Cap;
+                if (newDay.FullCap.Length > 0)
+                {
+                    newDay.FullCap += "\n";
+                }
+                newDay.FullCap += curWc.GetVarTVDayParam(newDay.TVDate, newDay.KanalKod, newDay.VariantKod).MemoryDates;
+                //newDay.FullCap = newDay.FullCap.Replace("#", "<br>");
+
+
+                if (dt.KanalKod == 10)
+                {
+                    newDay.OrbEfirs = getOrbEfirsList(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+                    mainDay = newDay;
+                }
+                newDay.RenderTime = curWc.GetCurrentTime();
+                if (newDay.KanalKod > 0)
+                {
+                    chopper1.MyStartupClass.days_to_check.Add(newDay);
+                    curVar.VariantNumber = dt.VariantKod;
+                    curVar.TVDayRef = dt.TVDayRef;
+                    if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                    {
+                        chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                    }
+                }
+            }
+            return mainDay;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ConstructOrbDayAjax(List<WeekTVDayType> curDayList)
+        {
+            
+            var model = await this.createDayAjax(curDayList);            
+            return PartialView("ConstructOrbDayAjax", model);
         }
 
         public ActionResult ConstructNormalTimeScale(bool left)
@@ -297,7 +641,10 @@ namespace chopper1.Controllers
                 TVDayVariantT curVar = new TVDayVariantT();
                 curVar.VariantNumber = newDay.VariantKod;
                 curVar.TVDayRef = newDay.TVDayRef;
-                chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
             }
             //Пытаемся работать с вариантами
             TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
@@ -309,6 +656,22 @@ namespace chopper1.Controllers
             var query = new SelectList(curDayVariantsArray);
             ViewData["VariantKod"] = query;
 
+            return PartialView(newDay);
+        }
+
+        public ActionResult SvodkaTextDay(WeekTVDayType curDay)
+        {
+            chopper1.MyStartupClass.lastNewsStart = 0;
+            chopper1.MyStartupClass.totalBlockDur = 0;
+            Day newDay = new Day();
+            newDay.InjectFrom(curDay);
+
+            CultureInfo russian = new CultureInfo("ru-RU");
+            newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
+            newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+            newDay.Efirs = getEfirTypeArraySvodka(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+            newDay.FullCap = "";
+            newDay.Cap = "";
             return PartialView(newDay);
         }
 
@@ -362,8 +725,10 @@ namespace chopper1.Controllers
                 TVDayVariantT curVar = new TVDayVariantT();
                 curVar.VariantNumber = newDay.VariantKod;
                 curVar.TVDayRef = newDay.TVDayRef;
-
-                //chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
             }
 
 
@@ -374,6 +739,7 @@ namespace chopper1.Controllers
             ViewData["curDt"] = curDt.Date.ToString();
             ViewData["repType"] = repType;
             return View(newDay);
+
 
         }
 

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Hosting;
 
 namespace chopper1
 {    
@@ -21,6 +22,8 @@ namespace chopper1
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             MyStartupClass.Init();
-        }
+            HostingEnvironment.RegisterObject(new chopper1.Hubs.DayUpdate.BackgroundTimer());
+        }   
+        
     }
 }

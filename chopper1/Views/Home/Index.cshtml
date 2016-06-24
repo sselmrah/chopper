@@ -22,6 +22,7 @@
     string nextnextWeek2 = "";
 
     var curDay = DateTime.Today - TimeSpan.FromDays(Convert.ToDouble(DateTime.Today.DayOfWeek - 1));
+    DateTime weekAgo = DateTime.Today - TimeSpan.FromDays(7);
     curWeek = curDay.ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
     curWeek1 = curDay.ToString("dd/MM/yyyy") + " -";
     curWeek2 = (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
@@ -279,68 +280,20 @@
             </div>
     </div>
     <div class="row">
-        <div class="col-md-3 tileGroup na bottom">
-            <p>КОНКУРЕНЦИЯ</p>
-        </div>
-        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-2" }, null)">
-            <div class="col-md-1 tile">
-                <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
-
-                <div id="hidden">
-                    <div class="weekNameContainer">
-                        <span class="weekNameSpan">@prevprevWeek1</span>
-                        <span class="weekNameSpan">@prevprevWeek2</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-1" }, null)">
-            <div class="col-md-1 tile">
-                <span id="vis" class="glyphicon glyphicon-backward"></span>
-
-                <div id="hidden">
-                    <div class="weekNameContainer">
-                        <span class="weekNameSpan">@prevWeek1</span>
-                        <span class="weekNameSpan">@prevWeek2</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-1 tile na bottom">
-                <span id="vis" class="glyphicon glyphicon-play"></span>
-                <div id="hidden">
-                    <div class="weekNameContainer">
-                        <span class="weekNameSpan">@curWeek1</span>
-                        <span class="weekNameSpan">@curWeek2</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-1 tile na bottom">
-                <span id="vis" class="glyphicon glyphicon-forward"></span>
-                <div id="hidden">
-                    <div class="weekNameContainer">
-                        <span class="weekNameSpan">@nextWeek1</span>
-                        <span class="weekNameSpan">@nextWeek2</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-1 tile na bottom">
-                <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
-                <div id="hidden">
-                    <div class="weekNameContainer">
-                        <span class="weekNameSpan">@nextnextWeek1</span>
-                        <span class="weekNameSpan">@nextnextWeek2</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <div class="col-md-4 tile na bottom">
-            ВЫБОР НЕДЕЛИ
+        <div class="col-md-3 tileGroup bottom">
+            <p>СВОДКИ</p>
+        </div>        
+            <div class="col-md-5 tile bottom"></div>                        
+        <div class="col-md-4 tile bottom">
+            <div id="datepickerCaption"></div>
+            
+                @using (Html.BeginForm("Svodka", "Weeks", FormMethod.Get))
+                {
+                    <fieldset>
+                        <input name="bdate" type="date" id="svodka_datepicker" class="index_datepickers" required="required" value="@DateTime.Today.Date.ToString("yyyy-MM-dd")" onchange="form.submit();" />                        
+                    </fieldset>
+                }
+            
         </div>
     </div>
 

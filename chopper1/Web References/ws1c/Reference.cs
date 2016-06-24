@@ -23,7 +23,7 @@ namespace chopper1.ws1c {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebСервис1SoapBinding", Namespace="http://www.plan.1tv.ru")]
@@ -80,6 +80,12 @@ namespace chopper1.ws1c {
         private System.Threading.SendOrPostCallback GetCurrentTimeOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetEfirsCutOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPokazsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback TestOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetRatEfirsOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -196,6 +202,15 @@ namespace chopper1.ws1c {
         
         /// <remarks/>
         public event GetEfirsCutCompletedEventHandler GetEfirsCutCompleted;
+        
+        /// <remarks/>
+        public event GetPokazsCompletedEventHandler GetPokazsCompleted;
+        
+        /// <remarks/>
+        public event TestCompletedEventHandler TestCompleted;
+        
+        /// <remarks/>
+        public event GetRatEfirsCompletedEventHandler GetRatEfirsCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:Init", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1016,6 +1031,106 @@ namespace chopper1.ws1c {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetPokazs", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayAttribute("return")]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute("Pokaz", Namespace="http://www.sample-package.org", IsNullable=false)]
+        public PokazType[] GetPokazs([System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true)] System.Nullable<System.DateTime> StartDate, [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true)] System.Nullable<System.DateTime> StopDate, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string searchStr) {
+            object[] results = this.Invoke("GetPokazs", new object[] {
+                        StartDate,
+                        StopDate,
+                        searchStr});
+            return ((PokazType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPokazsAsync(System.Nullable<System.DateTime> StartDate, System.Nullable<System.DateTime> StopDate, string searchStr) {
+            this.GetPokazsAsync(StartDate, StopDate, searchStr, null);
+        }
+        
+        /// <remarks/>
+        public void GetPokazsAsync(System.Nullable<System.DateTime> StartDate, System.Nullable<System.DateTime> StopDate, string searchStr, object userState) {
+            if ((this.GetPokazsOperationCompleted == null)) {
+                this.GetPokazsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPokazsOperationCompleted);
+            }
+            this.InvokeAsync("GetPokazs", new object[] {
+                        StartDate,
+                        StopDate,
+                        searchStr}, this.GetPokazsOperationCompleted, userState);
+        }
+        
+        private void OnGetPokazsOperationCompleted(object arg) {
+            if ((this.GetPokazsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPokazsCompleted(this, new GetPokazsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:Test", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public string Test([System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true)] System.Nullable<System.DateTime> dd, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> dt) {
+            object[] results = this.Invoke("Test", new object[] {
+                        dd,
+                        dt});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void TestAsync(System.Nullable<System.DateTime> dd, System.Nullable<System.DateTime> dt) {
+            this.TestAsync(dd, dt, null);
+        }
+        
+        /// <remarks/>
+        public void TestAsync(System.Nullable<System.DateTime> dd, System.Nullable<System.DateTime> dt, object userState) {
+            if ((this.TestOperationCompleted == null)) {
+                this.TestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnTestOperationCompleted);
+            }
+            this.InvokeAsync("Test", new object[] {
+                        dd,
+                        dt}, this.TestOperationCompleted, userState);
+        }
+        
+        private void OnTestOperationCompleted(object arg) {
+            if ((this.TestCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.TestCompleted(this, new TestCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetRatEfirs", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayAttribute("return")]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute("RatEfirs", Namespace="http://www.sample-package.org", IsNullable=false)]
+        public RatEfirType[] GetRatEfirs(int ChannelCode, System.DateTime TVDate) {
+            object[] results = this.Invoke("GetRatEfirs", new object[] {
+                        ChannelCode,
+                        TVDate});
+            return ((RatEfirType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetRatEfirsAsync(int ChannelCode, System.DateTime TVDate) {
+            this.GetRatEfirsAsync(ChannelCode, TVDate, null);
+        }
+        
+        /// <remarks/>
+        public void GetRatEfirsAsync(int ChannelCode, System.DateTime TVDate, object userState) {
+            if ((this.GetRatEfirsOperationCompleted == null)) {
+                this.GetRatEfirsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRatEfirsOperationCompleted);
+            }
+            this.InvokeAsync("GetRatEfirs", new object[] {
+                        ChannelCode,
+                        TVDate}, this.GetRatEfirsOperationCompleted, userState);
+        }
+        
+        private void OnGetRatEfirsOperationCompleted(object arg) {
+            if ((this.GetRatEfirsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetRatEfirsCompleted(this, new GetRatEfirsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1035,7 +1150,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1079,6 +1194,8 @@ namespace chopper1.ws1c {
         private string capField;
         
         private string footField;
+        
+        private System.Nullable<bool> withoutPublicField;
         
         /// <remarks/>
         public VarType Variant {
@@ -1278,10 +1395,21 @@ namespace chopper1.ws1c {
                 this.footField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<bool> WithoutPublic {
+            get {
+                return this.withoutPublicField;
+            }
+            set {
+                this.withoutPublicField = value;
+            }
+        }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1327,7 +1455,518 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
+    public partial class RatEfirType {
+        
+        private int channelCodeField;
+        
+        private System.DateTime tVDateField;
+        
+        private System.DateTime begField;
+        
+        private int timingField;
+        
+        private System.DateTime endField;
+        
+        private string titleField;
+        
+        private decimal rmField;
+        
+        private decimal dmField;
+        
+        private decimal rrField;
+        
+        private decimal drField;
+        
+        private decimal dSTIField;
+        
+        /// <remarks/>
+        public int ChannelCode {
+            get {
+                return this.channelCodeField;
+            }
+            set {
+                this.channelCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime TVDate {
+            get {
+                return this.tVDateField;
+            }
+            set {
+                this.tVDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Beg {
+            get {
+                return this.begField;
+            }
+            set {
+                this.begField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Timing {
+            get {
+                return this.timingField;
+            }
+            set {
+                this.timingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime End {
+            get {
+                return this.endField;
+            }
+            set {
+                this.endField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Title {
+            get {
+                return this.titleField;
+            }
+            set {
+                this.titleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal RM {
+            get {
+                return this.rmField;
+            }
+            set {
+                this.rmField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal DM {
+            get {
+                return this.dmField;
+            }
+            set {
+                this.dmField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal RR {
+            get {
+                return this.rrField;
+            }
+            set {
+                this.rrField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal DR {
+            get {
+                return this.drField;
+            }
+            set {
+                this.drField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal DSTI {
+            get {
+                return this.dSTIField;
+            }
+            set {
+                this.dSTIField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
+    public partial class PokazType {
+        
+        private System.DateTime tVDataField;
+        
+        private int channelCodeField;
+        
+        private System.DateTime begField;
+        
+        private int weekDayField;
+        
+        private int timingField;
+        
+        private string titleField;
+        
+        private string subjectField;
+        
+        private string briefTitleField;
+        
+        private int producerCodeField;
+        
+        private int sellerCodeField;
+        
+        private float rmField;
+        
+        private float dmField;
+        
+        private float rrField;
+        
+        private float drField;
+        
+        private float dSTIField;
+        
+        private int ageField;
+        
+        private string soundField;
+        
+        private string serialField;
+        
+        private string partField;
+        
+        private string filmField;
+        
+        private System.DateTime repeatFromField;
+        
+        private string annotField;
+        
+        private string noteField;
+        
+        private bool foreignField;
+        
+        private bool finalField;
+        
+        private bool cycleField;
+        
+        private bool premiereField;
+        
+        private bool titleFromBriefField;
+        
+        private bool verticalVerstkaField;
+        
+        private string catalogRefField;
+        
+        /// <remarks/>
+        public System.DateTime TVData {
+            get {
+                return this.tVDataField;
+            }
+            set {
+                this.tVDataField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ChannelCode {
+            get {
+                return this.channelCodeField;
+            }
+            set {
+                this.channelCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Beg {
+            get {
+                return this.begField;
+            }
+            set {
+                this.begField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int WeekDay {
+            get {
+                return this.weekDayField;
+            }
+            set {
+                this.weekDayField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Timing {
+            get {
+                return this.timingField;
+            }
+            set {
+                this.timingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Title {
+            get {
+                return this.titleField;
+            }
+            set {
+                this.titleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Subject {
+            get {
+                return this.subjectField;
+            }
+            set {
+                this.subjectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BriefTitle {
+            get {
+                return this.briefTitleField;
+            }
+            set {
+                this.briefTitleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ProducerCode {
+            get {
+                return this.producerCodeField;
+            }
+            set {
+                this.producerCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int SellerCode {
+            get {
+                return this.sellerCodeField;
+            }
+            set {
+                this.sellerCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public float RM {
+            get {
+                return this.rmField;
+            }
+            set {
+                this.rmField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public float DM {
+            get {
+                return this.dmField;
+            }
+            set {
+                this.dmField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public float RR {
+            get {
+                return this.rrField;
+            }
+            set {
+                this.rrField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public float DR {
+            get {
+                return this.drField;
+            }
+            set {
+                this.drField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public float DSTI {
+            get {
+                return this.dSTIField;
+            }
+            set {
+                this.dSTIField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Age {
+            get {
+                return this.ageField;
+            }
+            set {
+                this.ageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Sound {
+            get {
+                return this.soundField;
+            }
+            set {
+                this.soundField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Serial {
+            get {
+                return this.serialField;
+            }
+            set {
+                this.serialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Part {
+            get {
+                return this.partField;
+            }
+            set {
+                this.partField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Film {
+            get {
+                return this.filmField;
+            }
+            set {
+                this.filmField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime RepeatFrom {
+            get {
+                return this.repeatFromField;
+            }
+            set {
+                this.repeatFromField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Annot {
+            get {
+                return this.annotField;
+            }
+            set {
+                this.annotField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Note {
+            get {
+                return this.noteField;
+            }
+            set {
+                this.noteField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Foreign {
+            get {
+                return this.foreignField;
+            }
+            set {
+                this.foreignField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Final {
+            get {
+                return this.finalField;
+            }
+            set {
+                this.finalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Cycle {
+            get {
+                return this.cycleField;
+            }
+            set {
+                this.cycleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Premiere {
+            get {
+                return this.premiereField;
+            }
+            set {
+                this.premiereField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool TitleFromBrief {
+            get {
+                return this.titleFromBriefField;
+            }
+            set {
+                this.titleFromBriefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool VerticalVerstka {
+            get {
+                return this.verticalVerstkaField;
+            }
+            set {
+                this.verticalVerstkaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CatalogRef {
+            get {
+                return this.catalogRefField;
+            }
+            set {
+                this.catalogRefField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1360,7 +1999,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1508,7 +2147,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1565,7 +2204,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1599,7 +2238,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1704,7 +2343,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1786,7 +2425,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1855,7 +2494,7 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -2003,11 +2642,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void InitCompletedEventHandler(object sender, InitCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class InitCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2029,11 +2668,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetEfirsCompletedEventHandler(object sender, GetEfirsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetEfirsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2055,11 +2694,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetEfirCompletedEventHandler(object sender, GetEfirCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetEfirCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2081,11 +2720,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void EfirUpdateCompletedEventHandler(object sender, EfirUpdateCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class EfirUpdateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2107,11 +2746,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void AddEfirCompletedEventHandler(object sender, AddEfirCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AddEfirCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2133,11 +2772,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetVariantMasksCompletedEventHandler(object sender, GetVariantMasksCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetVariantMasksCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2159,11 +2798,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetVarTVDayParamCompletedEventHandler(object sender, GetVarTVDayParamCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetVarTVDayParamCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2185,11 +2824,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetCommonVariantsCompletedEventHandler(object sender, GetCommonVariantsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetCommonVariantsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2211,11 +2850,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void DelEfirCompletedEventHandler(object sender, DelEfirCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class DelEfirCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2237,11 +2876,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void EfirsOperationCompletedEventHandler(object sender, EfirsOperationCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class EfirsOperationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2263,11 +2902,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetKanalsCompletedEventHandler(object sender, GetKanalsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetKanalsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2289,11 +2928,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetWeeksCompletedEventHandler(object sender, GetWeeksCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetWeeksCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2315,11 +2954,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetWeekTVDaysCompletedEventHandler(object sender, GetWeekTVDaysCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetWeekTVDaysCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2341,11 +2980,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetDayEfirsCompletedEventHandler(object sender, GetDayEfirsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetDayEfirsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2367,11 +3006,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetAllEfirsCompletedEventHandler(object sender, GetAllEfirsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetAllEfirsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2393,11 +3032,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetDayVariantsCompletedEventHandler(object sender, GetDayVariantsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetDayVariantsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2419,11 +3058,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void AddTVDayCompletedEventHandler(object sender, AddTVDayCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AddTVDayCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2445,11 +3084,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void DelTVDayCompletedEventHandler(object sender, DelTVDayCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class DelTVDayCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2471,11 +3110,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetZapasnikCompletedEventHandler(object sender, GetZapasnikCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetZapasnikCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2497,11 +3136,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void AddZapasCompletedEventHandler(object sender, AddZapasCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AddZapasCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2523,11 +3162,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void UnDelEfirCompletedEventHandler(object sender, UnDelEfirCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UnDelEfirCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2549,11 +3188,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetChannelsDictCompletedEventHandler(object sender, GetChannelsDictCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetChannelsDictCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2575,11 +3214,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void VerstkaCompletedEventHandler(object sender, VerstkaCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class VerstkaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2601,11 +3240,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void CheckVariantsCompletedEventHandler(object sender, CheckVariantsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CheckVariantsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2627,11 +3266,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetCurrentTimeCompletedEventHandler(object sender, GetCurrentTimeCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetCurrentTimeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2653,11 +3292,11 @@ namespace chopper1.ws1c {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     public delegate void GetEfirsCutCompletedEventHandler(object sender, GetEfirsCutCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetEfirsCutCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2674,6 +3313,84 @@ namespace chopper1.ws1c {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((EfirType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetPokazsCompletedEventHandler(object sender, GetPokazsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPokazsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPokazsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public PokazType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((PokazType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void TestCompletedEventHandler(object sender, TestCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class TestCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal TestCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetRatEfirsCompletedEventHandler(object sender, GetRatEfirsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetRatEfirsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetRatEfirsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public RatEfirType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((RatEfirType[])(this.results[0]));
             }
         }
     }

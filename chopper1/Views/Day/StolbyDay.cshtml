@@ -29,11 +29,10 @@
     
 }
 
-<div class="stolbyChannel" id=@Model.TVDayRef>
+<div class="stolbyChannel" id="@Model.TVDayRef">
     <div class="stolbyChannelCaption">
         @chCaption
     </div>
-
     <div id="var@(day_num)" class="varCode-div">
         @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
         {
@@ -45,11 +44,10 @@
             </fieldset>
         }
     </div>
-
     <div class="stolbyDayCap font-bold">
         @Model.FullCap
     </div>
-    <table class="stolbyEfirTable" id="@Model.TVDayRef">
+    <table class="stolbyEfirTable">
         @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
         {
             Html.RenderAction("StolbyEfir", "Efir", new { curEfir = efir, curDay = dt });

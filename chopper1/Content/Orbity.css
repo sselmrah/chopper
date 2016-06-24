@@ -4,7 +4,7 @@
     background: linear-gradient(slategray 1px, aliceblue 1px);            
     background-size: 100% 60px;
     background-position-y:100px;
-    border:solid 0 black;                        
+    border-right:solid 1px black;                            
     float:left;
     position:relative;     
 }
@@ -13,6 +13,7 @@
 .weekPickerContainer
 {
     height: 50px;
+    width: 95%;
     text-align:center;
     vertical-align:central;    
     border:solid black 0;    
@@ -103,3 +104,15 @@
 
 }
 .prog:hover + div { display: block; }
+
+
+
+
+
+#tail {
+        position: absolute;
+        float: left;
+        top: -10px;
+        border-top: 2px dashed red;
+        width:80%;        
+    }

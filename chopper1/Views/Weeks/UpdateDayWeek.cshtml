@@ -3,32 +3,38 @@
 @{
     Layout = null;
     string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
     DateTime dt = Model.TVDate;
-    <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
-    <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
-    <div id="shapka@(day_num)" class="shapka-div"></div>
+    string varStr = "Вариант ";
+    varStr += Model.VariantKod.ToString();
 }
+
+<a href="@Url.Action("Ratings", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd")}, null)">
+    <div id="dow@(day_num)" class="dow-div">@Model.DoWRus</div>
+</a>
+<a href="@Url.Action("Broadcast", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd"), variantNum = @Model.VariantKod}, null)">
+    <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
+</a>
+
+<div id="var@(Model.VariantKod.ToString())" class="varCode-div">
+    @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
+    {
+        <fieldset>
+            @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], varStr, new { @onchange = "$(this.form).submit();" })
+            @Html.Hidden("curDate", Model.TVDate.ToString())
+            @Html.Hidden("chCode", Model.KanalKod.ToString())
+            @Html.Hidden("repType", "raskladka")
+        </fieldset>
+    }
+</div>
+<div id="shapka@(day_num)" class="shapka-div">@Html.Raw(Html.Encode(Model.FullCap).Replace("#", "<br />"))</div>
+
 
 @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
 {
     if (efir.Timing >= 60 * 5)
     {
-        @*@<p>@efir.Title : @efir.Timing</p>
-            var cur_height = @efir.Timing;
-            string str_height = "height:"+(cur_height / 60).ToString()+"px;";
-            string beg_time = @efir.Beg.ToString("HH:mm");
-
-
-
-            <div draggable="true" class="prog" style="@str_height">
-                @beg_time
-                <br />
-                @efir.Title
-            </div>
-        *@
-
         Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt });
-
     }
 
 }

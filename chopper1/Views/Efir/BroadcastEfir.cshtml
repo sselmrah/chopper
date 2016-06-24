@@ -1,6 +1,5 @@
 ﻿@model chopper1.Models.Efir
 
-
 @{
     double position;
     //120 - Стандартный отступ на шапки
@@ -47,15 +46,15 @@
     }
     string classNews = "";
     string classHighlight = "";
+    string ageCat = "";
     if (Model.IsNews) { classNews = "news"; }
     if (Model.IsHighlighted) { classHighlight = "highlight"; }
     if (Model.Bold) { titleClassString += " font-bold"; }
     if (Model.Italic) { titleClassString += " font-italic"; }
     if (Model.Reserv) { classReserv = "reserv"; }
-
+    if (Model.AgeCat.Length > 0) { ageCat = Model.AgeCat; }
 
 }
-
 <div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
         @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
@@ -66,12 +65,20 @@
     <div class="info-div" style="@fontSize" draggable="false">
         [@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)
     </div>
-
+    <div class="age-div" draggable="false">
+        @ageCat
+    </div>
 </div>
 <div class="profile-hover">
     <span>@Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)</span>
     <br />
-    <span>@Model.Title.Replace("#", "\n").ToUpper()</span>
+    <span>
+        @Model.Title.Replace("#", "\n").ToUpper()
+        @if (Model.AgeCat.Length > 0)
+        {
+            <b>(@Model.AgeCat)</b>
+        }
+    </span>
     <br />
     <span>[@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)</span>
 </div>   

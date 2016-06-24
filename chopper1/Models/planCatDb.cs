@@ -135,6 +135,34 @@ namespace chopper1.Models
             return result;
         }
 
+        public DataTable GetEfirsSvodka(DateTime TVDate, int KanalKod, int VariantKod = 1)
+        {
+            string dateStr = TVDate.ToString("yyyy-MM-dd");
+            string select = "SELECT ChannelCode, BCDate, BCDateTime, NormedBegin, BeginTimeEfir, Timing, Title, ProducerCode, SellerCode, Age = CASE WHEN AGE is null THEN '' ELSE Age END" + 
+                            " FROM Brief" + 
+                            " WHERE BCDate = '"+dateStr+"' AND ChannelCode = "+KanalKod.ToString() 
+                            +" ORDER BY BeginTimeEfir"; 
+                           //+ " AND ProducerCode <> 0 AND ProducerCode <> 2 AND Timing >= 60 ";
+            DataTable result = new DataTable();
+            try
+            {
+                if (con.State.ToString() == "Open")
+                {
+                    SqlCommand cmd = new SqlCommand(select, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch
+            {
+
+            }
+            return result;
+        }
+
+
         public DataTable advSearch(string Title = "", DateTime? DateMin = null, DateTime? DateMax = null, DateTime? TimeStartMin = null, DateTime? TimeStartMax = null, DateTime? TimingMin = null, DateTime? TimingMax = null, bool Monday = true, bool Tuesday = true, bool Wednesday = true, bool Thursday = true, bool Friday = true, bool Saturday = true, bool Sunday = true, List<string> Producers = null, bool orig = true, bool rep = true)
         {
             string title = Title;

@@ -1,0 +1,52 @@
+﻿@model chopper1.Models.Day
+
+@{
+    Layout = null;
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    DateTime dt = Model.TVDate;
+    string chCaption = "Первый канал";
+    if (Model.KanalKod==10)
+    {
+        chCaption += " (Европейская часть РФ)";
+    }
+    else
+    { 
+        if (Model.KanalKod>0)
+        { 
+        chCaption += " (Орбита " + (Model.KanalKod-10).ToString() + ")";
+        }
+        else
+        {
+            chCaption += " (Орбита )";
+        }
+    }
+    string dayFinalStr = "";
+    if (Model.Efirs.Count() > 0)
+    {
+        dayFinalStr = "До ";
+        dayFinalStr += (Model.Efirs[Model.Efirs.Count() - 1].Beg + TimeSpan.FromSeconds(Model.Efirs[Model.Efirs.Count() - 1].Timing)).ToString("H.mm");
+    }
+    
+}
+
+<div class="stolbyChannel" id="@Model.TVDayRef">
+    <div class="stolbyChannelCaption">
+        @chCaption
+    </div>
+    <div id="var@(day_num)" class="varCode-div">        
+    </div>
+    <div class="stolbyDayCap font-bold">
+        
+    </div>
+    <table class="stolbyEfirTable">
+        @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+        {
+            Html.RenderAction("StolbyEfir", "Efir", new { curEfir = efir, curDay = dt });
+        }
+    </table>
+    <div class="stolbyDayFinal">
+        @dayFinalStr
+    </div>
+    <div class="stolbyDayFoot font-bold">        
+    </div>
+</div>

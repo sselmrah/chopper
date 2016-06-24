@@ -20,6 +20,14 @@ namespace chopper1.Models
         private DateTime _renderTime;
         //Учимся рисовать орбиты (см. Efir Model)
         private Efir[] _orbEfirs;
+        //Эфиры из рейтингов, потом можно переделать
+        private Efir[] _ratEfirs;
+
+        public Efir[] RatEfirs
+        {
+            get { return _ratEfirs; }
+            set { _ratEfirs = value; }
+        }
 
         public Efir[] OrbEfirs
         {

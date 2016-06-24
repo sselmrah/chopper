@@ -20,10 +20,7 @@
         }
     }
 
-    if (Model.ChCode != 10)
-    {
-        position += (5 - (Model.ChCode - 10)) * 2 * 60;
-    }
+
 
     string strPos = "top: " + position.ToString() + "px";
     string str_height = "height:" + (Model.Timing / 60).ToString() + "px;";
@@ -32,6 +29,7 @@
     string titleClassString = "title-div";
     string fontSize;
     string classReserv = "";
+
     if (Model.FontSize >= 8)
     {
         fontSize = "font-size:" + (Model.FontSize - 2).ToString() + "pt";
@@ -55,7 +53,7 @@
 }
 <div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
-        @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
+        @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm")
     </div>
     @if (Model.UseTitle)
     {
@@ -70,24 +68,51 @@
         </div>
     }
 
-    <div class="info-div" style="@fontSize" draggable="false">
-        [@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)
-    </div>
-    <div class="age-div" draggable="false">
-        @ageCat
+    <div class="ratingsContainer" draggable="false">
+        @{
+            
+            if (Model.DSti == 0)
+            {
+                <div class="ratings" id="sti">
+                    &nbsp;—&nbsp;
+                </div>
+            }
+            else
+            {
+                <div class="ratings" id="sti">
+                    @Model.DSti.ToString("0.0")
+                </div>
+            }
+            
+            if (Model.DM == 0)
+            {
+                <div class="ratings" id="dm">&nbsp;—&nbsp;</div>
+            }
+            else
+            { 
+            <div class="ratings" id="dm">@Model.DM.ToString("0.0")</div>
+            }
+            
+            if (Model.DR == 0)
+            {
+                <div class="ratings" id="dr">&nbsp;—&nbsp;</div>
+            }
+            else
+            {
+                <div class="ratings" id="dr">@Model.DR.ToString("0.0")</div>
+            }
+        }
     </div>
 </div>
 
 <div class="profile-hover">
-    <span>@Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)</span>
+    <span>@Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm")</span>
     <br />
     <span>
         @Model.Title.Replace("#", "\n").ToUpper()
-        @if (Model.AgeCat.Length > 0)
-        {
-            <b>(@Model.AgeCat)</b>
-        }
     </span>
     <br />
-    <span>[@Model.getInfoString()] (@Model.ProducerCode@Model.SellerCode)</span>
+    <span> СТИ+ @Model.DSti.ToString("0.0"); TNS-М @Model.DM.ToString("0.0"); TNS-R @Model.DR.ToString("0.0")</span>
+    <br />
+    <span>РЕЙТИНГ: TNS-М @Model.RM.ToString("0.0"); TNS-R @Model.RR.ToString("0.0")</span>
 </div>   

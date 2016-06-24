@@ -26,7 +26,7 @@ namespace chopper1.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://tsurface/plan1cw/ws/ws1.1cws")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://plan12r/plan1cw/ws/ws1.1cws")]
         public string chopper1_ws1c_WebСервис1 {
             get {
                 return ((string)(this["chopper1_ws1c_WebСервис1"]));

@@ -26,25 +26,25 @@
                 {
                     switch (col.ColumnName)
                     {
-                        case "TVData":
+                        case "strDate":
                             <th>Дата</th>
                             break;
-                        case "WeekDay":
+                        case "DoW":
                         <th>День</th>
                             break;
-                        case "Beg":
+                        case "BeginTimeText":
                         <th>Время</th>
                             break;
-                        case "Timing":
+                        case "TimingText":
                         <th>Хрон.</th>
                             break;
-                        case "BriefTitle":
+                        case "Title":
                         <th class="titleCol">Название</th>
                             break;
-                        case "RepeatFrom":
+                        case "Bit_Repetition":
                         <th>Повтор</th>
                             break;
-                        case "DSTI":
+                        case "DSti":
                         <th>СТИ</th>
                             break;
                         case "DM":
@@ -56,14 +56,9 @@
                         case "ProducerCode":
                         <th>Дирекция</th>
                             break;
-                        case "SellerCode":
-                        <th>SellerCode</th>
-                            break;
-                            @*
                         default:
                         <th>@col.ColumnName</th>
                             break;
-                                *@
                     }
                 }
             </tr>
@@ -72,7 +67,7 @@
         <tbody>
 
             @foreach (System.Data.DataRow row in Model.Rows)
-            {                
+            {
                 <tr>
                     <td>@counter</td>
                     @{counter += 1;}
@@ -80,85 +75,58 @@
                     {
                         switch (col.ColumnName)
                         {
-                            case "Timing":
-
-                                string timingStr = row[col.ColumnName].ToString();
-                                TimeSpan timingTs = TimeSpan.FromSeconds(Convert.ToInt32(timingStr));
-                                <td>
-                                    @timingTs.ToString(@"hh\:mm\:ss")
-                                </td>
-
-                                break;
-                            case "TVData":
+                            case "strDate":
                                 DateTime curDate = Convert.ToDateTime(row[col.ColumnName]);
                                 <td>
                                     <a href="@Url.Action("Ratings", "Weeks", new { bdate = curDate.ToString("yyyy-MM-dd") }, null)">@curDate.ToString("dd.MM.yyyy")</a>
                                 </td>
                                 break;
-                            case "Beg":
-                                string curTime = row[col.ColumnName].ToString().Right(8).Left(5);
+                            case "BeginTimeText":
+                                string curTime = row[col.ColumnName].ToString().Left(5);
                                 <td>@curTime</td>
                                 break;
-                            case "BriefTitle":
+                            case "Title":
                             <td class="titleCol">@row[col.ColumnName]</td>
                                 break;
-                            case "RepeatFrom":
-                                if (DateTime.Parse(row[col.ColumnName].ToString()).ToString("dd.MM.yyyy") == "01.01.0001")
-                                {
-                                    <td></td>
-                                }
-                                else
+                            case "Bit_Repetition":
+                                if (Convert.ToBoolean(row[col.ColumnName]))
                                 {
                                     <td><span class="glyphicon glyphicon-ok-circle"></span></td>
                                 }
-                                @*<td><span class="glyphicon glyphicon-ok-circle"></span></td>*@
+                                else
+                                {
+                                    <td></td>
+                                }
                                 break;
-                            case "WeekDay":
+                            case "DoW":
                                 switch (row[col.ColumnName].ToString())
                                 {
-                                    case "1":
+                                    case "Monday":
                                         <td>Пн</td>
                                         break;
-                                    case "2":
+                                    case "Tuesday":
                                     <td>Вт</td>
                                         break;
-                                    case "3":
+                                    case "Wednesday":
                                     <td>Ср</td>
                                         break;
-                                    case "4":
+                                    case "Thursday":
                                     <td>Чт</td>
                                         break;
-                                    case "5":
+                                    case "Friday":
                                     <td>Пт</td>
                                         break;
-                                    case "6":
+                                    case "Saturday":
                                     <td>Сб</td>
                                         break;
-                                    case "7":
+                                    case "Sunday":
                                     <td>Вс</td>
                                         break;
                                 }
                                 break;
-                            case "DSTI":
+                            default:
                             <td>@row[col.ColumnName]</td>
                                 break;
-                            case "DM":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "DR":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "ProducerCode":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "SellerCode":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                                @*
-                                    default:
-                                    <td>@row[col.ColumnName]</td>
-                                        break;
-                                *@
                         }
 
 

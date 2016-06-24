@@ -1,8 +1,9 @@
 ﻿.stolbyDay
 {    
     width:98%;
-    height: 1800px;
+    height: 2000px;
     margin:auto;
+    float:none;
 }
 
 .stolbyChannel
@@ -31,10 +32,10 @@
 }
 .stolbyDow
 {
-    border:none;
-    font-size:medium;
-    font-weight:bold;
-    text-align:center;
+    border: none;
+    font-size: medium;
+    font-weight: bold;    
+    height: 30px;
 }
 .sportProg
 {
@@ -51,7 +52,7 @@
 {
     height: 20px;
     background-color:white;
-    border: solid 1px black;
+    border: solid 0 black;
     text-align:center;
 }
 
@@ -59,4 +60,21 @@
 {
     border: none;
     background:none;
+}
+#dowSwitch
+{   
+    position:absolute;
+    right:0; 
+    width:200px;
+}
+#dowCaption
+{
+    position:absolute;
+    left:35%;    
+    width:500px;
+}
+.dowlink
+{
+    height:50px;
+    
 }

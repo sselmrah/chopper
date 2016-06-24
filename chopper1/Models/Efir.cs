@@ -33,6 +33,48 @@ namespace chopper1.Models
         private int _chCode;
         private bool _isHighlighted;
         private bool _useTitle;
+        private string _ageCat;
+        private decimal _dSti;
+        private decimal _dM;
+        private decimal _dR;
+        private decimal _rM;
+        private decimal _rR;
+
+        public decimal RR
+        {
+            get { return _rR; }
+            set { _rR = value; }
+        }
+
+        public decimal RM
+        {
+            get { return _rM; }
+            set { _rM = value; }
+        }
+
+        public decimal DR
+        {
+            get { return _dR; }
+            set { _dR = value; }
+        }
+
+        public decimal DM
+        {
+            get { return _dM; }
+            set { _dM = value; }
+        }
+
+        public decimal DSti
+        {
+            get { return _dSti; }
+            set { _dSti = value; }
+        }
+
+        public string AgeCat
+        {
+            get { return _ageCat; }
+            set { _ageCat = value; }
+        }
                 
 
         //Свойства для рисования орбитной раскладки
@@ -239,30 +281,32 @@ namespace chopper1.Models
             int t99 = 0;
             int st = 0;
             int a = 0;
-            
 
-            foreach (ITCType itc in ITCs)
+            if (ITCs != null)
             {
-                if (itc.Title == "Р")
+                foreach (ITCType itc in ITCs)
                 {
-                    r += itc.Timing;
-                    t += itc.PointCount;
+                    if (itc.Title == "Р")
+                    {
+                        r += itc.Timing;
+                        t += itc.PointCount;
+                    }
+                    if (itc.Title == "Р99")
+                    {
+                        r99 += itc.Timing;
+                        t99 += itc.PointCount;
+                    }
+                    if (itc.Title == "СР")
+                    {
+                        sr += itc.Timing;
+                        st += itc.PointCount;
+                    }
+                    if (itc.Title == "А")
+                    {
+                        a += itc.Timing;
+                    }
+
                 }
-                if (itc.Title == "Р99")
-                {
-                    r99 += itc.Timing;
-                    t99 += itc.PointCount;
-                }
-                if (itc.Title == "СР")
-                {
-                    sr += itc.Timing;
-                    st += itc.PointCount;
-                }
-                if (itc.Title == "А")
-                {
-                    a += itc.Timing;
-                }
-                
             }
             this.R = r;
             this.R99 = r99;

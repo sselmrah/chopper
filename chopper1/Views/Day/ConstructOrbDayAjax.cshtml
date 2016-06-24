@@ -1,0 +1,29 @@
+﻿@model chopper1.Models.Day
+
+@{
+    
+    Layout = null;
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
+    DateTime dt = Model.TVDate;
+    <a href="@Url.Action("Broadcast", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd") }, null)">
+        <div id="dow@(day_num)" class="orbdowDiv">@Model.DoWRus, @Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
+    </a>
+        <div id="1k" class="newcl">
+            <div id="capCh1" class="orbNameDiv">I</div>
+            <div id="capOrb4" class="orbNameDiv">O4</div>
+            <div id="capOrb3" class="orbNameDiv">O3</div>
+            <div id="capOrb2" class="orbNameDiv">O2</div>
+            <div id="capOrb1" class="orbNameDiv">O1</div>
+        </div>
+        <div class="orbdowDiv"></div>
+        <div class="shapka-div">@Html.Raw(Html.Encode(Model.FullCap).Replace("#", "<br />"))</div>
+}
+
+        @foreach (chopper1.Models.Efir efir in Model.OrbEfirs)
+        {
+            if (efir.Timing >= 60 * 3)
+            {
+                Html.RenderAction("ConstructOrbEfir", "Efir", new { curEfir = efir, curDay = dt });
+            }
+        }

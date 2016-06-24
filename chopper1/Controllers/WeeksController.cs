@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using Omu.ValueInjecter;
 using System.Web.Script.Serialization;
 //учеба
-using System.Collections.Concurrent;
+/*using System.Collections.Concurrent;
 using System.Text;
 using System.Threading;
 using System.Web.Script.Serialization;
-
+ * */
+using Microsoft.AspNet.SignalR;
+using System.Diagnostics;
 
 
 
@@ -59,8 +61,8 @@ namespace chopper1.Controllers
         public ActionResult getWeek(string week_num="")
         {
             //Чистим список проверяемых дней
-            chopper1.MyStartupClass.days_to_check.Clear();
-            chopper1.MyStartupClass.variants_to_check.Clear();
+            //chopper1.MyStartupClass.days_to_check.Clear();
+            //chopper1.MyStartupClass.variants_to_check.Clear();
 
             Week curWeek = new Week();
             //Experiments
@@ -214,8 +216,8 @@ namespace chopper1.Controllers
         public ActionResult Stolby(string week_num = "10")
         {
             //Чистим список проверяемых дней
-            chopper1.MyStartupClass.days_to_check.Clear();
-            chopper1.MyStartupClass.variants_to_check.Clear();
+            //chopper1.MyStartupClass.days_to_check.Clear();
+            //chopper1.MyStartupClass.variants_to_check.Clear();
 
             Week curWeek = new Week();
 
@@ -311,14 +313,174 @@ namespace chopper1.Controllers
             return View(curWeek);
         
         }
+        public ActionResult SvodkaText(string bdate = "")
+        {
+            //Чистим список проверяемых дней
+            //chopper1.MyStartupClass.days_to_check.Clear();
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+
+            string dateStr = "";
+            DateTime weekStart = new DateTime();
+
+            if (Request["bdate"] == null)
+            {
+                dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");                
+                if ((int)DateTime.Parse(dateStr).DayOfWeek != 1)
+                {
+                    weekStart = DateTime.Parse(dateStr) - TimeSpan.FromDays((int)DateTime.Parse(dateStr).DayOfWeek - 1);
+                }
+            }
+            else
+            {
+                dateStr = Request["bdate"];
+                if (dateStr.Length == 0)
+                {
+                    dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");                           
+                }
+                
+                //if ((int)DateTime.Parse(dateStr).DayOfWeek != 1)
+                //{
+                    weekStart = DateTime.Parse(dateStr) - TimeSpan.FromDays((int)DateTime.Parse(dateStr).DayOfWeek - 1);
+                //}
+            }
+
+            Week curWeek = new Week();
+            List<WeekTVDayType> daysToAdd = new List<WeekTVDayType>();
+
+            for (int d = 0; d < 7; d++)
+            {
+                dateStr = (weekStart + TimeSpan.FromDays(d)).ToString("yyyy-MM-dd");
+                for (int i = 0; i < 5; i++)
+                {
+                    WeekTVDayType newDay = new WeekTVDayType();
+                    newDay.TVDate = DateTime.Parse(dateStr);                    
+                    newDay.KanalKod = 10 + i;                    
+                    newDay.VariantKod = 1;
+                    newDay.TVDayRef = "";
+                    daysToAdd.Add(newDay);
+                }
+            }
+            curWeek.Days = daysToAdd;
+
+            curWeek.DaysCount = daysToAdd.Count() / 5; //Т.к. каждый день - это ПК+4 орбиты
+            return View(curWeek);
+
+        }
+
+        [HttpGet]
+        public ActionResult Svodka(string bdate="")
+        {
+            //Чистим список проверяемых дней
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+            //chopper1.MyStartupClass.days_to_check.Clear();
+
+            string dateStr = "";
+
+            if (Request["bdate"] == null)
+            {
+                dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                dateStr = Request["bdate"];
+                if (dateStr.Length == 0)
+                {
+                    dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                }
+            }
+
+            
+
+            Week curWeek = new Week();
+            List<WeekTVDayType> daysToAdd = new List<WeekTVDayType>();
+            
+            for (int i = 0; i < 5; i++)
+            {
+                WeekTVDayType newDay = new WeekTVDayType();
+                newDay.TVDate = DateTime.Parse(dateStr);                
+                if (i>0)
+                {
+                    newDay.KanalKod = 15 - i;
+                }
+                else
+                {
+                    newDay.KanalKod = 10 + i;
+                }
+                
+                newDay.VariantKod = 1;
+                newDay.TVDayRef = "";
+                daysToAdd.Add(newDay);
+            }
+            curWeek.Days = daysToAdd;
+            return View(curWeek);
+        }
+        public ActionResult Ratings(string bdate = "")
+        {
+            string dateStr = "";
+
+            if (Request["bdate"] == null)
+            {
+                dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                dateStr = Request["bdate"];
+                if (dateStr.Length == 0)
+                {
+                    dateStr = (DateTime.Today-TimeSpan.FromDays(1)).Date.ToString("yyyy-MM-dd");
+                }
+            }
+
+            Week curWeek = new Week();
+            List<WeekTVDayType> daysToAdd = new List<WeekTVDayType>();
+
+            
+
+            for (int i = 0; i < 6; i++)
+            {
+                WeekTVDayType newDay = new WeekTVDayType();
+                newDay.TVDate = DateTime.Parse(dateStr);
+                switch (i)
+                {
+                    case 0:
+                        newDay.KanalKod = 10;
+                        break;
+                    case 1:
+                        newDay.KanalKod = 21;
+                        break;
+                    case 2:
+                        newDay.KanalKod = 40;
+                        break;
+                    case 3:
+                        newDay.KanalKod = 52;
+                        break;
+                    case 4:
+                        newDay.KanalKod = 51;
+                        break;
+                    case 5:
+                        newDay.KanalKod = 53;
+                        break;
+                }
+
+                
+
+                newDay.VariantKod = 1;
+                newDay.TVDayRef = "";
+                daysToAdd.Add(newDay);
+            }
+            curWeek.Days = daysToAdd;
+            return View(curWeek);
+        }
+
 
         [HttpGet]
         //public ActionResult Broadcast(string dateStr="2015-12-17")
-        public ActionResult Broadcast(string bdate = "")
+        public ActionResult Broadcast_old(string bdate = "", int variantNum=1)
         {
+            //uses tvweekdaytype
             //Чистим список проверяемых дней
-            chopper1.MyStartupClass.variants_to_check.Clear();
-            chopper1.MyStartupClass.days_to_check.Clear();
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+            //chopper1.MyStartupClass.days_to_check.Clear();
 
             string dateStr = "";
 
@@ -354,9 +516,10 @@ namespace chopper1.Controllers
                 if (curDate >= TvWeek.BegDate & (curDate - TvWeek.BegDate).Days<7)
                 {
                     curTvWeek = TvWeek;
+                    //Нужно отказываться от недель и брать дни по дате/каналу/варианту
                     WeekTVDayType[] weekDays = curWc.GetWeekTVDays(curTvWeek.Ref, array_channel_codes);
                     foreach (WeekTVDayType day in weekDays)
-                    {
+                    {                        
                         if (day.TVDate == curDate)
                         {
                             if (day.KanalKod == 10) chOneDay = day;
@@ -387,12 +550,54 @@ namespace chopper1.Controllers
             return View(curWeek);
 
         }
+        [HttpGet]        
+        public ActionResult Broadcast(string bdate = "", int variantNum = 1)
+        {
 
+            //Чистим список проверяемых дней
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+            //chopper1.MyStartupClass.days_to_check.Clear();
+
+            string dateStr = "";
+
+            if (Request["bdate"] == null)
+            {
+                dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                dateStr = Request["bdate"];
+                if (dateStr.Length == 0)
+                {
+                    dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                }
+            }
+
+
+            DateTime curDate = DateTime.Parse(dateStr);            
+            List<Day> newDays = new List<Day>();
+            
+            int[] array_channel_codes = new int[5];
+            array_channel_codes[0] = 10;
+            array_channel_codes[1] = 14;
+            array_channel_codes[2] = 13;
+            array_channel_codes[3] = 12;
+            array_channel_codes[4] = 11;
+            
+
+            foreach (int chCode in array_channel_codes)
+            {
+                newDays.Add(MyStartupClass.getDayByDateAndVariantCode(curDate, variantNum, chCode));
+            }
+
+            return View(newDays);
+
+        }
 
         public ActionResult OrbWeek(string week_num = "", int part_num = 1)
         {
             //Чистим список проверяемых дней
-            chopper1.MyStartupClass.variants_to_check.Clear();
+            //chopper1.MyStartupClass.variants_to_check.Clear();
 
             Week curWeek = new Week();
 
@@ -488,6 +693,40 @@ namespace chopper1.Controllers
 
         }
 
+        public ActionResult OrbWeekAjax(string week_num = "", int part_num = 1)
+        {
+            //Чистим список проверяемых дней
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+
+            Week curWeek = new Week();
+
+            //Experiments
+
+            TVWeekType curTvWeek = new TVWeekType();
+            
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
+
+            List<WeekTVDayType> days = new List<WeekTVDayType>();
+            WeekTVDayType chOneDay = new WeekTVDayType();
+
+            List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, MyStartupClass.fullChannelCodesArray).OrderBy(o => o.TVDate).ToList();
+
+            //Рисуем неделю целиком
+            daysOfWeek = daysOfWeek.ToList();
+
+            curWeek.InjectFrom(curTvWeek);
+            curWeek.DaysCount = daysOfWeek.Count() / 5;
+            curWeek.Days = daysOfWeek;
+            ViewData["daysCount"] = daysOfWeek.Count();
+            ViewBag.reportType = "orbity";
+
+
+
+            return View(curWeek);
+
+        }
 
         private List<WeekTVDayType> getOrbitsByChannelOneDay(WeekTVDayType chOneDay, List<WeekTVDayType> allDays, bool reverse = false)
         {
@@ -670,8 +909,10 @@ namespace chopper1.Controllers
                 }
             }
 
+            
             var y = "data: " + dayToUpdateRef + "\n\n";
             return Content(y, "text/event-stream");
+            
         }
        
 
@@ -718,7 +959,20 @@ namespace chopper1.Controllers
                 }
             }
             chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
-
+            
+            //Пытаемся работать с вариантами
+            /*
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            var query = new SelectList(curDayVariantsArray);
+            ViewData["VariantKod"] = query;
+            */
+            var query = MyStartupClass.getVariantsSelectList(curDay.TVDate, curDay.KanalKod);
+            ViewData["DayVariants"] = query;
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
         }
@@ -727,6 +981,7 @@ namespace chopper1.Controllers
         public ActionResult UpdateDayWeek()
         {
             string curDayRef = Request["HTTP_DAYID"];
+            string curVarNum = Request["HTTP_VARNUM"];
             Day curDay = new Day();
             /*
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
@@ -742,14 +997,17 @@ namespace chopper1.Controllers
             //Находим день и меняем время отрисовки
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
             {
-                if (d.TVDayRef == curDayRef)
+                if (d.TVDayRef == curDayRef & d.VariantKod == Convert.ToInt32(curVarNum))
                 {
                     d.RenderTime = curWc.GetCurrentTime();
+                    d.VariantKod = Convert.ToInt32(curVarNum);
+                    d.TVDayRef = curDayRef;
                     curDay = d;
                     break;
                 }
             }
 
+            /*
             //Находим вариант в списке на обновление и убираем его оттуда
             int counter = 0;
             foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_update)
@@ -763,16 +1021,77 @@ namespace chopper1.Controllers
                     counter += 1;
                 }
             }
-            chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
+             */ 
+            //chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
+            //Пытаемся работать с вариантами
+            /*
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            if (curDayVariants.Length > 0)
+            {
+                string[] curDayVariantsArray = new string[curDayVariants.Length];
+                for (int i = 0; i < curDayVariants.Length; i++)
+                {
+                    curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+                    var query = new SelectList(curDayVariantsArray);
+                    SelectList selectList = new SelectList(curDayVariants);
+                    ViewData["DayVariants"] = query;
+                    ViewData["VariantKod"] = query;
+                }
+            }
+            else
+            {
+                string[] curDayVariantsArray = new string[1];
+                curDayVariantsArray[0] = "Вариант " + curVarNum;
+                var query = new SelectList(curDayVariantsArray);
+                SelectList selectList = new SelectList(curDayVariants);
+                ViewData["DayVariants"] = query;
+                ViewData["VariantKod"] = query;
+            }
+            */
+
+            try
+            {
+
+                var query = MyStartupClass.getVariantsSelectList(curDay.TVDate, curDay.KanalKod);
+                ViewData["DayVariants"] = query;
 
 
-            curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
-            return View(curDay);
+
+
+                curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+                if (curDay.KanalKod > 0 & curDay.TVDayRef.Left(8) != "dummyRef")
+                {
+                    TVDayVariantT curVar = new TVDayVariantT();
+                    curVar.VariantNumber = curDay.VariantKod;
+                    curVar.TVDayRef = curDay.TVDayRef;
+                    if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                    {
+                        chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                int x = 1;
+            }
+
+            if (curDay.Efirs.Count() > 0)
+            {
+                return View(curDay);    
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
         public ActionResult UpdateDayOrbity()
         {
+            //Работа с вариантами
+
             string curDayRef = Request["HTTP_DAYID"];
             Day curDay = new Day();
 
@@ -796,19 +1115,23 @@ namespace chopper1.Controllers
         public ActionResult UpdateDayBroadcast()
         {
             string curDayRef = Request["HTTP_DAYID"];
+            string curVarNum = Request["HTTP_VARNUM"];
             Day curDay = new Day();
 
             //Находим день и меняем время отрисовки
             foreach (Day d in chopper1.MyStartupClass.days_to_check)
             {
-                if (d.TVDayRef == curDayRef)
+                if (d.TVDayRef == curDayRef & d.VariantKod == Convert.ToInt32(curVarNum))
                 {
                     d.RenderTime = curWc.GetCurrentTime();
+                    d.VariantKod = Convert.ToInt32(curVarNum);
+                    d.TVDayRef = curDayRef;
                     curDay = d;
                     break;
                 }
             }
 
+            /*
             //Находим вариант в списке на обновление и убираем его оттуда
             int counter = 0;
             foreach (TVDayVariantT v in chopper1.MyStartupClass.variants_to_update)
@@ -822,9 +1145,39 @@ namespace chopper1.Controllers
                     counter += 1;
                 }
             }
-            chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
+             */ 
+            //chopper1.MyStartupClass.variants_to_update.RemoveAt(counter);
+            //Пытаемся работать с вариантами
+            /*
+            TVDayVariantType[] curDayVariants = curWc.GetDayVariants(curDay.TVDate, curDay.KanalKod);
+            string[] curDayVariantsArray = new string[curDayVariants.Length];
+            for (int i = 0; i < curDayVariants.Length; i++)
+            {
+                curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
+            }
+            var query = new SelectList(curDayVariantsArray);
+            SelectList selectList = new SelectList(curDayVariants);
 
+            ViewData["DayVariants"] = query;
+            ViewData["VariantKod"] = query;
+            */
+
+            var query = MyStartupClass.getVariantsSelectList(curDay.TVDate, curDay.KanalKod);
+            ViewData["DayVariants"] = query;
+            
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+
+            if (curDay.KanalKod > 0 & curDay.TVDayRef.Left(8) != "dummyRef")
+            {                
+                TVDayVariantT curVar = new TVDayVariantT();
+                curVar.VariantNumber = curDay.VariantKod;
+                curVar.TVDayRef = curDay.TVDayRef;
+                if (!chopper1.MyStartupClass.variants_to_check.Contains(curVar))
+                {
+                    chopper1.MyStartupClass.variants_to_check.Add(curVar);
+                }
+            }
+
             return View(curDay);
         }
 
@@ -872,6 +1225,7 @@ namespace chopper1.Controllers
                 if (d.TVDayRef==curRef)
                 {
                     curDate = d.TVDate;
+                    
                     break;
                 }
             }
