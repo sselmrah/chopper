@@ -1,4 +1,5 @@
-﻿.dayrect
+﻿
+.dayrect
 {           
             height: 1661px;                      
             background: linear-gradient(slategray 1px, aliceblue 1px);            
@@ -86,7 +87,15 @@
 
 .selected
 {
+    overflow:hidden;
+    z-index: 1000000;
     border: 2px solid blue;    
+    -moz-user-select: none;  
+  user-select: none;
+  -webkit-user-select: none;  
+  user-select: none;
+  
+  -webkit-user-drag: element;
 }
 
 
@@ -431,3 +440,62 @@ input[type=date]::-webkit-inner-spin-button {
     display: none;
 }
 
+/*
+[draggable] {
+  -moz-user-select: none;  
+  user-select: none;
+  -webkit-user-select: none;  
+  user-select: none;
+  
+  -webkit-user-drag: element;
+}
+  */  
+
+
+.leftSideButtons
+{
+    position:fixed;
+    left:-70px;
+    top:30%;
+    z-index: 1000000;    
+}
+
+.rightSideButtons
+{
+    position:fixed;
+    right:0;
+    top:150px;
+    z-index: 1000000;        
+}
+
+
+.sideButtons
+{
+    border: 0 solid red;
+    width:70px;
+    height:70px;
+    text-align:center;    
+    color:white;
+    background-color:#429adb;
+    opacity:0.8;    
+    cursor: pointer;
+    font-size:xx-large;
+    -moz-user-select: none;    
+  -webkit-user-select: none;  
+  user-select: none;
+}
+
+.sideButtons > span
+{
+    display: inline-block;
+  vertical-align: middle;
+      -moz-user-select: none;    
+  -webkit-user-select: none;  
+  user-select: none;
+}
+
+.sideButtons:hover
+{
+    opacity:1;
+    background-color:#0566bb;
+}

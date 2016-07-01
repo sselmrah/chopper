@@ -33,6 +33,12 @@ namespace chopper1.Hubs
             this.Groups.Remove(Context.ConnectionId, tvDayRef);            
         }
 
+        public void print(string repType = "Broadcast", string pointer = "2016-07-06", bool pdf = false, bool word = true, bool print = false)
+        {
+            MyStartupClass.printReport(repType, pointer, pdf, word, print);
+        }
+
+
 
         //public void updateDay(string[] dayIds, string[] dayVars, string timeStampStr)
         public async Task updateDay(string[] dayIds, string[] dayVars, string timeStampStr)

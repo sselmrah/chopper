@@ -16,7 +16,10 @@ using System.Web.Script.Serialization;
  * */
 using Microsoft.AspNet.SignalR;
 using System.Diagnostics;
-
+using Microsoft.Office.Interop.Word;
+using System.Reflection;
+using System.Globalization;
+using System.Text;
 
 
 namespace chopper1.Controllers
@@ -127,8 +130,8 @@ namespace chopper1.Controllers
             curWeek.InjectFrom(curTvWeek);
             curWeek.DaysCount = daysOfWeek.Count();            
             curWeek.Days = daysOfWeek;
-            ViewData["daysCount"]= daysOfWeek.Count();                        
-
+            ViewData["daysCount"]= daysOfWeek.Count();
+            
             return View(curWeek);
         }
 
@@ -583,7 +586,9 @@ namespace chopper1.Controllers
             array_channel_codes[2] = 13;
             array_channel_codes[3] = 12;
             array_channel_codes[4] = 11;
-            
+
+            ViewBag.WeekId = MyStartupClass.getWeekNumByDate(curDate);
+
 
             foreach (int chCode in array_channel_codes)
             {
@@ -1245,7 +1250,10 @@ namespace chopper1.Controllers
             return tvDayRef;
         }
 
-        
+
+
+
+
 
     }
 }

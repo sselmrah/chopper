@@ -19,27 +19,154 @@
     @Scripts.Render("~/bundles/modernizr")
     @*@Scripts.Render("~/Scripts/JavaScript1.js")*@
 
+    @*
+    <script>
 
+        $(document).ready(function () {
+            $('body').on('click', '#swapDown', function newProgSwapDown(event) {
+                var curProgId = $(".selected").attr('id');
+                var curProg = document.getElementById(curProgId);
+                var curTiming = document.getElementById("timing_" + curProgId);
+
+                var nextProgId = $(".selected").nextAll('.prog:first').attr('id');
+                var nextProg = document.getElementById(nextProgId);
+                var nextTiming = document.getElementById("timing_" + nextProgId);
+
+
+                var newNextTop = parseInt(curProg.style.top);
+                var newCurTop = newNextTop + parseInt(nextProg.offsetHeight);
+
+
+                $("#nextProgId").prependTo("#curProgId");
+                curProg.style.top = newCurTop + 'px';
+                curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+                nextProg.style.top = newNextTop + 'px';
+                nextTiming.innerHTML = getTimeByPosition(nextProg.offsetTop, nextProg.offsetHeight);
+            });
+        });
+
+
+    </script>
+        *@
     <script>
         var offset_data;
         var dragged_id;
 
+
+
+        function prog_wheel(event) {
+            var curTiming = document.getElementById("timing_" + event.target.id);
+            var curInfoString = document.getElementById("infostring_" + event.target.id);
+            var delta = event.wheelDelta;
+            if (!event.ctrlKey) {
+                if (delta > 0) {
+                    event.target.style.top = parseInt(event.target.style.top) + 1 + "px";
+                }
+                else {
+                    event.target.style.top = parseInt(event.target.style.top) - 1 + "px";
+                }                                
+            }
+            else
+            {
+                if (delta > 0) {
+                    event.target.style.height = parseInt(event.target.style.height) + 1 + "px";
+                }
+                else {
+                    event.target.style.height = parseInt(event.target.style.height) - 1 + "px";
+                }
+
+                curInfoString.innerHTML = getNewTiming(curInfoString.innerHTML, delta);
+            }
+            curTiming.innerHTML = getTimeByPosition(event.target.offsetTop, event.target.offsetHeight);
+            
+            //curInfoString.innerHTML = getTimeByPosition(event.target.offsetTop, event.target.offsetHeight);
+
+
+
+            event.preventDefault();
+        }
+
+
+        function getNewTiming(oldInfoString, deltaDir){
+            
+            var newInfoString;
+            var oldTiming;
+            var newTiming;
+            var delta = 1;
+            if (deltaDir < 0)
+            {
+                delta = -1;
+            }
+           
+
+            if (oldInfoString.indexOf(":") > 0)
+            {
+                var hours = oldInfoString.substring(oldInfoString.indexOf("[")+1, oldInfoString.indexOf(":"));
+                var minutes = oldInfoString.substring(oldInfoString.indexOf(":") + 1, oldInfoString.indexOf(":") + 3);
+                oldTiming = hours + ":" + minutes;                
+                if (parseInt(minutes) + parseInt(delta) == 60 | parseInt(minutes) + parseInt(delta) == -1)
+                {
+                    hours = parseInt(hours) + parseInt(delta);
+                    if (delta > 0) {
+                        newTiming = hours + ":00";
+                    }
+                    else
+                    {
+                        newTiming = hours + ":59";
+                    }
+                }
+                else
+                {
+                    minutes = parseInt(minutes) + parseInt(delta)
+                    if (minutes < 10)
+                    {
+                        minutes = "0" + minutes;
+                    }
+                    newTiming = hours + ":" + minutes;
+
+                }
+                var secondSemicolon = oldInfoString.substring(oldInfoString.indexOf(":") + 1, oldInfoString.length).indexOf(":") + oldInfoString.indexOf(":") + 1;
+                if (secondSemicolon > 0 & secondSemicolon < oldInfoString.indexOf("+")) {
+                    var seconds = oldInfoString.substring(secondSemicolon, secondSemicolon+3);
+                    oldTiming = oldTiming+seconds;
+                }
+                
+                newInfoString = oldInfoString.replace(oldTiming, newTiming);
+                
+                
+            }
+            else
+            {
+                oldTiming = oldInfoString.substring(0, oldInfoString.indexOf(" "));
+                newTiming = parseInt(oldTiming) + delta;
+                if (newTiming==60)
+                {
+                    newTiming = "1:00";
+                }
+                if (newTiming==0)
+                {
+                    newTiming = "1";
+                }
+            }
+
+
+            return newInfoString;
+        }
 
         function prog_click(event) {
             @*Single click deselects progs*@
             var progs = document.getElementsByClassName("prog");
             for (var i = 0; i < progs.length ; i++) {
                 progs.item(i).classList.remove('selected');
-                progs.item(i).setAttribute("draggable", "false");
+                progs.item(i).setAttribute("draggable", "false");                
             }
-
+            dragged_id ='';
+            $(".leftSideButtons").animate({ left: "-70px" }, 500);
         }
 
+
         function dblclick(ev) {
-            @*
-                Double click selects a prog
-                Currently - a single one
-            *@
+            event.stopPropagation();
             var progs = document.getElementsByClassName("prog");
 
             for (var i = 0; i < progs.length ; i++) {
@@ -49,24 +176,35 @@
 
             if (!ev.target.classList.contains("info-div") & !ev.target.classList.contains("timing-div") & !ev.target.classList.contains("title-div")) {
                 ev.target.classList.add('selected');
-                ev.target.setAttribute("draggable", "true");
+                ev.target.setAttribute("draggable", "true");                
             }
             else {
                 ev.target.parentNode.classList.add('selected');
                 ev.target.parentNode.setAttribute("draggable", "true");
+                ev.target.setAttribute("draggable", "false");
             }
+            var dm;
+            dm = document.getElementsByClassName("selected")[0];
+            dm.addEventListener("mousewheel", prog_wheel, true);
+
+            $(".leftSideButtons").animate({ left: "0" }, 100);
+
         }        
 
         function drag(event) {
+            
+            event.stopPropagation();
             var dm;
-            @*Single selected prog implied*@
-            dm = document.getElementsByClassName("selected")[0];
 
+            dm = document.getElementsByClassName("selected")[0];
+           
             var style = window.getComputedStyle(dm, null);
+                
             event.dataTransfer.setData("text/plain",
             (parseInt(style.getPropertyValue("left"), 10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - event.clientY));
+                
             dragged_id = dm.id;
-
+                
         }
 
         function allowDrop(event) {
@@ -76,36 +214,159 @@
         function drop(event) {
             var offset = event.dataTransfer.getData("text/plain").split(',');
             var dm = document.getElementById(dragged_id);
+            var newTop = (event.clientY + parseInt(offset[1], 10));
+            var nextProg;
+            var nextProgId;
             if (!event.target.classList.contains("info-div") & !event.target.classList.contains("timing-div") & !event.target.classList.contains("title-div")) {
                 if (!event.target.classList.contains("prog")) {
-                    event.target.appendChild(document.getElementById(dragged_id));
+                    //event.target.appendChild(document.getElementById(dragged_id));
+                    nextProgId = findNextProg(event.target.id, newTop);
+                    //nextProgId = "#" + nextProgId;
+                    nextProg = document.getElementById(nextProgId);
+                    //dm.insertBefore(nextProg);
+                    event.target.insertBefore(dm, nextProg);
+                    var x = 0;
                 }
                 else {
-                    event.target.parentNode.appendChild(document.getElementById(dragged_id));
+                    nextProgId = findNextProg(event.target.parentNode.id, newTop);
+                    //nextProgId = "#" + nextProgId;
+                    nextProg = document.getElementById(nextProgId);
+                    //dm.insertBefore(nextProg);
+                    event.target.parentNode.insertBefore(dm, nextProg);
+                    var x = 0;
+                    //event.target.parentNode.appendChild(document.getElementById(dragged_id));
                 }
             }
             else {
-                event.target.parentNode.parentNode.appendChild(document.getElementById(dragged_id));
+                //event.target.parentNode.parentNode.appendChild(document.getElementById(dragged_id));
+                nextProgId = findNextProg(event.target.parentNode.parentNode.id, newTop);
+                //nextProgId = "#" + nextProgId;
+                nextProg = document.getElementById(nextProgId);
+                //dm.insertBefore(nextProg);
+                event.target.parentNode.parentNode.insertBefore(dm, nextProg);
+                var x = 0;
             }
-            dm.style.left = (event.clientX + parseInt(offset[0], 10)) + 'px';
+
+            dm.style.left = '0';
             dm.style.top = (event.clientY + parseInt(offset[1], 10)) + 'px';
 
             var dropElement = event.target;
             var curTiming = document.getElementById("timing_" + dragged_id);
 
-            dm.style.width = dropElement.offsetWidth.toString() + "px";
-            @*Timestart/Timeend update*@
+
+            dm.style.width = dropElement.clientWidth;
             curTiming.innerHTML = getTimeByPosition(dm.offsetTop, dm.offsetHeight);
 
             event.preventDefault();
             return false;
         }
+            
+        function findNextProg(parentId, newTop)
+        {
+            var nextProgId;            
+            var curProg = document.getElementById(dragged_id);
+            var progs = $("#" + parentId).find('.prog');
+            var nextProg;
+
+            for (var i = 0; i < progs.length ; i++) {
+                
+
+                if (progs[i].offsetTop > newTop)
+                {
+                    if (nextProg == null) {
+                        if (progs[i].id != dragged_id) {
+                            nextProg = progs[i];
+                        }
+                    }
+                    else
+                    {
+                        if (progs[i].offsetTop<nextProg.offsetTop)
+                        {
+                            if (progs[i].id != dragged_id) {
+                                nextProg = progs[i];
+                            }
+                        }
+                    }
+                }
+            }
+            nextProgId = nextProg.id;
+
+            return nextProgId;
+        }
+
+        function progMoveUp(event) {
+            var curProgId = $(".selected").attr('id');
+            var curProg = document.getElementById(curProgId);
+            var curTiming = document.getElementById("timing_" + curProgId);
+
+            var prevProgId = $(".selected").prevAll('.prog:first').attr('id');
+            var prevProg = document.getElementById(prevProgId);
+
+            var newTop = parseInt(prevProg.style.top) + parseInt(prevProg.offsetHeight);
+            curProg.style.top = newTop + 'px';
+            curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+        }
+        function progMoveDown(event) {
+            var curProgId = $(".selected").attr('id');
+            var curProg = document.getElementById(curProgId);
+            var curTiming = document.getElementById("timing_" + curProgId);
+
+            var nextProgId = $(".selected").nextAll('.prog:first').attr('id');
+            var nextProg = document.getElementById(nextProgId);
+
+            var newTop = parseInt(nextProg.style.top) - parseInt(curProg.offsetHeight);
+            curProg.style.top = newTop + 'px';
+            curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+        }
+
+        function progSwapUp(event) {
+            var curProgId = $(".selected").attr('id');
+            var curProg = document.getElementById(curProgId);
+            var curTiming = document.getElementById("timing_" + curProgId);
+
+            var prevProgId = $(".selected").prevAll('.prog:first').attr('id');
+            var prevProg = document.getElementById(prevProgId);
+            var prevTiming = document.getElementById("timing_" + prevProgId);
 
 
+            
+            var newCurTop = parseInt(prevProg.style.top);
+            var newPrevTop = newCurTop + parseInt(curProg.offsetHeight);
+            
+
+            curProg.parentNode.insertBefore(curProg, prevProg);
+
+            $("#nextProgId").prependTo("#curProgId");
+            curProg.style.top = newCurTop + 'px';
+            curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+            prevProg.style.top = newPrevTop + 'px';
+            prevTiming.innerHTML = getTimeByPosition(prevProg.offsetTop, prevProg.offsetHeight);
+        }
+        function progSwapDown(event) {
+            var curProgId = $(".selected").attr('id');
+            var curProg = document.getElementById(curProgId);
+            var curTiming = document.getElementById("timing_" + curProgId);
+
+            var nextProgId = $(".selected").nextAll('.prog:first').attr('id');
+            var nextProg = document.getElementById(nextProgId);
+            var nextTiming = document.getElementById("timing_" + nextProgId);
+
+            
+            var newNextTop = parseInt(curProg.style.top);
+            var newCurTop = newNextTop + parseInt(nextProg.offsetHeight);
+
+            curProg.parentNode.insertBefore(nextProg,curProg);
+
+            $("#nextProgId").prependTo("#curProgId");
+            curProg.style.top = newCurTop + 'px';
+            curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+            nextProg.style.top = newNextTop + 'px';
+            nextTiming.innerHTML = getTimeByPosition(nextProg.offsetTop, nextProg.offsetHeight);
+        }
 
         function getTimeByPosition(yPos, curHeight) {
             var timingString = "Got it!";
-            var timeInMinutes = yPos - 100;
+            var timeInMinutes = yPos - 120;
             var durInMinutes = curHeight;
             var endTimeInMinutes = timeInMinutes + durInMinutes;
 
@@ -210,6 +471,14 @@
         </div>
     </div>
     <div class="container-fluid body-content">
+        <div class="leftSideButtons">
+            <div id="swapUp" class='sideButtons' onclick="progSwapUp(event)"><span class='glyphicon glyphicon-random'></span></div>
+            <div id="moveUp" class='sideButtons' onclick="progMoveUp(event)"><span class='glyphicon glyphicon-arrow-up'></span></div>
+            <div id="fill" class='sideButtons'><span class='glyphicon glyphicon-resize-full1'></span></div>
+            <div id="calcAd" class='sideButtons'><span class='glyphicon glyphicon-shopping-cart1'></span></div>
+            <div id="moveDown" class='sideButtons' onclick="progMoveDown(event)"><span class='glyphicon glyphicon-arrow-down'></span></div>
+            <div id="swapDown" class='sideButtons' onclick="progSwapDown(event)"><span class='glyphicon glyphicon-random'></span></div>
+        </div>
         @RenderBody()
         <div class="row">
             <footer>
