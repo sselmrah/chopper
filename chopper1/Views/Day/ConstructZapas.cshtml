@@ -1,0 +1,18 @@
+﻿@model List<chopper1.ws1c.EfirType>
+
+@{
+    Layout = null;
+    DateTime dt = DateTime.Now;
+    int curBeg = 0;
+}
+
+<div id="zapasContainer" style="width:90%;margin-left:5%">
+    @foreach (chopper1.ws1c.EfirType efir in Model)
+        {
+            if (efir != null)
+            {
+                curBeg += efir.Timing;
+                Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = 10, useTitle = false, zapasBeg = curBeg });
+            }
+        }
+</div>

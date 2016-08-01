@@ -1,0 +1,369 @@
+﻿@model List<chopper1.Models.Day>
+
+@{
+    Layout = null;
+    ViewBag.Title = "Endless week";
+    int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
+    chopper1.ws1c.WeekTVDayType firstDay = Model[0];
+    chopper1.ws1c.WeekTVDayType lastDay = Model[Model.Count()-1];
+    
+    
+    
+    string dayVariantList = "";
+    Random rnd = new Random();
+    int month = rnd.Next(1, 4);
+    string icoPath = "";
+    switch (month)
+    {
+        case 1:
+            icoPath = "/chopper_heli_favicon.ico";
+            break;
+        case 2:
+            icoPath = "/chopper_knife_favicon.ico";
+            break;
+        case 3:
+            icoPath = "/chopper_moto_favicon.ico";
+            break;
+    }
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ChOpper</title>
+    <link href='@Url.Content("~/Content/themes/base/all.css")' rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/Content/StyleSheet1.css">
+    <link rel="stylesheet" href="~/Content/Stolby.css">
+    <link rel="stylesheet" href="~/Content/Orbity.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <script src="~/Scripts/jquery-2.0.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+    <link rel="icon" href="@icoPath" type="image/x-icon">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+ 
+
+
+
+
+        
+    
+
+
+    </head>
+    <body>
+        @*
+        <div class="weekPickerContainer">
+            <div class="col-lg-1 visible-lg"></div>
+            <div class="col-lg-1 weekPickerArrow visible-lg">
+                <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+                    <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black; float:right"></span>
+                </a>
+            </div>
+            <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref });}</div>
+            <div class="col-lg-1 weekPickerArrow visible-lg">
+                <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+                    <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+                </a>
+            </div>
+            <div class="col-lg-1 visible-lg"></div>
+        </div>
+        <div class="row visible-lg">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2">
+                <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+            </div>
+        </div>
+            *@
+        <div class="endlessScrollContainer week_bg" style="width:5000px">
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+            </div>
+                 @{
+           var i = 0;
+           int dayRectWidth = 200;
+           string dayRectWidthStr = dayRectWidth.ToString()+"px";
+           string lastDayChCode = "";
+           string lastDayDate = "";
+           
+          }
+            <div id="daysDiv" class="noPadding">
+                @foreach (chopper1.Models.Day day in Model)
+                {
+                    dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";                    
+                    if (day==firstDay)
+                    {
+                        Html.RenderAction("AddDayWrap", "Day", new { d = day, isFirstDay = true, isLastDay = false });
+                    }
+                    if (day==lastDay)
+                    {
+                        Html.RenderAction("AddDayWrap", "Day", new { d = day, isFirstDay = false, isLastDay = true });
+                    }
+                    if (day != firstDay & day != lastDay)
+                    {
+                        Html.RenderAction("AddDayWrap", "Day", new { d = day, isFirstDay = false, isLastDay = false });
+                    }
+                    lastDayChCode = day.KanalKod.ToString();
+                    lastDayDate = day.TVDate.ToString("dd.MM.yyyy");
+                i += 1;
+                }                                        
+            
+            @{
+        dayVariantList = dayVariantList.Substring(0,dayVariantList.Length-1);
+    }
+            
+               
+            
+        </div>
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+     </div>
+        <div class="rightSideButtons visible-lg">
+            <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "raskladka" }, null)">
+                <div class="sideButtons" id="rtfButton" data-reporttype="raskladka">
+                   <span>.rtf</span>
+                </div>
+            </a>
+        </div>
+
+        <div id="progFlyoutHandle">
+            <
+        </div>
+        <div id="progFlyout">
+
+        </div>
+
+
+            <script>
+                var el = $(".lastDay")[0];
+
+                function isElementInViewport(el) {
+
+                    //special bonus for those using jQuery
+                    if (typeof jQuery === "function" && el instanceof jQuery) {
+                        el = el[0];
+                    }
+
+                    var rect = el.getBoundingClientRect();
+
+                    return (
+                        //rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        //rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+                    );
+                }
+
+                function onVisibilityChange(el, callback) {
+                    var old_visible;
+                    return function () {
+                        var visible = isElementInViewport(el);
+                        if (visible != old_visible) {
+                            old_visible = visible;
+                            if (typeof callback == 'function') {
+                                callback();
+                            }
+                        }
+                    }
+                }
+
+                var handler = onVisibilityChange(el, function () {
+                    var parts = $(".lastDay").first().data("nexttvdate").split(".");
+                    var dt = new Date(parseInt(parts[2], 10),
+                                      parseInt(parts[1], 10) - 1,
+                                      parseInt(parts[0], 10));
+
+                    $(".lastDay").removeClass("lastDay");
+
+                    var newDateStr = dt.getDate() + '.' + (dt.getMonth() + 1) + '.' + dt.getFullYear()
+                    var dataPost = { 'curDt': newDateStr }
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        data: dataPost,
+                        url: '/Day/AddDayByDate',
+                        success: function (data) {
+                            //var date = new Date(Date.parse($(".lastDay").first().data("nexttvdate")));
+
+                            
+                            document.getElementById('daysDiv').innerHTML += "<div id=\"emptyNextDay\" class=\"dayrect lastDay\" data-chcode=\"10\" data-nexttvdate=\""+newDateStr+"\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\" style=\"width: 200px\">";
+                            document.getElementById('emptyNextDay').innerHTML = data;
+                            document.getElementById('daysDiv').innerHTML += "</div>"
+                            var res = $("#emptyNextDay").find(".dow-div").first().data("tvdayref");
+                            $("#emptyNextDay").removeClass("dayrectAdd");
+                            $("#emptyNextDay").addClass("dayrect");
+                            $("#emptyNextDay").addClass("lastDay");
+                            $("#emptyNextDay").id = res;
+
+                            //var x = res.data("tvDayRef");
+                            //console.log(x);
+
+                            /*
+                            document.getElementById('progFlyout').innerHTML = data;
+                            console.log(document.getElementById('progFlyout').innerHTML);
+                            $("#progFlyoutHandle").animate({ right: "200px" }, 500);
+                            $("#progFlyout").animate({ right: "0" }, 500);
+                            */
+                        }
+                    });
+                });
+
+
+                //jQuery
+                //$(window).on('DOMContentLoaded load resize scroll', handler);
+                $(window).scroll(handler);
+
+
+    $("#addDayButton").click(function (evt) {
+        var curDt = $("#emptyNextDay").data("tvdate");
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            data: curDt,
+            url: '/Day/AddDayByDate',
+            success: function (data) {
+                document.getElementById('emptyNextDay').innerHTML = data;
+                var res = $("#emptyNextDay").find(".dow-div").first().data("tvdayref");
+                $("#emptyNextDay").removeClass("dayrectAdd");
+                $("#emptyNextDay").addClass("dayrect");
+                $("#emptyNextDay").id = res;
+
+                //var x = res.data("tvDayRef");
+                //console.log(x);
+
+                /*
+                document.getElementById('progFlyout').innerHTML = data;
+                console.log(document.getElementById('progFlyout').innerHTML);
+                $("#progFlyoutHandle").animate({ right: "200px" }, 500);
+                $("#progFlyout").animate({ right: "0" }, 500);
+                */
+            }
+        });
+
+    });
+
+
+    $("#progFlyoutHandle").click(function (evt) {
+
+        if (document.getElementById("progFlyout").style.right == "-200px") {
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                url: '/Day/ConstructZapas',
+                success: function (data) {
+
+                    document.getElementById('progFlyout').innerHTML = data;
+                    console.log(document.getElementById('progFlyout').innerHTML);
+                    $("#progFlyoutHandle").animate({ right: "200px" }, 500);
+                    $("#progFlyout").animate({ right: "0" }, 500);
+                }
+            });
+        }
+        else {
+            document.getElementById('progFlyout').innerHTML = "";
+            $("#progFlyoutHandle").animate({ right: "0" }, 500);
+            $("#progFlyout").animate({ right: "-200px" }, 500);
+        }
+    });
+
+    $("#rtfButton").click(function () {
+
+        var dUpdate = $.connection.dayUpdate;
+        var repType = document.getElementById("printButton").dataset.reporttype;
+        var weekId = document.getElementById("printButton").dataset.weekid;
+        var dayVariantList = "";
+
+        var dateDivs = document.getElementsByClassName("date-div");
+        var varDivs = document.getElementsByClassName("varCode-div");
+
+        for (var i = 0; i < dateDivs.length; i++) {
+            dayVariantList += dateDivs[i].innerHTML + "_";
+            var str = varDivs[i].id;
+            var varCode = str.substring(3);
+            dayVariantList += varCode;
+            if (i != dateDivs.length - 1) {
+                dayVariantList += ";";
+            }
+        }
+        console.log("RTF OK!");
+    });
+            </script>
+
+            <script>
+                $(function () {
+                    var dUpdate = $.connection.dayUpdate;
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
+
+
+                    dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
+                        console.log(serverTime);
+                        if (tvdayref != "") {
+                            var xmlhttp;
+                            xmlhttp = new XMLHttpRequest();
+
+                            xmlhttp.onreadystatechange = function () {
+                                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                                    console.log(tvdayref + '-' + serverTime);
+                                    if (xmlhttp.status == 200) {
+                                        document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                        document.getElementById("timestampDiv").innerHTML = serverTime;
+
+
+                                    }
+                                    else if (xmlhttp.status == 400) {
+                                        console.log(xmlhttp.statusText);
+                                    }
+                                    else {
+                                        console.log(xmlhttp.statusText);
+                                        console.log(xmlhttp.responseText);
+                                    }
+                                }
+                            }
+                            xmlhttp.open("POST", "UpdateDayWeek", true);
+                            xmlhttp.setRequestHeader("dayID", tvdayref);
+                            xmlhttp.setRequestHeader("varNum", varNum);
+                            xmlhttp.send(tvdayref);
+                        }
+                    };
+
+                    /*Added 22/06/16*/
+                    $.connection.hub.disconnected(function () {
+                        console.log("reconnected at " + Date.now());
+                        setTimeout(function () {
+                            $.connection.hub.start();
+                        }, 5000); // Restart connection after 5 seconds.
+                    });
+
+                    $.connection.hub.start().done(function () {
+                        var allDayRects1 = document.getElementsByClassName("dayrect");
+                        for (var i = 0; i < allDayRects1.length; i++) {
+                            dUpdate.server.subscribe(allDayRects1.item(i).id);
+                        }
+                        setInterval(function () {
+                            var allDayRects2 = document.getElementsByClassName("dayrect");
+                            for (var i = 0; i < allDayRects2.length; i++) {
+                                if (allDayRects1.item(i).id != allDayRects2.item(i).id) {
+                                    dUpdate.server.subscribe(allDayRects2.item(i).id);
+                                }
+                            }
+                            allDayRects1 = allDayRects2;
+                        }, 3000);
+                    });
+                });
+            </script>
+ 
+    </body>
+
+</html>
+

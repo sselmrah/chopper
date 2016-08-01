@@ -17,7 +17,7 @@
 </a>
 
 <div id="var@(Model.VariantKod.ToString())" class="varCode-div">
-    @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
+    @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }, new { @class = "varForm" }))
     {
         <fieldset>
             @Html.DropDownList("VariantKod", (SelectList)ViewData["DayVariants"], varStr, new { @onchange = "$(this.form).submit();" })
@@ -36,3 +36,7 @@
         Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode });
     }
 }
+
+<script>
+
+</script> 

@@ -6,30 +6,38 @@
     
     ViewBag.Title = Model.Days[0].TVDate.Date.ToString("dd/MM/yyyy");
 }
-
-@using (Html.BeginForm("Ratings", "Weeks", FormMethod.Get))
-{
-    <fieldset>
-        <h2>Доли телепередач на @curDow, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" required="required" value="@curDate" onchange="form.submit();" /></h2>
-    </fieldset>
-}
-
-<div class="row week_bg">
-
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        @using (Html.BeginForm("Ratings", "Weeks", FormMethod.Get))
+        {
+            <fieldset>
+                <h2>Доли телепередач на @curDow, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" required="required" value="@curDate" onchange="form.submit();" /></h2>
+            </fieldset>
+        }
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+<div class="row week_bg">    
     @{var i = 0;
-    double dayRectWidth = 95.0 / 6;
-    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
+    double dayRectWidth = 100.0 / 6 - 0.00001;
+    string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
     }
-
-    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
-    @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
-    {               
-        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">            
-           @{Html.RenderAction("RatingsDay", "Day", day);}
-        </div>
-        i += 1;        
-    }
-    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    <div class="col-lg-1 noPadding" style="float:left">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+    </div>
+    <div class="col-lg-10 noPadding" style=" float:left">
+        @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
+        {
+            <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                @{Html.RenderAction("RatingsDay", "Day", day);}
+            </div>
+                i += 1;
+        }
+    </div>
+    <div class="col-lg-1 noPadding" style=" float:left">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    </div>
     <div id="tail"></div>
 </div>
 

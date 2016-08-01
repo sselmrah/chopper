@@ -2499,6 +2499,91 @@ namespace chopper1.ws1c {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
+    public partial class FooterType {
+        
+        private string begField;
+        
+        private System.Nullable<System.DateTime> timingField;
+        
+        private string titleField;
+        
+        private string kodRedField;
+        
+        private bool capFlagField;
+        
+        private bool vyborkaFlagField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Beg {
+            get {
+                return this.begField;
+            }
+            set {
+                this.begField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> Timing {
+            get {
+                return this.timingField;
+            }
+            set {
+                this.timingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Title {
+            get {
+                return this.titleField;
+            }
+            set {
+                this.titleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string KodRed {
+            get {
+                return this.kodRedField;
+            }
+            set {
+                this.kodRedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool CapFlag {
+            get {
+                return this.capFlagField;
+            }
+            set {
+                this.capFlagField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool VyborkaFlag {
+            get {
+                return this.vyborkaFlagField;
+            }
+            set {
+                this.vyborkaFlagField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
     public partial class TVDayVariantParam {
         
         private int variantCodeField;
@@ -2522,6 +2607,8 @@ namespace chopper1.ws1c {
         private string tVDayRefField;
         
         private System.DateTime tVDateField;
+        
+        private FooterType[] foot2Field;
         
         /// <remarks/>
         public int VariantCode {
@@ -2637,6 +2724,18 @@ namespace chopper1.ws1c {
             }
             set {
                 this.tVDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(IsNullable=true)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Footer", IsNullable=false)]
+        public FooterType[] Foot2 {
+            get {
+                return this.foot2Field;
+            }
+            set {
+                this.foot2Field = value;
             }
         }
     }

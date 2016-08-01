@@ -13,17 +13,21 @@
 .weekPickerContainer
 {
     height: 50px;
+    /*
     width: 95%;
     text-align:center;
     vertical-align:central;    
     border:solid black 0;    
+        */
 }
 .weekPickerArrow
 {
+    
     position: relative;
-	top: 10%;
+	top: 15%;
+    /*
     float:left;
-    width:10%;    
+    width:10%; */   
 }
 
 .orbdowDiv

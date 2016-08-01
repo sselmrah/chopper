@@ -7,63 +7,89 @@
 
     ViewBag.Title = Model.Note;
     int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
+    string dayVariantList = "";
 }
 
 <!--<h2>@Model.Note</h2>-->
 
-<div class="weekPickerContainer">
-    @* <div class="weekPickerArrow">
-            <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
-                <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:blue"></span>
-            </a>
-        </div>*@
-    <div class="weekPickerArrow">
+<div class="row weekPickerContainer">      
+    <div class="col-lg-1"></div>  
+    <div class="col-lg-1 weekPickerArrow">
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
             <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
         </a>
     </div>
-
-    <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
-    <div class="weekPickerArrow">
+    <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
+    <div class="col-lg-1 weekPickerArrow">
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
             <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
         </a>
     </div>
+    <div class="col-lg-1"></div>
 </div>
-<p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+<div class="row">
+    <div class="col-lg-10"></div>
+    <div class="col-lg-1">
+        <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
 @*
     <div>
         @Html.DisplayFor(model => model.DaysCount)
     </div>
 *@
 
-<div class="row week_bg">
-    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
-    @{
-        double dayRectWidth = 92.0 / Convert.ToDouble(Model.DaysCount);
-        string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
-    }
-    @for (int i = 0; i < Model.Days.Count() / 5; i++)
-    {
-        string tvDayRefs = "";
-        for (int j = 0; j < 5; j++)
-        {
-            tvDayRefs += Model.Days[(i * 5)+j].TVDayRef + "_";
-        }
-        tvDayRefs = tvDayRefs.Substring(0,tvDayRefs.Length-1);
-        var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
-        @*<div id="@Model.Days[i*5].TVDayRef" data-varnum="@Model.Days[i*5].VariantKod" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">*@
-        <div id="@Model.Days[i*5].TVDayRef" data-tvdayrefs="@tvDayRefs" data-varnum="@Model.Days[i*5].VariantKod" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-            @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+<div class="row week_bg">    
+    <div class="visible-lg col-lg-1 noPadding">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+    </div>
+    <div class="col-lg-10 noPadding">
+        <div style="float:left">
+
         </div>
-    }
-    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
-    <div class="visible-lg">
+        @{
+            double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
+            string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
+        }
+        @for (int i = 0; i < Model.Days.Count() / 5; i++)
+        {
+            string tvDayRefs = "";
+            for (int j = 0; j < 5; j++)
+            {
+                tvDayRefs += Model.Days[(i * 5) + j].TVDayRef + "_";
+            }
+            tvDayRefs = tvDayRefs.Substring(0, tvDayRefs.Length - 1);
+            var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+
+            for (int j = 0; j < 5; j++)
+            {
+                dayVariantList += Model.Days[(i * 5) + j].TVDate.ToString("dd.MM.yyyy") + "_" + Model.Days[i + j].VariantKod + "_" + Model.Days[i + j].KanalKod + ";";
+            }
+            <div id="@Model.Days[i*5].TVDayRef" data-tvdayrefs="@tvDayRefs" data-varnum="@Model.Days[i*5].VariantKod" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+            </div>
+        }
+        @{
+            dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
+        }
+
+
+    </div>
+    <div class="visible-lg col-lg-1 noPadding">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
         @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 14 });}
         @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 13 });}
         @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 12 });}
         @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 11 });}
     </div>
+</div>
+<div class="rightSideButtons">
+    <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "orbity" }, null)">
+        <div class="sideButtons" id="rtfButton" data-reporttype="orbity">
+            <span>.rtf</span>
+        </div>
+    </a>
 </div>
 
 @*<div id="spinner">
@@ -73,7 +99,7 @@
 
 
 @section scripts {
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-2.0.0.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
@@ -86,14 +112,13 @@
 
 
             dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
-                
+
                 if (tvdayref != "") {
                     var curDayRef = "";
                     var curTvDayRefs = "";
                     for (var i = 0; i < allDayRects1.length; i++) {
                         curTvDayRefs = allDayRects1.item(i).getAttribute('data-tvdayrefs');
-                        if (curTvDayRefs.indexOf(tvdayref)>-1)
-                        {
+                        if (curTvDayRefs.indexOf(tvdayref) > -1) {
                             curDayRef = allDayRects1.item(i).id;
                         }
                     }
@@ -132,13 +157,11 @@
             });
 
             $.connection.hub.start().done(function () {
-                
-                for (var i = 0; i < allDayRects1.length; i++)
-                {
+
+                for (var i = 0; i < allDayRects1.length; i++) {
                     var curRefs = allDayRects1.item(i).getAttribute('data-tvdayrefs').split("_");
-                    for (var j = 0; j < curRefs.length; j++)
-                    {
-                        dUpdate.server.subscribe(curRefs[j]);                        
+                    for (var j = 0; j < curRefs.length; j++) {
+                        dUpdate.server.subscribe(curRefs[j]);
                     }
                 }
                 setInterval(function () {

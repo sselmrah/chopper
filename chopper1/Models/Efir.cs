@@ -23,6 +23,7 @@ namespace chopper1.Models
         private int _t99;
         private int _st;
         private int _a;
+        private int _ta;
         private bool _bold;
         private bool _italic;
         private int _fontSize;
@@ -39,6 +40,20 @@ namespace chopper1.Models
         private decimal _dR;
         private decimal _rM;
         private decimal _rR;
+        private bool _isFromZapas;
+
+        public bool IsFromZapas
+        {
+            get { return _isFromZapas; }
+            set { _isFromZapas = value; }
+        }
+
+
+        public int Ta
+        {
+            get { return _ta; }
+            set { _ta = value; }
+        }
 
         public decimal RR
         {
@@ -281,6 +296,7 @@ namespace chopper1.Models
             int t99 = 0;
             int st = 0;
             int a = 0;
+            int ta = 0;
 
             if (ITCs != null)
             {
@@ -304,6 +320,7 @@ namespace chopper1.Models
                     if (itc.Title == "А")
                     {
                         a += itc.Timing;
+                        ta += itc.PointCount;
                     }
 
                 }
@@ -315,6 +332,7 @@ namespace chopper1.Models
             this.T99 = t99;
             this.St = st;
             this.A = a;
+            this.Ta = ta;
             
             if (r + r99 + sr + a == 0)
             {
@@ -365,6 +383,7 @@ namespace chopper1.Models
             {
                 infoString += aToString(this.A, hourDelim, minDelim);
             }
+
 
 
             return infoString;
@@ -438,11 +457,19 @@ namespace chopper1.Models
                 if (aDur % 60 > 0)
                 {
                     //aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m\:%s") + "А";
-                    aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m"+@delimMin+@"%s") + "А";
+                    aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m"+@delimMin+@"%s");
                 }
                 else
                 {
-                    aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m") + "А";
+                    aDurStr = " + " + TimeSpan.FromSeconds(aDur).ToString(@"%m");
+                }
+                if (this.Ta>0)
+                {
+                    aDurStr += "А("+this.Ta+")";
+                }
+                else
+                {
+                    aDurStr += "А";
                 }
             }
             else

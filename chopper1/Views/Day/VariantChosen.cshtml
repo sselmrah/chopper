@@ -144,7 +144,32 @@
         }
     }
 }
-
+<script>
+    $(document).ready(function () {
+        var dayDivs = document.getElementsByClassName("dayrect");
+        var dateDivs = document.getElementsByClassName("date-div");
+        var varDivs = document.getElementsByClassName("varCode-div");
+        var dayVariantList = "";
+        for (var i = 0; i < dateDivs.length; i++) {
+            dayVariantList += dateDivs[i].innerHTML + "_";
+            var str = varDivs[i].id;
+            var varCode = str.substring(3);
+            dayVariantList += varCode + "_";
+            var chCode = dayDivs[i].dataset.chcode;
+            dayVariantList += chCode;
+            if (i != dateDivs.length - 1) {
+                dayVariantList += ";";
+            }
+            
+        }
+        var repType = "@ViewData["repType"]";
+        var newLink = "/Weeks/Download?dayVariantList=" + dayVariantList + "&repType=" + repType;
+        var link = document.getElementById("rtfDownloadLink")
+        console.log(link.href);
+        link.href = newLink;
+        console.log(link.href);
+    });
+</script>
 
 
 

@@ -20,6 +20,7 @@ using Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Globalization;
 using System.Text;
+using System.IO;
 
 
 namespace chopper1.Controllers
@@ -61,6 +62,59 @@ namespace chopper1.Controllers
 
             return View(week);
         }
+
+
+        public ActionResult endlessWeek(string week_num = "")
+        {
+            Week curWeek = new Week();
+            TVWeekType curTvWeek = new TVWeekType();
+            
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
+
+            int[] array_channel_codes = new int[1];
+            array_channel_codes[0] = 10;
+            
+            List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();            
+
+            curWeek.InjectFrom(curTvWeek);
+            curWeek.DaysCount = daysOfWeek.Count();
+            curWeek.Days = daysOfWeek;
+            ViewData["daysCount"] = daysOfWeek.Count();
+
+            return View(curWeek);
+        }
+
+        public ActionResult alldays(string dayStart="")
+        {
+            DateTime startDt = DateTime.Now.Date;
+            if (dayStart != "")
+            { 
+                startDt = DateTime.Parse(dayStart); 
+            }
+
+
+            List<Day> daysList = new List<Day>();
+            for (int i =-3; i<15;i++)
+            {
+                Day curDay = new Day();
+                try
+                {
+                    curDay = MyStartupClass.getDayByDateAndVariantCode(startDt + TimeSpan.FromDays(i), 1);
+                }
+                catch
+                {
+                    curDay.TVDate = startDt + TimeSpan.FromDays(i);
+                }
+                daysList.Add(curDay);
+            }           
+
+            return View(daysList);
+        }
+
+
+
         public ActionResult getWeek(string week_num="")
         {
             //Чистим список проверяемых дней
@@ -135,7 +189,7 @@ namespace chopper1.Controllers
             return View(curWeek);
         }
 
-        private List<WeekTVDayType> getDaysOfWeek(TVWeekType week, int[] array_channel_codes)
+        public List<WeekTVDayType> getDaysOfWeek(TVWeekType week, int[] array_channel_codes)
         {
             
 
@@ -605,56 +659,9 @@ namespace chopper1.Controllers
             //chopper1.MyStartupClass.variants_to_check.Clear();
 
             Week curWeek = new Week();
-
-            //Experiments
             
             TVWeekType curTvWeek = new TVWeekType();
-            /*
-            try
-            {
-
-                // curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
-                TVWeekType[] weeks = curWc.GetWeeks();
-                //If week_num is not specified get the week currently in work                
-                if (week_num.Left(3) == "cur")
-                {
-                    int shift = 0;
-                    //Current week = cur0
-                    //Current week+1 = cur1
-                    //Current week+2 = cur2
-                    shift = Convert.ToInt32(week_num.Right(week_num.Length - 3));
-
-                    curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks) - shift];
-                    MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks) - shift;
-                    ViewBag.WeekId = (MyStartupClass.tvWeeks.Length-1-MyStartupClass.getCurrentWeek(weeks)+shift).ToString();
-
-                }
-                else
-                {
-                    if (week_num == "")
-                    {
-                        //curTvWeek = weeks[MyStartupClass.getWeekInWork(weeks)];
-                        //MyStartupClass.selectedID = MyStartupClass.getWeekInWork(weeks);
-                        curTvWeek = weeks[MyStartupClass.getCurrentWeek(weeks)];
-                        MyStartupClass.selectedID = MyStartupClass.getCurrentWeek(weeks);
-                        ViewBag.WeekId = (MyStartupClass.tvWeeks.Length-1-MyStartupClass.getCurrentWeek(weeks)).ToString();
-                    }
-                    else
-                    {
-                        curTvWeek = weeks[weeks.Length - 1 - Convert.ToInt32(week_num)];
-                        ViewBag.WeekId = Convert.ToInt32(week_num).ToString();
-                    }
-                }
-
-                ViewData["weekName"] = curWeek.Name;
-
-            }
-            catch
-            {
-
-            }
-            */
-
+  
             string curTvWeekNum = getWeekNum(week_num);
             curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
             ViewBag.WeekId = curTvWeekNum;
@@ -668,7 +675,6 @@ namespace chopper1.Controllers
             array_channel_codes[2] = 12;
             array_channel_codes[3] = 13;
             array_channel_codes[4] = 14;
-
 
             List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();            
             
@@ -690,8 +696,7 @@ namespace chopper1.Controllers
             curWeek.DaysCount = daysOfWeek.Count()/5;            
             curWeek.Days = daysOfWeek;
             ViewData["daysCount"]= daysOfWeek.Count();
-            ViewBag.reportType = "orbity";
-            
+            ViewBag.reportType = "orbity";            
             
         
             return View(curWeek);
@@ -920,6 +925,12 @@ namespace chopper1.Controllers
             
         }
        
+        [HttpPost]
+        public ActionResult GetZapas()
+        {
+            return View(MyStartupClass.zapasEfirs);
+        }
+
 
         [HttpPost]
         public ActionResult UpdateDayStolby()
@@ -981,6 +992,9 @@ namespace chopper1.Controllers
             curDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             return View(curDay);
         }
+
+
+
 
         [HttpPost]
         public ActionResult UpdateDayWeek()
@@ -1250,7 +1264,12 @@ namespace chopper1.Controllers
             return tvDayRef;
         }
 
+        public FileResult Download(string dayVariantList = "", string repType = "")
+        {
+            FileStreamResult result = rtf.printReport(dayVariantList: dayVariantList, repType: repType, pointer:"");
 
+            return result;
+        }
 
 
 

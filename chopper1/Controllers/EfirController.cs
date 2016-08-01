@@ -83,7 +83,11 @@ namespace chopper1.Controllers
             return PartialView(newEfir);
         }
 
-        public ActionResult ConstructEfir(EfirType curEfir, DateTime curDay, int chCode = 10, bool useTitle = false)
+
+        
+
+
+        public ActionResult ConstructEfir(EfirType curEfir, DateTime curDay, int chCode = 10, bool useTitle = false, int zapasBeg = -1)
         {
 
             Efir newEfir = new Efir();
@@ -151,6 +155,22 @@ namespace chopper1.Controllers
             
             //Используем ли Title вместо ANR
             newEfir.UseTitle = useTitle;
+
+
+            //Работаем с запасом
+            if (zapasBeg>=0)
+            {
+                newEfir.IsFromZapas = true;
+
+                newEfir.Beg = DateTime.Now.Date + TimeSpan.FromHours(4) + TimeSpan.FromSeconds(zapasBeg);
+                newEfir.IsPrevDay = false;
+                newEfir.IsNextDay = false;                
+
+            }
+            else
+            {
+                newEfir.IsFromZapas = false;
+            }
 
             if (newEfir.ChCode == 11)
             {
@@ -270,7 +290,15 @@ namespace chopper1.Controllers
             }
             else
             {
-                newEfir.IsNextDay = true;
+                if (newEfir.Beg.Date > curDay.Date)
+                {
+                    newEfir.IsNextDay = true;
+                }
+                else
+                {
+                    newEfir.IsNextDay = false;
+                    newEfir.IsPrevDay = true;
+                }
             }
             //Проверяем, не новостной ли это эфир
             newEfir.IsNews = false;
@@ -284,7 +312,14 @@ namespace chopper1.Controllers
                 }
                 else
                 {
-                    thisNewsStart = Convert.ToInt32(newEfir.Beg.TimeOfDay.TotalSeconds);
+                    if (newEfir.IsPrevDay)
+                    {
+                        thisNewsStart = Convert.ToInt32(newEfir.Beg.TimeOfDay.TotalSeconds) - 24 * 60 * 60;
+                    }
+                    else
+                    {
+                        thisNewsStart = Convert.ToInt32(newEfir.Beg.TimeOfDay.TotalSeconds);
+                    }
                 }
 
                 if (chopper1.MyStartupClass.lastNewsStart == 0)
@@ -294,8 +329,8 @@ namespace chopper1.Controllers
                     //Дописать обнуление lastnewsstart
                 }
                 else
-                {
-                    newEfir.Nakladka = thisNewsStart - chopper1.MyStartupClass.lastNewsStart - chopper1.MyStartupClass.totalBlockDur;
+                {                    
+                    newEfir.Nakladka = thisNewsStart - chopper1.MyStartupClass.lastNewsStart - chopper1.MyStartupClass.totalBlockDur;                    
                     chopper1.MyStartupClass.lastNewsStart = thisNewsStart;                    
                     chopper1.MyStartupClass.totalBlockDur = newEfir.Timing;
                 }

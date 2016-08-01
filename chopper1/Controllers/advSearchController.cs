@@ -112,7 +112,7 @@ namespace chopper1.Controllers
             WebСервис1 curWc = MyStartupClass.wc;
             PokazType[] resultArray = curWc.GetPokazs(DateMin, DateMax, Title);
             List<PokazType> filteredResultList = new List<PokazType>();
-            DateTime n = Convert.ToDateTime(TimeStartMin);
+            DateTime n = Convert.ToDateTime(TimeStartMin);                        
 
             if (DateMin == null)
             {

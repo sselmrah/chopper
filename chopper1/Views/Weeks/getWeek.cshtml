@@ -4,49 +4,184 @@
 
     ViewBag.Title = Model.Note;
     int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
+    string dayVariantList = "";
+
+
 }
 
 <!--<h2>@Model.Note</h2>-->
 
-<div class="weekPickerContainer">
-    <div class="weekPickerArrow">
+<div class="row weekPickerContainer">    
+    <div class="col-lg-1 visible-lg"></div>
+    <div class="col-lg-1 weekPickerArrow visible-lg">
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
-            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black; float:right"></span>
         </a>
     </div>
-    <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref });}</div>
-    <div class="weekPickerArrow">
+    <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref });}</div>
+    <div class="col-lg-1 weekPickerArrow visible-lg">
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
             <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
         </a>
+    </div>    
+    <div class="col-lg-1 visible-lg"></div>
+</div>
+<div class="row visible-lg">
+    <div class="col-lg-9"></div>
+    <div class="col-lg-2">
+        <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+    </div>    
+    <div class="col-lg-1"></div>
+</div>
+<div class="row week_bg">    
+    <div class="col-lg-1 visible-lg noPadding">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+    </div>
+         @{
+           var i = 0; 
+           double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
+           string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%"; 
+          }
+    <div id="daysDiv" class="col-lg-10 noPadding">
+        @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
+        {
+            dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
+            <div id="@day.TVDayRef" class="dayrect" data-chcode="@day.KanalKod" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                @{Html.RenderAction("ConstructDay", "Day", day);}
+            </div>
+                i += 1;
+        }
+    </div>
+    @{
+        dayVariantList = dayVariantList.Substring(0,dayVariantList.Length-1);
+    }
+    <div class="col-lg-1 visible-lg noPadding">
+        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
     </div>
 </div>
-<p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
-<div class="row week_bg">
-    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
-    @{var i = 0;
-    double dayRectWidth = 95.0 / Convert.ToDouble(Model.DaysCount);
-    string dayRectWidthStr = dayRectWidth.ToString("#.##").Replace(",", ".") + "%";
-    }
-    @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
-    {
-        <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">            
-            @{Html.RenderAction("ConstructDay", "Day", day);}            
+
+<div class="rightSideButtons visible-lg">
+    <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "raskladka" }, null)">
+        <div class="sideButtons" id="rtfButton" data-reporttype="raskladka">
+           <span>.rtf</span>    
         </div>
-        i += 1;
-    }
-    @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+    </a>
 </div>
 
+<div id="progFlyoutHandle">
+    <
+</div>
+<div id="progFlyout">
+
+</div>
 
 
 
 @section scripts {
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-2.0.0.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+
+    
     <script>
+        $("#progFlyoutHandle").click(function (evt) {
+
+            if (document.getElementById("progFlyout").style.right == "-200px") {
+                $.ajax({
+                    type: 'GET',
+                    cache: false,
+                    url: '/Day/ConstructZapas',
+                    success: function (data) {
+
+                        document.getElementById('progFlyout').innerHTML = data;
+                        console.log(document.getElementById('progFlyout').innerHTML);
+                        $("#progFlyoutHandle").animate({ right: "200px" }, 500);
+                        $("#progFlyout").animate({ right: "0" }, 500);
+                    }
+                });
+            }
+            else
+            {
+                document.getElementById('progFlyout').innerHTML = "";
+                $("#progFlyoutHandle").animate({ right: "0" }, 500);
+                $("#progFlyout").animate({ right: "-200px" }, 500);
+            }
+        });
+
+
+
+        @*
+        function handleClick(event) {
+            if (document.getElementById("progFlyout").style.right == "-200px") {
+                document.getElementById("progFlyout").innerHTML = "";
+
+
+
+
+
+                var xmlhttp2;
+                xmlhttp2 = new XMLHttpRequest();
+                xmlhttp2.open("POST", "GetZapas", true);                
+                xmlhttp2.send();
+                xmlhttp2.onreadystatechange = function () {
+                    document.getElementById("progFlyout").innerHTML += xmlhttp2.responseText;
+                }
+
+
+
+                $("#progFlyoutHandle").animate({ right: "200px" }, 500);
+                $("#progFlyout").animate({ right: "0" }, 500);
+            }
+            else
+            {
+                $("#progFlyoutHandle").animate({ right: "0" }, 500);
+                $("#progFlyout").animate({ right: "-200px" }, 500);
+
+                
+            }
+    }
+*@
+        $("#rtfButton").click(function () {
+            
+            var dUpdate = $.connection.dayUpdate;
+            var repType = document.getElementById("printButton").dataset.reporttype;
+            var weekId = document.getElementById("printButton").dataset.weekid;
+            var dayVariantList = "";
+
+            var dateDivs = document.getElementsByClassName("date-div");
+            var varDivs = document.getElementsByClassName("varCode-div");
+
+            for (var i = 0; i < dateDivs.length; i++) {
+                dayVariantList += dateDivs[i].innerHTML + "_";
+                var str = varDivs[i].id;
+                var varCode = str.substring(3);
+                dayVariantList += varCode;
+                if (i != dateDivs.length - 1) {
+                    dayVariantList += ";";
+                }
+            }
+            @*
+            var url = '@Url.Action("Download", "Weeks")';
+            $.post(url, { dayVariantList: dayVariantList, repType: "raskladka" },
+            function () {
+            });
+            *@
+
+
+
+            console.log("RTF OK!");
+            @*dUpdate.server.print(dayVariantList, repType, weekId, false, true, false);*@
+
+        });
+    </script>
+
+    <script>
+
+
+
         $(function () {
             var dUpdate = $.connection.dayUpdate;
             var xmlhttp;
@@ -65,6 +200,8 @@
                             if (xmlhttp.status == 200) {
                                 document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
                                 document.getElementById("timestampDiv").innerHTML = serverTime;
+
+                                
                             }
                             else if (xmlhttp.status == 400) {
                                 console.log(xmlhttp.statusText);
@@ -107,120 +244,120 @@
             });
         });
     </script>
-    }
-    @*
-    <script>
-        $(function () {
-            var xmlhttp;
-            xmlhttp = new XMLHttpRequest();
-
-            var dUpdate = $.connection.dayUpdate;
-            dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
-
-                if (tvdayref != "") {
-                    var xmlhttp;
-                    xmlhttp = new XMLHttpRequest();
-
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                            console.log(tvdayref + '-' + serverTime);
-                            if (xmlhttp.status == 200) {                                
-                                document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
-                                document.getElementById("timestampDiv").innerHTML = serverTime;
-                            }
-                            else if (xmlhttp.status == 400) {
-                                console.log(xmlhttp.statusText);
-                            }
-                            else {
-                                console.log(xmlhttp.statusText);
-                            }
-                        }
-                    }
-                    xmlhttp.open("POST", "UpdateDayWeek", true);
-                    xmlhttp.setRequestHeader("dayID", tvdayref);
-                    xmlhttp.setRequestHeader("varNum", varNum);
-                    xmlhttp.send(tvdayref);
-                }
-            };
-
-            $.connection.hub.start().done(function () {
-                var allDayRects1 = document.getElementsByClassName("dayrect");
-                for (var i = 0; i < allDayRects1.length; i++) {
-                    dUpdate.server.subscribe(allDayRects1.item(i).id);
-                }
-                setInterval(function () {
-                    var allDayRects2 = document.getElementsByClassName("dayrect");
-                    var days = new Array();
-                    //var vars = new Array();
-                    var allvars = document.getElementsByClassName("varCode-div");
-                    var vars2 = new Array();
-                    for (var i = 0; i < allvars.length; i++) {
-                        vars2.push(allvars.item(i).id.substring(3));
-                    }
-                    for (var i = 0; i < allDayRects2.length; i++) {
-                        if (allDayRects1.item(i).id != allDayRects2.item(i).id) {
-                            dUpdate.server.subscribe(allDayRects2.item(i).id);
-                        }
-                        days.push(allDayRects2.item(i).id);
-                        //vars.push(allDayRects.item(i).getAttribute('data-varnum'));
-                        //dUpdate.server.subscribe(allDayRects.item(i).id);
-                    }
-
-                    var timestamp = document.getElementById("timestampDiv").innerText;
-                    dUpdate.server.updateDay(days, vars2, timestamp);
-
-                }, 5000);
-                // Call the Send method on the hub.
-            });
-        });
-    </script>
 }
+@*
+        <script>
+            $(function () {
+                var xmlhttp;
+                xmlhttp = new XMLHttpRequest();
 
-<script>
+                var dUpdate = $.connection.dayUpdate;
+                dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
 
-    document.addEventListener("DOMContentLoaded", function a() {
-        try{
-            var source = new EventSource('checkdays');
-            var myP = document.getElementById("messages");
+                    if (tvdayref != "") {
+                        var xmlhttp;
+                        xmlhttp = new XMLHttpRequest();
 
-            source.onmessage = function (event) {
-                var result = event.data;
-                if (result != "") {
-                    var xmlhttp;
-                    xmlhttp = new XMLHttpRequest();
-
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                            if (xmlhttp.status == 200) {
-                                console.log(result);
-                                document.getElementById(result).innerHTML = xmlhttp.responseText;
-                                document.getElementById("timestampDiv").innerHTML = getTimeStamp();
-                            }
-                            else if (xmlhttp.status == 400) {
-                          
-                                console.log(xmlhttp.statusText);
-                            }
-                            else {
-
-                                console.log(xmlhttp.statusText);
+                        xmlhttp.onreadystatechange = function () {
+                            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                                console.log(tvdayref + '-' + serverTime);
+                                if (xmlhttp.status == 200) {
+                                    document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                    document.getElementById("timestampDiv").innerHTML = serverTime;
+                                }
+                                else if (xmlhttp.status == 400) {
+                                    console.log(xmlhttp.statusText);
+                                }
+                                else {
+                                    console.log(xmlhttp.statusText);
+                                }
                             }
                         }
+                        xmlhttp.open("POST", "UpdateDayWeek", true);
+                        xmlhttp.setRequestHeader("dayID", tvdayref);
+                        xmlhttp.setRequestHeader("varNum", varNum);
+                        xmlhttp.send(tvdayref);
                     }
-                    xmlhttp.open("POST", "UpdateDayWeek", true);
-                    xmlhttp.setRequestHeader("dayID", result);
-                    console.log(result);
-                    xmlhttp.send(result);
-                }
+                };
+
+                $.connection.hub.start().done(function () {
+                    var allDayRects1 = document.getElementsByClassName("dayrect");
+                    for (var i = 0; i < allDayRects1.length; i++) {
+                        dUpdate.server.subscribe(allDayRects1.item(i).id);
+                    }
+                    setInterval(function () {
+                        var allDayRects2 = document.getElementsByClassName("dayrect");
+                        var days = new Array();
+                        //var vars = new Array();
+                        var allvars = document.getElementsByClassName("varCode-div");
+                        var vars2 = new Array();
+                        for (var i = 0; i < allvars.length; i++) {
+                            vars2.push(allvars.item(i).id.substring(3));
+                        }
+                        for (var i = 0; i < allDayRects2.length; i++) {
+                            if (allDayRects1.item(i).id != allDayRects2.item(i).id) {
+                                dUpdate.server.subscribe(allDayRects2.item(i).id);
+                            }
+                            days.push(allDayRects2.item(i).id);
+                            //vars.push(allDayRects.item(i).getAttribute('data-varnum'));
+                            //dUpdate.server.subscribe(allDayRects.item(i).id);
+                        }
+
+                        var timestamp = document.getElementById("timestampDiv").innerText;
+                        dUpdate.server.updateDay(days, vars2, timestamp);
+
+                    }, 5000);
+                    // Call the Send method on the hub.
+                });
+            });
+        </script>
+    }
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function a() {
+            try{
+                var source = new EventSource('checkdays');
+                var myP = document.getElementById("messages");
+
+                source.onmessage = function (event) {
+                    var result = event.data;
+                    if (result != "") {
+                        var xmlhttp;
+                        xmlhttp = new XMLHttpRequest();
+
+                        xmlhttp.onreadystatechange = function () {
+                            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                                if (xmlhttp.status == 200) {
+                                    console.log(result);
+                                    document.getElementById(result).innerHTML = xmlhttp.responseText;
+                                    document.getElementById("timestampDiv").innerHTML = getTimeStamp();
+                                }
+                                else if (xmlhttp.status == 400) {
+
+                                    console.log(xmlhttp.statusText);
+                                }
+                                else {
+
+                                    console.log(xmlhttp.statusText);
+                                }
+                            }
+                        }
+                        xmlhttp.open("POST", "UpdateDayWeek", true);
+                        xmlhttp.setRequestHeader("dayID", result);
+                        console.log(result);
+                        xmlhttp.send(result);
+                    }
+                };
+            }
+            catch (err)
+            {
+                console.log(err.message);
+            }
+            source.onerror = function (e) {
+                console.log();
             };
-        }
-        catch (err)
-        {
-            console.log(err.message);
-        }
-        source.onerror = function (e) {
-            console.log();
-        };
 
-    });
+        });
 
-</script>*@
+    </script>*@

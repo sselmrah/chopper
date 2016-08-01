@@ -53,15 +53,15 @@
     <td class="StolbyTimeStart @titleClassString">
         @Model.Beg.ToString("H.mm")
     </td>
-    <td class="StolbyTitle @titleClassString">
+    <td class="StolbyTitle @titleClassString">        
         @Model.Title
+
         @if (Model.AgeCat.Length > 0)
         {
             <b> (@Model.AgeCat)</b>
         }
-        [@Model.getInfoString(1)]
-
-    </td>
+        [@Model.getInfoString(1)]        
+</td>
     <td class="StolbyCode @titleClassString">
         @Model.ProducerCode@Model.SellerCode
     </td>

@@ -6,19 +6,15 @@
 }
 .headerPanel
 {
-    background:#429adb;
-    height:300px;
-    color:white;
-    line-height:300px;
+    background:#429adb;    
+    color:white;    
     text-align:center;
-    font-size:8em;
+    
 
 }
 
 .tileGroup
 {
-
-    height:250px;  
     float:left;
     position:relative;
     border-top:1px solid #001b65;
@@ -28,14 +24,10 @@
     overflow:hidden;
     text-align: center;    
     color: white;
-    line-height: 240px;
-    font-size:large;
 } 
 
 .tile
-{
-
- height:250px;
+{ 
  float:left;
  position:relative;
  border-top:1px solid #001b65;
@@ -46,7 +38,7 @@
      text-align: center;    
 
     color: white;
-    line-height:240px;
+
         -webkit-transition: all 0.5s ease-out;
        -moz-transition: all 0.5s ease-out;
          -o-transition: all 0.5s ease-out;
@@ -98,9 +90,7 @@
     left: 0;
 }
 
-span.glyphicon {
-    font-size: 2em;
-}
+
 
 #rasklDd
 {

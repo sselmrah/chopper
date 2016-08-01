@@ -54,6 +54,24 @@
         <p><input type="date" id="last-start-date" value="@string.Format("{0:yyyy-MM-dd}", "2015-12-22")" /></p>
     </script>
 *@
+
+@{
+    Random rnd = new Random();
+    int month = rnd.Next(1, 4);
+    string icoPath = "";
+    switch (month)
+    {
+        case 1:
+            icoPath = "/chopper_heli_favicon.ico";
+            break;
+        case 2:
+            icoPath = "/chopper_knife_favicon.ico";
+            break;
+        case 3:
+            icoPath = "/chopper_moto_favicon.ico";
+            break;
+    }
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,6 +83,11 @@
     <link rel="stylesheet" href="~/Content/Stolby.css">
     <link rel="stylesheet" href="~/Content/Index.css">
     <link rel="stylesheet" href="~/Content/bootstrap.css">
+
+
+
+
+    <link rel="icon" href="@icoPath" type="image/x-icon">
     @*<script src="~/Scripts/jquery-1.10.2.js"></script>
         <script src="~/Scripts/jquery-ui-1.11.4.js"></script>*@
 
@@ -75,16 +98,17 @@
 </head>
 
 <body id="mb">
-    <div class="headerPanel">
-        @day, @DateTime.Today.Date.ToString("dd/MM/yyyy")
-    </div>
-
     <div class="row">
-        <div class="col-md-3 tileGroup">
+        <div class="headerPanel col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @day, @DateTime.Today.Date.ToString("dd/MM/yyyy")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup">
             <p>РАСКЛАДКА</p>
         </div>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur-2" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
@@ -96,7 +120,7 @@
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur-1" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
@@ -108,7 +132,7 @@
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
 
                 <div id="hidden">
@@ -120,7 +144,7 @@
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <div class="weekNameContainer">
@@ -133,7 +157,7 @@
             </div>
         </a>
         <a href="@Url.Action("getWeek", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">                    
                     <div class="weekNameContainer">
@@ -143,16 +167,16 @@
                 </div>
             </div>
         </a>
-        <div class="col-md-4 tile">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 tile">
             @{Html.RenderAction("SelectCategory", "Weeks", "");}
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3 tileGroup">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup">
             <p>ОРБИТЫ</p>
         </div>
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur-2" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
@@ -164,7 +188,7 @@
             </div>
         </a>
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur-1" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
@@ -176,7 +200,7 @@
             </div>
         </a>
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
 
                 <div id="hidden">
@@ -189,7 +213,7 @@
             </div>
         </a>
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <div class="weekNameContainer">
@@ -200,7 +224,7 @@
             </div>
         </a>
         <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
                     <div class="weekNameContainer">
@@ -210,16 +234,16 @@
                 </div>
             </div>
         </a>
-        <div class="col-md-4 tile">            
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 tile">            
             @{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = "15", repType = "orbity" });}
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3 tileGroup">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup">
             <p>СТОЛБЫ</p>
         </div>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-2" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-backward"></span>
 
                 <div id="hidden">
@@ -231,7 +255,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur-1" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-backward"></span>
 
                 <div id="hidden">
@@ -243,7 +267,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur0" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-play"></span>
                 <div id="hidden">
                     <div class="weekNameContainer">
@@ -254,7 +278,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur1" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-forward"></span>
                 <div id="hidden">
                     <div class="weekNameContainer">
@@ -265,7 +289,7 @@
             </div>
         </a>
         <a href="@Url.Action("Stolby", "Weeks", new { week_num = "cur2" }, null)">
-            <div class="col-md-1 tile">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 tile">
                 <span id="vis" class="glyphicon glyphicon-fast-forward"></span>
                 <div id="hidden">
                     <div class="weekNameContainer">
@@ -275,16 +299,16 @@
                 </div>
             </div>
         </a>
-            <div class="col-md-4 tile">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 tile">
                 @{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = "15", repType = "stolby"});}
             </div>
     </div>
     <div class="row">
-        <div class="col-md-3 tileGroup bottom">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup bottom">
             <p>СВОДКИ</p>
         </div>        
-            <div class="col-md-5 tile bottom"></div>                        
-        <div class="col-md-4 tile bottom">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 tile bottom"></div>                        
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 tile bottom">
             <div id="datepickerCaption"></div>
             
                 @using (Html.BeginForm("Svodka", "Weeks", FormMethod.Get))

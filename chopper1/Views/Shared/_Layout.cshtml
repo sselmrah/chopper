@@ -1,4 +1,22 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Random rnd = new Random();
+    int month = rnd.Next(1, 4);
+    string icoPath = "";
+    switch (month)
+    {
+        case 1:
+            icoPath = "/chopper_heli_favicon.ico";
+            break;
+        case 2:
+            icoPath = "/chopper_knife_favicon.ico";
+            break;
+        case 3:
+            icoPath = "/chopper_moto_favicon.ico";
+            break;
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -9,10 +27,13 @@
     <link rel="stylesheet" href="~/Content/Stolby.css">
     <link rel="stylesheet" href="~/Content/Orbity.css">
     <link rel="stylesheet" href="~/Content/bootstrap.css">
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-2.0.0.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>    
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     
+
+    <link rel="icon" href="@icoPath" type="image/x-icon">
+
     @*<script src="~/Scripts/jquery-ui-1.11.4.js"></script>*@
 
     @Styles.Render("~/Content/css")
@@ -87,8 +108,32 @@
         }
 
 
-        function getNewTiming(oldInfoString, deltaDir){
-            
+
+        function getTimingFromInfoString(infoString)
+        {
+            var hours;
+            var minutes;
+            if (infoString.indexOf(":") > 0) {
+                hours = parseInt(infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf(":")));
+                if (hours > 23)
+                {
+                    minutes = hours;
+                    hours = 0;
+                }
+                else
+                {
+                    minutes = parseInt(infoString.substring(infoString.indexOf(":") + 1, infoString.indexOf(":") + 3));
+                    minutes = hours * 60 + minutes; 
+                }
+            }
+            else {
+                minutes = infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf(" "));
+            }
+            return minutes;
+        }
+
+        function getNewTiming(oldInfoString, deltaDir)
+        {
             var newInfoString;
             var oldTiming;
             var newTiming;
@@ -162,6 +207,8 @@
             }
             dragged_id ='';
             $(".leftSideButtons").animate({ left: "-70px" }, 500);
+            @*$("#progFlyoutHandle").animate({ right: "0" }, 500);
+            $("#progFlyout").animate({ right: "-200px" }, 500);*@
         }
 
 
@@ -211,6 +258,7 @@
             event.preventDefault();
             return false;
         }
+
         function drop(event) {
             var offset = event.dataTransfer.getData("text/plain").split(',');
             var dm = document.getElementById(dragged_id);
@@ -305,7 +353,9 @@
             var newTop = parseInt(prevProg.style.top) + parseInt(prevProg.offsetHeight);
             curProg.style.top = newTop + 'px';
             curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+            updateHover(curProgId);
         }
+
         function progMoveDown(event) {
             var curProgId = $(".selected").attr('id');
             var curProg = document.getElementById(curProgId);
@@ -317,9 +367,141 @@
             var newTop = parseInt(nextProg.style.top) - parseInt(curProg.offsetHeight);
             curProg.style.top = newTop + 'px';
             curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+            updateHover(curProgId);
+        }
+
+
+        function progCopyToZapas(event) {
+            var curProgId = $(".selected").attr('id');
+            var curProg = document.getElementById(curProgId);
+            var curInfoString = document.getElementById("infostring_" + curProgId);
+            var curProgTitle = curProg.getElementsByClassName("title-div")[0].innerHTML;
+            var minutes = getTimingFromInfoString(curInfoString.innerHTML);
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                data: {
+                    title: curProgTitle,
+                    pureDur: minutes.toString(),
+                    fullCode: "11111"
+                },
+                url: '/Day/AddProgToZapas',
+                success: function (data) {
+                    console.log("zapas pass ok");
+                }
+            });
+            /*
+            $.ajax({
+            type: 'POST',
+            cache: false,
+            data: curDt,
+            url: '/Day/AddDayByDate',
+            success: function (data) {
+                document.getElementById('emptyNextDay').innerHTML = data;
+                var res = $("#emptyNextDay").find(".dow-div").first().data("tvdayref");
+                $("#emptyNextDay").removeClass("dayrectAdd");
+                $("#emptyNextDay").addClass("dayrect");
+                $("#emptyNextDay").id = res;
+        }
+        });
+            */
+        }
+
+
+        function progCalcAd(event) {
+            var curProgId = $(".selected").attr('id');
+            var curProg = document.getElementById(curProgId);
+            var curProgTitle = curProg.getElementsByClassName("title-div")[0].innerHTML;
+            var curProgAge = "";            
+            if (curProg.getElementsByClassName("age-div").length > 0 )
+            {
+                curProgAge = "("+curProg.getElementsByClassName("age-div")[0].innerHTML+")";
+            }
+
+            var curTiming = document.getElementById("timing_" + curProgId);
+            var curInfoString = document.getElementById("infostring_" + curProgId);
+
+            var minutes = getTimingFromInfoString(curInfoString.innerHTML);
+            //curInfoString.innerHTML = getNewTiming(curInfoString.innerHTML, delta);
+                       
+
+            var r = 0;
+            var t = 0;
+            var a = 0;
+
+            var temp_dur = minutes;
+            var odd = true;
+            while (temp_dur > 0) {
+                if (odd == true && t > 0) {
+                    r += 2;
+                    temp_dur += 2;
+                }
+                if (odd == false) {
+                    r += 2;
+                    t += 1;
+                    a += 1;
+                    temp_dur += 3;
+                }
+                odd = !odd;
+                temp_dur -= 15;
+            }
+
+            temp_dur = minutes + r + a;
+            //Странная поправка на ветер
+            if (temp_dur < 120)
+                r += 2;
+            //Добавляем раз в час на анонсы для новостей часа
+            a += Math.round(temp_dur / 60);            
+            //Проверяем количество точек
+            if (r - t * 4 > 0) t += 1;
+
+            //Для коротких передач делаем на 1 анонс больше, чем точек
+            while (a <= t) a += 1;
+
+            var hours = 0;
+            while (minutes >= 60) {
+                hours += 1;
+                minutes -= 60;
+            }
+            var newInfoString = "";
+            if (hours>0)
+            {
+                newInfoString += "[" + hours.toString() + ":" + minutes.toString() + " + " + r.toString() + "Р(" + t.toString() + ") + " + a.toString()+"А]"
+            }
+            else
+            {
+                newInfoString += "[" + minutes.toString() + " + " + r.toString() + "Р(" + t.toString() + ") + " + a.toString() + "А]"
+            }
+
+            curInfoString.innerHTML = newInfoString;
+
+            temp_dur = hours*60+minutes + r + a;
+            curProg.style.height = temp_dur + "px";
+            curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
+            updateHover(curProgId);
+
+            event.preventDefault();
+
+        }
+
+        function updateHover(curProgId)
+        {            
+            var curProg = document.getElementById(curProgId);
+            var curProgTitle = curProg.getElementsByClassName("title-div")[0].innerHTML;
+            var curProgAge = "";
+            if (curProg.getElementsByClassName("age-div").length > 0) {
+                curProgAge = "(" + curProg.getElementsByClassName("age-div")[0].innerHTML + ")";
+            }
+            var curTiming = document.getElementById("timing_" + curProgId);
+            var curInfoString = document.getElementById("infostring_" + curProgId).innerHTML;
+
+            var hoverProg = curProg.nextElementSibling;
+            hoverProg.innerHTML = "<span>" + curTiming.innerHTML + "</span>" + "<br //><span>" + curProgTitle + "<b>" + curProgAge + "<//b><//span><br //><span>" + curInfoString + "<//span>";
         }
 
         function progSwapUp(event) {
+            //Swap without hover
             var curProgId = $(".selected").attr('id');
             var curProg = document.getElementById(curProgId);
             var curTiming = document.getElementById("timing_" + curProgId);
@@ -341,8 +523,11 @@
             curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
             prevProg.style.top = newPrevTop + 'px';
             prevTiming.innerHTML = getTimeByPosition(prevProg.offsetTop, prevProg.offsetHeight);
+            updateHover(curProgId);
         }
+
         function progSwapDown(event) {
+            //Swap without hover
             var curProgId = $(".selected").attr('id');
             var curProg = document.getElementById(curProgId);
             var curTiming = document.getElementById("timing_" + curProgId);
@@ -362,6 +547,7 @@
             curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
             nextProg.style.top = newNextTop + 'px';
             nextTiming.innerHTML = getTimeByPosition(nextProg.offsetTop, nextProg.offsetHeight);
+            updateHover(curProgId);
         }
 
         function getTimeByPosition(yPos, curHeight) {
@@ -441,6 +627,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
+                
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -453,7 +640,7 @@
                     <li>@Html.ActionLink("Раскладка", "WeekChosen", "Weeks", new { WeekId = ViewBag.WeekId, repType = "raskladka"}, null)</li>                    
                     <li>@Html.ActionLink("Орбиты", "WeekChosen", "Weeks", new { WeekId = ViewBag.WeekId, repType = "orbity" }, null)</li>                    
                     <li>@Html.ActionLink("Столбы", "WeekChosen", "Weeks", new { WeekId = ViewBag.WeekId, repType = "stolby" }, null)</li>                    
-                    <li>@Html.ActionLink("Календарь", "Contact", "Home")</li>
+                    @*<li>@Html.ActionLink("Календарь", "Contact", "Home")</li>*@
                     @*<li>@using (Html.BeginForm("Search", "planCatDb", FormMethod.Post, new { target = "_blank" }))
                         {
                         @Html.TextBox("catSearchTb", "Поиск", new { onclick = "Clear();" });
@@ -474,14 +661,18 @@
         <div class="leftSideButtons">
             <div id="swapUp" class='sideButtons' onclick="progSwapUp(event)"><span class='glyphicon glyphicon-random'></span></div>
             <div id="moveUp" class='sideButtons' onclick="progMoveUp(event)"><span class='glyphicon glyphicon-arrow-up'></span></div>
-            <div id="fill" class='sideButtons'><span class='glyphicon glyphicon-resize-full1'></span></div>
-            <div id="calcAd" class='sideButtons'><span class='glyphicon glyphicon-shopping-cart1'></span></div>
+            <div id="fill" class='sideButtons'><span class='glyphicon glyphicon-resize-full'></span></div>
+            <div id="calcAd" class='sideButtons' onclick="progCalcAd(event)"><span class='glyphicon glyphicon-usd'></span></div>
             <div id="moveDown" class='sideButtons' onclick="progMoveDown(event)"><span class='glyphicon glyphicon-arrow-down'></span></div>
             <div id="swapDown" class='sideButtons' onclick="progSwapDown(event)"><span class='glyphicon glyphicon-random'></span></div>
+            <div id="copyZapas" class='sideButtons' onclick="progCopyToZapas(event)"><span class='glyphicon glyphicon-save-file'></span></div>
         </div>
+
+
+
         @RenderBody()
         <div class="row">
-            <footer>
+            <footer style="padding-left:20px;">
                 <hr />
                 <p>&copy; @DateTime.Now.Year - Дирекция планирования программ</p>
             </footer>

@@ -5,169 +5,253 @@
     int counter = 1;
 }
 
-<div style="float:left"><h2 style="float:left">Результаты поиска по запросу: "@ViewBag.stitle"</h2></div>
+<script src="~/Scripts/jquery-2.0.0.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<div style="float:left" class="forPrint" id="searchHeader"><h2 style="float:left">Результаты поиска по запросу: "@ViewBag.stitle"</h2></div>
+
 <div id="advSearchExpand">
     <a href="#advSearchHidden">
-        <span class="glyphicon glyphicon-download"></span>
+        <span class="glyphicon glyphicon-download" style="font-size:xx-large"></span>
     </a>
 </div>
 
+
 @{Html.RenderAction("advSearchPanel", "advSearch", new { title = ViewBag.stitle });}
 
+<div class="rightSideButtons">        
+    <div class="sideButtons" id="printButton" data-reporttype="search" onclick="window.print();">
+        <span class="glyphicon glyphicon-print" style="font-size:xx-large"></span>
+    </div>
+</div>
+<div class="row searchResults" >
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        @if (Model.Columns.Count > 0)
+        {
+            <table id="searchResultTable" class="forPrint">
+                <thead>
+                    <tr>
+                        <th class ="notForPrint"></th>
+                        <th>#</th>
 
-@if (Model.Columns.Count > 0)
-{
-    <table id="searchResultTable">
-        <thead>
-            <tr>
-                <th>#</th>
-
-                @foreach (System.Data.DataColumn col in Model.Columns)
-                {
-                    switch (col.ColumnName)
-                    {
-                        case "TVData":
-                            <th>Дата</th>
-                            break;
-                        case "WeekDay":
-                        <th>День</th>
-                            break;
-                        case "Beg":
-                        <th>Время</th>
-                            break;
-                        case "Timing":
-                        <th>Хрон.</th>
-                            break;
-                        case "BriefTitle":
-                        <th class="titleCol">Название</th>
-                            break;
-                        case "RepeatFrom":
-                        <th>Повтор</th>
-                            break;
-                        case "DSTI":
-                        <th>СТИ</th>
-                            break;
-                        case "DM":
-                        <th>DM</th>
-                            break;
-                        case "DR":
-                        <th>DR</th>
-                            break;
-                        case "ProducerCode":
-                        <th>Дирекция</th>
-                            break;
-                        case "SellerCode":
-                        <th>SellerCode</th>
-                            break;
-                            @*
-                        default:
-                        <th>@col.ColumnName</th>
-                            break;
-                                *@
-                    }
-                }
-            </tr>
-
-        </thead>
-        <tbody>
-
-            @foreach (System.Data.DataRow row in Model.Rows)
-            {                
-                <tr>
-                    <td>@counter</td>
-                    @{counter += 1;}
-                    @foreach (System.Data.DataColumn col in Model.Columns)
-                    {
-                        switch (col.ColumnName)
+                        @foreach (System.Data.DataColumn col in Model.Columns)
                         {
-                            case "Timing":
+                            switch (col.ColumnName)
+                            {
+                                case "TVData":
+                                    <th>Дата</th>
+                                    break;
+                                case "WeekDay":
+                                <th>День</th>
+                                    break;
+                                case "Beg":
+                                <th>Время</th>
+                                    break;
+                                case "Timing":
+                                <th>Хрон.</th>
+                                    break;
+                                case "BriefTitle":
+                                <th class="titleCol">Название</th>
+                                    break;
+                                case "RepeatFrom":
+                                <th>Повтор</th>
+                                    break;
+                                case "DSTI":
+                                <th>СТИ</th>
+                                    break;
+                                case "DM":
+                                <th>DM</th>
+                                    break;
+                                case "DR":
+                                <th>DR</th>
+                                    break;
+                                case "ProducerCode":
+                                <th>Дирекция</th>
+                                    break;
+                                case "SellerCode":
+                                <th>SellerCode</th>
+                                    break;
+                                    @*
+                                        default:
+                                        <th>@col.ColumnName</th>
+                                            break;
+                                    *@
+                            }
+                        }
+                        <th class="notForPrint"><span class="glyphicon glyphicon-print" style="font-size:small"></span></th>
+                    </tr>
 
-                                string timingStr = row[col.ColumnName].ToString();
-                                TimeSpan timingTs = TimeSpan.FromSeconds(Convert.ToInt32(timingStr));
-                                <td>
-                                    @timingTs.ToString(@"hh\:mm\:ss")
-                                </td>
+                </thead>
+                <tbody>
 
-                                break;
-                            case "TVData":
-                                DateTime curDate = Convert.ToDateTime(row[col.ColumnName]);
-                                <td>
-                                    <a href="@Url.Action("Ratings", "Weeks", new { bdate = curDate.ToString("yyyy-MM-dd") }, null)">@curDate.ToString("dd.MM.yyyy")</a>
-                                </td>
-                                break;
-                            case "Beg":
-                                string curTime = row[col.ColumnName].ToString().Right(8).Left(5);
-                                <td>@curTime</td>
-                                break;
-                            case "BriefTitle":
-                            <td class="titleCol">@row[col.ColumnName]</td>
-                                break;
-                            case "RepeatFrom":
-                                if (DateTime.Parse(row[col.ColumnName].ToString()).ToString("dd.MM.yyyy") == "01.01.0001")
+                    @foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        <tr id="tr_@counter">
+                            <td class="notForPrint"><input type="checkbox" value="None" id="cb_@counter" name="check_@counter" class="progCheckBoxes" onchange="toggleCheckbox(this)" /></td>
+                            <td>@counter</td>
+                            @{counter += 1;}
+                            @foreach (System.Data.DataColumn col in Model.Columns)
+                            {
+                                switch (col.ColumnName)
                                 {
-                                    <td></td>
-                                }
-                                else
-                                {
-                                    <td><span class="glyphicon glyphicon-ok-circle"></span></td>
-                                }
-                                @*<td><span class="glyphicon glyphicon-ok-circle"></span></td>*@
-                                break;
-                            case "WeekDay":
-                                switch (row[col.ColumnName].ToString())
-                                {
-                                    case "1":
-                                        <td>Пн</td>
+                                    case "Timing":
+
+                                        string timingStr = row[col.ColumnName].ToString();
+                                        TimeSpan timingTs = TimeSpan.FromSeconds(Convert.ToInt32(timingStr));
+                                        <td>
+                                            @timingTs.ToString(@"hh\:mm\:ss")
+                                        </td>
+
                                         break;
-                                    case "2":
-                                    <td>Вт</td>
+                                    case "TVData":
+                                        DateTime curDate = Convert.ToDateTime(row[col.ColumnName]);
+                                        <td>
+                                            <a href="@Url.Action("Ratings", "Weeks", new { bdate = curDate.ToString("yyyy-MM-dd") }, null)">@curDate.ToString("dd.MM.yyyy")</a>
+                                        </td>
                                         break;
-                                    case "3":
-                                    <td>Ср</td>
+                                    case "Beg":
+                                        string curTime = row[col.ColumnName].ToString().Right(8).Left(5);
+                                        <td>@curTime</td>
                                         break;
-                                    case "4":
-                                    <td>Чт</td>
+                                    case "BriefTitle":
+                                    <td class="titleCol">@row[col.ColumnName]</td>
                                         break;
-                                    case "5":
-                                    <td>Пт</td>
+                                    case "RepeatFrom":
+                                        if (DateTime.Parse(row[col.ColumnName].ToString()).ToString("dd.MM.yyyy") == "01.01.0001")
+                                        {
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="glyphicon glyphicon-ok-circle" style="font-size:small"></span></td>
+                                        }
+                                        @*<td><span class="glyphicon glyphicon-ok-circle"></span></td>*@
                                         break;
-                                    case "6":
-                                    <td>Сб</td>
+                                    case "WeekDay":
+                                        switch (row[col.ColumnName].ToString())
+                                        {
+                                            case "1":
+                                                <td>Пн</td>
+                                                break;
+                                            case "2":
+                                            <td>Вт</td>
+                                                break;
+                                            case "3":
+                                            <td>Ср</td>
+                                                break;
+                                            case "4":
+                                            <td>Чт</td>
+                                                break;
+                                            case "5":
+                                            <td>Пт</td>
+                                                break;
+                                            case "6":
+                                            <td>Сб</td>
+                                                break;
+                                            case "7":
+                                            <td>Вс</td>
+                                                break;
+                                        }
                                         break;
-                                    case "7":
-                                    <td>Вс</td>
-                                        break;
-                                }
-                                break;
-                            case "DSTI":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "DM":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "DR":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "ProducerCode":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                            case "SellerCode":
-                            <td>@row[col.ColumnName]</td>
-                                break;
-                                @*
-                                    default:
+                                    case "DSTI":
                                     <td>@row[col.ColumnName]</td>
                                         break;
-                                *@
-                        }
+                                    case "DM":
+                                    <td>@row[col.ColumnName]</td>
+                                        break;
+                                    case "DR":
+                                    <td>@row[col.ColumnName]</td>
+                                        break;
+                                    case "ProducerCode":
+                                    <td>@row[col.ColumnName]</td>
+                                        break;
+                                    case "SellerCode":
+                                    <td>@row[col.ColumnName]</td>
+                                        break;
+                                        @*
+                                            default:
+                                            <td>@row[col.ColumnName]</td>
+                                                break;
+                                        *@
+                                }
 
 
 
+                            }
+                            <td class="notForPrint">
+                                <input type="checkbox" value="None" id="pcb_@counter" name="pcheck_@counter" class="printCheckBoxes" onchange="togglePrintCheckbox(this)" checked />
+                            </td>
+                        </tr>
                     }
-                </tr>
+                </tbody>
+            </table>
+
+
+        }
+                </div>
+        <div class="col-lg-1"></div>
+</div>
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        <button id="addProgButton" type="button" class="btn btn-default" disabled>Добавить в шаблоны</button>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+
+
+<script>
+    function toggleCheckbox(element) {
+        var cbs = document.getElementsByClassName("progCheckBoxes");
+        if (cbs.length > 0) {
+            document.getElementById("addProgButton").disabled = false;
+        }
+    }
+
+    function togglePrintCheckbox(element) {
+
+        if (!element.checked)
+        {
+            var i = parseInt(element.id.substring(4))-1;
+            var curTrId = "tr_" + i.toString();
+            //document.getElementById(curTrId).style.display = 'none';
+            document.getElementById(curTrId).className += " notForPrint";
+        }
+        
+    }
+
+    </script>
+<script>
+    
+    $("#addProgButton").click(function () {
+        var dUpdate = $.connection.dayUpdate;
+        $.connection.hub.start().done(function () {            
+            var cbs = document.getElementsByClassName("progCheckBoxes");
+            for (var i = 0; i < cbs.length ; i++) {
+                var curTrId = "tr_" + i.toString();
+                if (cbs.item(i).checked) {                   
+                    @*console.log(curTrId);*@
+                    var curTr = document.getElementById(curTrId);
+                    @*console.log(curTr.cells[3].innerHTML);*@
+                    var timing = curTr.cells[2].innerHTML;
+                    var title = curTr.cells[3].innerHTML;
+                    var code = curTr.cells[11].innerHTML + "0" + curTr.cells[11].innerHTML;
+
+                    dUpdate.server.addProg(title, timing, code);
+
+
+                    
+                    
+
+
+                    @*progFlyout.appendChild(curProg);
+                curProg.innerHTML = curTr.cells[3].innerHTML;*@
+                }
             }
-        </tbody>
-    </table>
-}
-
-
+            $.connection.hub.stop();
+        });
+    });
+</script>

@@ -1,65 +1,68 @@
 ﻿@model int
-@{
-    
-    var left = ViewBag.Left;
-    string rulerClass = "";
-    if (left)
-    {
-        <div class="margin-div"></div>
-    }
-    if (left)
-    {
-        rulerClass = "rulerDivLeft";
-    }
-    else
-    {
-        rulerClass = "rulerDivRight";
-    }
+<div class="timescaleWrapper">
+    @{
 
-    var startHour = 5;
-    var shift = (5 - (Model - 10)) * 2;
-
-    if (Model != 10 & Model > 0)
-    {
-        startHour -= shift;
-    }
-
-    if (startHour < 0)
-    {
-        startHour += 24;
-    }
-
-
-    int curHour;
-    string curHourStr;
-
-
-}
-
-<div class=@rulerClass>
-    <ul class="ruler-ul">
-        @{
-            for (int i = 0; i < 27; i++)
-            {
-                curHour = startHour + i;
-                if (curHour >= 24)
-                {
-                    curHour -= 24;
-                }
-                curHourStr = curHour.ToString();
-                if (curHourStr.Length == 1)
-                {
-                    curHourStr = "0" + curHourStr;
-                }
-
-                <li>@curHourStr</li>
-            }
+        var left = ViewBag.Left;
+        string rulerClass = "";
+       
+        if (left)
+        {
+            rulerClass = "rulerDivLeft";
         }
-    </ul>
-</div>
-@{
-                if (!left)
+        else
+        {
+            rulerClass = "rulerDivRight";
+        }
+
+        var startHour = 5;
+        var shift = (5 - (Model - 10)) * 2;
+
+        if (Model != 10 & Model > 0)
+        {
+            startHour -= shift;
+        }
+
+        if (startHour < 0)
+        {
+            startHour += 24;
+        }
+
+
+        int curHour;
+        string curHourStr;
+
+
+    }
+
+    <div class=@rulerClass>
+        <ul class="ruler-ul">
+            @{
+                for (int i = 0; i < 27; i++)
                 {
-        <div class="margin-div"></div>
+                    curHour = startHour + i;
+                    if (curHour >= 24)
+                    {
+                        curHour -= 24;
+                    }
+                    curHourStr = curHour.ToString();
+                    if (curHourStr.Length == 1)
+                    {
+                        curHourStr = "0" + curHourStr;
+                    }
+
+                    <li>@curHourStr</li>
                 }
-}
+            }
+        </ul>
+    </div>
+    @{
+        if (!left)
+        {
+            <div class="rightMarginDiv"></div>
+        }
+        else
+        {
+            <div class="leftMarginDiv"></div>
+        }
+    }
+</div>

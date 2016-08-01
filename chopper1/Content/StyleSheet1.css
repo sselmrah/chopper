@@ -11,16 +11,24 @@
             position:relative;            
 }
 
+
+
+.timescaleWrapper{
+    border: solid 0 red;
+    background-color:none;
+    text-align: right;    
+}
+
 .rulerDivLeft
 {
-    float:left;
+    float:right;
     width:10px;        
     margin-bottom: 30px;
     position:relative;
-    top:120px;
+    top:120px;    
     background: linear-gradient(black 1px, white 1px);        
     background-size: 50% 10px;
-    border-right: solid black 1px;
+    border-right: solid black 1px;    
 }
 .rulerDivRight
 {
@@ -34,7 +42,20 @@
     border-left: solid black 1px;
 }
 
-.margin-div
+.leftMarginDiv
+{
+    float:right;
+    width:10px;
+    height: 1440px;            
+    position:relative;
+    top:120px;    
+    background: linear-gradient(black 1px, white 1px);      
+    background-size: 50% 30px;
+    margin:0;
+    padding:0;
+}
+
+.rightMarginDiv
 {
     float:left;
     width:10px;
@@ -43,6 +64,8 @@
     top:120px;    
     background: linear-gradient(black 1px, white 1px);      
     background-size: 50% 30px;
+    margin:0;
+    padding:0;
 }
 
 
@@ -66,9 +89,15 @@
     margin: 0 0 0 0;
     border: solid 1px black;
     background: white;
+    color: black;
     overflow: hidden;
     position: absolute;
     float: left;
+}
+
+.zapas {
+    position: relative !important;    
+    margin-top: 10px;
 }
 
 .news
@@ -159,22 +188,24 @@
 {
     border: none;
 }
-
+/*
 #WeekID
 {    
     width: 500px;
     border: none;    
     font-size:xx-large;    
 }
-
+    */
 #weekSelectContainer
 {    
     position: relative;
 	top: 10%;
-    float: left;
+    text-align:center;
     border: 0 solid black;
-    width: 80%;     
-    left:5%;  
+    /*
+        float: left;
+        width: 80%;     
+    left:5%;  */
 }
 #svodkaTextCaption
 {    
@@ -412,24 +443,42 @@
 .weekPickerContainer
 {
     height: 50px;
-    width: 95%;
+    /*width: 95%;
     text-align:center;
     vertical-align:central;    
     border:solid black 1px;        
+    background-color:aquamarine;
+        */
 }
 
 .week_bg
 {
-    width:100%;
+    /*width:95%;*/
+}
+
+
+.endlessScrollContainer
+{
+
+}
+
+.dayrectAdd{
+    height: 1661px;                      
+    background: linear-gradient(slategray 1px, aliceblue 1px);            
+    max-width: 250px;
+    background-size: 100% 60px;
+    background-position-y:120px;
+    border:solid 0 black;                        
+    float: left;
+    position:relative;   
+    background-color:white; 
+    border:dashed 3px darkgray;    
 }
 
 .index_datepickers
 {
     border: white 0 solid;
     background: none;
-    height: 100px;    
-    font-size:40pt;
-    width:390px;
     font-weight:bold;
     color: white;
     text-align:center;       
@@ -458,6 +507,7 @@ input[type=date]::-webkit-inner-spin-button {
     left:-70px;
     top:30%;
     z-index: 1000000;    
+    font-size:large;
 }
 
 .rightSideButtons
@@ -466,12 +516,14 @@ input[type=date]::-webkit-inner-spin-button {
     right:0;
     top:150px;
     z-index: 1000000;        
+    font-size:xx-large;
 }
 
 
 .sideButtons
 {
     border: 0 solid red;
+    line-height: 60px;
     width:70px;
     height:70px;
     text-align:center;    
@@ -479,7 +531,8 @@ input[type=date]::-webkit-inner-spin-button {
     background-color:#429adb;
     opacity:0.8;    
     cursor: pointer;
-    font-size:xx-large;
+    vertical-align: middle;
+    
     -moz-user-select: none;    
   -webkit-user-select: none;  
   user-select: none;
@@ -499,3 +552,259 @@ input[type=date]::-webkit-inner-spin-button {
     opacity:1;
     background-color:#0566bb;
 }
+.sideButtons a:link {
+    color: white;
+    text-decoration: none;
+}
+.sideButtons a:visited {
+    color: white;
+    text-decoration: none;
+}
+.sideButtons a:hover {
+    color: white;
+    text-decoration: none;
+}
+.sideButtons a:active {
+    color: white;
+    text-decoration: none;
+} 
+
+
+#progFlyoutHandle
+{
+    position: fixed;
+    top: 40%;
+    right: 0;
+    width: 40px;
+    height: 100px;
+    background-color: #429adb;
+    color: white;
+    font-size: xx-large;    
+    line-height: 100px;
+    padding-left:10px;
+
+}
+
+#progFlyout
+{
+    position: fixed;
+    top: 20%;
+    right: -200px;
+    width: 200px;
+    height:70%;
+    background-color:#429adb;
+    color: white;    
+}
+
+
+
+
+.noPadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .forPrint, .forPrint * {
+    visibility: visible;
+  }
+  .notForPrint, .notForPrint *{
+      display: none;
+  }
+    .searchResults {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    border-bottom: 1px solid black;
+  }
+    #searchResultTable tr {
+        border-bottom: 1px solid #ddd;        
+    }
+  #searchHeader {
+    position: absolute;
+    left: 200px;
+    top: -50px;
+  }  
+
+}
+
+
+/*Responsive Layout*/
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+    #WeekID {
+        width: 500px;
+        border: none;
+        font-size: xx-large;
+    }
+
+    .headerPanel {
+        font-size: 8em;
+        height: 300px;
+        line-height: 300px;
+    }
+
+    .tileGroup {
+        height: 250px;
+        line-height: 240px;
+        font-size: large;
+    }
+
+    .tile {
+        height: 250px;
+        line-height:240px;
+    }
+    span.glyphicon {
+        font-size: 2em;
+    }
+    .index_datepickers{
+        height: 100px;    
+        font-size:40pt;
+        width:390px;
+    }
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+    #WeekID
+    {    
+        width: 500px;
+        border: none;    
+        font-size:xx-large;    
+    }
+    .headerPanel
+    {
+        font-size:7em;
+        height:300px;
+        line-height:300px;
+    }
+    
+    .tileGroup {
+        height: 250px;
+        line-height: 240px;
+        font-size: large;
+    }
+
+    .tile {
+        height: 250px;
+        line-height:240px;
+    }
+    span.glyphicon {
+        font-size: 2em;
+    }
+    .index_datepickers{
+        height: 100px;    
+        font-size:30pt;
+        width:390px;
+    }
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+    #WeekID
+    {    
+        width: 500px;
+        border: none;    
+        font-size:x-large;    
+    }
+    .headerPanel
+    {
+        font-size:6em;
+        height:300px;
+        line-height:300px;
+    }
+    
+    .tileGroup {
+        height: 250px;
+        line-height: 240px;
+        font-size: large;
+    }
+
+    .tile {
+        height: 250px;
+        line-height:240px;
+    }
+    span.glyphicon {
+        font-size: 2em;
+    }
+    .index_datepickers{
+        height: 100px;    
+        font-size:36pt;
+        width:340px;
+    }
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    #WeekID
+    {    
+        width: 300px;
+        border: none;    
+        font-size:large;    
+    }
+        .headerPanel
+    {
+        font-size:5em;
+        height:200px;
+        line-height:200px;
+    }
+        
+    .tileGroup {
+        height: 250px;
+        line-height: 240px;
+        font-size: large;
+    }
+
+    .tile {
+        height: 250px;
+        line-height:240px;
+    }
+    span.glyphicon {
+        font-size: 2em;
+    }
+    .index_datepickers{
+        height: 100px;    
+        font-size:20pt;
+        width:240px;
+    }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+    #WeekID
+    {    
+        width: 300px;
+        border: none;    
+        font-size:large;    
+    }
+        .headerPanel
+    {
+        font-size: 2em;
+        height: 100px;
+        line-height: 100px;
+    }
+        
+    .tileGroup {
+        height: 150px;
+        line-height: 140px;
+        font-size: small;
+    }
+
+    .tile {
+        height: 150px;   
+        line-height:140px;     
+    }
+
+    span.glyphicon {
+        font-size: 1em;
+    }
+    .index_datepickers{
+        height: 100px;    
+        font-size:12pt;
+        width:130px;
+    }
+}
+

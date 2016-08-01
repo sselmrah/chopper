@@ -46,6 +46,12 @@
     string classNews = "";
     string classHighlight = "";
     string ageCat = "";
+    string classZapas = "";
+    if (Model.IsFromZapas) {
+        str_height = str_height.Left(str_height.Length - 1);
+        strPos = "";        
+        classZapas = " zapas"; 
+    }
     if (Model.IsNews) { classNews = "news"; }
     if (Model.IsHighlighted) { classHighlight = "highlight"; }
     if (Model.Bold) { titleClassString += " font-bold"; }
@@ -53,7 +59,7 @@
     if (Model.Reserv) { classReserv = "reserv"; }
     if (Model.AgeCat.Length > 0) { ageCat = Model.AgeCat; }
 }
-<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
+<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv @classZapas" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
         @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
     </div>

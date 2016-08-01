@@ -33,11 +33,61 @@ namespace chopper1.Hubs
             this.Groups.Remove(Context.ConnectionId, tvDayRef);            
         }
 
-        public void print(string repType = "Broadcast", string pointer = "2016-07-06", bool pdf = false, bool word = true, bool print = false)
+        public void print(string dayVariantList = "", string repType = "Broadcast", string pointer = "2016-07-06", bool pdf = false, bool word = true, bool print = false)
         {
-            MyStartupClass.printReport(repType, pointer, pdf, word, print);
+            rtf.printReport(dayVariantList,repType, pointer, pdf, word, print);
         }
+        public static void addProg(string title = "Шаблон", string pureDur = "15", string fullCode = "00000")
+        {
+            /*
+            TimeSpan pureDurTs = TimeSpan.Parse(pureDur);
+            int pureDurInt = pureDurTs.Hours * 60*60 + pureDurTs.Minutes*60 + pureDurTs.Seconds;
+            title = title.Replace("<", "").Replace(">", "");
 
+            EfirType curEfir = new EfirType();
+            curEfir.ANR = title;
+            curEfir.Title = title;
+            //curEfir.Timing = pureDurInt;            
+            curEfir.ProducerCode = fullCode.Left(2);
+            curEfir.SellerCode = fullCode.Right(2);
+
+            
+            
+
+
+            curEfir.Ref = MyStartupClass.getRandomRef(16);
+
+            //Дописать расчет рекламы
+            //Дописать расчет тайминга
+
+
+            Tuple<int, int, int, int, int, int, int> rTemp = MyStartupClass.ads_int_new(pureDurInt);
+            ITCType r = new ITCType();
+            ITCType a = new ITCType();
+            if (rTemp.Item1>0)
+            {            
+                r.Title = "Р";
+                r.PointCount = rTemp.Item2;
+                r.Timing = rTemp.Item1;
+            }
+            if (rTemp.Item3 > 0)
+            {
+                a.Title = "А";
+                a.PointCount = 0;//Convert.ToInt32(rTemp.Item2);
+                a.Timing = rTemp.Item3;
+            }
+            ITCType[] rr = new ITCType[] { r,a };
+            curEfir.ITC = rr;
+            curEfir.Timing = Convert.ToInt32(rTemp.Item5 * 60 * 60 + rTemp.Item6 * 60 + rTemp.Item7);
+            */
+            EfirType curEfir = MyStartupClass.createEfirTypeFromTitleTimingCode(title, pureDur, fullCode);
+
+
+
+
+
+            MyStartupClass.zapasEfirs.Add(curEfir);
+        }
 
 
         //public void updateDay(string[] dayIds, string[] dayVars, string timeStampStr)

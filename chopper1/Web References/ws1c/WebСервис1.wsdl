@@ -2344,6 +2344,7 @@
           <xs:element minOccurs="0" maxOccurs="99999" name="ВариантыДня" type="tns:DocumentTabularSectionRow.ТВДень.ВариантыДня" />
           <xs:element minOccurs="0" maxOccurs="99999" name="МаскиВарианта" type="tns:DocumentTabularSectionRow.ТВДень.МаскиВарианта" />
           <xs:element minOccurs="0" maxOccurs="99999" name="ВыданныеНаЭфир" type="tns:DocumentTabularSectionRow.ТВДень.ВыданныеНаЭфир" />
+          <xs:element minOccurs="0" maxOccurs="99999" name="ПоддонВарианта" type="tns:DocumentTabularSectionRow.ТВДень.ПоддонВарианта" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="DocumentObject.ШаблонЭфира">
@@ -2533,6 +2534,18 @@
         <xs:sequence>
           <xs:element name="НомерВарианта" type="xs:decimal" />
           <xs:element name="Маска" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DocumentTabularSectionRow.ТВДень.ПоддонВарианта">
+        <xs:sequence>
+          <xs:element name="НомерВарианта" type="xs:decimal" />
+          <xs:element name="Название" type="xs:string" />
+          <xs:element name="КодРедакции" type="xs:string" />
+          <xs:element name="ВнутренниеПередачи" type="xs:string" />
+          <xs:element name="Начало" type="xs:string" />
+          <xs:element name="Хронометраж" type="xs:dateTime" />
+          <xs:element name="Шапка" type="xs:boolean" />
+          <xs:element name="ДляВыборки" type="xs:boolean" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="DocumentTabularSectionRow.ШаблонЭфира.ВнутренниеПередачи">
@@ -3251,6 +3264,21 @@
           <xs:element minOccurs="0" maxOccurs="unbounded" name="Efir" type="tns:EfirType" />
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="FooterType">
+        <xs:sequence>
+          <xs:element name="Beg" nillable="true" type="xs:string" />
+          <xs:element name="Timing" nillable="true" type="xs:dateTime" />
+          <xs:element name="Title" nillable="true" type="xs:string" />
+          <xs:element name="KodRed" nillable="true" type="xs:string" />
+          <xs:element name="CapFlag" type="xs:boolean" />
+          <xs:element name="VyborkaFlag" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FootersType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Footer" type="tns:FooterType" />
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="ITCArrayType">
         <xs:sequence>
           <xs:element minOccurs="0" maxOccurs="unbounded" name="ITC" nillable="true" type="tns:ITCType" />
@@ -3380,6 +3408,7 @@
           <xs:element name="ChannelCode" type="xs:int" />
           <xs:element name="TVDayRef" type="ns2:DocumentRef.ТВДень" />
           <xs:element name="TVDate" type="xs:date" />
+          <xs:element name="Foot2" nillable="true" type="tns:FootersType" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="TVDayVariantT">

@@ -1,0 +1,18 @@
+﻿@model List<chopper1.ws1c.EfirType>
+@{
+    Layout = null;
+    DateTime dt = DateTime.Now;
+}
+<div id="zapasCaptionDiv">    
+</div>
+@foreach (chopper1.ws1c.EfirType efir in Model)
+{
+    if (efir != null)
+    {
+        if (efir.Timing >= 60 * 5)
+        {
+            Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt });
+        }
+    }
+
+}
