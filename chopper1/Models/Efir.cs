@@ -24,6 +24,9 @@ namespace chopper1.Models
         private int _st;
         private int _a;
         private int _ta;
+        private int _anotherITC;
+        private int _tanotherITC;
+        private string _anotherITCName;
         private bool _bold;
         private bool _italic;
         private int _fontSize;
@@ -41,6 +44,47 @@ namespace chopper1.Models
         private decimal _rM;
         private decimal _rR;
         private bool _isFromZapas;
+
+        private int _tsr;
+        private int _v;
+        private int _tv;
+
+        public int Tv
+        {
+            get { return _tv; }
+            set { _tv = value; }
+        }
+
+        public int V
+        {
+            get { return _v; }
+            set { _v = value; }
+        }
+
+        public int Tsr
+        {
+            get { return _tsr; }
+            set { _tsr = value; }
+        }
+        
+
+        public string AnotherITCName
+        {
+            get { return _anotherITCName; }
+            set { _anotherITCName = value; }
+        }
+
+        public int TanotherITC
+        {
+            get { return _tanotherITC; }
+            set { _tanotherITC = value; }
+        }
+
+        public int AnotherITC
+        {
+            get { return _anotherITC; }
+            set { _anotherITC = value; }
+        }
 
         public bool IsFromZapas
         {
@@ -292,20 +336,56 @@ namespace chopper1.Models
             int r = 0;
             int r99 = 0;
             int sr = 0;
+            int tsr = 0;
             int t = 0;
             int t99 = 0;
             int st = 0;
             int a = 0;
             int ta = 0;
+            int v = 0;
+            int tv = 0;
+            int aITC = 0;
+            int taITC = 0;
+            string ITCname = "";
 
             if (ITCs != null)
             {
                 foreach (ITCType itc in ITCs)
                 {
+                    switch (itc.Title)
+                    {
+                        case "Р":
+                            r += itc.Timing;
+                            t += itc.PointCount;
+                            break;
+                        case "Р99":
+                            r99 += itc.Timing;
+                            t99 += itc.PointCount;
+                            break;
+                        case "СР":
+                            sr += itc.Timing;
+                            tsr += itc.PointCount;
+                            break;
+                        case "В":
+                            v += itc.Timing;
+                            tv += itc.PointCount;
+                            break;
+                        case "А":
+                            a += itc.Timing;
+                            ta += itc.PointCount;
+                            break;
+                        default:
+                            aITC += itc.Timing;
+                            taITC += itc.PointCount;
+                            ITCname = itc.Title;
+                            break;
+                    }
+                    /*
                     if (itc.Title == "Р")
                     {
                         r += itc.Timing;
                         t += itc.PointCount;
+                        break;
                     }
                     if (itc.Title == "Р99")
                     {
@@ -322,31 +402,37 @@ namespace chopper1.Models
                         a += itc.Timing;
                         ta += itc.PointCount;
                     }
-
+                    */
                 }
             }
             this.R = r;
             this.R99 = r99;
             this.Sr = sr;
+            this.Tsr = tsr;
             this.T = t;
             this.T99 = t99;
             this.St = st;
             this.A = a;
             this.Ta = ta;
-            
-            if (r + r99 + sr + a == 0)
+            this.V = v;
+            this.Tv = tv;
+            this.AnotherITC = aITC;
+            this.TanotherITC = taITC;
+            this.AnotherITCName = ITCname;
+
+            if (r + r99 + sr + v + a + aITC == 0)
             {
                 this.PureDur = this.Timing;
             }
             else
             {
-                if (this.Timing == r + r99 + sr + a)
+                if (this.Timing == r + r99 + sr + v + a + aITC)
                 {
                     this.PureDur = this.Timing;
                 }
                 else
                 {
-                    this.PureDur = this.Timing - r - r99 - sr - a;
+                    this.PureDur = this.Timing - r - r99 - sr - a - aITC - v;
                 }
             }
         }
@@ -374,14 +460,28 @@ namespace chopper1.Models
                 infoString += rToString(this.R99, "Р99", hourDelim, minDelim);
                 infoString += "(" + this.T99.ToString() + ")";
             }
+            if (this.V > 0)
+            {
+                infoString += rToString(this.V, "В", hourDelim, minDelim);
+                if (this.Tv > 0)
+                {
+                    infoString += "(" + this.Tv.ToString() + ")";
+                }
+            }
+            if (this.AnotherITC > 0)
+            {
+                infoString += rToString(this.AnotherITC, AnotherITCName, hourDelim, minDelim);
+                if (this.TanotherITC>0) infoString += "(" + this.TanotherITC.ToString() + ")";
+            }            
             if (this.Sr > 0)
             {
                 infoString += rToString(this.Sr, "СР", hourDelim, minDelim);
-                infoString += "(" + this.Sr.ToString() + ")";
+                if (this.Tsr>0) infoString += "(" + this.Tsr.ToString() + ")";
             }
             if (this.A>0)
             {
                 infoString += aToString(this.A, hourDelim, minDelim);
+                //if (this.Ta > 0) infoString += "(" + this.Ta.ToString() + ")";
             }
 
 

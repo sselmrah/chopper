@@ -8,58 +8,67 @@
 }
 <div class="row">
     <div class="col-lg-1"></div>
-    <div class="col-lg-10">
-        @using (Html.BeginForm("Broadcast", "Weeks", FormMethod.Get))
-        {
-            <fieldset>
-                <h2 style="padding-left:20px">Программа передач Первого канала на @curDow, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" required="required" value="@curDate" onchange="form.submit();" /></h2>
-            </fieldset>
-        }
-    </div>
-    <div class="col-lg-1"></div>
-</div>
-<div class="row">
-    <div class="col-lg-9"></div>
-    <div class="col-lg-2">
-        <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
-    </div>
-    <div class="col-lg-1"></div>
-</div>
-<div class="row week_bg">
-    @{
-        double dayRectWidth = 100.0 / 6 - 0.00001;
-        string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
-    }
-    <div class="col-lg-1 noPadding"></div>
-    <div class="col-lg-10 noPadding">
-        @foreach (chopper1.Models.Day day in Model)
-        {
-            dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
-            <div style="float:left">
-                @{
-            Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = day.KanalKod });
+    <div class="col-lg-10 papers">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                @using (Html.BeginForm("Broadcast", "Weeks", FormMethod.Get))
+                {
+                    <fieldset>
+                        <h2 style="padding-left:20px">Программа передач Первого канала на @curDow, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" required="required" value="@curDate" onchange="form.submit();" /></h2>
+                    </fieldset>
                 }
             </div>
-            <div id="@day.TVDayRef" data-varnum="@day.VariantKod" data-chcode="@day.KanalKod" class="dayrect" ondrop="drop(event)" ondragover="    allowDrop(event)" style="width: @dayRectWidthStr;">
-                @{Html.RenderAction("BroadcastDay", "Day", day);}
-            </div>
-        }
-        @{
-            dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
-        }
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
-    </div>
-
-    <div class="col-lg-1 noPadding"></div>
-</div>
-
-<div class="rightSideButtons">
-    <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "broadcast" }, null)">
-        <div class="sideButtons" id="rtfButton" data-reporttype="broadcast" data-tvdate=@Model[0].TVDate.ToString("yyyy-MM-dd")>
-            <span>.rtf</span>
+            <div class="col-lg-1"></div>
         </div>
-    </a>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">
+                
+            </div>
+            <div class="col-lg-2" >
+                <p id="timestampDiv" style="text-align:left">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+            </div>
+        </div>
+        <div class="row week_bg">
+            @{
+                double dayRectWidth = 100.0 / 6 - 0.00001;
+                string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
+            }
+            <div class="col-lg-1 noPadding"></div>
+            <div class="col-lg-11 noPadding">
+                @foreach (chopper1.Models.Day day in Model)
+                {
+                    dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
+                    <div style="float:left">
+                        @{
+                    Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = day.KanalKod });
+                        }
+                    </div>
+                    <div id="@day.TVDayRef" data-varnum="@day.VariantKod" data-chcode="@day.KanalKod" class="dayrect" ondrop="drop(event)" ondragover="    allowDrop(event)" style="width: @dayRectWidthStr;">
+                        @{Html.RenderAction("BroadcastDay", "Day", day);}
+                    </div>
+                }
+                @{
+                    dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
+                }
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+            </div>
+
+            <div class="col-lg-0 noPadding"></div>
+        </div>
+    </div>
+    <div class="col-lg-1">
+        <div class="rightSideButtons">
+            <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "broadcast" }, null)">
+                <div class="sideButtons" id="rtfButton" data-reporttype="broadcast" data-tvdate=@Model[0].TVDate.ToString("yyyy-MM-dd")>
+                    <span>.rtf</span>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
+
 
 @section scripts {
     <script src="~/Scripts/jquery-2.0.0.js"></script>
@@ -68,12 +77,10 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
     <script>
-
         $(function () {
             var dUpdate = $.connection.dayUpdate;
             var xmlhttp;
             xmlhttp = new XMLHttpRequest();
-
 
             dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
                 if (tvdayref != "") {
@@ -84,7 +91,15 @@
                         if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                             console.log(tvdayref + '-' + serverTime);
                             if (xmlhttp.status == 200) {
-                                document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                
+                                if (document.getElementById(tvdayref).getAttribute("data-varnum") == varNum) {
+                                    document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;                                    
+                                    console.log("VariantNum Updated: "+document.getElementById(tvdayref).getAttribute("data-varnum"));
+                                }
+                                else
+                                {
+                                    console.log("Variant not found");
+                                }
                                 document.getElementById("timestampDiv").innerHTML = serverTime;
                             }
                             else if (xmlhttp.status == 400) {
@@ -126,4 +141,4 @@
             });
         });
     </script>
-   }
+}

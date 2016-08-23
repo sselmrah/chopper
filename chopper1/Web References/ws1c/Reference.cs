@@ -2505,6 +2505,8 @@ namespace chopper1.ws1c {
         
         private System.Nullable<System.DateTime> timingField;
         
+        private System.Nullable<System.DateTime> clearTimingField;
+        
         private string titleField;
         
         private string kodRedField;
@@ -2512,6 +2514,8 @@ namespace chopper1.ws1c {
         private bool capFlagField;
         
         private bool vyborkaFlagField;
+        
+        private string iTCField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
@@ -2532,6 +2536,17 @@ namespace chopper1.ws1c {
             }
             set {
                 this.timingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ClearTiming {
+            get {
+                return this.clearTimingField;
+            }
+            set {
+                this.clearTimingField = value;
             }
         }
         
@@ -2574,6 +2589,17 @@ namespace chopper1.ws1c {
             }
             set {
                 this.vyborkaFlagField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string ITC {
+            get {
+                return this.iTCField;
+            }
+            set {
+                this.iTCField = value;
             }
         }
     }

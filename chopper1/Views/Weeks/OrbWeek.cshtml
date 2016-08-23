@@ -11,77 +11,88 @@
 }
 
 <!--<h2>@Model.Note</h2>-->
+<div class="papers">
+    <div class="row weekPickerContainer">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-1 weekPickerArrow">
+            <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+            </a>
+        </div>
+        <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
+        <div class="col-lg-1 weekPickerArrow">
+            <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+            </a>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-1">
+            <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    @*
+        <div>
+            @Html.DisplayFor(model => model.DaysCount)
+        </div>
+    *@
 
-<div class="row weekPickerContainer">      
-    <div class="col-lg-1"></div>  
-    <div class="col-lg-1 weekPickerArrow">
-        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
-            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
-        </a>
-    </div>
-    <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
-    <div class="col-lg-1 weekPickerArrow">
-        <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
-            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
-        </a>
-    </div>
-    <div class="col-lg-1"></div>
-</div>
-<div class="row">
-    <div class="col-lg-10"></div>
-    <div class="col-lg-1">
-        <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
-    </div>
-    <div class="col-lg-1"></div>
-</div>
-@*
-    <div>
-        @Html.DisplayFor(model => model.DaysCount)
-    </div>
-*@
+    <div class="row week_bg">
+        <div class="visible-lg col-lg-1 noPadding">
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+        </div>
+        <div class="col-lg-10 col-md-12 noPadding">
+            <div style="float:left">
 
-<div class="row week_bg">    
-    <div class="visible-lg col-lg-1 noPadding">
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
-    </div>
-    <div class="col-lg-10 noPadding">
-        <div style="float:left">
+            </div>
+            @{
+                double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
+                string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
+            }
+            @for (int i = 0; i < Model.Days.Count() / 5; i++)
+            {
+                string tvDayRefs = "";
+                for (int j = 0; j < 5; j++)
+                {
+                    tvDayRefs += Model.Days[(i * 5) + j].TVDayRef + "_";
+                }
+                tvDayRefs = tvDayRefs.Substring(0, tvDayRefs.Length - 1);
+                var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+
+                for (int j = 0; j < 5; j++)
+                {
+                    dayVariantList += Model.Days[(i * 5) + j].TVDate.ToString("dd.MM.yyyy") + "_" + Model.Days[i + j].VariantKod + "_" + Model.Days[i + j].KanalKod + ";";
+                }
+                <div id="@Model.Days[i*5].TVDayRef" data-tvdayrefs="@tvDayRefs" data-varnum="@Model.Days[i*5].VariantKod" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                    @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+                </div>
+            }
+            @{
+                dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
+            }
+
 
         </div>
-        @{
-            double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
-            string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
-        }
-        @for (int i = 0; i < Model.Days.Count() / 5; i++)
-        {
-            string tvDayRefs = "";
-            for (int j = 0; j < 5; j++)
-            {
-                tvDayRefs += Model.Days[(i * 5) + j].TVDayRef + "_";
-            }
-            tvDayRefs = tvDayRefs.Substring(0, tvDayRefs.Length - 1);
-            var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
-
-            for (int j = 0; j < 5; j++)
-            {
-                dayVariantList += Model.Days[(i * 5) + j].TVDate.ToString("dd.MM.yyyy") + "_" + Model.Days[i + j].VariantKod + "_" + Model.Days[i + j].KanalKod + ";";
-            }
-            <div id="@Model.Days[i*5].TVDayRef" data-tvdayrefs="@tvDayRefs" data-varnum="@Model.Days[i*5].VariantKod" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-                @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+        <div class="visible-lg col-lg-1 noPadding">
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
             </div>
-        }
-        @{
-            dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
-        }
-
-
-    </div>
-    <div class="visible-lg col-lg-1 noPadding">
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 14 });}
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 13 });}
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 12 });}
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 11 });}
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 14 });}
+            </div>
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 13 });}
+            </div>
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 12 });}
+            </div>
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 11 });}
+            </div>
+        </div>
     </div>
 </div>
 <div class="rightSideButtons">

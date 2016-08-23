@@ -5,60 +5,105 @@
     ViewBag.Title = Model.Note;
     int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
     string dayVariantList = "";
-
+    string chButtonClass = "channelSideButtons";
 
 }
 
 <!--<h2>@Model.Note</h2>-->
-
-<div class="row weekPickerContainer">    
-    <div class="col-lg-1 visible-lg"></div>
-    <div class="col-lg-1 weekPickerArrow visible-lg">
-        <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
-            <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black; float:right"></span>
-        </a>
+<div class="papers">
+    <div class="row weekPickerContainer">
+        <div class="col-lg-1 visible-lg"></div>
+        <div class="col-lg-1 weekPickerArrow visible-lg">
+            <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black; float:right"></span>
+            </a>
+        </div>
+        <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref });}</div>
+        <div class="col-lg-1 weekPickerArrow visible-lg">
+            <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+            </a>
+        </div>
+        <div class="col-lg-1 visible-lg"></div>
     </div>
-    <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref });}</div>
-    <div class="col-lg-1 weekPickerArrow visible-lg">
-        <a href="@Url.Action("getWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
-            <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
-        </a>
-    </div>    
-    <div class="col-lg-1 visible-lg"></div>
-</div>
-<div class="row visible-lg">
-    <div class="col-lg-9"></div>
-    <div class="col-lg-2">
-        <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
-    </div>    
-    <div class="col-lg-1"></div>
-</div>
-<div class="row week_bg">    
-    <div class="col-lg-1 visible-lg noPadding">
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+    <div class="row visible-lg">
+        <div class="col-lg-9"></div>
+        <div class="col-lg-2">
+            <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+        </div>
+        <div class="col-lg-1"></div>
     </div>
-         @{
-           var i = 0; 
-           double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
-           string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%"; 
-          }
-    <div id="daysDiv" class="col-lg-10 noPadding">
-        @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
-        {
-            dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
-            <div id="@day.TVDayRef" class="dayrect" data-chcode="@day.KanalKod" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-                @{Html.RenderAction("ConstructDay", "Day", day);}
-            </div>
-                i += 1;
+    <div class="row week_bg">
+        <div class="col-lg-1 visible-lg noPadding">
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+        </div>
+        @{
+            var i = 0;
+            double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
+            string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
         }
-    </div>
-    @{
-        dayVariantList = dayVariantList.Substring(0,dayVariantList.Length-1);
-    }
-    <div class="col-lg-1 visible-lg noPadding">
-        @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+        <div id="daysDiv" class="col-lg-10 noPadding">
+            @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
+            {
+                dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
+                <div id="@day.TVDayRef" class="dayrect" data-chcode="@day.KanalKod" data-varnum="@day.VariantKod" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                    @{Html.RenderAction("ConstructDay", "Day", day);}
+                </div>
+                    i += 1;
+            }
+        </div>
+        @{
+            dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
+        }
+        <div class="col-lg-1 visible-lg noPadding">
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+        </div>
     </div>
 </div>
+
+
+@if (Model.AvailableChannels.Contains(10) & Model.AvailableChannels.Count()>1)
+ {
+    if (Model.Days[0].KanalKod == 10)
+    {
+        chButtonClass = "channelSideButtons channelSelected";
+    }
+    else
+    {
+        chButtonClass = "channelSideButtons channelNotSelected";
+    }
+<div class="@chButtonClass" id="chOneButton" data-reporttype="raskladka">
+    <img src="~/Content/images/logos/chOne_logo_square.png" style="width:100px"/>
+</div>
+}
+ @if (Model.AvailableChannels.Contains(21))
+ {
+     if (Model.Days[0].KanalKod == 21)
+     {
+         chButtonClass = "channelSideButtons channelSelected";
+     }
+     else
+     {
+         chButtonClass = "channelSideButtons channelNotSelected";
+     }
+<div class="@chButtonClass" id="rtrButton" data-reporttype="raskladka">
+    <img src="~/Content/images/logos/rtr_white.png" style="width:60px" />
+</div>
+ }
+ @if (Model.AvailableChannels.Contains(40))
+ {
+     if (Model.Days[0].KanalKod == 40)
+     {
+         chButtonClass = "channelSideButtons channelSelected";
+     }
+     else
+     {
+         chButtonClass = "channelSideButtons channelNotSelected";
+     }
+    <div class="@chButtonClass" id="ntvButton" data-reporttype="raskladka">
+    <img src="~/Content/images/logos/ntv_white.png" style="width:40px" />
+</div>    
+ }
 
 <div class="rightSideButtons visible-lg">
     <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "raskladka" }, null)">
@@ -87,6 +132,59 @@
 
     
     <script>
+        $("#chOneButton").click(function (evt) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '/Weeks/WeekChosen',
+                data: {
+                    WeekID: @weekNumInt.ToString(),
+                    repType: 'raskladka',
+                    chCode: '10'
+                },
+                success: function (data) {
+                    document.open('text/html');
+                    document.write(data);
+                    document.close();
+                }
+            });
+        });
+    $("#rtrButton").click(function (evt) {
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '/Weeks/WeekChosen',
+            data: {
+                WeekID: @weekNumInt.ToString(),
+                    repType: 'raskladka',
+                    chCode: '21'
+                },
+                success: function (data) {
+                    document.open('text/html');
+                    document.write(data);
+                    document.close();
+                }
+            });
+        });
+        $("#ntvButton").click(function (evt) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '/Weeks/WeekChosen',
+                data: {
+                    WeekID: @weekNumInt.ToString(),
+                    repType: 'raskladka',
+                    chCode: '40'
+                },
+                success: function (data) {
+                    document.open('text/html');
+                    document.write(data);
+                    document.close();
+                }
+            });
+        });
+
+
         $("#progFlyoutHandle").click(function (evt) {
 
             if (document.getElementById("progFlyout").style.right == "-200px") {
@@ -124,7 +222,7 @@
 
                 var xmlhttp2;
                 xmlhttp2 = new XMLHttpRequest();
-                xmlhttp2.open("POST", "GetZapas", true);                
+                xmlhttp2.open("POST", "GetZapas", true);
                 xmlhttp2.send();
                 xmlhttp2.onreadystatechange = function () {
                     document.getElementById("progFlyout").innerHTML += xmlhttp2.responseText;
@@ -140,30 +238,30 @@
                 $("#progFlyoutHandle").animate({ right: "0" }, 500);
                 $("#progFlyout").animate({ right: "-200px" }, 500);
 
-                
+
             }
     }
 *@
-        $("#rtfButton").click(function () {
-            
-            var dUpdate = $.connection.dayUpdate;
-            var repType = document.getElementById("printButton").dataset.reporttype;
-            var weekId = document.getElementById("printButton").dataset.weekid;
-            var dayVariantList = "";
+    $("#rtfButton").click(function () {
 
-            var dateDivs = document.getElementsByClassName("date-div");
-            var varDivs = document.getElementsByClassName("varCode-div");
+        var dUpdate = $.connection.dayUpdate;
+        var repType = document.getElementById("printButton").dataset.reporttype;
+        var weekId = document.getElementById("printButton").dataset.weekid;
+        var dayVariantList = "";
 
-            for (var i = 0; i < dateDivs.length; i++) {
-                dayVariantList += dateDivs[i].innerHTML + "_";
-                var str = varDivs[i].id;
-                var varCode = str.substring(3);
-                dayVariantList += varCode;
-                if (i != dateDivs.length - 1) {
-                    dayVariantList += ";";
-                }
+        var dateDivs = document.getElementsByClassName("date-div");
+        var varDivs = document.getElementsByClassName("varCode-div");
+
+        for (var i = 0; i < dateDivs.length; i++) {
+            dayVariantList += dateDivs[i].innerHTML + "_";
+            var str = varDivs[i].id;
+            var varCode = str.substring(3);
+            dayVariantList += varCode;
+            if (i != dateDivs.length - 1) {
+                dayVariantList += ";";
             }
-            @*
+        }
+        @*
             var url = '@Url.Action("Download", "Weeks")';
             $.post(url, { dayVariantList: dayVariantList, repType: "raskladka" },
             function () {
@@ -172,10 +270,10 @@
 
 
 
-            console.log("RTF OK!");
-            @*dUpdate.server.print(dayVariantList, repType, weekId, false, true, false);*@
+        console.log("RTF OK!");
+        @*dUpdate.server.print(dayVariantList, repType, weekId, false, true, false);*@
 
-        });
+    });
     </script>
 
     <script>
@@ -198,8 +296,19 @@
                         if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                             console.log(tvdayref + '-' + serverTime);
                             if (xmlhttp.status == 200) {
-                                document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
-                                document.getElementById("timestampDiv").innerHTML = serverTime;
+
+                                if (document.getElementById(tvdayref).getAttribute("data-varnum") == varNum) {
+                                    document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;                                    
+                                    console.log("VariantNum Updated: "+document.getElementById(tvdayref).getAttribute("data-varnum"));
+                                }
+                                else
+                                {
+                                    console.log("Variant not found");
+                                }
+
+
+                                //document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                //document.getElementById("timestampDiv").innerHTML = serverTime;
 
                                 
                             }

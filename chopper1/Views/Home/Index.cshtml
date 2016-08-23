@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    Layout = null;
+    @*Layout = null;*@
     var culture = new System.Globalization.CultureInfo("ru-RU");
     var day = culture.DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
     day = day.Substring(0, 1).ToUpper() + day.Substring(1);

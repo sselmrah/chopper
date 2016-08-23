@@ -22,6 +22,14 @@ namespace chopper1.Models
         private Efir[] _orbEfirs;
         //Эфиры из рейтингов, потом можно переделать
         private Efir[] _ratEfirs;
+        //Новые footer'ы
+        private FooterType[] _footers;
+
+        public FooterType[] Footers
+        {
+            get { return _footers; }
+            set { _footers = value; }
+        }
 
         public Efir[] RatEfirs
         {

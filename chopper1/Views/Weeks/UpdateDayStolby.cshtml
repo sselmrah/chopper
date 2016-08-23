@@ -53,6 +53,67 @@
 <div class="stolbyDayFinal">
     @dayFinalStr
 </div>
+@if (Model.Footers != null)
+{
+    <table class="stolbyEfirTable" style="font-weight:bold">
+        <tr>
+            <td class="StolbyTimeStart"></td>
+            <td class="StolbyTitle"><span style="white-space:pre-line">@Model.Foot</span></td>
+            <td class="StolbyCode"></td>
+        </tr>
+
+        @foreach (chopper1.ws1c.FooterType foot in Model.Footers)
+        {
+            int ctHours = 0;
+            int ctMinutes = 0;
+            int ctSeconds = 0;
+            ctHours = Convert.ToDateTime(foot.ClearTiming).Hour;
+            ctMinutes = Convert.ToDateTime(foot.ClearTiming).Minute;
+            ctSeconds = Convert.ToDateTime(foot.ClearTiming).Second;
+            string ctStr = "";
+            if (ctHours > 0)
+            {
+                ctStr += ctHours.ToString("D2") + ".";
+            }
+            if (ctSeconds > 0)
+            {
+                ctStr += ctMinutes.ToString("D2") + "\'" + ctSeconds.ToString("D2");
+            }
+            else
+            {
+                ctStr += ctMinutes.ToString();
+            }
+
+            <tr>
+                <td class="StolbyTimeStart">
+                    @foot.Beg
+                </td>
+                <td class="StolbyTitle">
+                    @if (foot.Title == null || foot.Title == "")
+                    {
+                        <span style="white-space:pre-line"></span>
+                    }
+                    else
+                    {
+                        if (ctHours + ctMinutes + ctSeconds > 0)
+                        {
+                            <span style="white-space:pre-line">@foot.Title [@ctStr + @foot.ITC]</span>
+                        }
+                        else
+                        {
+                            <span style="white-space:pre-line">@foot.Title</span>
+                        }
+                    }
+                </td>
+                <td class="StolbyCode">
+                    @foot.KodRed
+                </td>
+            </tr>
+        }
+    </table>
+}
+@*
 <div class="stolbyDayFoot font-bold">
     <span style="white-space: pre-line">@Model.Foot</span>
 </div>
+*@

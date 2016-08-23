@@ -696,6 +696,18 @@ namespace chopper1.Controllers
             ViewData["VariantKod"] = query;
 
 
+            TVDayVariantParam curParam = new TVDayVariantParam();
+            try
+            {
+                curParam = curWc.GetVarTVDayParam(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);                
+                newDay.Footers = curParam.Foot2;                
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+
+
 
             return PartialView(newDay);
         }

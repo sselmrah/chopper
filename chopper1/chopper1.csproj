@@ -254,6 +254,9 @@
     <Content Include="chopper_moto_favicon.ico" />
     <Content Include="Content\images\chopper_moto_frame_125.png" />
     <Content Include="Content\images\crashed_bike.jpg" />
+    <Content Include="Content\images\logos\chOne_logo_square.png" />
+    <Content Include="Content\images\logos\ntv_white.png" />
+    <Content Include="Content\images\logos\rtr_white.png" />
     <Content Include="_favicon.ico" />
     <Content Include="Content\bootstrap\bootstrap.css">
       <DependentUpon>bootstrap.less</DependentUpon>

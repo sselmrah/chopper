@@ -10,6 +10,13 @@ namespace chopper1.Models
     {
         private int _daysCount;
         private List<WeekTVDayType> _days;
+        private int[] _availableChannels;
+
+        public int[] AvailableChannels
+        {
+            get { return _availableChannels; }
+            set { _availableChannels = value; }
+        }
                 
 
         public List<WeekTVDayType> Days

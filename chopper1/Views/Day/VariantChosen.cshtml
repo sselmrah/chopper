@@ -43,7 +43,7 @@
     if (repType.ToString() == "broadcast")
     {
         <div id="dow@(day_num)" class="dow-div">@chStr</div>
-        <div id="var@(Model.VariantKod.ToString())" class="varCode-div">
+        <div id="var@(Model.VariantKod.ToString())" class="varCode-div" data-varnum="@Model.VariantKod.ToString()">
         @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
         {
             <fieldset>
@@ -62,7 +62,7 @@
         <a href="@Url.Action("Broadcast", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd"), variantNum = @Model.VariantKod }, null)">
             <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
         </a>
-        <div id="var@(Model.VariantKod.ToString())" class="varCode-div">
+        <div id="var@(Model.VariantKod.ToString())" class="varCode-div" data-varnum="@Model.VariantKod.ToString()">
         @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
         {
             <fieldset>
@@ -139,7 +139,14 @@
         {
             if (efir.Timing >= 60 * 2)
             {
-                Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+                if (repType.ToString() !="raskladka")
+                { 
+                    Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+                }
+                else
+                {
+                    Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = false });
+                }
             }
         }
     }
@@ -160,14 +167,22 @@
             if (i != dateDivs.length - 1) {
                 dayVariantList += ";";
             }
-            
+
         }
+
+        for (var i = 0; i < dayDivs.length; i++) {
+            if (dayDivs[i].getAttribute("data-varnum") != varDivs[i].getAttribute("data-varnum"))
+            {
+                dayDivs[i].setAttribute("data-varnum", varDivs[i].getAttribute("data-varnum"));
+            }
+        }        
+
         var repType = "@ViewData["repType"]";
         var newLink = "/Weeks/Download?dayVariantList=" + dayVariantList + "&repType=" + repType;
         var link = document.getElementById("rtfDownloadLink")
-        console.log(link.href);
+        
         link.href = newLink;
-        console.log(link.href);
+        
     });
 </script>
 

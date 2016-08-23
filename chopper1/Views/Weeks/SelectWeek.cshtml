@@ -6,6 +6,7 @@
     var curweeknum = ViewBag.weeknum;
     var curweeknum2 = ViewBag.WeekId;
     string repType = ViewBag.reportType.ToString();
+    string KanalKod = ViewBag.chCode.ToString();
     /*
     if (repType=="raskladka")
     {
@@ -25,7 +26,7 @@
             Html.RenderAction("OrbWeek", "Weeks", new { week_num = curweeknum });
             break;
         case "raskladka":
-            Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum });
+            Html.RenderAction("getWeek", "Weeks", new { week_num = curweeknum, chCode = KanalKod });
             break;
         case "stolby":
             Html.RenderAction("Stolby", "Weeks", new { week_num = curweeknum });

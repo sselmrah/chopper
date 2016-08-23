@@ -16,7 +16,7 @@
     <div id="date@(day_num)" class="date-div">@Model.TVDate.Date.ToString("dd/MM/yyyy")</div>
 </a>
 
-<div id="var@(Model.VariantKod.ToString())" class="varCode-div">
+<div id="var@(Model.VariantKod.ToString())" class="varCode-div" data-varnum="@Model.VariantKod.ToString()">
     @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
     {
         <fieldset>

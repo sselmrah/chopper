@@ -34,6 +34,7 @@ namespace chopper1
         public static string curCatConnection = "PlanCatConnection";
         public static CultureInfo russian = new CultureInfo("ru-RU"); 
         public static int[] fullChannelCodesArray = new int[] { 10, 11, 12, 13, 14 };
+        public static int[] concurChannelsArray = new int[] { 10, 21, 40};
 
         //Cache
         public static List<chopper1.Models.Week> cachedWeeks = new List<chopper1.Models.Week>();
@@ -264,7 +265,7 @@ namespace chopper1
                     curDay.Cap = curParam.Cap;
                     curDay.Foot = curParam.Foot;
 
-                    FooterType[] footArr = curParam.Foot2;                                                          
+                    curDay.Footers = curParam.Foot2;                                                          
 
                     curDay.FullCap += curDay.Cap;
                     if (curDay.FullCap.Length > 0)
@@ -501,58 +502,106 @@ namespace chopper1
             int r = 0;
             int r99 = 0;
             int sr = 0;
+            int tsr = 0;
             int t = 0;
             int t99 = 0;
             int st = 0;
             int a = 0;
+            int ta = 0;
+            int aITC = 0;
+            int taITC = 0;
+            int v = 0;
+            int tv = 0;
+            string ITCname = "";
 
             if (ITCs != null)
             {
+
                 foreach (ITCType itc in ITCs)
                 {
-                    if (itc.Title == "Р")
-                    {
-                        r += itc.Timing;
-                        t += itc.PointCount;
-                    }
-                    if (itc.Title == "Р99")
-                    {
-                        r99 += itc.Timing;
-                        t99 += itc.PointCount;
-                    }
-                    if (itc.Title == "СР")
-                    {
-                        sr += itc.Timing;
-                        st += itc.PointCount;
-                    }
-                    if (itc.Title == "А")
-                    {
-                        a += itc.Timing;
-                    }
+                    /*
+               if (itc.Title == "Р")
+               {
+                   r += itc.Timing;
+                   t += itc.PointCount;
+               }
+               if (itc.Title == "Р99")
+               {
+                   r99 += itc.Timing;
+                   t99 += itc.PointCount;
+               }
+               if (itc.Title == "СР")
+               {
+                   sr += itc.Timing;
+                   st += itc.PointCount;
+               }
+               if (itc.Title == "А")
+               {
+                   a += itc.Timing;
+               }
 
+           }
+           */
+                    switch (itc.Title)
+                    {
+                        case "Р":
+                            r += itc.Timing;
+                            t += itc.PointCount;
+                            break;
+                        case "Р99":
+                            r99 += itc.Timing;
+                            t99 += itc.PointCount;
+                            break;
+                        case "СР":
+                            sr += itc.Timing;
+                            tsr += itc.PointCount;
+                            break;
+                        case "В":
+                            v += itc.Timing;
+                            tv += itc.PointCount;
+                            break;
+                        case "А":
+                            a += itc.Timing;
+                            ta += itc.PointCount;
+                            break;
+                        default:
+                            aITC += itc.Timing;
+                            taITC += itc.PointCount;
+                            ITCname = itc.Title;
+                            break;
+                    }
                 }
+
             }
             newEfir.R = r;
             newEfir.R99 = r99;
             newEfir.Sr = sr;
+            newEfir.Tsr = tsr;
             newEfir.T = t;
             newEfir.T99 = t99;
             newEfir.St = st;
             newEfir.A = a;
+            newEfir.V = v;
+            newEfir.Tv = tv;
+            newEfir.AnotherITC = aITC;
+            newEfir.TanotherITC = taITC;
+            newEfir.AnotherITCName = ITCname;
 
-            if (r + r99 + sr + a == 0)
+            if (r + r99 + sr + a + aITC+ v == 0)
             {
                 newEfir.PureDur = newEfir.Timing;
             }
             else
             {
-                if (newEfir.Timing == r + r99 + sr + a)
+                if (newEfir.Timing == r + r99 + sr + a + aITC+v)
                 {
                     newEfir.PureDur = newEfir.Timing;
                 }
                 else
-                {
+                {/*
                     newEfir.PureDur = newEfir.Timing - r - r99 - sr - a;
+                  */
+                        newEfir.PureDur = newEfir.Timing - r - r99 - sr - a - aITC-v;
                 }
             }
             return newEfir;
