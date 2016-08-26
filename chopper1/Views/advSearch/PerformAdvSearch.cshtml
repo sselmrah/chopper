@@ -113,7 +113,9 @@
                                         </td>
                                         break;
                                     case "Beg":
-                                        string curTime = row[col.ColumnName].ToString().Right(8).Left(5);
+                                        @*string curTime = row[col.ColumnName].ToString().Right(8).Left(5);*@
+                                        DateTime curTimeDt = DateTime.Parse(row[col.ColumnName].ToString());
+                                        string curTime = curTimeDt.ToString(@"H\:mm");
                                         <td>@curTime</td>
                                         break;
                                     case "BriefTitle":
