@@ -230,11 +230,12 @@
     
     $("#addProgButton").click(function () {
         var cbs = document.getElementsByClassName("progCheckBoxes");
-        for (var i = 0; i < cbs.length ; i++) {
+        for (var i = 1; i < cbs.length ; i++) {
             var curTrId = "tr_" + i.toString();
-            if (cbs.item(i).checked) {
+            if (cbs.item(i-1).checked) {
                 var curTr = document.getElementById(curTrId);
                 var timing = curTr.cells[2].innerHTML;
+                
                 var title = curTr.cells[3].innerHTML;
                 //var code = curTr.cells[11].innerHTML + "0" + curTr.cells[11].innerHTML;
                 var code = codesToFullCode(curTr.cells[11].innerHTML, curTr.cells[12].innerHTML);
@@ -244,7 +245,7 @@
                     cache: false,
                     data: {
                         title: title,
-                        pureDur: timing,
+                        pureDur: timeToMinutes(timing),
                         fullCode: code
                     },
                     url: '/Day/AddProgToZapas',
@@ -257,6 +258,22 @@
         }
     });
     
+    function timeToMinutes(time) {
+        var hours;
+        var minutes;
+        var seconds;
+        //console.log(time);
+        hours = parseInt(time.substring(time.indexOf(":") - 2, time.indexOf(":")));
+        //console.log("Hours: " + time.substring(time.indexOf(":") - 2, time.indexOf(":")));
+        minutes = parseInt(time.substring(time.indexOf(":") + 1, time.indexOf(":") + 3));
+        //console.log("Minutes: " + time.substring(time.indexOf(":") +1 , time.indexOf(":") + 3));
+        seconds = parseInt(time.substring(time.indexOf(":") + 4, time.indexOf(":") + 6));
+        //console.log("timeToMinutes.Time: "+ hours.toString() + ":" + minutes.toString() + ":" + seconds.toString());
+
+        minutes = minutes + hours * 60 + Math.round(seconds/60);
+        //console.log("timeToMinutes.Time: " + minutes.toString());
+        return minutes.toString();
+    }
 
     function codesToFullCode(producerCode, sellerCode) {
         var fullCode = "";
