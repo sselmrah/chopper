@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using chopper1.ws1c;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace chopper1.Controllers
 {
@@ -141,9 +142,24 @@ namespace chopper1.Controllers
                     {
                         if ((p.TVData.DayOfWeek==DayOfWeek.Monday & Monday) | (p.TVData.DayOfWeek==DayOfWeek.Tuesday & Tuesday) |(p.TVData.DayOfWeek==DayOfWeek.Wednesday & Wednesday) |(p.TVData.DayOfWeek==DayOfWeek.Thursday & Thursday) |(p.TVData.DayOfWeek==DayOfWeek.Friday & Friday) |(p.TVData.DayOfWeek==DayOfWeek.Saturday & Saturday) |(p.TVData.DayOfWeek==DayOfWeek.Sunday & Sunday))
                         {
-                            if ((BitOriginal & BitRepetition) | (BitOriginal&!BitRepetition&p.Premiere) | (BitRepetition&!BitOriginal&!p.Premiere))
+                            //if ((BitOriginal & BitRepetition) | (BitOriginal&(p.Premiere | p.RepeatFrom != null)) | (BitRepetition&!BitOriginal&!p.Premiere))
+                            if ((BitOriginal & p.RepeatFrom.Year == DateTime.Parse("01.01.0001").Year) | (BitRepetition & p.RepeatFrom.Year != DateTime.Parse("01.01.0001").Year))
                             {
-                                filteredResultList.Add(p);
+                                if (Producers != null)
+                                {
+                                    foreach (string prod in Producers)
+                                    {
+                                        if (prod.Left(prod.IndexOf(" "))==p.ProducerCode.ToString())
+                                        {
+                                            filteredResultList.Add(p);
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    filteredResultList.Add(p);
+                                }
                             }
                         }
                     }

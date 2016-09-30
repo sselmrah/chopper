@@ -557,16 +557,32 @@ namespace chopper1.Controllers
             List<EfirType> zapas = MyStartupClass.zapasEfirs;
             return View(zapas);
         }
-        /*
+        
         [HttpPost]
         public ActionResult AddProgToZapas(string title = "Шаблон", string pureDur="52", string fullCode="00000")
         {
-
-
+            pureDur = pureDur.Replace(" ", "").Replace("\n", "");
+            EfirType curEfir = MyStartupClass.createEfirTypeFromTitleTimingCode(title, pureDur, fullCode);
             MyStartupClass.zapasEfirs.Add(curEfir);
             return View();
         }
-        */
+
+        [HttpPost]
+        public ActionResult RemoveProgFromZapas(string progId = "")
+        {
+            if (progId != "")
+            {
+                foreach (EfirType z in MyStartupClass.zapasEfirs)
+                {
+                    if (z.Ref == progId)
+                    {
+                        MyStartupClass.zapasEfirs.Remove(z);
+                        break;
+                    }
+                }
+            }            
+            return View();
+        }
 
         [HttpPost]
         public ActionResult AddDayByDate(string curDt = "18.07.2016", string data = "")

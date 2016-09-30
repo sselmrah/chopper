@@ -249,6 +249,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\Modern-UI-Icons---Drawing.svg" />
     <Content Include="Content\images\chone_white_small.png" />
     <Content Include="chopper_heli_favicon.ico" />
@@ -259,6 +261,9 @@
     <Content Include="Content\images\logos\chOne_logo_square.png" />
     <Content Include="Content\images\logos\ntv_white.png" />
     <Content Include="Content\images\logos\rtr_white.png" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="Scripts\iwc-signalr.js" />
+    <Content Include="Scripts\signalr-patch.js" />
     <Content Include="_favicon.ico" />
     <Content Include="Content\bootstrap\bootstrap.css">
       <DependentUpon>bootstrap.less</DependentUpon>
@@ -431,6 +436,11 @@
     <Content Include="Content\fonts\Modern-UI-Icons---Drawing.eot" />
     <Content Include="Content\fonts\Modern-UI-Icons---Drawing.ttf" />
     <Content Include="Content\fonts\Modern-UI-Icons---Drawing.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Manual.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

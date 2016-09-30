@@ -512,8 +512,8 @@ input[type=date]::-webkit-inner-spin-button {
 .leftSideButtons
 {
     position:fixed;
-    left:-70px;
-    top:30%;
+    left:-75px;
+    top:50px;
     z-index: 1000000;    
     font-size:large;
 }
@@ -595,12 +595,12 @@ input[type=date]::-webkit-inner-spin-button {
 {
     border: 0 solid red;
     line-height: 60px;
-    width:70px;
-    height:70px;
+    width:75px;
+    height:75px;
     text-align:center;    
     color:white;
     background-color:#429adb;
-    opacity:0.8;    
+    opacity:1;    
     cursor: pointer;
     vertical-align: middle;
     
@@ -609,7 +609,10 @@ input[type=date]::-webkit-inner-spin-button {
   user-select: none;
 }
 
-
+.bottomButton
+{
+    border-bottom: 1px solid white;
+}
 
 .sideButtons > span
 {
@@ -652,10 +655,15 @@ input[type=date]::-webkit-inner-spin-button {
     height: 100px;
     background-color: #429adb;
     color: white;
-    font-size: xx-large;    
-    line-height: 100px;
-    padding-left:10px;
-
+    /*font-size: xx-large;    */
+    line-height: 120px;
+    padding-left:5px;
+    cursor: pointer;
+    vertical-align: middle;
+    
+    -moz-user-select: none;    
+  -webkit-user-select: none;  
+  user-select: none;
 }
 
 #progFlyout

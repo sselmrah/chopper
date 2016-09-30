@@ -7,6 +7,8 @@
     DateTime dt = Model.TVDate;
     string varStr = "Вариант ";
     varStr += Model.VariantKod.ToString();
+    string shapka = Model.FullCap;    
+    //if (shapka.Left(1) == "#" || shapka.Left(1) == "/n") { shapka = shapka.Right(shapka.Length - 1); }    
 }
 
 <a href="@Url.Action("Ratings", "Weeks", new { bdate = @Model.TVDate.Date.ToString("yyyy-MM-dd")}, null)">
@@ -27,16 +29,20 @@
         </fieldset>
     }
 </div>
-<div id="shapka@(day_num)" class="shapka-div">@Html.Raw(Html.Encode(Model.FullCap).Replace("#", "<br />"))</div>
 
-@foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
-{
-    if (efir.Timing >= 60 * 5)
+<div id="shapka@(day_num)" class="shapka-div">
+    <span style="white-space:pre-line">@shapka</span>
+</div>
+
+    @foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
     {
-        Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode });
+        if (efir.Timing >= 60 * 5)
+        {
+            Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode });
+        }
     }
-}
 
-<script>
-
-</script> 
+    <script>
+            @*Html.Raw(Html.Encode(Model.FullCap).Replace("#", "<br />"))*@
+        @*Html.Raw(Html.Encode(shapka).Replace("#", "<br />"))*@
+    </script> 

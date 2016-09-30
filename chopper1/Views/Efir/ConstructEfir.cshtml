@@ -66,13 +66,29 @@
     @if (Model.UseTitle)
     {
         <div class="@titleClassString" style="@fontSize" draggable="false">
-            @Model.Title.Replace("#", "\n").ToUpper()
+            <span style="white-space:pre-line">
+                @Model.Title.Replace("#", "\n").ToUpper()
+            </span>
         </div>
     }
     else
     {
+        string newANR = Model.ANR.Replace("#", "\n").ToUpper();
+        if (newANR.Left(1) == "\n")  { 
+            newANR = newANR.Substring(1,newANR.Length-1);            
+        }
         <div class="@titleClassString" style="@fontSize" draggable="false">
-            @Model.ANR.Replace("#", "\n").ToUpper()
+            <span style="white-space:pre-line">
+                @*Model.ANR.Replace("#", "\n").ToUpper().Substring(0,Model.ANR.Length-1)*@
+                @if (newANR.Right(1)=="\n")
+                {
+                    @newANR.Substring(0,newANR.Length-1)
+                }
+                else
+                {
+                     @newANR
+                }
+            </span>
         </div>
     }
 

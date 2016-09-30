@@ -460,7 +460,9 @@ namespace chopper1
 
         public static EfirType createEfirTypeFromTitleTimingCode(string title, string pureDur, string fullCode)
         {
-            TimeSpan pureDurTs = TimeSpan.Parse(pureDur);
+            
+            TimeSpan pureDurTs = TimeSpan.FromMinutes(Convert.ToDouble(pureDur));
+            
             int pureDurInt = pureDurTs.Hours * 60 * 60 + pureDurTs.Minutes * 60 + pureDurTs.Seconds;
             title = title.Replace("<", "").Replace(">", "");
 
@@ -468,7 +470,7 @@ namespace chopper1
             curEfir.ANR = title;
             curEfir.Title = title;
             curEfir.ProducerCode = fullCode.Left(2);
-            curEfir.SellerCode = fullCode.Right(2);
+            curEfir.SellerCode = fullCode.Right(3);
 
             curEfir.Ref = MyStartupClass.getRandomRef(16);
 

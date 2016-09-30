@@ -229,31 +229,45 @@
 <script>
     
     $("#addProgButton").click(function () {
-        var dUpdate = $.connection.dayUpdate;
-        $.connection.hub.start().done(function () {            
-            var cbs = document.getElementsByClassName("progCheckBoxes");
-            for (var i = 0; i < cbs.length ; i++) {
-                var curTrId = "tr_" + i.toString();
-                if (cbs.item(i).checked) {                   
-                    @*console.log(curTrId);*@
-                    var curTr = document.getElementById(curTrId);
-                    @*console.log(curTr.cells[3].innerHTML);*@
-                    var timing = curTr.cells[2].innerHTML;
-                    var title = curTr.cells[3].innerHTML;
-                    var code = curTr.cells[11].innerHTML + "0" + curTr.cells[11].innerHTML;
+        var cbs = document.getElementsByClassName("progCheckBoxes");
+        for (var i = 0; i < cbs.length ; i++) {
+            var curTrId = "tr_" + i.toString();
+            if (cbs.item(i).checked) {
+                var curTr = document.getElementById(curTrId);
+                var timing = curTr.cells[2].innerHTML;
+                var title = curTr.cells[3].innerHTML;
+                //var code = curTr.cells[11].innerHTML + "0" + curTr.cells[11].innerHTML;
+                var code = codesToFullCode(curTr.cells[11].innerHTML, curTr.cells[12].innerHTML);
 
-                    dUpdate.server.addProg(title, timing, code);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        title: title,
+                        pureDur: timing,
+                        fullCode: code
+                    },
+                    url: '/Day/AddProgToZapas',
+                    success: function (data) {
+                        console.log("zapas pass ok");
+                    }
+                });
 
-
-                    
-                    
-
-
-                    @*progFlyout.appendChild(curProg);
-                curProg.innerHTML = curTr.cells[3].innerHTML;*@
-                }
             }
-            $.connection.hub.stop();
-        });
+        }
     });
+    
+
+    function codesToFullCode(producerCode, sellerCode) {
+        var fullCode = "";
+        var curCode = producerCode + "";
+        while (curCode.length < 2) curCode = "0" + curCode;
+        fullCode = curCode;
+        curCode = sellerCode + "";
+        while (curCode.length < 3) curCode = "0" + curCode;
+        fullCode += curCode;
+
+        return fullCode;
+    }
+
 </script>

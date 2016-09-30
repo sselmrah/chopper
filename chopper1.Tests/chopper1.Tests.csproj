@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\metro-icons.css" />
     <Content Include="Content\metro-icons.min.css" />
     <Content Include="Content\metro-responsive.css" />
@@ -138,6 +140,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\metro.svg" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
@@ -148,10 +151,15 @@
     <Content Include="Scripts\metro.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fonts\metro.eot" />
-    <None Include="Fonts\metro.ttf" />
-    <None Include="Fonts\metro.woff" />
-    <None Include="Fonts\selection.json" />
+    <Content Include="Fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Fonts\FontAwesome.otf" />
+    <Content Include="Fonts\metro.eot" />
+    <Content Include="Fonts\metro.ttf" />
+    <Content Include="Fonts\metro.woff" />
+    <Content Include="Fonts\selection.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
