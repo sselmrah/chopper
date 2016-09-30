@@ -230,14 +230,13 @@
     
     $("#addProgButton").click(function () {
         var cbs = document.getElementsByClassName("progCheckBoxes");
-        for (var i = 1; i < cbs.length ; i++) {
-            var curTrId = "tr_" + i.toString();
-            if (cbs.item(i-1).checked) {
+        for (var i = 1; i < cbs.length+1 ; i++) {
+            var curCbId = "cb_" + i.toString();
+            var curTrId = "tr_" + i.toString();            
+            if (document.getElementById(curCbId).checked) {
                 var curTr = document.getElementById(curTrId);
-                var timing = curTr.cells[2].innerHTML;
-                
-                var title = curTr.cells[3].innerHTML;
-                //var code = curTr.cells[11].innerHTML + "0" + curTr.cells[11].innerHTML;
+                var timing = curTr.cells[2].innerHTML;                
+                var title = curTr.cells[3].innerHTML;                
                 var code = codesToFullCode(curTr.cells[11].innerHTML, curTr.cells[12].innerHTML);
 
                 $.ajax({
