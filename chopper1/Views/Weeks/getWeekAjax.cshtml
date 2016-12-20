@@ -35,7 +35,7 @@
     </div>
     <div class="row week_bg">
         <div class="col-lg-1 visible-lg noPadding">
-            @{Html.RenderAction("DrawTimeScale", "Day", new { left = true, channelCode = 10 });}
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
         </div>
         @{
             var i = 0;
@@ -47,7 +47,7 @@
             {
                 dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
                 <div id="@day.TVDayRef" class="dayrect" data-chcode="@day.KanalKod" data-varnum="@day.VariantKod" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
-                    @{Html.RenderAction("ConstructDay", "Day", day);}
+                    
                 </div>
                     i += 1;
             }
@@ -56,7 +56,7 @@
             dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
         }
         <div class="col-lg-1 visible-lg noPadding">
-            @{Html.RenderAction("DrawTimeScale", "Day", new { left = false, channelCode = 10 });}
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
         </div>
     </div>
 </div>
@@ -287,9 +287,15 @@
 
 
         $(function () {
+
+
+
+
+
             var dUpdate = $.connection.dayUpdate;
-            var xmlhttp;
+            var xmlhttp;            
             xmlhttp = new XMLHttpRequest();
+
 
 
             dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
@@ -311,12 +317,6 @@
                                 {
                                     console.log("Variant not found");
                                 }
-
-
-                                //document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
-                                //document.getElementById("timestampDiv").innerHTML = serverTime;
-
-                                
                             }
                             else if (xmlhttp.status == 400) {
                                 console.log(xmlhttp.statusText);
@@ -329,7 +329,7 @@
                     }
                     xmlhttp.open("POST", "UpdateDayWeek", true);
                     xmlhttp.setRequestHeader("dayID", tvdayref);
-                    xmlhttp.setRequestHeader("varNum", varNum);
+                    xmlhttp.setRequestHeader("varNum", varNum);                    
                     xmlhttp.send(tvdayref);
                 }
             };
@@ -345,9 +345,29 @@
 
             $.connection.hub.start().done(function () {
                 var allDayRects1 = document.getElementsByClassName("dayrect");
+                var varArray = new Array();
+
+
+                
                 for (var i = 0; i < allDayRects1.length; i++) {
-                    dUpdate.server.subscribe(allDayRects1.item(i).id);
+                    dUpdate.server.subscribe(allDayRects1.item(i).id);                    
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            title: title,
+                            pureDur: timing,
+                            fullCode: code
+                        },
+                        url: '/Day/AddProgToZapas',
+                        success: function (data) {
+                            console.log("CopyProg: zapas ok");
+                        }
+                    });
                 }
+
+                dUpdate.server.updateDay(allDayRects1, varArray, "1");
+
                 setInterval(function () {
                     var allDayRects2 = document.getElementsByClassName("dayrect");
                     for (var i = 0; i < allDayRects2.length; i++) {

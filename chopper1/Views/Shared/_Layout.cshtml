@@ -621,9 +621,10 @@
                 progs.item(i).classList.remove('selected');
                 progs.item(i).setAttribute("draggable", "false");                
             }
-            dragged_id ='';
-            $(".leftSideButtons").animate({ left: "-70px" }, 500);
-            @*$("#progFlyoutHandle").animate({ right: "0" }, 500);
+            dragged_id = '';
+            $(".topSideButtons").animate({ opacity: "0" }, 500);
+            @*$(".leftSideButtons").animate({ left: "-70px" }, 500);
+            $("#progFlyoutHandle").animate({ right: "0" }, 500);
             $("#progFlyout").animate({ right: "-200px" }, 500);*@
         }
 
@@ -637,14 +638,22 @@
                 progs.item(i).setAttribute("draggable", "false");
             }
 
-            if (!ev.target.classList.contains("info-div") & !ev.target.classList.contains("timing-div") & !ev.target.classList.contains("title-div")) {
+            if (!ev.target.classList.contains("info-div") & !ev.target.classList.contains("timing-div") & !ev.target.classList.contains("title-div") & ev.target.nodeName != "SPAN") {
                 ev.target.classList.add('selected');
                 ev.target.setAttribute("draggable", "true");                
             }
             else {
-                ev.target.parentNode.classList.add('selected');
-                ev.target.parentNode.setAttribute("draggable", "true");
-                ev.target.setAttribute("draggable", "false");
+                if (ev.target.nodeName != "SPAN") {
+                    ev.target.parentNode.classList.add('selected');
+                    ev.target.parentNode.setAttribute("draggable", "true");
+                    ev.target.setAttribute("draggable", "false");
+                }
+                else
+                {
+                    ev.target.parentNode.parentNode.classList.add('selected');
+                    ev.target.parentNode.parentNode.setAttribute("draggable", "true");
+                    ev.target.parentNode.setAttribute("draggable", "false");
+                }
             }
             var dm;
             dm = document.getElementsByClassName("selected")[0];           
@@ -652,6 +661,7 @@
 
 
             var curInfoString = document.getElementsByClassName("selected")[0].children[2].innerText;
+            var curTitleString = document.getElementsByClassName("selected")[0].children[1].innerText;
             var curBegString = document.getElementsByClassName("selected")[0].children[0].innerText;
             
             //dm.addEventListener("mousewheel", prog_wheel, true);
@@ -668,7 +678,9 @@
             document.getElementById("begSpanHours").innerHTML = curTime.substring(0, curTime.indexOf(":"));
             document.getElementById("begSpanMinutes").innerHTML = curTime.substring(curTime.indexOf(":") + 1, curTime.indexOf(":") + 3);
                         
-            $(".leftSideButtons").animate({ left: "0" }, 100);
+
+            @*$(".leftSideButtons").animate({ left: "0" }, 100);*@
+            $(".topSideButtons").animate({ opacity: "1" }, 100);
 
         }        
 
@@ -1156,7 +1168,8 @@
         </div>
     </div>
     <div class="container-fluid body-content">
-        <div class="leftSideButtons">
+        <div class="topSideButtons">
+            <div id="" class="sideButtons"></div>                        
             <div id="swapUp" class='sideButtons' onclick="progSwapUp(event)"><span class='glyphicon glyphicon-random'></span></div>
             <div id="moveUp" class='sideButtons' onclick="progMoveUp(event)"><span class='glyphicon glyphicon-arrow-up'></span></div>
             <div id="fill" class='sideButtons'><span class='glyphicon glyphicon-resize-full'></span></div>            

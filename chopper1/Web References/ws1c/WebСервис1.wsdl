@@ -1,303 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <definitions xmlns:xsd1="http://v8.1c.ru/8.1/data/ui" xmlns:xsd2="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:xsd6="http://v8.1c.ru/8.1/data/core" xmlns:tns="http://www.plan.1tv.ru" xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd5="http://v8.1c.ru/8.2/managed-application/core" xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd3="http://v8.1c.ru/8.1/data/enterprise" xmlns:xsd7="http://www.sample-package.org" xmlns:xsd4="http://www.plan.1tv.ru" name="WebСервис1" targetNamespace="http://www.plan.1tv.ru" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
-    <xs:schema xmlns:tns="http://www.sample-package.org" xmlns:ns1="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:ns2="http://v8.1c.ru/8.2/managed-application/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.sample-package.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-      <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise/current-config" />
-      <xs:import namespace="http://v8.1c.ru/8.2/managed-application/core" />
-      <xs:element name="Свойство1" />
-      <xs:complexType name="ChannelCodesType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="ChannelCodes" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="CommonVariantsCodes">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="Code" nillable="true" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="DocEfirsType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="efirDoc" type="ns1:DocumentObject.Эфир" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="EfirPassport">
-        <xs:sequence>
-          <xs:element name="Begin" type="xs:dateTime" />
-          <xs:element name="Timing" type="xs:int" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="ANR" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="EfirRekType">
-        <xs:sequence>
-          <xs:element ref="tns:Свойство1" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="EfirType">
-        <xs:sequence>
-          <xs:element name="Variant" type="tns:VarType" />
-          <xs:element name="Beg" type="xs:dateTime" />
-          <xs:element name="Timing" type="xs:int" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="ITC" nillable="true" type="tns:ITCArrayType" />
-          <xs:element name="DocNumber" nillable="true" type="xs:decimal" />
-          <xs:element name="DocDate" nillable="true" type="xs:dateTime" />
-          <xs:element name="Ref" nillable="true" type="ns1:DocumentRef.Эфир" />
-          <xs:element name="ProducerCode" nillable="true" type="xs:string" />
-          <xs:element name="SellerCode" nillable="true" type="xs:string" />
-          <xs:element name="Mask" type="xs:int" />
-          <xs:element name="OperationType" type="xs:int" />
-          <xs:element name="TVDayRef" type="ns1:DocumentRef.ТВДень" />
-          <xs:element name="Age" nillable="true" type="xs:int" />
-          <xs:element name="Typ" type="xs:int" />
-          <xs:element name="ENR" type="xs:int" />
-          <xs:element name="ANR" nillable="true" type="xs:string" />
-          <xs:element name="Cap" type="xs:string" />
-          <xs:element name="Foot" type="xs:string" />
-          <xs:element name="WithoutPublic" nillable="true" type="xs:boolean" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="EfirsType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Efir" type="tns:EfirType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="FooterType">
-        <xs:sequence>
-          <xs:element name="Beg" nillable="true" type="xs:string" />
-          <xs:element name="Timing" nillable="true" type="xs:dateTime" />
-          <xs:element name="ClearTiming" nillable="true" type="xs:dateTime" />
-          <xs:element name="Title" nillable="true" type="xs:string" />
-          <xs:element name="KodRed" nillable="true" type="xs:string" />
-          <xs:element name="CapFlag" type="xs:boolean" />
-          <xs:element name="VyborkaFlag" type="xs:boolean" />
-          <xs:element name="ITC" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="FootersType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Footer" type="tns:FooterType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ITCArrayType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="ITC" nillable="true" type="tns:ITCType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ITCType">
-        <xs:sequence>
-          <xs:element name="Timing" type="xs:int" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="PointCount" type="xs:int" />
-          <xs:element name="CapTiming" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="KanalType">
-        <xs:sequence>
-          <xs:element name="Kod" type="xs:int" />
-          <xs:element name="Name" type="xs:string" />
-          <xs:element name="ShortName" type="xs:string" />
-          <xs:element name="Offset" type="xs:int" />
-          <xs:element name="Ref" type="ns1:CatalogRef.Каналы" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="Kanals">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Kanal" type="tns:KanalType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="MasksArrayType">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="Mask" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="PlanCatalogType">
-        <xs:sequence>
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="Ref" type="ns1:CatalogRef.ПланКаталог" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="PokazType">
-        <xs:sequence>
-          <xs:element name="TVData" type="xs:dateTime" />
-          <xs:element name="ChannelCode" type="xs:int" />
-          <xs:element name="Beg" type="xs:dateTime" />
-          <xs:element name="WeekDay" type="xs:int" />
-          <xs:element name="Timing" type="xs:int" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="Subject" type="xs:string" />
-          <xs:element name="BriefTitle" type="xs:string" />
-          <xs:element name="ProducerCode" type="xs:int" />
-          <xs:element name="SellerCode" type="xs:int" />
-          <xs:element name="RM" type="xs:float" />
-          <xs:element name="DM" type="xs:float" />
-          <xs:element name="RR" type="xs:float" />
-          <xs:element name="DR" type="xs:float" />
-          <xs:element name="DSTI" type="xs:float" />
-          <xs:element name="Age" type="xs:int" />
-          <xs:element name="Sound" type="xs:string" />
-          <xs:element name="Serial" type="xs:string" />
-          <xs:element name="Part" type="xs:string" />
-          <xs:element name="Film" type="xs:string" />
-          <xs:element name="RepeatFrom" type="xs:date" />
-          <xs:element name="Annot" type="xs:string" />
-          <xs:element name="Note" type="xs:string" />
-          <xs:element name="Foreign" type="xs:boolean" />
-          <xs:element name="Final" type="xs:boolean" />
-          <xs:element name="Cycle" type="xs:boolean" />
-          <xs:element name="Premiere" type="xs:boolean" />
-          <xs:element name="TitleFromBrief" type="xs:boolean" />
-          <xs:element name="VerticalVerstka" type="xs:boolean" />
-          <xs:element name="CatalogRef" type="ns1:CatalogRef.ПланКаталог" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="Pokazs">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Pokaz" type="tns:PokazType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="RatEfirType">
-        <xs:sequence>
-          <xs:element name="ChannelCode" type="xs:int" />
-          <xs:element name="TVDate" type="xs:dateTime" />
-          <xs:element name="Beg" type="xs:dateTime" />
-          <xs:element name="Timing" type="xs:int" />
-          <xs:element name="End" type="xs:dateTime" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="RM" type="xs:decimal" />
-          <xs:element name="DM" type="xs:decimal" />
-          <xs:element name="RR" type="xs:decimal" />
-          <xs:element name="DR" type="xs:decimal" />
-          <xs:element name="DSTI" type="xs:decimal" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="RatEfirsType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="RatEfirs" type="tns:RatEfirType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TCInBreakType">
-        <xs:sequence>
-          <xs:element name="Typ" type="xs:string" />
-          <xs:element name="Beg" type="xs:dateTime" />
-          <xs:element name="Timing" type="xs:dateTime" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="KodRed" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDates">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="TVData" type="xs:date" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDayVariantArray">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="TVDayVariant" nillable="true" type="tns:TVDayVariantT" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDayVariantParam">
-        <xs:sequence>
-          <xs:element name="VariantCode" type="xs:int" />
-          <xs:element name="ShowDateTime" type="xs:dateTime" />
-          <xs:element name="MemoryDates" nillable="true" type="xs:string" />
-          <xs:element name="Cap" nillable="true" type="xs:string" />
-          <xs:element name="Foot" nillable="true" type="xs:string" />
-          <xs:element name="Title" nillable="true" type="xs:string" />
-          <xs:element name="Comment" nillable="true" type="xs:string" />
-          <xs:element name="EfirMasks" type="tns:MasksArrayType" />
-          <xs:element name="ChannelCode" type="xs:int" />
-          <xs:element name="TVDayRef" type="ns1:DocumentRef.ТВДень" />
-          <xs:element name="TVDate" type="xs:date" />
-          <xs:element name="Foot2" nillable="true" type="tns:FootersType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDayVariantT">
-        <xs:sequence>
-          <xs:element name="TVDayRef" type="ns1:DocumentRef.ТВДень" />
-          <xs:element name="VariantNumber" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDayVariantType">
-        <xs:sequence>
-          <xs:element name="VariantCode" type="xs:int" />
-          <xs:element name="Masks" type="tns:MasksArrayType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDayVariants">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Variant" type="tns:TVDayVariantType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVDayVarsMasks">
-        <xs:sequence>
-          <xs:element name="TVDayVariant" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVWeekType">
-        <xs:sequence>
-          <xs:element name="BegDate" type="xs:date" />
-          <xs:element name="Variant" type="xs:int" />
-          <xs:element name="Note" type="xs:string" />
-          <xs:element name="Name" type="xs:string" />
-          <xs:element name="Ref" type="ns1:CatalogRef.ТВНедели" />
-          <xs:element name="Letuchka" type="xs:boolean" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="TVWeeksType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="TVWeek" type="tns:TVWeekType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="VarType">
-        <xs:sequence>
-          <xs:element name="TVData" type="xs:date" />
-          <xs:element name="ChannelCode" type="xs:int" />
-          <xs:element name="VariantCode" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="VarsType">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="Var" type="tns:VarType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="WeekTVDayType">
-        <xs:sequence>
-          <xs:element name="Chk" type="xs:boolean" />
-          <xs:element name="KanalKod" type="xs:int" />
-          <xs:element name="TVDate" type="xs:dateTime" />
-          <xs:element name="VariantKod" type="xs:int" />
-          <xs:element name="VariantName" type="xs:string" />
-          <xs:element name="TVDayRef" type="ns1:DocumentRef.ТВДень" />
-          <xs:element name="Cap" type="xs:string" />
-          <xs:element name="Foot" type="xs:string" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="WeekTVDaysType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="WeekTVDay" type="tns:WeekTVDayType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ZapasArrayType">
-        <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="Zapas" type="tns:ZapasType" />
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="ZapasType">
-        <xs:sequence>
-          <xs:element name="Beg" type="xs:dateTime" />
-          <xs:element name="Timing" type="xs:int" />
-          <xs:element name="Title" type="xs:string" />
-          <xs:element name="ITC" nillable="true" type="tns:ITCArrayType" />
-          <xs:element name="DocNumber" nillable="true" type="xs:decimal" />
-          <xs:element name="DocDate" nillable="true" type="xs:dateTime" />
-          <xs:element name="Ref" nillable="true" type="ns1:DocumentRef.Запасник" />
-          <xs:element name="ProducerCode" nillable="true" type="xs:string" />
-          <xs:element name="SellerCode" nillable="true" type="xs:string" />
-          <xs:element name="OperationType" type="xs:int" />
-          <xs:element name="TypeCode" type="xs:int" />
-        </xs:sequence>
-      </xs:complexType>
-    </xs:schema>
     <xs:schema xmlns:tns="http://v8.1c.ru/8.1/data/ui" xmlns:ns1="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
       <xs:simpleType name="AbsoluteColor">
@@ -1027,6 +730,282 @@
         <xs:sequence>
           <xs:element minOccurs="0" maxOccurs="unbounded" name="row" type="tns:ValueTreeRow" />
           <xs:element minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://v8.1c.ru/8.1/data/enterprise" xmlns:ns1="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.1/data/enterprise" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
+      <xs:simpleType name="AccountType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Active" />
+          <xs:enumeration value="Passive" />
+          <xs:enumeration value="ActivePassive" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AccountingRecordType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Debit" />
+          <xs:enumeration value="Credit" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AccumulationRecordType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Receipt" />
+          <xs:enumeration value="Expense" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AccumulationRegisterAggregatePeriodicity">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Nonperiodical" />
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="Day" />
+          <xs:enumeration value="Month" />
+          <xs:enumeration value="Quarter" />
+          <xs:enumeration value="HalfYear" />
+          <xs:enumeration value="Year" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AccumulationRegisterAggregateUse">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="Always" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="Aggregate">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="use" type="xs:boolean" />
+          <xs:element minOccurs="0" name="periodicity" type="xs:decimal" />
+          <xs:element minOccurs="0" name="beginOfPeriod" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="endOfPeriod" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="size" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="dimension" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AggregateList">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="buildDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="sizeLimit" type="xs:decimal" />
+          <xs:element minOccurs="0" name="size" type="xs:decimal" />
+          <xs:element minOccurs="0" name="effect" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="aggregate" type="tns:Aggregate" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="AnyRef">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AutoShowStateMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="DontShow" />
+          <xs:enumeration value="Show" />
+          <xs:enumeration value="ShowOnComposition" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="AutoTimeMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DontUse" />
+          <xs:enumeration value="Last" />
+          <xs:enumeration value="First" />
+          <xs:enumeration value="CurrentOrLast" />
+          <xs:enumeration value="CurrentOrFirst" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="Bound">
+        <xs:sequence>
+          <xs:element name="value" nillable="true" />
+          <xs:element name="kind" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ClientApplicationBaseFontVariant">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Normal" />
+          <xs:enumeration value="Large" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ClientApplicationFormScaleVariant">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="Normal" />
+          <xs:enumeration value="Compact" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ClientApplicationInterfaceVariant">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Version8_2" />
+          <xs:enumeration value="Taxi" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ClientConnectionSpeed">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Normal" />
+          <xs:enumeration value="Low" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ComparisonType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Equal" />
+          <xs:enumeration value="NotEqual" />
+          <xs:enumeration value="Less" />
+          <xs:enumeration value="LessOrEqual" />
+          <xs:enumeration value="Greater" />
+          <xs:enumeration value="GreaterOrEqual" />
+          <xs:enumeration value="Interval" />
+          <xs:enumeration value="IntervalIncludingBounds" />
+          <xs:enumeration value="IntervalIncludingLowerBound" />
+          <xs:enumeration value="IntervalIncludingUpperBound" />
+          <xs:enumeration value="Contains" />
+          <xs:enumeration value="InList" />
+          <xs:enumeration value="InListByHierarchy" />
+          <xs:enumeration value="NotInList" />
+          <xs:enumeration value="NotInListByHierarchy" />
+          <xs:enumeration value="InHierarchy" />
+          <xs:enumeration value="NotInHierarchy" />
+          <xs:enumeration value="NotContains" />
+          <xs:enumeration value="BeginsWith" />
+          <xs:enumeration value="NotBeginsWith" />
+          <xs:enumeration value="Like" />
+          <xs:enumeration value="NotLike" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="DocumentPostingMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Regular" />
+          <xs:enumeration value="RealTime" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="DocumentWriteMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Write" />
+          <xs:enumeration value="Posting" />
+          <xs:enumeration value="UndoPosting" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="Filter">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FilterItem" type="tns:FilterItem" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FilterItem">
+        <xs:sequence>
+          <xs:element name="Name" type="xs:NCName" />
+          <xs:element minOccurs="0" name="Usage" type="xs:boolean" />
+          <xs:element minOccurs="0" name="ComparisonType" type="tns:ComparisonType" />
+          <xs:element minOccurs="0" name="Value" nillable="true" />
+          <xs:element minOccurs="0" name="ValueFrom" nillable="true" />
+          <xs:element minOccurs="0" name="ValueTo" nillable="true" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="FoldersAndItemsUse">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Items" />
+          <xs:enumeration value="Folders" />
+          <xs:enumeration value="FoldersAndItems" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="JobSchedule">
+        <xs:sequence>
+          <xs:element name="WeekDays" type="tns:JobScheduleWeekDays" />
+          <xs:element name="Months" type="tns:JobScheduleMonths" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="DetailedDailySchedules" type="tns:JobSchedule" />
+        </xs:sequence>
+        <xs:attribute name="BeginDate" type="xs:date" />
+        <xs:attribute name="EndDate" type="xs:date" />
+        <xs:attribute name="BeginTime" type="xs:time" />
+        <xs:attribute name="EndTime" type="xs:time" />
+        <xs:attribute name="CompletionTime" type="xs:time" />
+        <xs:attribute name="CompletionInterval" type="xs:decimal" />
+        <xs:attribute name="RepeatPeriodInDay" type="xs:decimal" />
+        <xs:attribute name="RepeatPause" type="xs:decimal" />
+        <xs:attribute name="WeekDayInMonth" type="xs:decimal" />
+        <xs:attribute name="DayInMonth" type="xs:decimal" />
+        <xs:attribute name="WeeksPeriod" type="xs:decimal" />
+        <xs:attribute name="DaysRepeatPeriod" type="xs:decimal" />
+      </xs:complexType>
+      <xs:simpleType name="JobScheduleMonths">
+        <xs:list itemType="xs:decimal" />
+      </xs:simpleType>
+      <xs:simpleType name="JobScheduleWeekDays">
+        <xs:list itemType="xs:decimal" />
+      </xs:simpleType>
+      <xs:simpleType name="LinkedValueChangeMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Clear" />
+          <xs:enumeration value="DontChange" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="MessageStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="WithoutStatus" />
+          <xs:enumeration value="Ordinary" />
+          <xs:enumeration value="Information" />
+          <xs:enumeration value="Attention" />
+          <xs:enumeration value="Important" />
+          <xs:enumeration value="VeryImportant" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ModalityUseMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Use" />
+          <xs:enumeration value="UseWithWarnings" />
+          <xs:enumeration value="DontUse" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="ObjectDeletion">
+        <xs:sequence>
+          <xs:element name="Ref" type="tns:AnyRef" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PointOfTime">
+        <xs:sequence>
+          <xs:element name="date" type="xs:dateTime" />
+          <xs:element name="reference" nillable="true" type="tns:AnyRef" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="PostingModeUse">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Regular" />
+          <xs:enumeration value="RealTime" />
+          <xs:enumeration value="Ask" />
+          <xs:enumeration value="Auto" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ResultCompositionMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="Background" />
+          <xs:enumeration value="Directly" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="TransactionsIsolationLevel">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="ReadUncommitted" />
+          <xs:enumeration value="ReadCommitted" />
+          <xs:enumeration value="RepeatableRead" />
+          <xs:enumeration value="Serializable" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="UpdateOnDataChange">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Auto" />
+          <xs:enumeration value="DontUpdate" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="UserMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Text" type="xs:string" />
+          <xs:element name="Ref" nillable="true" type="tns:AnyRef" />
+        </xs:sequence>
+        <xs:attribute name="MessageMarker" type="xs:decimal" />
+        <xs:attribute name="DataPath" type="xs:string" />
+        <xs:attribute name="FormAttributePath" type="xs:string" />
+        <xs:attribute name="FormID" type="ns1:UUID" />
+      </xs:complexType>
+      <xs:complexType name="UserMessages">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="message" type="tns:UserMessage" />
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
@@ -2604,279 +2583,302 @@
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
-    <xs:schema xmlns:tns="http://v8.1c.ru/8.1/data/enterprise" xmlns:ns1="http://v8.1c.ru/8.1/data/core" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://v8.1c.ru/8.1/data/enterprise" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema xmlns:ns3="http://v8.1c.ru/8.2/managed-application/core" xmlns:tns="http://www.sample-package.org" xmlns:ns1="http://v8.1c.ru/8.1/data/core" xmlns:ns2="http://v8.1c.ru/8.1/data/enterprise/current-config" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.sample-package.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
-      <xs:simpleType name="AccountType">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Active" />
-          <xs:enumeration value="Passive" />
-          <xs:enumeration value="ActivePassive" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AccountingRecordType">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Debit" />
-          <xs:enumeration value="Credit" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AccumulationRecordType">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Receipt" />
-          <xs:enumeration value="Expense" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AccumulationRegisterAggregatePeriodicity">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Nonperiodical" />
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="Day" />
-          <xs:enumeration value="Month" />
-          <xs:enumeration value="Quarter" />
-          <xs:enumeration value="HalfYear" />
-          <xs:enumeration value="Year" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AccumulationRegisterAggregateUse">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="Always" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="Aggregate">
+      <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise/current-config" />
+      <xs:import namespace="http://v8.1c.ru/8.2/managed-application/core" />
+      <xs:element name="Свойство1" />
+      <xs:complexType name="ChannelCodesType">
         <xs:sequence>
-          <xs:element minOccurs="0" name="use" type="xs:boolean" />
-          <xs:element minOccurs="0" name="periodicity" type="xs:decimal" />
-          <xs:element minOccurs="0" name="beginOfPeriod" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="endOfPeriod" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="size" type="xs:decimal" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="dimension" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ChannelCodes" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="AggregateList">
+      <xs:complexType name="CommonVariantsCodes">
         <xs:sequence>
-          <xs:element minOccurs="0" name="buildDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="sizeLimit" type="xs:decimal" />
-          <xs:element minOccurs="0" name="size" type="xs:decimal" />
-          <xs:element minOccurs="0" name="effect" type="xs:decimal" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="aggregate" type="tns:Aggregate" />
+          <xs:element maxOccurs="unbounded" name="Code" nillable="true" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
-      <xs:simpleType name="AnyRef">
-        <xs:restriction base="xs:string">
-          <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AutoShowStateMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="DontShow" />
-          <xs:enumeration value="Show" />
-          <xs:enumeration value="ShowOnComposition" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="AutoTimeMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="DontUse" />
-          <xs:enumeration value="Last" />
-          <xs:enumeration value="First" />
-          <xs:enumeration value="CurrentOrLast" />
-          <xs:enumeration value="CurrentOrFirst" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="Bound">
+      <xs:complexType name="DocEfirsType">
         <xs:sequence>
-          <xs:element name="value" nillable="true" />
-          <xs:element name="kind" type="xs:decimal" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="efirDoc" type="ns2:DocumentObject.Эфир" />
         </xs:sequence>
       </xs:complexType>
-      <xs:simpleType name="ClientApplicationBaseFontVariant">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Normal" />
-          <xs:enumeration value="Large" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="ClientApplicationFormScaleVariant">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="Normal" />
-          <xs:enumeration value="Compact" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="ClientApplicationInterfaceVariant">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Version8_2" />
-          <xs:enumeration value="Taxi" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="ClientConnectionSpeed">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Normal" />
-          <xs:enumeration value="Low" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="ComparisonType">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Equal" />
-          <xs:enumeration value="NotEqual" />
-          <xs:enumeration value="Less" />
-          <xs:enumeration value="LessOrEqual" />
-          <xs:enumeration value="Greater" />
-          <xs:enumeration value="GreaterOrEqual" />
-          <xs:enumeration value="Interval" />
-          <xs:enumeration value="IntervalIncludingBounds" />
-          <xs:enumeration value="IntervalIncludingLowerBound" />
-          <xs:enumeration value="IntervalIncludingUpperBound" />
-          <xs:enumeration value="Contains" />
-          <xs:enumeration value="InList" />
-          <xs:enumeration value="InListByHierarchy" />
-          <xs:enumeration value="NotInList" />
-          <xs:enumeration value="NotInListByHierarchy" />
-          <xs:enumeration value="InHierarchy" />
-          <xs:enumeration value="NotInHierarchy" />
-          <xs:enumeration value="NotContains" />
-          <xs:enumeration value="BeginsWith" />
-          <xs:enumeration value="NotBeginsWith" />
-          <xs:enumeration value="Like" />
-          <xs:enumeration value="NotLike" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="DocumentPostingMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Regular" />
-          <xs:enumeration value="RealTime" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="DocumentWriteMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Write" />
-          <xs:enumeration value="Posting" />
-          <xs:enumeration value="UndoPosting" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="Filter">
+      <xs:complexType name="EfirPassport">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="FilterItem" type="tns:FilterItem" />
+          <xs:element name="Begin" type="xs:dateTime" />
+          <xs:element name="Timing" type="xs:int" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="ANR" type="xs:string" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="FilterItem">
+      <xs:complexType name="EfirRekType">
         <xs:sequence>
-          <xs:element name="Name" type="xs:NCName" />
-          <xs:element minOccurs="0" name="Usage" type="xs:boolean" />
-          <xs:element minOccurs="0" name="ComparisonType" type="tns:ComparisonType" />
-          <xs:element minOccurs="0" name="Value" nillable="true" />
-          <xs:element minOccurs="0" name="ValueFrom" nillable="true" />
-          <xs:element minOccurs="0" name="ValueTo" nillable="true" />
+          <xs:element ref="tns:Свойство1" />
         </xs:sequence>
       </xs:complexType>
-      <xs:simpleType name="FoldersAndItemsUse">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Items" />
-          <xs:enumeration value="Folders" />
-          <xs:enumeration value="FoldersAndItems" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="JobSchedule">
+      <xs:complexType name="EfirType">
         <xs:sequence>
-          <xs:element name="WeekDays" type="tns:JobScheduleWeekDays" />
-          <xs:element name="Months" type="tns:JobScheduleMonths" />
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="DetailedDailySchedules" type="tns:JobSchedule" />
-        </xs:sequence>
-        <xs:attribute name="BeginDate" type="xs:date" />
-        <xs:attribute name="EndDate" type="xs:date" />
-        <xs:attribute name="BeginTime" type="xs:time" />
-        <xs:attribute name="EndTime" type="xs:time" />
-        <xs:attribute name="CompletionTime" type="xs:time" />
-        <xs:attribute name="CompletionInterval" type="xs:decimal" />
-        <xs:attribute name="RepeatPeriodInDay" type="xs:decimal" />
-        <xs:attribute name="RepeatPause" type="xs:decimal" />
-        <xs:attribute name="WeekDayInMonth" type="xs:decimal" />
-        <xs:attribute name="DayInMonth" type="xs:decimal" />
-        <xs:attribute name="WeeksPeriod" type="xs:decimal" />
-        <xs:attribute name="DaysRepeatPeriod" type="xs:decimal" />
-      </xs:complexType>
-      <xs:simpleType name="JobScheduleMonths">
-        <xs:list itemType="xs:decimal" />
-      </xs:simpleType>
-      <xs:simpleType name="JobScheduleWeekDays">
-        <xs:list itemType="xs:decimal" />
-      </xs:simpleType>
-      <xs:simpleType name="LinkedValueChangeMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Clear" />
-          <xs:enumeration value="DontChange" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="MessageStatus">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="WithoutStatus" />
-          <xs:enumeration value="Ordinary" />
-          <xs:enumeration value="Information" />
-          <xs:enumeration value="Attention" />
-          <xs:enumeration value="Important" />
-          <xs:enumeration value="VeryImportant" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="ModalityUseMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Use" />
-          <xs:enumeration value="UseWithWarnings" />
-          <xs:enumeration value="DontUse" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="ObjectDeletion">
-        <xs:sequence>
-          <xs:element name="Ref" type="tns:AnyRef" />
+          <xs:element name="Variant" type="tns:VarType" />
+          <xs:element name="Beg" type="xs:dateTime" />
+          <xs:element name="Timing" type="xs:int" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="ITC" nillable="true" type="tns:ITCArrayType" />
+          <xs:element name="DocNumber" nillable="true" type="xs:decimal" />
+          <xs:element name="DocDate" nillable="true" type="xs:dateTime" />
+          <xs:element name="Ref" nillable="true" type="ns2:DocumentRef.Эфир" />
+          <xs:element name="ProducerCode" nillable="true" type="xs:string" />
+          <xs:element name="SellerCode" nillable="true" type="xs:string" />
+          <xs:element name="Mask" type="xs:int" />
+          <xs:element name="OperationType" type="xs:int" />
+          <xs:element name="TVDayRef" type="ns2:DocumentRef.ТВДень" />
+          <xs:element name="Age" nillable="true" type="xs:int" />
+          <xs:element name="Typ" type="xs:int" />
+          <xs:element name="ENR" type="xs:int" />
+          <xs:element name="ANR" nillable="true" type="xs:string" />
+          <xs:element name="Cap" type="xs:string" />
+          <xs:element name="Foot" type="xs:string" />
+          <xs:element name="WithoutPublic" nillable="true" type="xs:boolean" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="PointOfTime">
+      <xs:complexType name="EfirsType">
         <xs:sequence>
-          <xs:element name="date" type="xs:dateTime" />
-          <xs:element name="reference" nillable="true" type="tns:AnyRef" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Efir" type="tns:EfirType" />
         </xs:sequence>
       </xs:complexType>
-      <xs:simpleType name="PostingModeUse">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Regular" />
-          <xs:enumeration value="RealTime" />
-          <xs:enumeration value="Ask" />
-          <xs:enumeration value="Auto" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="ResultCompositionMode">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="Background" />
-          <xs:enumeration value="Directly" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="TransactionsIsolationLevel">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="ReadUncommitted" />
-          <xs:enumeration value="ReadCommitted" />
-          <xs:enumeration value="RepeatableRead" />
-          <xs:enumeration value="Serializable" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType name="UpdateOnDataChange">
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Auto" />
-          <xs:enumeration value="DontUpdate" />
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:complexType name="UserMessage">
+      <xs:complexType name="FooterType">
         <xs:sequence>
-          <xs:element minOccurs="0" name="Text" type="xs:string" />
-          <xs:element name="Ref" nillable="true" type="tns:AnyRef" />
+          <xs:element name="Beg" nillable="true" type="xs:string" />
+          <xs:element name="Timing" nillable="true" type="xs:dateTime" />
+          <xs:element name="ClearTiming" nillable="true" type="xs:dateTime" />
+          <xs:element name="Title" nillable="true" type="xs:string" />
+          <xs:element name="KodRed" nillable="true" type="xs:string" />
+          <xs:element name="CapFlag" type="xs:boolean" />
+          <xs:element name="VyborkaFlag" type="xs:boolean" />
+          <xs:element name="ITC" nillable="true" type="xs:string" />
         </xs:sequence>
-        <xs:attribute name="MessageMarker" type="xs:decimal" />
-        <xs:attribute name="DataPath" type="xs:string" />
-        <xs:attribute name="FormAttributePath" type="xs:string" />
-        <xs:attribute name="FormID" type="ns1:UUID" />
       </xs:complexType>
-      <xs:complexType name="UserMessages">
+      <xs:complexType name="FootersType">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="unbounded" name="message" type="tns:UserMessage" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Footer" type="tns:FooterType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ITCArrayType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ITC" nillable="true" type="tns:ITCType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ITCType">
+        <xs:sequence>
+          <xs:element name="Timing" type="xs:int" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="PointCount" type="xs:int" />
+          <xs:element name="CapTiming" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="KanalType">
+        <xs:sequence>
+          <xs:element name="Kod" type="xs:int" />
+          <xs:element name="Name" type="xs:string" />
+          <xs:element name="ShortName" type="xs:string" />
+          <xs:element name="Offset" type="xs:int" />
+          <xs:element name="Ref" type="ns2:CatalogRef.Каналы" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Kanals">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Kanal" type="tns:KanalType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MasksArrayType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Mask" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PlanCatalogType">
+        <xs:sequence>
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="Ref" type="ns2:CatalogRef.ПланКаталог" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PokazType">
+        <xs:sequence>
+          <xs:element name="TVData" type="xs:dateTime" />
+          <xs:element name="ChannelCode" type="xs:int" />
+          <xs:element name="Beg" type="xs:dateTime" />
+          <xs:element name="WeekDay" type="xs:int" />
+          <xs:element name="Timing" type="xs:int" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="Subject" type="xs:string" />
+          <xs:element name="BriefTitle" type="xs:string" />
+          <xs:element name="ProducerCode" type="xs:int" />
+          <xs:element name="SellerCode" type="xs:int" />
+          <xs:element name="RM" type="xs:float" />
+          <xs:element name="DM" type="xs:float" />
+          <xs:element name="RR" type="xs:float" />
+          <xs:element name="DR" type="xs:float" />
+          <xs:element name="DSTI" type="xs:float" />
+          <xs:element name="Age" type="xs:int" />
+          <xs:element name="Sound" type="xs:string" />
+          <xs:element name="Serial" type="xs:string" />
+          <xs:element name="Part" type="xs:string" />
+          <xs:element name="Film" type="xs:string" />
+          <xs:element name="RepeatFrom" type="xs:date" />
+          <xs:element name="Annot" type="xs:string" />
+          <xs:element name="Note" type="xs:string" />
+          <xs:element name="Foreign" type="xs:boolean" />
+          <xs:element name="Final" type="xs:boolean" />
+          <xs:element name="Cycle" type="xs:boolean" />
+          <xs:element name="Premiere" type="xs:boolean" />
+          <xs:element name="TitleFromBrief" type="xs:boolean" />
+          <xs:element name="VerticalVerstka" type="xs:boolean" />
+          <xs:element name="CatalogRef" type="ns2:CatalogRef.ПланКаталог" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Pokazs">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Pokaz" type="tns:PokazType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="RatEfirType">
+        <xs:sequence>
+          <xs:element name="ChannelCode" type="xs:int" />
+          <xs:element name="TVDate" type="xs:dateTime" />
+          <xs:element name="Beg" type="xs:dateTime" />
+          <xs:element name="Timing" type="xs:int" />
+          <xs:element name="End" type="xs:dateTime" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="RM" type="xs:decimal" />
+          <xs:element name="DM" type="xs:decimal" />
+          <xs:element name="RR" type="xs:decimal" />
+          <xs:element name="DR" type="xs:decimal" />
+          <xs:element name="DSTI" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="RatEfirsType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="RatEfirs" type="tns:RatEfirType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TCInBreakType">
+        <xs:sequence>
+          <xs:element name="Typ" type="xs:string" />
+          <xs:element name="Beg" type="xs:dateTime" />
+          <xs:element name="Timing" type="xs:dateTime" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="KodRed" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDates">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="TVData" type="xs:date" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDayVariantArray">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="TVDayVariant" nillable="true" type="tns:TVDayVariantT" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDayVariantParam">
+        <xs:sequence>
+          <xs:element name="VariantCode" type="xs:int" />
+          <xs:element name="ShowDateTime" type="xs:dateTime" />
+          <xs:element name="MemoryDates" nillable="true" type="xs:string" />
+          <xs:element name="Cap" nillable="true" type="xs:string" />
+          <xs:element name="Foot" nillable="true" type="xs:string" />
+          <xs:element name="Title" nillable="true" type="xs:string" />
+          <xs:element name="Comment" nillable="true" type="xs:string" />
+          <xs:element name="EfirMasks" type="tns:MasksArrayType" />
+          <xs:element name="ChannelCode" type="xs:int" />
+          <xs:element name="TVDayRef" type="ns2:DocumentRef.ТВДень" />
+          <xs:element name="TVDate" type="xs:date" />
+          <xs:element name="Foot2" nillable="true" type="tns:FootersType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDayVariantT">
+        <xs:sequence>
+          <xs:element name="TVDayRef" type="ns2:DocumentRef.ТВДень" />
+          <xs:element name="VariantNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDayVariantType">
+        <xs:sequence>
+          <xs:element name="VariantCode" type="xs:int" />
+          <xs:element name="Masks" type="tns:MasksArrayType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDayVariants">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Variant" type="tns:TVDayVariantType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVDayVarsMasks">
+        <xs:sequence>
+          <xs:element name="TVDayVariant" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVWeekType">
+        <xs:sequence>
+          <xs:element name="BegDate" type="xs:date" />
+          <xs:element name="Variant" type="xs:int" />
+          <xs:element name="Note" type="xs:string" />
+          <xs:element name="Name" type="xs:string" />
+          <xs:element name="Ref" type="ns2:CatalogRef.ТВНедели" />
+          <xs:element name="Letuchka" type="xs:boolean" />
+          <xs:element name="RefUUID" type="ns1:UUID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TVWeeksType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="TVWeek" type="tns:TVWeekType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VarType">
+        <xs:sequence>
+          <xs:element name="TVData" type="xs:date" />
+          <xs:element name="ChannelCode" type="xs:int" />
+          <xs:element name="VariantCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VarsType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Var" type="tns:VarType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="WeekTVDayType">
+        <xs:sequence>
+          <xs:element name="Chk" type="xs:boolean" />
+          <xs:element name="KanalKod" type="xs:int" />
+          <xs:element name="TVDate" type="xs:dateTime" />
+          <xs:element name="VariantKod" type="xs:int" />
+          <xs:element name="VariantName" type="xs:string" />
+          <xs:element name="TVDayRef" type="ns2:DocumentRef.ТВДень" />
+          <xs:element name="Cap" type="xs:string" />
+          <xs:element name="Foot" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="WeekTVDaysType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="WeekTVDay" type="tns:WeekTVDayType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ZapasArrayType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Zapas" type="tns:ZapasType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ZapasType">
+        <xs:sequence>
+          <xs:element name="Beg" type="xs:dateTime" />
+          <xs:element name="Timing" type="xs:int" />
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="ITC" nillable="true" type="tns:ITCArrayType" />
+          <xs:element name="DocNumber" nillable="true" type="xs:decimal" />
+          <xs:element name="DocDate" nillable="true" type="xs:dateTime" />
+          <xs:element name="Ref" nillable="true" type="ns2:DocumentRef.Запасник" />
+          <xs:element name="ProducerCode" nillable="true" type="xs:string" />
+          <xs:element name="SellerCode" nillable="true" type="xs:string" />
+          <xs:element name="OperationType" type="xs:int" />
+          <xs:element name="TypeCode" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
@@ -3501,12 +3503,12 @@
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
-    <xs:schema xmlns:xs4="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:xs5="http://v8.1c.ru/8.1/data/enterprise" xmlns:xs7="http://www.plan.1tv.ru" xmlns:xs1="http://www.sample-package.org" xmlns:xs6="http://v8.1c.ru/8.2/managed-application/core" xmlns:xs3="http://v8.1c.ru/8.1/data/core" xmlns:xs2="http://v8.1c.ru/8.1/data/ui" elementFormDefault="qualified" targetNamespace="http://www.plan.1tv.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-      <xs:import namespace="http://www.sample-package.org" />
+    <xs:schema xmlns:xs4="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:xs5="http://www.sample-package.org" xmlns:xs7="http://www.plan.1tv.ru" xmlns:xs1="http://v8.1c.ru/8.1/data/ui" xmlns:xs6="http://v8.1c.ru/8.2/managed-application/core" xmlns:xs3="http://v8.1c.ru/8.1/data/enterprise" xmlns:xs2="http://v8.1c.ru/8.1/data/core" elementFormDefault="qualified" targetNamespace="http://www.plan.1tv.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import namespace="http://v8.1c.ru/8.1/data/ui" />
       <xs:import namespace="http://v8.1c.ru/8.1/data/core" />
-      <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise/current-config" />
       <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise" />
+      <xs:import namespace="http://v8.1c.ru/8.1/data/enterprise/current-config" />
+      <xs:import namespace="http://www.sample-package.org" />
       <xs:import namespace="http://v8.1c.ru/8.2/managed-application/core" />
       <xs:element name="Init">
         <xs:complexType>
@@ -3532,7 +3534,7 @@
       <xs:element name="GetEfirsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:EfirsType" />
+            <xs:element name="return" nillable="true" type="xs5:EfirsType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3546,14 +3548,14 @@
       <xs:element name="GetEfirResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:EfirType" />
+            <xs:element name="return" nillable="true" type="xs5:EfirType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="EfirUpdate">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="Efir" type="xs1:EfirType" />
+            <xs:element name="Efir" type="xs5:EfirType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3567,7 +3569,7 @@
       <xs:element name="AddEfir">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="NewEfir" type="xs1:EfirType" />
+            <xs:element name="NewEfir" type="xs5:EfirType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3581,14 +3583,14 @@
       <xs:element name="GetVariantMasks">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="Variant" type="xs1:VarType" />
+            <xs:element name="Variant" type="xs5:VarType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="GetVariantMasksResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:MasksArrayType" />
+            <xs:element name="return" type="xs5:MasksArrayType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3604,22 +3606,22 @@
       <xs:element name="GetVarTVDayParamResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:TVDayVariantParam" />
+            <xs:element name="return" type="xs5:TVDayVariantParam" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="GetCommonVariants">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="TVData" type="xs1:TVDates" />
-            <xs:element name="ChannelCodes" type="xs1:ChannelCodesType" />
+            <xs:element name="TVData" type="xs5:TVDates" />
+            <xs:element name="ChannelCodes" type="xs5:ChannelCodesType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="GetCommonVariantsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:CommonVariantsCodes" />
+            <xs:element name="return" nillable="true" type="xs5:CommonVariantsCodes" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3640,7 +3642,7 @@
       <xs:element name="EfirsOperation">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="Efirs" type="xs1:EfirsType" />
+            <xs:element name="Efirs" type="xs5:EfirsType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3659,7 +3661,7 @@
       <xs:element name="GetKanalsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:Kanals" />
+            <xs:element name="return" type="xs5:Kanals" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3671,7 +3673,7 @@
       <xs:element name="GetWeeksResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:TVWeeksType" />
+            <xs:element name="return" type="xs5:TVWeeksType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3679,14 +3681,14 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element name="WeekRef" type="xs:string" />
-            <xs:element name="ChannelCodes" nillable="true" type="xs1:ChannelCodesType" />
+            <xs:element name="ChannelCodes" nillable="true" type="xs5:ChannelCodesType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="GetWeekTVDaysResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:WeekTVDaysType" />
+            <xs:element name="return" type="xs5:WeekTVDaysType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3725,7 +3727,7 @@
       <xs:element name="GetDayVariantsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:TVDayVariants" />
+            <xs:element name="return" nillable="true" type="xs5:TVDayVariants" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3773,14 +3775,14 @@
       <xs:element name="GetZapasnikResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:ZapasArrayType" />
+            <xs:element name="return" nillable="true" type="xs5:ZapasArrayType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="AddZapas">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="NewZapas" type="xs1:ZapasType" />
+            <xs:element name="NewZapas" type="xs5:ZapasType" />
             <xs:element name="ZapasType" type="xs:int" />
           </xs:sequence>
         </xs:complexType>
@@ -3814,7 +3816,7 @@
       <xs:element name="GetChannelsDictResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:Kanals" />
+            <xs:element name="return" type="xs5:Kanals" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3830,14 +3832,14 @@
       <xs:element name="VerstkaResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:EfirsType" />
+            <xs:element name="return" nillable="true" type="xs5:EfirsType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="CheckVariants">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="Variants" type="xs1:TVDayVariantArray" />
+            <xs:element name="Variants" type="xs5:TVDayVariantArray" />
             <xs:element name="TimePoint" type="xs:dateTime" />
           </xs:sequence>
         </xs:complexType>
@@ -3845,7 +3847,7 @@
       <xs:element name="CheckVariantsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:TVDayVariantArray" />
+            <xs:element name="return" nillable="true" type="xs5:TVDayVariantArray" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3874,7 +3876,7 @@
       <xs:element name="GetEfirsCutResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" nillable="true" type="xs1:EfirsType" />
+            <xs:element name="return" nillable="true" type="xs5:EfirsType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3890,7 +3892,7 @@
       <xs:element name="GetPokazsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:Pokazs" />
+            <xs:element name="return" type="xs5:Pokazs" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -3920,7 +3922,33 @@
       <xs:element name="GetRatEfirsResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="return" type="xs1:RatEfirsType" />
+            <xs:element name="return" type="xs5:RatEfirsType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UploadWeek">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="WeekRefUUID" type="xs4:CatalogRef.ТВНедели" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UploadWeekResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="return" type="xs2:ValueStorage" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetWeeks2">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetWeeks2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="return" type="xs5:TVWeeksType" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -4100,6 +4128,18 @@
   <message name="GetRatEfirsResponseMessage">
     <part name="parameters" element="xsd4:GetRatEfirsResponse" />
   </message>
+  <message name="UploadWeekRequestMessage">
+    <part name="parameters" element="xsd4:UploadWeek" />
+  </message>
+  <message name="UploadWeekResponseMessage">
+    <part name="parameters" element="xsd4:UploadWeekResponse" />
+  </message>
+  <message name="GetWeeks2RequestMessage">
+    <part name="parameters" element="xsd4:GetWeeks2" />
+  </message>
+  <message name="GetWeeks2ResponseMessage">
+    <part name="parameters" element="xsd4:GetWeeks2Response" />
+  </message>
   <portType name="WebСервис1PortType">
     <operation name="Init">
       <input message="xsd4:InitRequestMessage" />
@@ -4216,6 +4256,14 @@
     <operation name="GetRatEfirs">
       <input message="xsd4:GetRatEfirsRequestMessage" />
       <output message="xsd4:GetRatEfirsResponseMessage" />
+    </operation>
+    <operation name="UploadWeek">
+      <input message="xsd4:UploadWeekRequestMessage" />
+      <output message="xsd4:UploadWeekResponseMessage" />
+    </operation>
+    <operation name="GetWeeks2">
+      <input message="xsd4:GetWeeks2RequestMessage" />
+      <output message="xsd4:GetWeeks2ResponseMessage" />
     </operation>
   </portType>
   <binding name="WebСервис1SoapBinding" type="xsd4:WebСервис1PortType">
@@ -4481,6 +4529,24 @@
         <soapbind:body use="literal" />
       </output>
     </operation>
+    <operation name="UploadWeek">
+      <soapbind:operation soapAction="http://www.plan.1tv.ru#WebСервис1:UploadWeek" style="document" />
+      <input>
+        <soapbind:body use="literal" />
+      </input>
+      <output>
+        <soapbind:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetWeeks2">
+      <soapbind:operation soapAction="http://www.plan.1tv.ru#WebСервис1:GetWeeks2" style="document" />
+      <input>
+        <soapbind:body use="literal" />
+      </input>
+      <output>
+        <soapbind:body use="literal" />
+      </output>
+    </operation>
   </binding>
   <binding name="WebСервис1Soap12Binding" type="xsd4:WebСервис1PortType">
     <soap12bind:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -4738,6 +4804,24 @@
     </operation>
     <operation name="GetRatEfirs">
       <soap12bind:operation soapAction="http://www.plan.1tv.ru#WebСервис1:GetRatEfirs" style="document" />
+      <input>
+        <soap12bind:body use="literal" />
+      </input>
+      <output>
+        <soap12bind:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UploadWeek">
+      <soap12bind:operation soapAction="http://www.plan.1tv.ru#WebСервис1:UploadWeek" style="document" />
+      <input>
+        <soap12bind:body use="literal" />
+      </input>
+      <output>
+        <soap12bind:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetWeeks2">
+      <soap12bind:operation soapAction="http://www.plan.1tv.ru#WebСервис1:GetWeeks2" style="document" />
       <input>
         <soap12bind:body use="literal" />
       </input>

@@ -16,6 +16,8 @@ using System.Diagnostics;
 
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 
 namespace chopper1
@@ -64,6 +66,7 @@ namespace chopper1
                 selectedID = getWeekInWork(tvWeeks);
                 curCatConnection = "TSurfaceCatConnection";
             }
+            /*
             DateTime point2 = DateTime.Now;
             tvWeeks.Reverse();
             DateTime point3 = DateTime.Now;
@@ -73,9 +76,20 @@ namespace chopper1
             Debug.Print(point2.ToString("HH:mm:ss"));
             Debug.Print(point3.ToString("HH:mm:ss"));
             Debug.Print(point4.ToString("HH:mm:ss"));            
+            * */
         }
 
 
+
+        private static void initDayAccess()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            DayAccess newDA = new DayAccess();
+            
+            
+            context.DaysAccess.Add(newDA);
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+        }
 
         private static void cacheDays()
         {

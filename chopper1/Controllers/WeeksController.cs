@@ -27,8 +27,7 @@ namespace chopper1.Controllers
 {
     public class WeeksController : Controller
     {
-        private WebСервис1 curWc = MyStartupClass.wc;
-        
+        private WebСервис1 curWc = MyStartupClass.wc;        
 
         // GET: Weeks
         public ActionResult Index()
@@ -120,6 +119,12 @@ namespace chopper1.Controllers
             //Чистим список проверяемых дней
             //chopper1.MyStartupClass.days_to_check.Clear();
             //chopper1.MyStartupClass.variants_to_check.Clear();
+        
+
+
+            //For testing purposes - close later        
+            curWc.Credentials = new System.Net.NetworkCredential("mike", "123");
+            
 
             Week curWeek = new Week();
 
@@ -127,7 +132,18 @@ namespace chopper1.Controllers
             TVWeekType curTvWeek= new TVWeekType();
           
             string curTvWeekNum = getWeekNum(week_num);
-            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            
+            if (MyStartupClass.tvWeeks != null)
+            {
+                curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];    
+            }
+            else
+            {
+                TVWeekType[] newWeeks = curWc.GetWeeks();
+                curTvWeek = curWc.GetWeeks()[222];
+            }
+            
+
             ViewBag.WeekId = curTvWeekNum;
 
             List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, new[] {chCode}).OrderBy(o => o.TVDate).ToList();
@@ -158,7 +174,48 @@ namespace chopper1.Controllers
             return View(curWeek);
         }
 
-        
+        public ActionResult getWeekAjax(string week_num = "", int chCode = 10)
+        {
+            //Чистим список проверяемых дней
+            //chopper1.MyStartupClass.days_to_check.Clear();
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+
+            Week curWeek = new Week();
+
+
+            TVWeekType curTvWeek = new TVWeekType();
+
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
+
+            List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, new[] { chCode }).OrderBy(o => o.TVDate).ToList();
+            List<int> availableChannels = new List<int>();
+            availableChannels.Add(chCode);
+
+            //Составляем список каналов, доступных в выбранной неделе
+            foreach (int channel in MyStartupClass.concurChannelsArray)
+            {
+                if (channel != chCode)
+                {
+                    if (getDaysOfWeek(curTvWeek, new[] { channel }).Count > 0)
+                    {
+                        availableChannels.Add(channel);
+                    }
+                }
+            }
+            curWeek.AvailableChannels = availableChannels.ToArray();
+
+
+            //List<WeekTVDayType> SortedList = daysOfWeek.OrderBy(o => o.TVDate).ToList();
+            //EfirType[] efirs = getEfirsByTVday(daysOfWeek[20]);
+            curWeek.InjectFrom(curTvWeek);
+            curWeek.DaysCount = daysOfWeek.Count();
+            curWeek.Days = daysOfWeek;
+            ViewData["daysCount"] = daysOfWeek.Count();
+
+            return View(curWeek);
+        }
 
 
         public List<WeekTVDayType> getDaysOfWeek(TVWeekType week, int[] array_channel_codes)

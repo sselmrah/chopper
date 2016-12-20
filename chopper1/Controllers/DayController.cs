@@ -562,6 +562,9 @@ namespace chopper1.Controllers
         public ActionResult AddProgToZapas(string title = "Шаблон", string pureDur="52", string fullCode="00000")
         {
             pureDur = pureDur.Replace(" ", "").Replace("\n", "");
+            title = title.Replace("&lt;", "<");
+            title = title.Replace("&gt;", ">");
+            title = title.Replace("&amp;", "&");
             EfirType curEfir = MyStartupClass.createEfirTypeFromTitleTimingCode(title, pureDur, fullCode);
             MyStartupClass.zapasEfirs.Add(curEfir);
             return View();
@@ -666,6 +669,11 @@ namespace chopper1.Controllers
             return PartialView();
         }
         public ActionResult ConstructTimeScale(bool left, int channelCode)
+        {
+            ViewBag.Left = left;
+            return PartialView(channelCode);
+        }
+        public ActionResult DrawTimeScale(bool left, int channelCode)
         {
             ViewBag.Left = left;
             return PartialView(channelCode);

@@ -82,7 +82,7 @@ namespace chopper1.Hubs
             */
             EfirType curEfir = MyStartupClass.createEfirTypeFromTitleTimingCode(title, pureDur, fullCode);
 
-
+            
 
 
 
@@ -91,10 +91,18 @@ namespace chopper1.Hubs
 
 
         //public void updateDay(string[] dayIds, string[] dayVars, string timeStampStr)
-        public async Task updateDay(string[] dayIds, string[] dayVars, string timeStampStr)
+        public async Task updateDay(string[] dayIds, string[] dayVars, string timeStampStr="0")
         {            
             TVDayVariantT[] varList = MyStartupClass.getTVDayVariantTArray(dayIds, dayVars);
-            DateTime dt = DateTime.Parse(timeStampStr);
+            DateTime dt;
+            if (timeStampStr == "1")
+            {
+                dt = DateTime.Now-TimeSpan.FromDays(10000);
+            }
+            else
+            {
+                dt = DateTime.Parse(timeStampStr);
+            }
             DateTime serverDt = curWc.GetCurrentTime();
             /*
             if (serverDt-dt<=TimeSpan.FromSeconds(6))

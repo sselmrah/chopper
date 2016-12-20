@@ -87,6 +87,10 @@ namespace chopper1.ws1c {
         
         private System.Threading.SendOrPostCallback GetRatEfirsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback UploadWeekOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetWeeks2OperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -211,6 +215,12 @@ namespace chopper1.ws1c {
         
         /// <remarks/>
         public event GetRatEfirsCompletedEventHandler GetRatEfirsCompleted;
+        
+        /// <remarks/>
+        public event UploadWeekCompletedEventHandler UploadWeekCompleted;
+        
+        /// <remarks/>
+        public event GetWeeks2CompletedEventHandler GetWeeks2Completed;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:Init", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1127,6 +1137,65 @@ namespace chopper1.ws1c {
             if ((this.GetRatEfirsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetRatEfirsCompleted(this, new GetRatEfirsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:UploadWeek", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", DataType="base64Binary")]
+        public byte[] UploadWeek(string WeekRefUUID) {
+            object[] results = this.Invoke("UploadWeek", new object[] {
+                        WeekRefUUID});
+            return ((byte[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UploadWeekAsync(string WeekRefUUID) {
+            this.UploadWeekAsync(WeekRefUUID, null);
+        }
+        
+        /// <remarks/>
+        public void UploadWeekAsync(string WeekRefUUID, object userState) {
+            if ((this.UploadWeekOperationCompleted == null)) {
+                this.UploadWeekOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadWeekOperationCompleted);
+            }
+            this.InvokeAsync("UploadWeek", new object[] {
+                        WeekRefUUID}, this.UploadWeekOperationCompleted, userState);
+        }
+        
+        private void OnUploadWeekOperationCompleted(object arg) {
+            if ((this.UploadWeekCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UploadWeekCompleted(this, new UploadWeekCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetWeeks2", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayAttribute("return")]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute("TVWeek", Namespace="http://www.sample-package.org", IsNullable=false)]
+        public TVWeekType[] GetWeeks2() {
+            object[] results = this.Invoke("GetWeeks2", new object[0]);
+            return ((TVWeekType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetWeeks2Async() {
+            this.GetWeeks2Async(null);
+        }
+        
+        /// <remarks/>
+        public void GetWeeks2Async(object userState) {
+            if ((this.GetWeeks2OperationCompleted == null)) {
+                this.GetWeeks2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetWeeks2OperationCompleted);
+            }
+            this.InvokeAsync("GetWeeks2", new object[0], this.GetWeeks2OperationCompleted, userState);
+        }
+        
+        private void OnGetWeeks2OperationCompleted(object arg) {
+            if ((this.GetWeeks2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetWeeks2Completed(this, new GetWeeks2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2362,6 +2431,8 @@ namespace chopper1.ws1c {
         
         private bool letuchkaField;
         
+        private string refUUIDField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
         public System.DateTime BegDate {
@@ -2420,6 +2491,16 @@ namespace chopper1.ws1c {
             }
             set {
                 this.letuchkaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string RefUUID {
+            get {
+                return this.refUUIDField;
+            }
+            set {
+                this.refUUIDField = value;
             }
         }
     }
@@ -3516,6 +3597,58 @@ namespace chopper1.ws1c {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((RatEfirType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void UploadWeekCompletedEventHandler(object sender, UploadWeekCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UploadWeekCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UploadWeekCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public byte[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((byte[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetWeeks2CompletedEventHandler(object sender, GetWeeks2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetWeeks2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetWeeks2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TVWeekType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TVWeekType[])(this.results[0]));
             }
         }
     }

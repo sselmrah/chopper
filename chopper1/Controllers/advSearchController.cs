@@ -112,6 +112,7 @@ namespace chopper1.Controllers
 
             WebСервис1 curWc = MyStartupClass.wc;
             PokazType[] resultArray = curWc.GetPokazs(DateMin, DateMax, Title);
+            
             List<PokazType> filteredResultList = new List<PokazType>();
             DateTime n = Convert.ToDateTime(TimeStartMin);                        
 
@@ -168,9 +169,8 @@ namespace chopper1.Controllers
 
            
             DataTable prodDt = ConvertToDatatable(filteredResultList);
-
-
-
+            
+        
                         
             ViewBag.stitle = Title;
             return View(prodDt);

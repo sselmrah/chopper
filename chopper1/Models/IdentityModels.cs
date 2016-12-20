@@ -18,6 +18,9 @@ namespace chopper1.Models
             set { _favoriteBook = value; }
         }
         */
+
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -25,11 +28,17 @@ namespace chopper1.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+
+
+
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Department> Departments { get; set; }
+        public DbSet<DayAccess> DaysAccess { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -74,4 +83,49 @@ namespace chopper1.Models
           set { _id = value; }
         }
     }
+
+    public class DayAccess
+    {
+        private int _id;
+
+        
+        private string _tvDayRef;
+        private string _permitted;
+        private string _semiPermitted;
+        private string _forbidden;
+        
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        
+        public string TvDayRef
+        {
+            get { return _tvDayRef; }
+            set { _tvDayRef = value; }
+        }
+        
+        public string Permitted
+        {
+            get { return _permitted; }
+            set { _permitted = value; }
+        }
+        
+        public string SemiPermitted
+        {
+            get { return _semiPermitted; }
+            set { _semiPermitted = value; }
+        }
+        
+
+        public string Forbidden
+        {
+            get { return _forbidden; }
+            set { _forbidden = value; }
+        }
+
+
+    }
+
 }
