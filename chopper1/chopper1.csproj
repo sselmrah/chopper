@@ -281,6 +281,7 @@
     <Content Include="Content\images\logos\chOne_logo_square.png" />
     <Content Include="Content\images\logos\ntv_white.png" />
     <Content Include="Content\images\logos\rtr_white.png" />
+    <Content Include="Content\images\preloader-01.gif" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Scripts\iwc-signalr.js" />
     <Content Include="Scripts\signalr-patch.js" />

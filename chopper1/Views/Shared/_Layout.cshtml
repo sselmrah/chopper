@@ -616,13 +616,17 @@
 
         function prog_click(event) {
             @*Single click deselects progs*@
+            console.log("event - click");
             var progs = document.getElementsByClassName("prog");
             for (var i = 0; i < progs.length ; i++) {
                 progs.item(i).classList.remove('selected');
-                progs.item(i).setAttribute("draggable", "false");                
+                //progs.item(i).setAttribute("draggable", "false");                
             }
             dragged_id = '';
+            
             $(".topSideButtons").animate({ opacity: "0" }, 500);
+            $(".topSideButtons").animate({ zIndex: "-1" }, 0);
+            
             @*$(".leftSideButtons").animate({ left: "-70px" }, 500);
             $("#progFlyoutHandle").animate({ right: "0" }, 500);
             $("#progFlyout").animate({ right: "-200px" }, 500);*@
@@ -630,34 +634,45 @@
 
 
         function dblclick(ev) {
-            event.stopPropagation();
+            ev.stopPropagation();
             var progs = document.getElementsByClassName("prog");
 
             for (var i = 0; i < progs.length ; i++) {
                 progs.item(i).classList.remove('selected');
-                progs.item(i).setAttribute("draggable", "false");
+                progs.item(i).setAttribute("draggable", 'false');
+                if (progs.item(i).id == ev.target.id) {
+                    progs.item(i).classList.add('selected');
+                    progs.item(i).setAttribute("draggable", 'true');
+                }
             }
-
+            
             if (!ev.target.classList.contains("info-div") & !ev.target.classList.contains("timing-div") & !ev.target.classList.contains("title-div") & ev.target.nodeName != "SPAN") {
                 ev.target.classList.add('selected');
-                ev.target.setAttribute("draggable", "true");                
+                ev.target.setAttribute("draggable", true);                
             }
             else {
                 if (ev.target.nodeName != "SPAN") {
                     ev.target.parentNode.classList.add('selected');
-                    ev.target.parentNode.setAttribute("draggable", "true");
-                    ev.target.setAttribute("draggable", "false");
+                    ev.target.parentNode.setAttribute("draggable", true);
+                    ev.target.setAttribute("draggable", false);
                 }
                 else
                 {
                     ev.target.parentNode.parentNode.classList.add('selected');
-                    ev.target.parentNode.parentNode.setAttribute("draggable", "true");
-                    ev.target.parentNode.setAttribute("draggable", "false");
+                    ev.target.parentNode.parentNode.setAttribute("draggable", true);
+                    ev.target.parentNode.setAttribute("draggable", false);
                 }
             }
-            var dm;
-            dm = document.getElementsByClassName("selected")[0];           
             
+
+            //Makes ghostimage visible for the first drag
+            var dm;
+            dm = document.getElementsByClassName("selected")[0];                       
+            var hoverProg = dm.nextElementSibling;
+            var parent = dm.parentNode;
+            parent.insertBefore(dm, hoverProg);
+
+
 
 
             var curInfoString = document.getElementsByClassName("selected")[0].children[2].innerText;
@@ -680,7 +695,11 @@
                         
 
             @*$(".leftSideButtons").animate({ left: "0" }, 100);*@
+            
+            $(".topSideButtons").animate({ zIndex: "100" }, 0);
             $(".topSideButtons").animate({ opacity: "1" }, 100);
+            dragged_id = dm.id;
+
 
         }        
 
@@ -691,20 +710,21 @@
             return res[0];
         }
 
-        function drag(event) {
+        function dragStart(event) {
+            /*
+            console.log("event - drag");
             
             event.stopPropagation();
+            */
             var dm;
 
             dm = document.getElementsByClassName("selected")[0];
-           
-            var style = window.getComputedStyle(dm, null);
-                
+            console.log("dm:" + dm.id);
+            
+            var style = window.getComputedStyle(dm, null);            
             event.dataTransfer.setData("text/plain",
-            (parseInt(style.getPropertyValue("left"), 10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - event.clientY));
-                
-            dragged_id = dm.id;
-                
+            (parseInt(style.getPropertyValue("left"), 10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - event.clientY));                                     
+            
         }
 
         function allowDrop(event) {
@@ -712,9 +732,14 @@
             return false;
         }
 
+
+
         function drop(event) {
+            event.preventDefault();
+            console.log("event - drop");           
             var offset = event.dataTransfer.getData("text/plain").split(',');
-            var dm = document.getElementById(dragged_id);
+            var dm = document.getElementById(dragged_id);            
+
             var curProgId = dm.id;
             var hoverProg = dm.nextElementSibling;
             var newTop = (event.clientY + parseInt(offset[1], 10));
@@ -787,8 +812,17 @@
 
             dm.style.width = dropElement.clientWidth;
             curTiming.innerHTML = getTimeByPosition(dm.offsetTop, dm.offsetHeight);
+            updateHover(dm.id);
 
-            event.preventDefault();
+
+
+
+            var curBegString = document.getElementsByClassName("selected")[0].children[0].innerText;
+            //Время начала
+            var curTime = getBegFromTimingString(curBegString);
+            document.getElementById("begSpanHours").innerHTML = curTime.substring(0, curTime.indexOf(":"));
+            document.getElementById("begSpanMinutes").innerHTML = curTime.substring(curTime.indexOf(":") + 1, curTime.indexOf(":") + 3);
+
             return false;
         }
             
