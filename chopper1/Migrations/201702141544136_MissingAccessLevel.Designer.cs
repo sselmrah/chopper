@@ -7,13 +7,13 @@ namespace chopper1.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class DayAccess : IMigrationMetadata
+    public sealed partial class MissingAccessLevel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DayAccess));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MissingAccessLevel));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610200916050_DayAccess"; }
+            get { return "201702141544136_MissingAccessLevel"; }
         }
         
         string IMigrationMetadata.Source

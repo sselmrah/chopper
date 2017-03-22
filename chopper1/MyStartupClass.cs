@@ -143,7 +143,17 @@ namespace chopper1
             }
         }
 
-        
+        public static int getTimingWoITC(EfirType ef)
+        {
+            int finalTiming = ef.Timing;
+
+            foreach(ITCType itc in ef.ITC)
+            {
+                finalTiming -= itc.Timing;
+            }
+
+            return finalTiming;
+        }
 
         public static TVDayVariantT[] getTVDayVariantTArray(string[] days, string[] vars)
         {

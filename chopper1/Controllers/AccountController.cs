@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using chopper1.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using chopper1.ws1c;
 
 namespace chopper1.Controllers
 {
@@ -18,6 +20,7 @@ namespace chopper1.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         ApplicationDbContext context;
+        WebСервис1 curWc = MyStartupClass.wc;
         public AccountController()
         {
             context = new ApplicationDbContext();   
@@ -165,7 +168,8 @@ namespace chopper1.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);   
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    curWc.AddUser(model.UserName, model.UserRoles);
                     return RedirectToAction("Index", "Home");
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
@@ -301,6 +305,9 @@ namespace chopper1.Controllers
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
+
+
+
 
         //
         // POST: /Account/SendCode

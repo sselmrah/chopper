@@ -3,24 +3,17 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace chopper1.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        /*
-        private string _favoriteBook;
-
-        public string FavoriteBook
-        {
-            get { return _favoriteBook; }
-            set { _favoriteBook = value; }
-        }
-        */
-
-
-
+        [Required] //data annotations allow me to define information,         
+        [Display(Name = "Код дирекции")] //and also the shape field in the table
+        public int departmentCode { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -51,6 +44,8 @@ namespace chopper1.Models
         }
 
     }
+
+
 
     public class Department
     {
@@ -87,13 +82,15 @@ namespace chopper1.Models
     public class DayAccess
     {
         private int _id;
-
-        
         private string _tvDayRef;
-        private string _permitted;
-        private string _semiPermitted;
-        private string _forbidden;
-        
+        private int _accessLevel;
+
+        public int AccessLevel
+        {
+            get { return _accessLevel; }
+            set { _accessLevel = value; }
+        }
+
         public int Id
         {
             get { return _id; }
@@ -106,25 +103,6 @@ namespace chopper1.Models
             set { _tvDayRef = value; }
         }
         
-        public string Permitted
-        {
-            get { return _permitted; }
-            set { _permitted = value; }
-        }
-        
-        public string SemiPermitted
-        {
-            get { return _semiPermitted; }
-            set { _semiPermitted = value; }
-        }
-        
-
-        public string Forbidden
-        {
-            get { return _forbidden; }
-            set { _forbidden = value; }
-        }
-
 
     }
 

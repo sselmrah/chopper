@@ -50,6 +50,8 @@ namespace chopper1.Controllers
             newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
             
 
+            
+
             //Собираем шапку дня из Cap и MemoryDates
             newDay.FullCap += curDay.Cap;
             if (newDay.FullCap.Length>0)

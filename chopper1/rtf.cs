@@ -56,6 +56,11 @@ namespace chopper1
             {
                 rtfList.AddRange(printOrbity(dayVariantList));
             }
+            //Орбиты
+            if (repType == "stolby")
+            {
+                rtfList.AddRange(printStolby(dayVariantList));
+            }
 
 
             //Timestamp
@@ -145,12 +150,18 @@ namespace chopper1
                         Efir tempEfir = MyStartupClass.getRTA(ef.Timing, ef.ITC);
 
                         //Timing
+                        /*
                         string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;
                         if (strTiming.Right(2) == "00") strTiming.Substring(0, strTiming.Length - 3);
                         if (strTiming.Left(2) == "0:") strTiming.Substring(2);
+                        */
+                        string strTiming = getTimingString(ef.Timing);
                         //Text
                         curText += ef.Beg.ToString("HH:mm") + " - " + (ef.Beg + TimeSpan.FromSeconds(ef.Timing)).ToString("HH:mm") + " (" + strTiming + ")";
-                        curText += "\\line";
+                        if (ef.Timing > 10 * 60)
+                        {
+                            curText += "\\line";
+                        }
                         curText += ef.Title.ToUpper();
 
                         //Fill
@@ -376,9 +387,10 @@ namespace chopper1
                         Efir tempEfir = MyStartupClass.getRTA(ef.Timing, ef.ITC);
 
                         //Timing
-                        string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;
-                        if (strTiming.Right(2) == "00") strTiming.Substring(0, strTiming.Length - 3);
-                        if (strTiming.Left(2) == "0:") strTiming.Substring(2);
+                        //string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;                        
+                        //if (strTiming.Right(2) == "00") strTiming.Substring(0, strTiming.Length - 3);
+                        //if (strTiming.Left(2) == "0:") strTiming.Substring(2);
+                        string strTiming = getTimingString(ef.Timing);
                         //Text
                         /*
                         curText += ef.Beg.ToString("HH:mm") + " - " + (ef.Beg + TimeSpan.FromSeconds(ef.Timing)).ToString("HH:mm") + " (" + strTiming + ")";
@@ -499,6 +511,98 @@ namespace chopper1
 
         }
 
+        private static List<string> printStolby(string dayVariantList = "")
+        {
+            double twipsCoef = 4.233;
+            int xPos = 0;
+            int xSize = 2900;
+            int yPos = 650;
+            int begTwips = 0;
+            int timingTwips = 0;
+            bool fill = false;
+            string curText = "";
+
+            List<string> rtfList = new List<string>();
+            List<Day> newDays = new List<Day>();
+            newDays = getDaysFromHtml(dayVariantList);
+
+            string dow = newDays[0].TVDate.ToString("dddd", russian).ToUpper();
+            
+            //Header
+            //curText = "ПРОГРАММА ПЕРЕДАЧ ПЕРВОГО КАНАЛА НА " + dow + ", " + newDays[0].TVDate.ToString("dd/MM/yyyy");
+            //rtfList.Add(rtfProg(Text: curText, FontSize: 11, Bold: true, Line: false, XPos: 190, YPos: 80, XSize: 16000, YSize: 230));
+
+            
+            
+            
+
+            for (int day = 0; day < newDays.Count/5; day++)
+            {
+                string fullDateStr = newDays[day * 5].TVDate.ToString("dddd, dd MMMM yyyy", russian) + " года";
+                fullDateStr = fullDateStr.Substring(0, 1).ToUpper() + fullDateStr.Substring(1);
+                rtfList.Add("\\sectd\\cols1\\pard\\qc\\f1\\fs24\\b" + fullDateStr + "\\b0\\par");
+                rtfList.Add("\\sect\\sbknone\\cols5\\colsx10\\linebetcol");
+                
+                for (int i = 0; i < 5; i++)
+                {                    
+                    //Channel name
+                    if (i == 0)
+                    {
+                        curText = "Первый канал (Европейская часть РФ)";
+                    }
+                    else
+                    {
+                        curText = "Первый канал (Орбита " + (i).ToString()+")";
+                    }
+                    if (curText.Contains("Орбита 3")) curText += " (HD и SD)";
+
+                    rtfList.Add("\\pard\\qc\\f1\\fs16\\b"+curText+"\\par\\b0\\ql\n");                    
+                    
+                    if (newDays[day*5+i].Efirs != null)
+                    {
+                        foreach (EfirType ef in newDays[day*5+i].Efirs)
+                        {
+                            if (ef.ProducerCode == "24")
+                            {
+                                rtfList.Add("\\trowd\\trpat3\\trgapf10\n");
+                            }
+                            else
+                            {
+                                rtfList.Add("\\trowd\\trpat0\\trgapf10\n");
+                            }
+                            curText = "";                           
+                            Efir tempEfir = MyStartupClass.getRTA(ef.Timing, ef.ITC);                                                   
+                            curText = " [" + tempEfir.getInfoString(1) + "]";
+                            string titleAge = "";
+                            if (ef.Age>0)
+                            {
+                                titleAge = ef.Title + " \\b (" + ef.Age.ToString() + "+) \\b0";
+                            }
+                            else
+                            {
+                                titleAge = ef.Title;
+                            }
+                            if (ef.ProducerCode == "04" | ef.ProducerCode == "24")
+                            {
+                                rtfList.Add("\\b\\cellx380\\f1\\fs14\\cellx2860\\cellx3231 \n" + ef.Beg.ToString("HH.mm") + "\\intbl\\cell\n" + titleAge + curText + "\\b0\\intbl\\cell\\fs12\n" + ef.ProducerCode + ef.SellerCode + "\\intbl\\cell\\f1\\fs12");
+                            }
+                            else
+                            {
+                                rtfList.Add("\\cellx380\\f1\\fs14\\cellx2860\\cellx3231 \n" + ef.Beg.ToString("HH.mm") + "\\intbl\\cell\n" + titleAge + curText + "\\intbl\\cell\\fs12\n" + ef.ProducerCode + ef.SellerCode + "\\intbl\\cell\\f1\\fs12");
+                            }
+                            rtfList.Add("\\row");                            
+                        }                        
+                    }
+                    if (i < 4)
+                    {
+                        rtfList.Add("\\column");
+                    }
+                }                
+                rtfList.Add("\\pard\\sect\\sbkpage");
+            }
+            return rtfList;
+        }
+
         private static List<string> printBroadcast(string dayVariantList = "")
         {
             double twipsCoef = 4.233;
@@ -570,12 +674,18 @@ namespace chopper1
                         Efir tempEfir = MyStartupClass.getRTA(ef.Timing, ef.ITC);
 
                         //Timing
+                        /*
                         string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;
                         if (strTiming.Right(2) == "00") strTiming.Substring(0, strTiming.Length - 3);
                         if (strTiming.Left(2) == "0:") strTiming.Substring(2);
+                         */
+                        string strTiming = getTimingString(ef.Timing);
                         //Text
                         curText += ef.Beg.ToString("HH:mm") + " - " + (ef.Beg + TimeSpan.FromSeconds(ef.Timing)).ToString("HH:mm") + " (" + strTiming + ")";
-                        curText += "\\line";
+                        if (ef.Timing > 10 * 60)
+                        {
+                            curText += "\\line";
+                        }
                         curText += ef.Title.ToUpper();
 
                         //Fill
@@ -681,9 +791,41 @@ namespace chopper1
                         Efir tempEfir = MyStartupClass.getRTA(ef.Timing, ef.ITC);
 
                         //Timing
-                        string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;
-                        if (strTiming.Right(2) == "00") strTiming.Substring(0, strTiming.Length - 3);
-                        if (strTiming.Left(2) == "0:") strTiming.Substring(2);
+                        /*
+                        string fullHours = "";
+                        string fullMinutes = "";
+                        string fullSeconds = "";
+                        if (TimeSpan.FromSeconds(ef.Timing).Minutes < 10)
+                        {
+                            fullMinutes = "0" + TimeSpan.FromSeconds(ef.Timing).Minutes.ToString();                            
+                        }
+                        else
+                        {
+                            fullMinutes = TimeSpan.FromSeconds(ef.Timing).Minutes.ToString();
+                        }
+                        if (TimeSpan.FromSeconds(ef.Timing).Hours < 10)
+                        {
+                            fullHours = "0" + TimeSpan.FromSeconds(ef.Timing).Hours.ToString();                            
+                        }
+                        else
+                        {
+                            fullHours = TimeSpan.FromSeconds(ef.Timing).Hours.ToString();
+                        }
+                        if (TimeSpan.FromSeconds(ef.Timing).Seconds < 10)
+                        {
+                            fullSeconds = "0" + TimeSpan.FromSeconds(ef.Timing).Seconds.ToString();
+                        }
+                        else
+                        {
+                            fullSeconds = TimeSpan.FromSeconds(ef.Timing).Seconds.ToString();
+                        }
+                        
+                        //string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;
+                        
+                        if (strTiming.Right(2) == "00") strTiming = strTiming.Substring(0, strTiming.Length - 3);
+                        if (strTiming.Left(3) == "00:") strTiming = strTiming.Substring(3);
+                         */
+                        string strTiming = getTimingString(ef.Timing);
                         //Text
                         curText += ef.Beg.ToString("HH:mm") + " - " + (ef.Beg + TimeSpan.FromSeconds(ef.Timing)).ToString("HH:mm") + " (" + strTiming + ")";
                         curText += "\\line";
@@ -927,6 +1069,8 @@ namespace chopper1
             return yPos;
         }
 
+        
+
         private static string rtfLine(bool gor, int xPos, int yPos, int len, bool punktir, bool Bold = false, int width = 5, int zOrder = 1000)
         {
             string curLine = "";
@@ -995,7 +1139,7 @@ namespace chopper1
         {
             string curLine = "";
             //Head
-            curLine += "{\\rtf1\\ansi \\deff4\\deflang1033{\\fonttbl{\\f4\\froman\\fcharset204";
+            curLine += "{\\rtf1\\ansi \\deff4\\deflang1033{\\fonttbl{\\f1\\fcharset204\\fswiss Arial;}{\\f4\\froman\\fcharset204";
             curLine += "\\fprq2 Times New Roman Cyr;}{\\f5\\fswiss\\fcharset204\\fprq2 Arial Cyr;}}";
             curLine += "{\\stylesheet{\\f4\\lang1049 \\snext0 Normal;}{\\*";
             curLine += "\\cs10 \\additive Default Paragraph Font;}}";
@@ -1015,7 +1159,14 @@ namespace chopper1
             return curLine;
         }
 
+        private static string rtfTableHeader()
+        {
+            string curLine = "";
 
+            
+
+            return curLine;
+        }
 
 
         private static string rtfFoot()
@@ -1028,6 +1179,45 @@ namespace chopper1
             return curLine;
         }
 
+
+        public static string getTimingString (int timingSec)
+        {           
+            string fullHours = "";
+            string fullMinutes = "";
+            string fullSeconds = "";
+            if (TimeSpan.FromSeconds(timingSec).Minutes < 10)
+            {
+                fullMinutes = "0" + TimeSpan.FromSeconds(timingSec).Minutes.ToString();
+            }
+            else
+            {
+                fullMinutes = TimeSpan.FromSeconds(timingSec).Minutes.ToString();
+            }
+            if (TimeSpan.FromSeconds(timingSec).Hours < 10)
+            {
+                fullHours = "0" + TimeSpan.FromSeconds(timingSec).Hours.ToString();
+            }
+            else
+            {
+                fullHours = TimeSpan.FromSeconds(timingSec).Hours.ToString();
+            }
+            if (TimeSpan.FromSeconds(timingSec).Seconds < 10)
+            {
+                fullSeconds = "0" + TimeSpan.FromSeconds(timingSec).Seconds.ToString();
+            }
+            else
+            {
+                fullSeconds = TimeSpan.FromSeconds(timingSec).Seconds.ToString();
+            }
+
+            //string strTiming = TimeSpan.FromSeconds(ef.Timing).Hours + ":" + TimeSpan.FromSeconds(ef.Timing).Minutes + ":" + TimeSpan.FromSeconds(ef.Timing).Seconds;
+            string strTiming = fullHours + ":" + fullMinutes + ":" + fullSeconds;
+            if (strTiming.Right(2) == "00") strTiming = strTiming.Substring(0, strTiming.Length - 3);
+            if (strTiming.Left(3) == "00:") strTiming = strTiming.Substring(3);
+
+
+            return strTiming;
+        }
 
         public static void getRtf()
         {
@@ -1088,13 +1278,22 @@ namespace chopper1
 
         }
 
+        private static string rtfStolbyRow(int FontSize = 10, string Text = "Проверка", int rowHeight = 20, int cellWidth1 = 50, int cellWidth2 = 500, int cellWidth3 = 50, bool rightBorder = false, bool bold = false, bool fill = false, bool italic = false )
+        {
+            string rowLine = "";
+
+            return rowLine;
+        }
 
         private static string rtfProg(int Inside = 10, int FontSize = 8, string Text = "Проверка", int XPos = 1000, int YPos = 1000, int XSize = 2000, int YSize = 2000, bool Line = true, bool Bold = false, bool Fill = false, string Format = "", bool Italic = false, int dodhgt = 1)
         {
             string progLine = "";
-
-            if (YSize <= 16 * 60 / 4.233) FontSize = 5;
-            if (YSize <= 11 * 60 / 4.233) FontSize = 4;
+            if (!(Text == "18+" | Text == "16+" | Text == "12+") & Text.Length>2)
+            {
+                if (YSize <= 16 * 60 / 4.233) FontSize = 5;
+                if (YSize <= 11 * 60 / 4.233) FontSize = 4;
+                if (YSize <= 5 * 60 / 4.233) FontSize = 3;                
+            }
 
             string cur_key;
             if (Text.Contains("$Ш") || Text.Contains("$Х") || Text.Contains("$X") || Text.Contains("$C") || Text.Contains("$С") || Text.Contains("$Ц"))

@@ -1,0 +1,125 @@
+﻿@model List<Tuple<DateTime, int, chopper1.ws1c.ChopperRightsT>>
+@{
+    ViewBag.Title = ViewBag.userName + " - права";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Пользователь: @ViewBag.userName</h2>
+
+<table id="userRightsTable" align="center">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Вариант</th>
+            <th>Чтение</th>
+            <th>Запись</th>
+            <th>Добавление</th>
+            <th>Удаление</th>
+            <th>Фильтр</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td id="addMonthBefore" colspan="7"><span class="glyphicon glyphicon-arrow-up"></span></td>
+        </tr>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Item1.ToString("dd.MM.yyyy")</td>
+                <td>@t.Item2</td>
+                @if (t.Item3.read)
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="true" data-rtype="read" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:green">&#x2b;</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="false" data-rtype="read" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:red">&#x2212;</span>
+                    </td>
+                }
+
+                @if (t.Item3.write)
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="true" data-rtype="write" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:green">&#x2b;</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="false" data-rtype="write" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:red">&#x2212;</span>
+                    </td>
+                }
+                @if (t.Item3.add)
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="true" data-rtype="add" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:green">&#x2b;</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="false" data-rtype="add" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:red">&#x2212;</span>
+                    </td>
+                }
+                @if (t.Item3.del)
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="true" data-rtype="del" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:green">&#x2b;</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="rightsSelector" data-username="@ViewBag.userName" data-curvalue="false" data-rtype="del" data-tvdate="@t.Item1.ToString("dd.MM.yyyy")" data-varnum="1" style="font-weight:bold; font-size:32px; color:red">&#x2212;</span>
+                    </td>
+                }
+                <td>@t.Item3.filter</td>
+            </tr>
+        }
+        <tr>
+            <td id="addMonthAfter" colspan="7"><span class="glyphicon glyphicon-arrow-down"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<script>
+    $(".rightsSelector").click(function () {
+        curObj = event.target;
+        //console.log(curObj.getAttribute("data-rtype"));
+        
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        rType: curObj.getAttribute("data-rtype"),
+                        tvDate: curObj.getAttribute("data-tvdate"),
+                        varNum: curObj.getAttribute("data-varnum"),
+                        curValue: curObj.getAttribute("data-curvalue"),
+                        userName: curObj.getAttribute("data-username")
+                    },
+                    url: '/UserView/SwitchRights',
+                    success: function (data) {
+                        if (curObj.getAttribute("data-curvalue") == "false")
+                        {
+                            curObj.setAttribute("data-curvalue", "true");
+                            curObj.style.color = "green";
+                            curObj.innerHTML = "&#x2b;";
+                        }
+                        else
+                        {
+                            curObj.setAttribute("data-curvalue", "false");
+                            curObj.style.color = "red";
+                            curObj.innerHTML = "&#x2212;";
+                        }
+                        
+                        console.log("");
+                    }
+                });                    
+                
+    });
+</script>

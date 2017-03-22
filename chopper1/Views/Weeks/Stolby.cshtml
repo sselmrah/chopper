@@ -1,6 +1,8 @@
 ﻿@model chopper1.Models.Week
 
-   
+@{
+    string dayVariantList = "";
+}
 
 <div class="weekPickerContainer">
     <div id="weekSelectContainer">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "stolby" });}</div>
@@ -17,6 +19,7 @@
         @{
             for (int day = 0; day < Model.DaysCount; day++)
             {
+                
                 System.Globalization.CultureInfo russian = new System.Globalization.CultureInfo("ru-RU");
                 string dowRus = Model.Days[day * 5].TVDate.Date.ToString("dddd", russian);
                 dowRus = char.ToUpper(dowRus[0]) + dowRus.Substring(1);
@@ -39,6 +42,7 @@
                 int curDayNum;
                 for (int chCode = 0; chCode <= 4; chCode++)
                 {
+                    dayVariantList += Model.Days[day*5+chCode].TVDate.ToString("dd.MM.yyyy") + "_" + Model.Days[day*5+chCode].VariantKod + "_" + (chCode+10).ToString() + ";";
                     curDayNum = day * 5 + chCode;
                     string chCaption = "Первый канал (Орбита " + chCode.ToString() + ")";
                     
@@ -58,9 +62,21 @@
                 }
                     }
                 </div>
+            }            
+            if (dayVariantList.Length>0) {
+                dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);            
             }
-        }
+}
     </div>
+
+<div class="rightSideButtons visible-lg">
+    <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "stolby" }, null)">
+        <div class="sideButtons" id="rtfButton" data-reporttype="stolby">
+            <span>.rtf</span>
+        </div>
+    </a>
+</div>
+
 
     <script>
 
@@ -108,5 +124,7 @@
             };
 
         });
+
+
 
     </script>

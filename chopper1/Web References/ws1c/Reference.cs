@@ -91,6 +91,20 @@ namespace chopper1.ws1c {
         
         private System.Threading.SendOrPostCallback GetWeeks2OperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetRatEfirs2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetEfirs2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetEfirsForUserOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetUserRightsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SetUserRightsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AddUserOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback EfirUpdateForUserOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -221,6 +235,27 @@ namespace chopper1.ws1c {
         
         /// <remarks/>
         public event GetWeeks2CompletedEventHandler GetWeeks2Completed;
+        
+        /// <remarks/>
+        public event GetRatEfirs2CompletedEventHandler GetRatEfirs2Completed;
+        
+        /// <remarks/>
+        public event GetEfirs2CompletedEventHandler GetEfirs2Completed;
+        
+        /// <remarks/>
+        public event GetEfirsForUserCompletedEventHandler GetEfirsForUserCompleted;
+        
+        /// <remarks/>
+        public event GetUserRightsCompletedEventHandler GetUserRightsCompleted;
+        
+        /// <remarks/>
+        public event SetUserRightsCompletedEventHandler SetUserRightsCompleted;
+        
+        /// <remarks/>
+        public event AddUserCompletedEventHandler AddUserCompleted;
+        
+        /// <remarks/>
+        public event EfirUpdateForUserCompletedEventHandler EfirUpdateForUserCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:Init", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1200,6 +1235,256 @@ namespace chopper1.ws1c {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetRatEfirs2", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayAttribute("return", IsNullable=true)]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute("RatEfirs", Namespace="http://www.sample-package.org", IsNullable=false)]
+        public RatEfirType[] GetRatEfirs2(int ChannelCode, System.DateTime TVDate1, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TVDate2, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string Title) {
+            object[] results = this.Invoke("GetRatEfirs2", new object[] {
+                        ChannelCode,
+                        TVDate1,
+                        TVDate2,
+                        Title});
+            return ((RatEfirType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetRatEfirs2Async(int ChannelCode, System.DateTime TVDate1, System.Nullable<System.DateTime> TVDate2, string Title) {
+            this.GetRatEfirs2Async(ChannelCode, TVDate1, TVDate2, Title, null);
+        }
+        
+        /// <remarks/>
+        public void GetRatEfirs2Async(int ChannelCode, System.DateTime TVDate1, System.Nullable<System.DateTime> TVDate2, string Title, object userState) {
+            if ((this.GetRatEfirs2OperationCompleted == null)) {
+                this.GetRatEfirs2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRatEfirs2OperationCompleted);
+            }
+            this.InvokeAsync("GetRatEfirs2", new object[] {
+                        ChannelCode,
+                        TVDate1,
+                        TVDate2,
+                        Title}, this.GetRatEfirs2OperationCompleted, userState);
+        }
+        
+        private void OnGetRatEfirs2OperationCompleted(object arg) {
+            if ((this.GetRatEfirs2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetRatEfirs2Completed(this, new GetRatEfirs2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetEfirs2", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayAttribute("return", IsNullable=true)]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute("Efir", Namespace="http://www.sample-package.org", IsNullable=false)]
+        public EfirType[] GetEfirs2(int ChannelCode, System.DateTime TVDate1, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TVDate2, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string Title) {
+            object[] results = this.Invoke("GetEfirs2", new object[] {
+                        ChannelCode,
+                        TVDate1,
+                        TVDate2,
+                        Title});
+            return ((EfirType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetEfirs2Async(int ChannelCode, System.DateTime TVDate1, System.Nullable<System.DateTime> TVDate2, string Title) {
+            this.GetEfirs2Async(ChannelCode, TVDate1, TVDate2, Title, null);
+        }
+        
+        /// <remarks/>
+        public void GetEfirs2Async(int ChannelCode, System.DateTime TVDate1, System.Nullable<System.DateTime> TVDate2, string Title, object userState) {
+            if ((this.GetEfirs2OperationCompleted == null)) {
+                this.GetEfirs2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetEfirs2OperationCompleted);
+            }
+            this.InvokeAsync("GetEfirs2", new object[] {
+                        ChannelCode,
+                        TVDate1,
+                        TVDate2,
+                        Title}, this.GetEfirs2OperationCompleted, userState);
+        }
+        
+        private void OnGetEfirs2OperationCompleted(object arg) {
+            if ((this.GetEfirs2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetEfirs2Completed(this, new GetEfirs2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetEfirsForUser", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public EfirsForUserT GetEfirsForUser(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName) {
+            object[] results = this.Invoke("GetEfirsForUser", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode,
+                        UserName});
+            return ((EfirsForUserT)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetEfirsForUserAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName) {
+            this.GetEfirsForUserAsync(ChannelCode, TVDate, VariantCode, UserName, null);
+        }
+        
+        /// <remarks/>
+        public void GetEfirsForUserAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName, object userState) {
+            if ((this.GetEfirsForUserOperationCompleted == null)) {
+                this.GetEfirsForUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetEfirsForUserOperationCompleted);
+            }
+            this.InvokeAsync("GetEfirsForUser", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode,
+                        UserName}, this.GetEfirsForUserOperationCompleted, userState);
+        }
+        
+        private void OnGetEfirsForUserOperationCompleted(object arg) {
+            if ((this.GetEfirsForUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetEfirsForUserCompleted(this, new GetEfirsForUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetUserRights", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
+        public ChopperRightsT GetUserRights(int ChannelCode, System.DateTime TVDate, int VariantCode, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string UserName) {
+            object[] results = this.Invoke("GetUserRights", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode,
+                        UserName});
+            return ((ChopperRightsT)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserRightsAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName) {
+            this.GetUserRightsAsync(ChannelCode, TVDate, VariantCode, UserName, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserRightsAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName, object userState) {
+            if ((this.GetUserRightsOperationCompleted == null)) {
+                this.GetUserRightsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserRightsOperationCompleted);
+            }
+            this.InvokeAsync("GetUserRights", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode,
+                        UserName}, this.GetUserRightsOperationCompleted, userState);
+        }
+        
+        private void OnGetUserRightsOperationCompleted(object arg) {
+            if ((this.GetUserRightsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserRightsCompleted(this, new GetUserRightsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:SetUserRights", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
+        public string SetUserRights(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName, ChopperRightsT Rights, bool ThisRole) {
+            object[] results = this.Invoke("SetUserRights", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode,
+                        UserName,
+                        Rights,
+                        ThisRole});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SetUserRightsAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName, ChopperRightsT Rights, bool ThisRole) {
+            this.SetUserRightsAsync(ChannelCode, TVDate, VariantCode, UserName, Rights, ThisRole, null);
+        }
+        
+        /// <remarks/>
+        public void SetUserRightsAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, string UserName, ChopperRightsT Rights, bool ThisRole, object userState) {
+            if ((this.SetUserRightsOperationCompleted == null)) {
+                this.SetUserRightsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetUserRightsOperationCompleted);
+            }
+            this.InvokeAsync("SetUserRights", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode,
+                        UserName,
+                        Rights,
+                        ThisRole}, this.SetUserRightsOperationCompleted, userState);
+        }
+        
+        private void OnSetUserRightsOperationCompleted(object arg) {
+            if ((this.SetUserRightsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SetUserRightsCompleted(this, new SetUserRightsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:AddUser", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public string AddUser(string UserName, string RolName) {
+            object[] results = this.Invoke("AddUser", new object[] {
+                        UserName,
+                        RolName});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddUserAsync(string UserName, string RolName) {
+            this.AddUserAsync(UserName, RolName, null);
+        }
+        
+        /// <remarks/>
+        public void AddUserAsync(string UserName, string RolName, object userState) {
+            if ((this.AddUserOperationCompleted == null)) {
+                this.AddUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddUserOperationCompleted);
+            }
+            this.InvokeAsync("AddUser", new object[] {
+                        UserName,
+                        RolName}, this.AddUserOperationCompleted, userState);
+        }
+        
+        private void OnAddUserOperationCompleted(object arg) {
+            if ((this.AddUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddUserCompleted(this, new AddUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:EfirUpdateForUser", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return")]
+        public int EfirUpdateForUser(EfirType Efir, string User) {
+            object[] results = this.Invoke("EfirUpdateForUser", new object[] {
+                        Efir,
+                        User});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void EfirUpdateForUserAsync(EfirType Efir, string User) {
+            this.EfirUpdateForUserAsync(Efir, User, null);
+        }
+        
+        /// <remarks/>
+        public void EfirUpdateForUserAsync(EfirType Efir, string User, object userState) {
+            if ((this.EfirUpdateForUserOperationCompleted == null)) {
+                this.EfirUpdateForUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnEfirUpdateForUserOperationCompleted);
+            }
+            this.InvokeAsync("EfirUpdateForUser", new object[] {
+                        Efir,
+                        User}, this.EfirUpdateForUserOperationCompleted, userState);
+        }
+        
+        private void OnEfirUpdateForUserOperationCompleted(object arg) {
+            if ((this.EfirUpdateForUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.EfirUpdateForUserCompleted(this, new EfirUpdateForUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1519,6 +1804,112 @@ namespace chopper1.ws1c {
             }
             set {
                 this.variantCodeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
+    public partial class ChopperRightsT {
+        
+        private bool readField;
+        
+        private bool writeField;
+        
+        private bool addField;
+        
+        private bool delField;
+        
+        private string filterField;
+        
+        /// <remarks/>
+        public bool read {
+            get {
+                return this.readField;
+            }
+            set {
+                this.readField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool write {
+            get {
+                return this.writeField;
+            }
+            set {
+                this.writeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool add {
+            get {
+                return this.addField;
+            }
+            set {
+                this.addField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool del {
+            get {
+                return this.delField;
+            }
+            set {
+                this.delField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string filter {
+            get {
+                return this.filterField;
+            }
+            set {
+                this.filterField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
+    public partial class EfirsForUserT {
+        
+        private EfirType[] efirsField;
+        
+        private System.Nullable<int> errorCodeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(IsNullable=true)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Efir", IsNullable=false)]
+        public EfirType[] Efirs {
+            get {
+                return this.efirsField;
+            }
+            set {
+                this.efirsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> ErrorCode {
+            get {
+                return this.errorCodeField;
+            }
+            set {
+                this.errorCodeField = value;
             }
         }
     }
@@ -3649,6 +4040,188 @@ namespace chopper1.ws1c {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TVWeekType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetRatEfirs2CompletedEventHandler(object sender, GetRatEfirs2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetRatEfirs2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetRatEfirs2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public RatEfirType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((RatEfirType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetEfirs2CompletedEventHandler(object sender, GetEfirs2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetEfirs2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetEfirs2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public EfirType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((EfirType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetEfirsForUserCompletedEventHandler(object sender, GetEfirsForUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetEfirsForUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetEfirsForUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public EfirsForUserT Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((EfirsForUserT)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetUserRightsCompletedEventHandler(object sender, GetUserRightsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserRightsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserRightsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ChopperRightsT Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ChopperRightsT)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void SetUserRightsCompletedEventHandler(object sender, SetUserRightsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SetUserRightsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SetUserRightsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void AddUserCompletedEventHandler(object sender, AddUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void EfirUpdateForUserCompletedEventHandler(object sender, EfirUpdateForUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class EfirUpdateForUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal EfirUpdateForUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

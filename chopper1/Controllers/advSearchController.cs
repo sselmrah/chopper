@@ -107,12 +107,129 @@ namespace chopper1.Controllers
             return View(prodDt);
         }
 
+
+
         public ActionResult PerformAdvSearch(string Title = "", DateTime? DateMin = null, DateTime? DateMax = null, DateTime? TimeStartMin = null, DateTime? TimeStartMax = null, DateTime? TimingMin = null, DateTime? TimingMax = null, bool Monday = true, bool Tuesday = true, bool Wednesday = true, bool Thursday = true, bool Friday = true, bool Saturday = true, bool Sunday = true, List<string> Producers = null, bool BitOriginal = true, bool BitRepetition = true)
         {
 
             WebСервис1 curWc = MyStartupClass.wc;
             PokazType[] resultArray = curWc.GetPokazs(DateMin, DateMax, Title);
+            PokazType curPokaz = new PokazType();
+            DateTime dtMin = DateTime.Parse("01-01-2007"); ;
+            DateTime dtMax = DateTime.Now;
+            string ratTitle = '%' + Title + '%';
+            RatEfirType[] ratingsArray = curWc.GetRatEfirs2(10, dtMin, dtMax, ratTitle); 
+            EfirType[] efirsArray;
+
+
+            List<PokazType> pokazList = new List<PokazType>();
+            if (DateMin != null)
+            {
+                dtMin = (DateTime)DateMin;
+            }
+            if (DateMax != null)
+            {
+                dtMin = (DateTime)DateMax;
+            }
             
+            if (resultArray.Length == 0)
+            {
+                //Eng to Rus switch if necessary
+                resultArray = curWc.GetPokazs(DateMin, DateMax, Title.EngToRus());
+                if (resultArray.Length>0)
+                {
+                    Title = Title.EngToRus();
+                    ratTitle = '%' + Title + '%';
+                }
+                /*
+                if (resultArray.Length == 0)
+                {
+                    ratingsArray = curWc.GetRatEfirs2(10, dtMin, dtMax, ratTitle);
+
+                   
+                    foreach (RatEfirType r in ratingsArray)
+                    {
+                        curPokaz.Beg = r.Beg;
+                        curPokaz.BriefTitle = r.Title;
+                        curPokaz.Title = r.Title;
+                        curPokaz.ChannelCode = 10;
+                        curPokaz.DM = (float)r.DM;
+                        curPokaz.RM = (float)r.RM;
+                        curPokaz.DR = (float)r.DR;
+                        curPokaz.RR = (float)r.RR;
+                        curPokaz.DSTI = (float)r.DSTI;
+                        curPokaz.ProducerCode = 0;
+                        curPokaz.SellerCode = 0;
+                        curPokaz.Timing = r.Timing;
+                        curPokaz.TVData = r.TVDate;
+
+                        pokazList.Add(curPokaz);
+                    }
+                    resultArray = pokazList.ToArray();
+                }
+                 */ 
+            }
+
+            //Ищем в рейтингах
+            pokazList = resultArray.ToList();
+            if (resultArray.Length > 0)
+            {
+                dtMin = pokazList[pokazList.Count() - 1].TVData.Date + TimeSpan.FromDays(1);
+            }
+            ratingsArray = curWc.GetRatEfirs2(10, dtMin, dtMax, ratTitle);           
+            foreach (RatEfirType r in ratingsArray)
+            {
+                curPokaz.Beg = r.Beg;
+                curPokaz.BriefTitle = r.Title;
+                curPokaz.Title = r.Title;
+                curPokaz.ChannelCode = 10;
+                curPokaz.DM = (float)r.DM;
+                curPokaz.RM = (float)r.RM;
+                curPokaz.DR = (float)r.DR;
+                curPokaz.RR = (float)r.RR;
+                curPokaz.DSTI = (float)r.DSTI;
+                curPokaz.ProducerCode = 0;
+                curPokaz.SellerCode = 0;
+                curPokaz.Timing = r.Timing;
+                curPokaz.TVData = r.TVDate;
+                curPokaz.WeekDay = (int)r.TVDate.DayOfWeek;
+                if (curPokaz.WeekDay == 0) curPokaz.WeekDay = 7;
+                pokazList.Add(curPokaz);
+            }
+            resultArray = pokazList.ToArray();
+
+            //Ищем в эфирах
+           
+            if (resultArray.Length > 0)
+            {
+                dtMin = pokazList[pokazList.Count() - 1].TVData.Date + TimeSpan.FromDays(1);
+            }
+            dtMax += TimeSpan.FromDays(365);
+            efirsArray = curWc.GetEfirs2(10,dtMin, dtMax, ratTitle);
+            foreach (EfirType ef in efirsArray)
+            {
+                PokazType curPokaz2 = new PokazType();
+                curPokaz2.Beg = ef.Beg;
+                curPokaz2.BriefTitle = ef.Title;
+                curPokaz2.Title = ef.Title;
+                curPokaz2.ChannelCode = 10;
+                curPokaz2.DM = 0;
+                curPokaz2.RM = 0;
+                curPokaz2.DR = 0;
+                curPokaz2.RR = 0;
+                curPokaz2.DSTI = 0;
+                curPokaz2.ProducerCode = Convert.ToInt32(ef.ProducerCode);
+                curPokaz2.SellerCode = Convert.ToInt32(ef.SellerCode);
+                curPokaz2.Timing = MyStartupClass.getTimingWoITC(ef);                
+                curPokaz2.TVData = ef.Beg.Date;
+                curPokaz2.WeekDay = (int)ef.Beg.DayOfWeek;
+                if (curPokaz2.WeekDay == 0) curPokaz2.WeekDay = 7;
+                pokazList.Add(curPokaz2);
+            }
+            resultArray = pokazList.ToArray();
+            
+
+
             List<PokazType> filteredResultList = new List<PokazType>();
             DateTime n = Convert.ToDateTime(TimeStartMin);                        
 
@@ -166,6 +283,9 @@ namespace chopper1.Controllers
                     }
                 }
             }
+
+
+
 
            
             DataTable prodDt = ConvertToDatatable(filteredResultList);

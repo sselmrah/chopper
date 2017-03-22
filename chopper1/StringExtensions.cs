@@ -31,5 +31,15 @@ namespace chopper1
             }
 
         }
+        public static string EngToRus(this string engTitle)
+        {
+            string rusTitle = "";
+            engTitle = engTitle.Replace('q', 'й').Replace('w', 'ц').Replace('e', 'у').Replace('r', 'к').Replace('t', 'е').Replace('y', 'н').Replace('u', 'г').Replace('i', 'ш').Replace('o', 'щ').Replace('p', 'з').Replace('[', 'х').Replace(']', 'ъ'); 
+            engTitle = engTitle.Replace('a', 'ф').Replace('s', 'ы').Replace('d', 'в').Replace('f', 'а').Replace('g', 'п').Replace('h', 'р').Replace('j', 'о').Replace('k', 'л').Replace('l', 'д').Replace(';', 'ж').Replace('\'', 'э'); 
+            engTitle = engTitle.Replace('z', 'я').Replace('x', 'ч').Replace('c', 'с').Replace('v', 'м').Replace('b', 'и').Replace('n', 'т').Replace('m', 'ь').Replace(',', 'б').Replace('.', 'ю'); 
+            rusTitle = engTitle;
+            return rusTitle;
+        }
+
     }
 }

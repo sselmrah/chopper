@@ -1,8 +1,5 @@
 namespace chopper1.Migrations
 {
-    using chopper1.Models;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -13,7 +10,7 @@ namespace chopper1.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "chopper1.Models.ApplicationDbContext";
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(chopper1.Models.ApplicationDbContext context)
@@ -30,29 +27,6 @@ namespace chopper1.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-
-            /*
-            var hasher = new PasswordHasher();
-            context.Users.AddOrUpdate(u => u.UserName,
-                new ApplicationUser { UserName = "amosendz", PasswordHash = hasher.HashPassword("123") }
-                );
-            */
-
-
-            if (context.Users.Any(u => u.UserName == "amosendz"))
-            {
-                var roleStore = new RoleStore<IdentityRole>(context);
-                var roleManager = new RoleManager<IdentityRole>(roleStore);
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
-                var user = new ApplicationUser { UserName = "amosendz" };
-                
-                userManager.Create(user, "123");
-                roleManager.Create(new IdentityRole { Name = "admin" });
-                userManager.AddToRole(user.Id, "admin");
-            }
-
         }
     }
 }

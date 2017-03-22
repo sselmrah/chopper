@@ -341,7 +341,7 @@
         }
         function getAPointsFromInfoString(infoString) {
             //a rounded to minutes
-            var points;
+            var points=0;
 
             
             var tempRes;
@@ -400,7 +400,7 @@
             var minutes = Math.round(seconds / 60);
 
             r = minutes;
-            
+            //console.log("r:"+ r);
             return r;
         }
 
@@ -409,7 +409,7 @@
 
         function getRPointsFromInfoString(infoString) {
             //r rounded to minutes
-            var points;
+            var points=0;
             
             var adTypes = ["Р"];
             var tempRes;            
@@ -457,6 +457,7 @@
         {            
             var hours;
             var minutes;
+            //console.log("infoString: " + infoString);
             if (infoString.indexOf(":") > 0) {
                 hours = parseInt(infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf(":")));
                 if (hours > 23)
@@ -470,8 +471,17 @@
                     minutes = hours * 60 + minutes; 
                 }
             }
-            else {                
-                minutes = infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf("+")-1);
+            else {
+                //console.log("newMinutes: " + infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf("]")));
+                if (infoString.indexOf("+") > 0)
+                {
+                    minutes = infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf("+") - 1);
+                }
+                else
+                {
+                    minutes = infoString.substring(infoString.indexOf("[") + 1, infoString.indexOf("]"));
+                }
+                
             }
             console.log("getTimingFromInfoString - Минуты: " + minutes);
             return minutes;
@@ -1023,6 +1033,9 @@
             else {
                 newInfoString = "[" + minutesStr + " + " + r.toString() + "Р(" + t.toString() + ") + " + a.toString() + "А]"
             }
+
+            newInfoString = newInfoString.replace(" + 0Р(0)", "");
+            newInfoString = newInfoString.replace(" + 0А", "");
 
             return newInfoString;
         }

@@ -346,7 +346,9 @@ namespace chopper1.Controllers
             //Назначаем высоту в пикселях: 1 минута = 1px
             newEfir.InitHeight = newEfir.Timing / 60;
 
-
+            //Добавлено 22.03.17
+            chopper1.MyStartupClass.lastNewsStart = 0;
+            chopper1.MyStartupClass.totalBlockDur = 0;
             return PartialView(newEfir);
         }
 

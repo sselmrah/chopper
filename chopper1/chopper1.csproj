@@ -188,12 +188,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\userscontroller.cs" />
+    <Compile Include="Controllers\UserViewController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="MessageBox.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\advSearchController.cs" />
     <Compile Include="Controllers\EfirController.cs" />
     <Compile Include="Controllers\DayController.cs" />
@@ -208,13 +209,41 @@
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\DayUpdate.cs" />
     <Compile Include="MessageBoxCore.cs" />
-    <Compile Include="Migrations\201607211328086_InitialCreate.cs" />
-    <Compile Include="Migrations\201607211328086_InitialCreate.Designer.cs">
-      <DependentUpon>201607211328086_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201702141522418_InitialMigrations.cs" />
+    <Compile Include="Migrations\201702141522418_InitialMigrations.Designer.cs">
+      <DependentUpon>201702141522418_InitialMigrations.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610200916050_DayAccess.cs" />
-    <Compile Include="Migrations\201610200916050_DayAccess.Designer.cs">
-      <DependentUpon>201610200916050_DayAccess.cs</DependentUpon>
+    <Compile Include="Migrations\201702141525315_NamedepartmentCode.cs" />
+    <Compile Include="Migrations\201702141525315_NamedepartmentCode.Designer.cs">
+      <DependentUpon>201702141525315_NamedepartmentCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141544136_MissingAccessLevel.cs" />
+    <Compile Include="Migrations\201702141544136_MissingAccessLevel.Designer.cs">
+      <DependentUpon>201702141544136_MissingAccessLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141547025_MissingDepCode.cs" />
+    <Compile Include="Migrations\201702141547025_MissingDepCode.Designer.cs">
+      <DependentUpon>201702141547025_MissingDepCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141558506_MissingXXX.cs" />
+    <Compile Include="Migrations\201702141558506_MissingXXX.Designer.cs">
+      <DependentUpon>201702141558506_MissingXXX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141600233_MissingXXX1.cs" />
+    <Compile Include="Migrations\201702141600233_MissingXXX1.Designer.cs">
+      <DependentUpon>201702141600233_MissingXXX1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141602288_MissingdepCode1.cs" />
+    <Compile Include="Migrations\201702141602288_MissingdepCode1.Designer.cs">
+      <DependentUpon>201702141602288_MissingdepCode1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141604095_MissingdepCode2.cs" />
+    <Compile Include="Migrations\201702141604095_MissingdepCode2.Designer.cs">
+      <DependentUpon>201702141604095_MissingdepCode2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141617214_MissingdepCode3.cs" />
+    <Compile Include="Migrations\201702141617214_MissingdepCode3.Designer.cs">
+      <DependentUpon>201702141617214_MissingdepCode3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -242,6 +271,7 @@
     <Compile Include="Models\TCBCList4Themes.cs">
       <DependentUpon>PlanCat.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Week.cs" />
     <Compile Include="MyStartupClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -604,6 +634,17 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Day\DrawTimeScale.cshtml" />
+    <Content Include="Views\UserView\Index.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\ManageUserRoles.cshtml" />
+    <Content Include="Web References\ws1c\ChopperRightsT.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Views\UserView\ViewRightsByUser.cshtml" />
+    <Content Include="Web References\ws1c\EfirsForUserT.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Views\UserView\SwitchRights.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -637,7 +678,6 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
@@ -661,11 +701,32 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607211328086_InitialCreate.resx">
-      <DependentUpon>201607211328086_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702141522418_InitialMigrations.resx">
+      <DependentUpon>201702141522418_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610200916050_DayAccess.resx">
-      <DependentUpon>201610200916050_DayAccess.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702141525315_NamedepartmentCode.resx">
+      <DependentUpon>201702141525315_NamedepartmentCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141544136_MissingAccessLevel.resx">
+      <DependentUpon>201702141544136_MissingAccessLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141547025_MissingDepCode.resx">
+      <DependentUpon>201702141547025_MissingDepCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141558506_MissingXXX.resx">
+      <DependentUpon>201702141558506_MissingXXX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141600233_MissingXXX1.resx">
+      <DependentUpon>201702141600233_MissingXXX1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141602288_MissingdepCode1.resx">
+      <DependentUpon>201702141602288_MissingdepCode1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141604095_MissingdepCode2.resx">
+      <DependentUpon>201702141604095_MissingdepCode2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141617214_MissingdepCode3.resx">
+      <DependentUpon>201702141617214_MissingdepCode3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Search";
     int counter = 1;
+    bool norm = true;
+    bool ratings = true;
 }
 
 <script src="~/Scripts/jquery-2.0.0.min.js"></script>
@@ -86,15 +88,29 @@
 
                 </thead>
                 <tbody>
-
+                    
                     @foreach (System.Data.DataRow row in Model.Rows)
                     {
-                        <tr id="tr_@counter">
+                        string styleString = "";
+                        @*
+                        if (row["ProducerCode"].ToString() == "0" & row["SellerCode"].ToString() == "0" & norm)
+                        {
+                            styleString = "border-top:dashed 1px #039";                            
+                            norm = false;                            
+                        }*@
+                        if (row["ProducerCode"].ToString() != "0" & row["SellerCode"].ToString() != "0" & row["DM"].ToString() == "0" & row["DR"].ToString() == "0" & row["DSTI"].ToString() == "0" & ratings)
+                        {
+                            styleString = "border-top:dashed 1px #039";
+                            ratings = false;
+                        }
+                        
+                            <tr id="tr_@counter" style="@styleString">                        
                             <td class="notForPrint"><input type="checkbox" value="None" id="cb_@counter" name="check_@counter" class="progCheckBoxes" onchange="toggleCheckbox(this)" /></td>
                             <td>@counter</td>
                             @{counter += 1;}
                             @foreach (System.Data.DataColumn col in Model.Columns)
                             {
+                                
                                 switch (col.ColumnName)
                                 {
                                     case "Timing":
