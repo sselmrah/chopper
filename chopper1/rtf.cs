@@ -897,7 +897,18 @@ namespace chopper1
             List<Day> dayList = new List<Day>();
             string curStr = daysVariantsString;
             List<Tuple<DateTime, int, int>> dateVarList = new List<Tuple<DateTime, int, int>>();
-            string[] splitArray = daysVariantsString.Split(';');
+            char[] sep;
+            //Костыль для ртф на планшете
+            if (daysVariantsString.Contains(";"))
+            {
+                sep = ";".ToArray();
+            }
+            else
+            {
+                sep = "%3B".ToArray(); 
+            }
+            
+            string[] splitArray = daysVariantsString.Split(sep);
 
             foreach (string s in splitArray)
             {
