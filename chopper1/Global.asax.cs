@@ -8,6 +8,7 @@ using System.Web.Routing;
 using System.Web.Hosting;
 using System.Data.Entity;
 using chopper1.Models;
+using System.Globalization;
 
 namespace chopper1
 {    
@@ -18,6 +19,10 @@ namespace chopper1
         
         protected void Application_Start()
         {
+            CultureInfo info = new CultureInfo(System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
+            info.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            System.Threading.Thread.CurrentThread.CurrentCulture = info;
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
