@@ -105,6 +105,8 @@ namespace chopper1.ws1c {
         
         private System.Threading.SendOrPostCallback EfirUpdateForUserOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetDayVarUsersRightsOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -256,6 +258,9 @@ namespace chopper1.ws1c {
         
         /// <remarks/>
         public event EfirUpdateForUserCompletedEventHandler EfirUpdateForUserCompleted;
+        
+        /// <remarks/>
+        public event GetDayVarUsersRightsCompletedEventHandler GetDayVarUsersRightsCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:Init", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1485,6 +1490,41 @@ namespace chopper1.ws1c {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.plan.1tv.ru#WebСервис1:GetDayVarUsersRights", RequestNamespace="http://www.plan.1tv.ru", ResponseNamespace="http://www.plan.1tv.ru", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlArrayAttribute("return", IsNullable=true)]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute("UserRights", Namespace="http://www.sample-package.org", IsNullable=false)]
+        public UserRightsT[] GetDayVarUsersRights(int ChannelCode, System.DateTime TVDate, int VariantCode) {
+            object[] results = this.Invoke("GetDayVarUsersRights", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode});
+            return ((UserRightsT[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetDayVarUsersRightsAsync(int ChannelCode, System.DateTime TVDate, int VariantCode) {
+            this.GetDayVarUsersRightsAsync(ChannelCode, TVDate, VariantCode, null);
+        }
+        
+        /// <remarks/>
+        public void GetDayVarUsersRightsAsync(int ChannelCode, System.DateTime TVDate, int VariantCode, object userState) {
+            if ((this.GetDayVarUsersRightsOperationCompleted == null)) {
+                this.GetDayVarUsersRightsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDayVarUsersRightsOperationCompleted);
+            }
+            this.InvokeAsync("GetDayVarUsersRights", new object[] {
+                        ChannelCode,
+                        TVDate,
+                        VariantCode}, this.GetDayVarUsersRightsOperationCompleted, userState);
+        }
+        
+        private void OnGetDayVarUsersRightsOperationCompleted(object arg) {
+            if ((this.GetDayVarUsersRightsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetDayVarUsersRightsCompleted(this, new GetDayVarUsersRightsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1804,6 +1844,51 @@ namespace chopper1.ws1c {
             }
             set {
                 this.variantCodeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.sample-package.org")]
+    public partial class UserRightsT {
+        
+        private string userField;
+        
+        private bool thisRoleField;
+        
+        private ChopperRightsT rightsField;
+        
+        /// <remarks/>
+        public string user {
+            get {
+                return this.userField;
+            }
+            set {
+                this.userField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool ThisRole {
+            get {
+                return this.thisRoleField;
+            }
+            set {
+                this.thisRoleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ChopperRightsT Rights {
+            get {
+                return this.rightsField;
+            }
+            set {
+                this.rightsField = value;
             }
         }
     }
@@ -4222,6 +4307,32 @@ namespace chopper1.ws1c {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    public delegate void GetDayVarUsersRightsCompletedEventHandler(object sender, GetDayVarUsersRightsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetDayVarUsersRightsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetDayVarUsersRightsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public UserRightsT[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((UserRightsT[])(this.results[0]));
             }
         }
     }

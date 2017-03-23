@@ -670,6 +670,9 @@
     <Content Include="Views\Weeks\Stolby.cshtml" />
     <Content Include="Views\Day\StolbyDay.cshtml" />
     <Content Include="Views\Efir\StolbyEfir.cshtml" />
+    <Content Include="Web References\ws1c\UserRightsT.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
     <None Include="Web References\ws1c\WebСервис1.wsdl" />
     <Content Include="Web References\ws1c\WeekTVDayType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
