@@ -20,7 +20,7 @@ namespace chopper1
         protected void Application_Start()
         {
             CultureInfo info = new CultureInfo(System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
-            info.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            info.DateTimeFormat.ShortDatePattern = "dd.MM.yyyy";
             System.Threading.Thread.CurrentThread.CurrentCulture = info;
 
             AreaRegistration.RegisterAllAreas();
