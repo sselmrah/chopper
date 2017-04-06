@@ -497,6 +497,7 @@
 
         function getNewTiming(oldInfoString, deltaDir)
         {
+            var rClickProgName;
             var newInfoString;
             var oldTiming;
             var newTiming;
@@ -642,6 +643,55 @@
             $("#progFlyout").animate({ right: "-200px" }, 500);*@
         }
 
+        function prog_rclick(event) {
+            var curProg = getProgElement(event.target);
+            //console.log("curProg.innerHTML: " + curProg.children[1].children[0].innerHTML.trim());
+            rClickProgName = progNameShortener(curProg.children[1].children[0].innerHTML.trim());
+        }
+
+
+        function getProgElement(el) {
+            var progEl;
+            if (!el.classList.contains("info-div") & !el.classList.contains("timing-div") & !el.classList.contains("title-div") & el.nodeName != "SPAN") {
+                progEl = el;
+            }
+            else {
+                if (el.nodeName != "SPAN") {
+                    progEl = el.parentNode;                    
+                }
+                else {
+                    progEl = el.parentNode.parentNode;                    
+                }
+            }
+            return progEl;
+        }
+        
+        function progNameShortener(fullProgName)
+        {
+            var shortProgName = "";
+            if (fullProgName.indexOf("ВОСКРЕСНОЕ \"ВРЕМЯ\"") >= 0)
+            {
+                return ("ВОСКРЕСНОЕ \"ВРЕМЯ\"");
+            }
+            if (fullProgName.indexOf("\"")>=0)
+            {
+                shortProgName = fullProgName.substr(fullProgName.indexOf("\"") + 1);
+                //console.log("shortener1: " + shortProgName);
+                if (shortProgName.indexOf("\"")>=0)
+                {
+                    shortProgName = shortProgName.substr(0, shortProgName.indexOf("\""));
+                    //console.log("shortener2: " + shortProgName);
+                }
+            }
+            else
+            {
+                if (fullProgName.length>15)
+                {
+                    shortProgName = fullProgName.substr(0, 14);
+                }
+            }
+            return shortProgName;
+        }
 
         function dblclick(ev) {
             ev.stopPropagation();
@@ -719,6 +769,9 @@
             console.log("BegTime: " + res[0]);
             return res[0];
         }
+
+        
+
 
         function dragStart(event) {
             /*
@@ -1176,6 +1229,13 @@
             return formattedTime;
         }
 
+        function dayConcur(event)
+        {
+            var curDay = document.getElementById('dayrectRus1');
+            curDay.style.display = "block";
+            console.log('dayConcur fired!');
+        }
+
     </script>
 
 </head>
@@ -1261,9 +1321,30 @@
              
         </div>
 
+@*using (Html.BeginForm("PerformAdvSearch", "AdvSearch", FormMethod.Post, new { target = "_blank" }))*@
 
         <div id="mainContentDiv">
             @RenderBody()
+            <nav id="context-menu" class="context-menu">
+                <p class="context-menu-caption" id="context-menu-dayCaption"></p>
+                <a href="#" target="_blank" id="context-menu-link-orb" class="context-menu__link">
+                    <p><span class="fa fa-space-shuttle"></span> Орбиты</p>
+                </a>
+                <a href="#" target="_blank" id="context-menu-link-shareDay" class="context-menu__link">
+                    <p><span class="fa fa-bar-chart"></span> Доли</p>
+                </a>
+                <div id="context-menu-concurDay" class="context-menu-divButton" onclick="dayConcur(event)">
+                    <p><span class="fa fa-users"></span> Конкуренция</p>
+                </div>
+                <p class="context-menu-caption" id="context-menu-progCaption"></p>
+                <a href="#" target="_blank" id="context-menu-link-shareProg" class="context-menu__link">
+                    <p><span class="fa fa-bar-chart"></span> Доли</p>
+                </a>
+                <a href="#" class="context-menu__link">
+                    <p><span class="fa fa-users"></span> Конкуренция</p>
+                </a>
+            </nav>
+            <div id="dayrectRus1" class="dayrectTemp"></div>
         </div>
         <div class="row">
             <footer style="padding-left:20px;">

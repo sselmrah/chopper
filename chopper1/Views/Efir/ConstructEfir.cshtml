@@ -59,7 +59,7 @@
     if (Model.Reserv) { classReserv = "reserv"; }
     if (Model.AgeCat.Length > 0) { ageCat = Model.AgeCat; }
 }
-<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv @classZapas" style="left:0; @str_height @strPos" ondragstart="dragStart(event)" ondblclick="    dblclick(event)" onclick="    prog_click(event)">
+<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv @classZapas" style="left:0; @str_height @strPos" ondragstart="dragStart(event)" ondblclick="    dblclick(event)" onclick="    prog_click(event)" oncontextmenu="prog_rclick(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
         @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
     </div>

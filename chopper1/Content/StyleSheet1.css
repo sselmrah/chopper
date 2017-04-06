@@ -11,6 +11,21 @@
             position:relative;            
 }
 
+.dayrectTemp
+{           
+            height: 1661px;                      
+            background: linear-gradient(slategray 1px, lightblue 1px);            
+            width: 200px;
+            max-width: 250px;            
+            background-size: 100% 60px;
+            background-position-y:120px;
+            border:solid 0 black;                        
+            float:left;
+            position:absolute;            
+            top: 154px;
+            left: 0px;
+            display: none;
+}
 
 
 .timescaleWrapper{
@@ -1013,3 +1028,48 @@ input[type=date]::-webkit-inner-spin-button {
 	-o-transform: rotate(-0.5deg);
 	transform: rotateZ(-0.5deg);
 }
+
+
+
+
+.context-menu {
+  display: none;
+  position: absolute;
+  z-index: 100000000000;
+}
+
+.context-menu--active {
+    display: block;
+    color: white;
+    background-color: #429adb;    
+    border: 1px solid #0566bb;
+    padding: 5px;
+    opacity:0.95;
+    width: 200px;
+    max-width: 400px;
+}
+
+.context-menu__items
+{
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+.context-menu-caption
+{
+    border-bottom: 1px solid white;    
+}
+
+
+.context-menu--active a:link {
+    color: white;
+}
+.context-menu--active a:visited {
+    color: white;
+}
+.context-menu--active a:hover {
+    color: white;
+}
+.context-menu--active a:active {
+    color: white;
+} 

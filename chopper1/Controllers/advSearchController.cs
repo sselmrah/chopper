@@ -171,7 +171,7 @@ namespace chopper1.Controllers
             }
 
             //Ищем в рейтингах
-            pokazList = resultArray.ToList();
+            pokazList = resultArray.OrderBy(o => o.TVData).ToList();
             if (resultArray.Length > 0)
             {
                 dtMin = pokazList[pokazList.Count() - 1].TVData.Date + TimeSpan.FromDays(1);
@@ -196,7 +196,7 @@ namespace chopper1.Controllers
                 if (curPokaz.WeekDay == 0) curPokaz.WeekDay = 7;
                 pokazList.Add(curPokaz);
             }
-            resultArray = pokazList.ToArray();
+            resultArray = pokazList.OrderBy(o => o.TVData).ToArray();
 
             //Ищем в эфирах
            
@@ -226,7 +226,7 @@ namespace chopper1.Controllers
                 if (curPokaz2.WeekDay == 0) curPokaz2.WeekDay = 7;
                 pokazList.Add(curPokaz2);
             }
-            resultArray = pokazList.ToArray();
+            resultArray = pokazList.OrderBy(o => o.TVData).ToArray();
             
 
 

@@ -46,7 +46,7 @@
             @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
             {
                 dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
-                <div id="@day.TVDayRef" class="dayrect" data-chcode="@day.KanalKod" data-varnum="@day.VariantKod" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                <div id="@day.TVDayRef" class="dayrect" data-chcode="@day.KanalKod" data-tvdate="@day.TVDate.ToString("dd.MM.yyyy")" data-varnum="@day.VariantKod" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
                     @{Html.RenderAction("ConstructDay", "Day", day);}
                 </div>
                     i += 1;
@@ -136,60 +136,163 @@
 
 
     <script>
+        var menu = document.getElementById("context-menu");
+        var menuState = 0;
+        var active = "context-menu--active";
+        var menuPosition;
+        var menuPositionX;
+        var menuPositionY;
+        var menuWidth;
+        var menuHeight;
+        var windowWidth;
+        var windowHeight;
+        var clickCoords;
+        var clickCoordsX;
+        var clickCoordsY;
+
+        var dayRects = document.getElementsByClassName("dayrect");
+
+        for (var i = 0, len = dayRects.length; i < len; i++) {
+            var dayRect = dayRects[i];
+            contextMenuListener(dayRect);
+        };
+
+        clickListener();
+        //resizeListener();
+        /*
+        document.getElementsByClassName('dayrect').addEventListener('contextmenu', function (ev) {
+            ev.preventDefault();
+            toggleMenuOn();            
+            return false;
+        }, false);
+        */
+        function contextMenuListener(el) {
+            el.addEventListener("contextmenu", function (e) {
+                e.preventDefault();
+                document.getElementById("context-menu-dayCaption").innerHTML = el.getAttribute("data-tvdate") + " (" + el.getAttribute("data-varnum") + ")";
+                document.getElementById("context-menu-progCaption").innerHTML = rClickProgName;
+                var newHref = "/AdvSearch/PerformAdvSearch?Title=" + rClickProgName;
+                document.getElementById('context-menu-link-shareProg').setAttribute('href', newHref);
+                var newDate = el.getAttribute("data-tvdate").substr(6, 4) + "-" + el.getAttribute("data-tvdate").substr(3, 2) + "-" + el.getAttribute("data-tvdate").substr(0, 2);
+                newHref = "/Weeks/Broadcast?bdate=" + newDate + "\&variantNum=" + el.getAttribute("data-varnum");
+                document.getElementById('context-menu-link-orb').setAttribute('href', newHref);
+                newHref = "/Weeks/Ratings?bdate=" + newDate;
+                document.getElementById('context-menu-link-shareDay').setAttribute('href', newHref);
+                
+                toggleMenuOn();
+                positionMenu(e);
+            });
+        }
+        function clickListener() {
+            document.addEventListener("click", function (e) {
+                //console.log("doc.click");
+                var button = e.which || e.button;
+                //console.log("button: " + button);
+                if (button === 1) {
+                    if (menuState == 0) {
+                        var tempDays = document.getElementsByClassName("dayrectTemp");
+                        for (var i = 0; i < tempDays.length; i++) {
+                            tempDays[i].style.display = "none";
+                        }
+                    }
+                    toggleMenuOff();
+
+                    //console.log("Menu-off");
+                }
+                
+            });
+        }
+
         
-    @*
-        $("#chOneButton").click(function (evt) {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '/Weeks/WeekChosen',
-                data: {
-                    WeekID: @weekNumInt.ToString(),
-                    repType: 'raskladka',
-                    chCode: '10'
-                },
-                success: function (data) {
-                    document.open('text/html');
-                    document.write(data);
-                    document.close();
-                }
-            });
-        });
-    $("#rtrButton").click(function (evt) {
-        $.ajax({
-            type: 'POST',
-            cache: false,
-            url: '/Weeks/WeekChosen',
-            data: {
-                WeekID: @weekNumInt.ToString(),
-                    repType: 'raskladka',
-                    chCode: '21'
-                },
-                success: function (data) {
-                    document.open('text/html');
-                    document.write(data);
-                    document.close();
-                }
-            });
-        });
-        $("#ntvButton").click(function (evt) {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '/Weeks/WeekChosen',
-                data: {
-                    WeekID: @weekNumInt.ToString(),
-                    repType: 'raskladka',
-                    chCode: '40'
-                },
-                success: function (data) {
-                    document.open('text/html');
-                    document.write(data);
-                    document.close();
-                }
-            });
-        });
-        *@
+
+        function toggleMenuOn() {
+            if (menuState !== 1) {
+                menuState = 1;
+                
+                menu.classList.add(active);                
+                //console.log("MenuOn: "+menu.classList);
+            }
+        }
+
+        function toggleMenuOff() {
+            if (menuState !== 0) {
+                menuState = 0;
+                menu.classList.remove(active);
+            }
+        }
+
+        function getPosition(e) {
+            var posx = 0;
+            var posy = 0;
+
+            if (!e) var e = window.event;
+
+            if (e.pageX || e.pageY) {
+                posx = e.pageX;
+                posy = e.pageY;
+            } else if (e.clientX || e.clientY) {
+                posx = e.clientX + document.body.scrollLeft +
+                                   document.documentElement.scrollLeft;
+                posy = e.clientY + document.body.scrollTop +
+                                   document.documentElement.scrollTop;
+            }
+
+            return {
+                x: posx,
+                y: posy
+            }
+        }
+
+        function positionMenu(e) {
+            //console.log("ok so far");
+            /*
+            clickCoords = getPosition(e);
+            clickCoordsX = clickCoords.x;
+            clickCoordsY = clickCoords.y;
+
+            
+
+            menuWidth = menu.offsetWidth + 4;
+            menuHeight = menu.offsetHeight + 4;
+            windowWidth = window.innerWidth;
+            windowHeight = window.innerHeight;
+            
+
+            if ((windowWidth - clickCoordsX) < menuWidth) {
+                menu.style.left = windowWidth - menuWidth + "px";
+            } else {
+                menu.style.left = clickCoordsX + "px";
+                console.log("width ok");
+            }
+
+            if ((windowHeight - clickCoordsY) < menuHeight) {
+                menu.style.top = windowHeight - menuHeight + "px";
+                console.log("windowHeight: " + windowHeight);
+                console.log("clickCoordsY: " + clickCoordsY);
+                console.log("menuHeight: " + menuHeight);
+                console.log("menu.style.top: " + menu.style.top);
+            } else {
+                menu.style.top = clickCoordsY + "px";
+                console.log("height ok");
+            }
+            */
+            
+            menuPosition = getPosition(e);
+            menuPositionX = menuPosition.x + "px";
+            menuPositionY = menuPosition.y + "px";
+
+            menu.style.left = menuPositionX;
+            menu.style.top = menuPositionY;
+            
+        }
+
+        function resizeListener() {
+            window.onresize = function (e) {
+                toggleMenuOff();
+            };
+        }
+
+
 
         $("#progFlyoutHandle").click(function (evt) {
 
@@ -215,39 +318,6 @@
             }
         });
 
-
-
-        @*
-        function handleClick(event) {
-            if (document.getElementById("progFlyout").style.right == "-200px") {
-                document.getElementById("progFlyout").innerHTML = "";
-
-
-
-
-
-                var xmlhttp2;
-                xmlhttp2 = new XMLHttpRequest();
-                xmlhttp2.open("POST", "GetZapas", true);
-                xmlhttp2.send();
-                xmlhttp2.onreadystatechange = function () {
-                    document.getElementById("progFlyout").innerHTML += xmlhttp2.responseText;
-                }
-
-
-
-                $("#progFlyoutHandle").animate({ right: "200px" }, 500);
-                $("#progFlyout").animate({ right: "0" }, 500);
-            }
-            else
-            {
-                $("#progFlyoutHandle").animate({ right: "0" }, 500);
-                $("#progFlyout").animate({ right: "-200px" }, 500);
-
-
-            }
-    }
-*@
     $("#rtfButton").click(function () {
 
         var dUpdate = $.connection.dayUpdate;
