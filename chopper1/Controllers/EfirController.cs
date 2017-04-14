@@ -377,8 +377,13 @@ namespace chopper1.Controllers
             string cur_key;
             if (curEfir.ANR.Contains("$Ш") || curEfir.ANR.Contains("$Х") || curEfir.ANR.Contains("$X") || curEfir.ANR.Contains("$C") || curEfir.ANR.Contains("$С") || curEfir.ANR.Contains("$Ц"))
             {
+                int limit = 0;
                 while (curEfir.ANR.IndexOf("$") >= 0)
                 {
+                    //Постоянно глючит, т.к. если ключ не совпадает с предложенными ниже вариантами - цикл получается бесконечным.
+                    limit++;
+                    if (limit > 10) { break; }
+
                     //Размер шрифта
                     if (curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1) == "Ш")
                     {
