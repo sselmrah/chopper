@@ -377,10 +377,42 @@ namespace chopper1.Controllers
             string cur_key;
             if (curEfir.ANR.Contains("$Ш") || curEfir.ANR.Contains("$Х") || curEfir.ANR.Contains("$X") || curEfir.ANR.Contains("$C") || curEfir.ANR.Contains("$С") || curEfir.ANR.Contains("$Ц"))
             {
-                int limit = 0;
+                
                 while (curEfir.ANR.IndexOf("$") >= 0)
                 {
+
+                    string tempKey = "";
+                    tempKey = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$") + 1, 1);
+                    switch (tempKey)
+                    {
+                        case ("Ш"):
+                            cur_key = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$"), 3);
+                            curEfir.FontSize = Convert.ToInt32(cur_key.Right(1)) + 1;
+                            curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
+                            break;
+                        case ("X"):
+                        case ("Х"):
+                            cur_key = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$"), 2);
+                            curEfir.Reserv = true;
+                            curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
+                            break;
+                        case ("C"):
+                        case ("С"):
+                            cur_key = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$"), 4);
+                            //Без нюансов, так сказать...                        
+                            curEfir.GrayScale = Convert.ToInt32(cur_key.Right(cur_key.Length - 2));
+                            curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
+                            break;
+                        default:
+                            //Все прочие ключи - чистит два символа
+                            cur_key = curEfir.ANR.Substring(curEfir.ANR.IndexOf("$"), 2);
+                            curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
+                            break;
+                    }
+
+                    /*
                     //Постоянно глючит, т.к. если ключ не совпадает с предложенными ниже вариантами - цикл получается бесконечным.
+                    int limit = 0;
                     limit++;
                     if (limit > 10) { break; }
 
@@ -407,7 +439,7 @@ namespace chopper1.Controllers
                         curEfir.GrayScale = Convert.ToInt32(cur_key.Right(cur_key.Length - 2));
                         curEfir.ANR = curEfir.ANR.Replace(cur_key, "");
                     }
-
+                    */
                 }
             }
         }
