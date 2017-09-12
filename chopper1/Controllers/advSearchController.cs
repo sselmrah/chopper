@@ -218,8 +218,14 @@ namespace chopper1.Controllers
                 curPokaz2.DR = 0;
                 curPokaz2.RR = 0;
                 curPokaz2.DSTI = 0;
-                curPokaz2.ProducerCode = Convert.ToInt32(ef.ProducerCode);
-                curPokaz2.SellerCode = Convert.ToInt32(ef.SellerCode);
+                if (ef.ProducerCode.Trim().Length > 0)
+                {
+                    curPokaz2.ProducerCode = Convert.ToInt32(ef.ProducerCode);
+                }
+                if (ef.SellerCode.Trim().Length > 0)
+                {
+                    curPokaz2.SellerCode = Convert.ToInt32(ef.SellerCode);
+                }
                 curPokaz2.Timing = MyStartupClass.getTimingWoITC(ef);                
                 curPokaz2.TVData = ef.Beg.Date;
                 curPokaz2.WeekDay = (int)ef.Beg.DayOfWeek;
