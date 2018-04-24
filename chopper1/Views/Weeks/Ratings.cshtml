@@ -29,7 +29,8 @@
     <div class="col-lg-10 noPadding" style=" float:left">
         @foreach (chopper1.ws1c.WeekTVDayType day in Model.Days)
         {
-            <div id="@day.TVDayRef" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+            string dayId= ("dayrect"+day.KanalKod.ToString()).Replace(" ","");
+            <div id="@dayId" class="dayrect" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
                 @{Html.RenderAction("RatingsDay", "Day", day);}
             </div>
                 i += 1;
@@ -41,4 +42,101 @@
     <div id="tail"></div>
 </div>
 
+<script>
+    function toggleCheckbox(element) {
+        var chanCode = parseInt(element.id.substring(5));
+        var containerEl = "baseStepContainer" + chanCode;
+        var radioEl = "serviceContainer" + chanCode;
+        if (element.checked) {
+            document.getElementById(containerEl).style.display = 'block';
+            document.getElementById(radioEl).style.display = 'block';
+        }
+        else
+        {
+            document.getElementById(containerEl).style.display = 'none';
+            document.getElementById(radioEl).style.display = 'none';
+        }
+        colorProgs(chanCode);               
+    }
+
+    function colorProgs(chanCode) {
+        var reds = ["#f1afad", "#ee5a60", "#eb3130"];
+        var greens = ["#dae2aa", "#7bc16a", "#018c49"];
+        var dayrectid = "dayrect" + chanCode;
+        var colorEl = "color" + chanCode;
+        var colorCb = document.getElementById(colorEl);
+        var baseEl = "base" + chanCode;
+        var baseShare = parseFloat(document.getElementById(baseEl).value);
+        var stepEl = "step" + chanCode;
+        var stepShare = parseFloat(document.getElementById(stepEl).value);
+        //console.log(baseShare + ";" + stepShare);
+        var curDayRect = document.getElementById(dayrectid);
+        var curDayChildren = curDayRect.childNodes;
+
+        var sti = document.getElementById("sti" + chanCode);
+        var dm = document.getElementById("dm" + chanCode);
+        var dr = document.getElementById("dr" + chanCode);
+
+
+
+
+        //console.log("childNodes count: " + curDayChildren.length);
+
+        if (curDayChildren.length > 0) {
+            for (var i = 1; i < curDayChildren.length; i++) {
+                var child = curDayChildren[i];
+
+                if (typeof child.className != 'undefined') {
+                    var childClasses = child.className;
+                    var service = 1;
+                    if (dm.checked) {
+                        service = 3;
+                    }
+                    if (dr.checked)
+                    {
+                        service = 5;
+                    }
+
+                    if (childClasses.includes("prog")) {
+                        if (child.childNodes[5].childNodes[service].innerHTML.includes(" &nbsp;—&nbsp;")) {
+                            //Нет доли
+                        }
+                        else {
+                            if (colorCb.checked) {
+                                var curShare = parseFloat(child.childNodes[5].childNodes[service].innerHTML.replace(',', '.'));
+                                //Красим зеленым
+                                if (curShare >= baseShare && curShare < baseShare + stepShare) {
+                                    child.style.backgroundColor = greens[0];
+                                }
+                                if (curShare >= baseShare + stepShare && curShare < baseShare + stepShare * 2) {
+                                    child.style.backgroundColor = greens[1];
+                                }
+                                if (curShare >= baseShare + stepShare * 2) {
+                                    child.style.backgroundColor = greens[2];
+                                }
+                                //Красим красным
+                                if (curShare >= baseShare - stepShare * 1 && curShare < baseShare - stepShare * 0) {
+                                    child.style.backgroundColor = reds[0];
+                                }
+                                if (curShare >= baseShare - stepShare * 2 && curShare < baseShare - stepShare * 1) {
+                                    child.style.backgroundColor = reds[1];
+                                }
+                                if (curShare < baseShare - stepShare * 2) {
+                                    child.style.backgroundColor = reds[2];
+                                }
+                            }
+                            else
+                            {
+                                child.style.backgroundColor = "white";
+                            }
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+    }
+</script>
 

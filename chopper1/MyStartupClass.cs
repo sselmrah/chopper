@@ -59,7 +59,7 @@ namespace chopper1
                 tvWeeks = wc.GetWeeks();                
                 selectedID = getWeekInWork(tvWeeks);
             }
-            catch
+            catch (Exception ex)
             {
                 wc.Url = "http://tsurface/plan1cw/ws/ws1.1cws";
                 tvWeeks = wc.GetWeeks();

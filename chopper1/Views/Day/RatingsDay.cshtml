@@ -38,7 +38,28 @@
         }
     }    
 </div>
-<div id="shapka@(day_num)" class="shapka-div"></div>
+<div id="shapka@(chanCode)" class="shapka-div">
+    <input type="checkbox" value="None" id="color@(chanCode)" name="color@(chanCode)" class="" onchange="toggleCheckbox(this)"/> Контрольная доля<br />
+    <div class="input_container" id="baseStepContainer@(chanCode)" style="width:95%; display:none" >
+        <label>Доля</label>
+        <input type="text" value="20" id="base@(chanCode)" name="base@(chanCode)" class="" onchange="colorProgs(@chanCode)" style="width:20%;height:16px"/>
+        <label>Шаг</label>
+        <input type="text" value="3" id="step@(chanCode)" name="step@(chanCode)" class="" onchange="colorProgs(@chanCode)" style="width:20%;height:16px"/>
+    </div>
+    <div class="input_container" id="serviceContainer@(chanCode)" style="width:100%; display:none;margin-top:0px">
+        <form   style="font-size:12px">
+            <label class="radio-inline">
+                <input id="sti@(chanCode)" type="radio" name="optradio" checked="checked" onchange="colorProgs(@chanCode)">СТИ+
+            </label>
+            <label class="radio-inline">
+                <input id="dm@(chanCode)" type="radio" name="optradio" onchange="colorProgs(@chanCode)">Mos
+            </label>
+            <label class="radio-inline">
+                <input id="dr@(chanCode)" type="radio" name="optradio" onchange="colorProgs(@chanCode)">Rus
+            </label>
+        </form>
+    </div>
+</div>
 
 @foreach (chopper1.Models.Efir efir in Model.RatEfirs)
 {
@@ -47,3 +68,4 @@
         Html.RenderAction("ConstructRatEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
     }
 }
+
