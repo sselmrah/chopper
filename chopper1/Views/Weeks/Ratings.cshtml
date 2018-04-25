@@ -42,7 +42,89 @@
     <div id="tail"></div>
 </div>
 
+
+<div class="rightSideButtons visible-lg">
+    @*<a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = curDate, repType = "ratings" }, null)">*@    
+        <div class="sideButtons" id="rtfButton" data-reporttype="ratings">
+            <span>.rtf</span>
+        </div>
+    @*</a>*@
+</div>
+
+
 <script>
+
+    $("#rtfButton").click(function () {
+       
+        //var repType = document.getElementById("printButton").dataset.reporttype;
+        var dayVariantList = "";
+        var curDate = document.getElementById("broadcast_datepicker").value;
+        var dayrects = document.getElementsByClassName("dayrect");
+        var controls = document.getElementsByClassName("ControlCb");
+        for (var i = 0; i < 6; i++) {
+            dayVariantList += curDate;
+            dayVariantList += "_";
+
+            if (controls[i].checked)
+            {
+                dayVariantList += "1_";
+                var chanCode = parseInt(controls[i].id.substring(5));
+                var colorEl = "color" + chanCode;
+                var colorCb = document.getElementById(colorEl);
+                var baseEl = "base" + chanCode;
+                var baseShare = parseFloat(document.getElementById(baseEl).value);
+                var stepEl = "step" + chanCode;
+                var stepShare = parseFloat(document.getElementById(stepEl).value);
+                var sti = document.getElementById("sti" + chanCode);
+                var dm = document.getElementById("dm" + chanCode);
+                var dr = document.getElementById("dr" + chanCode);
+                dayVariantList += baseShare + "_" + stepShare + "_";
+                if (sti.checked) { dayVariantList += "1"; }
+                if (dm.checked) { dayVariantList += "3"; }
+                if (dr.checked) { dayVariantList += "5"; }
+            }
+            else
+            {
+                dayVariantList += "0_0_0_0";
+            }
+            if (i != dayrects.length - 1) {
+                dayVariantList += ";";
+            }
+        }
+        console.log(dayVariantList);
+        var url = '@Url.Action("Download", "Weeks")';
+        //$.post(url, { dayVariantList: dayVariantList, repType: "ratings" });
+
+        
+            var request = new XMLHttpRequest();
+            request.responseType = "blob";
+            var params = "dayVariantList="+dayVariantList+"&repType=ratings";            
+            request.open("POST", url);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.setRequestHeader("Content-length", params.length);
+            request.setRequestHeader("Connection", "close");
+            request.onreadystatechange = function () {//Call a function when the state changes.
+                if (request.readyState == 4 && request.status == 200) {
+                    alert(request.responseText);
+                }
+            }
+            request.send(params);
+
+            request.onload = function () {
+                var url = window.URL.createObjectURL(this.response);
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.href = url;                
+                a.download = this.response.name || "ratings-" + $.now() + ".rtf";
+                a.click();
+            }
+            //request.send();
+        
+
+        
+    });
+
+
     function toggleCheckbox(element) {
         var chanCode = parseInt(element.id.substring(5));
         var containerEl = "baseStepContainer" + chanCode;
@@ -56,7 +138,7 @@
             document.getElementById(containerEl).style.display = 'none';
             document.getElementById(radioEl).style.display = 'none';
         }
-        colorProgs(chanCode);               
+        colorProgs(chanCode);
     }
 
     function colorProgs(chanCode) {

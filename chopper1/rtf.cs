@@ -56,12 +56,16 @@ namespace chopper1
             {
                 rtfList.AddRange(printOrbity(dayVariantList));
             }
-            //Орбиты
+            //Столбы
             if (repType == "stolby")
             {
                 rtfList.AddRange(printStolby(dayVariantList));
             }
-
+            //Рейтинги
+            if (repType == "ratings")
+            {
+                rtfList.AddRange(printRatings(dayVariantList));
+            }
 
             //Timestamp
             curText = DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToString("HH:mm");
@@ -892,6 +896,180 @@ namespace chopper1
 
         }
 
+        private static List<string> printRatings(string dayVariantList = "")
+        {
+            string curText = "";
+            List<string> rtfList = new List<string>();
+            Week curWeek = new Week();
+            TVWeekType curTvWeek = new TVWeekType();
+            int[] array_channel_codes = new int[1];
+            array_channel_codes[0] = 10;
+
+            //Print params
+            int xSize = 15400;
+            int xPos = 190;
+            int dayNum = -1;
+            double twipsCoef = 4.233;
+            int yPosShift = 0;//650;
+            int begTwips = 0;
+            int timingTwips = 0;
+            bool fill = false;
+            bool bold = false;
+            bool italic = false;
+
+            //Получаем список дней
+            List<Day> newDayList = getRatingsDaysFromHtml(dayVariantList);
+
+            //Header
+            curText = "ДОЛИ ТЕЛЕПЕРЕДАЧ НА " + newDayList[0].TVDate.ToString("dd/MM/yyyy") + " (СТИ+ / Mediascope-Mos (18+) / Mediascope-Rus (18+)";
+            rtfList.Add(rtfProg(Text: curText, FontSize: 11, Bold: true, Line: false, XPos: 190, YPos: 20, XSize: 16000, YSize: 230));
+
+            //Left timescale
+            rtfList.Add(rtfTimeScale(xPos: xPos, yPosShift: yPosShift, left: true, orbShift: 0, xSize: xSize));
+
+            xSize = 15400 / newDayList.Count();
+            foreach (Day d in newDayList)
+            {
+                dayNum++;
+                xPos = 190 + dayNum * xSize;
+                //Channel names                
+                switch (d.KanalKod)
+                {
+                    case 10:
+                        curText = "Первый канал";
+                        break;
+                    case 21:
+                        curText = "Россия-1";
+                        break;
+                    case 40:
+                        curText = "НТВ";
+                        break;
+                    case 52:
+                        curText = "СТС";
+                        break;
+                    case 51:
+                        curText = "ТНТ";
+                        break;
+                    case 53:
+                        curText = "ТВЦ";
+                        break;                    
+                }
+                rtfList.Add(rtfProg(Text: curText, FontSize: 8, Bold: true, Line: true, XPos: xPos, YPos: 400, XSize: xSize, YSize: 250));
+                //curText = d.TVDate.ToString("dd.MM.yyyy");
+                //rtfList.Add(rtfProg(Text: curText, FontSize: 8, Bold: true, Line: true, XPos: xPos, YPos: 650, XSize: xSize, YSize: 250));
+                //FullCap
+                //curText = d.FullCap;
+                //rtfList.Add(rtfProg(Text: curText, FontSize: 8, Bold: true, Line: true, XPos: xPos, YPos: 900, XSize: xSize, YSize: 850));
+                if (d.RatEfirs != null)
+                {
+                    foreach (Efir ef in d.RatEfirs)
+                    {
+                        curText = "";
+                        if (ef.Beg.Date == d.TVDate)
+                        {
+                            begTwips = Convert.ToInt32((ef.Beg.Hour * 60 * 60 + ef.Beg.Minute * 60) / twipsCoef);
+                        }
+                        else
+                        {
+                            if (ef.Beg.Date > d.TVDate)
+                            {
+                                begTwips = Convert.ToInt32((24 * 60 * 60 + ef.Beg.Hour * 60 * 60 + ef.Beg.Minute * 60) / twipsCoef);
+                            }
+                            else
+                            {
+                                begTwips = Convert.ToInt32((ef.Beg.Hour * 60 * 60 + ef.Beg.Minute * 60 - 24 * 60 * 60) / twipsCoef);
+                            }
+                        }
+                        begTwips -= 3100 - yPosShift;
+                        timingTwips = Convert.ToInt32(ef.Timing / twipsCoef);
+                        Efir tempEfir = MyStartupClass.getRTA(ef.Timing, ef.ITC);
+
+                        string strTiming = getTimingString(ef.Timing);
+                        //Text
+                        curText += ef.Beg.ToString("HH:mm") + " - " + ef.EndTime.ToString("HH:mm");
+                        curText += "\\line";
+                        if (ef.ANR.Length>0)
+                        {
+                            if (ef.ANR.Substring(0,1)!="\"")
+                            {
+                                curText += "\""+ef.ANR.ToUpper()+"\"";
+                            }
+                            else
+                            {
+                                curText += ef.ANR.ToUpper();
+                            }
+                        }
+                        
+
+
+                        int red = 255;
+                        int green = 255;
+                        int blue = 255;
+                        //Fill
+                        if (ef.Foot.Length>0 & ef.Foot.Contains(','))
+                        {
+                            fill = true;
+                            string[] rgb = ef.Foot.Split(',');
+                            red = Convert.ToInt16(rgb[0]);
+                            green = Convert.ToInt16(rgb[1]);
+                            blue = Convert.ToInt16(rgb[2]);
+                        }
+                        else
+                        {
+                            fill = false;
+                        }
+                        
+
+                        rtfList.Add(rtfProg(FontSize: 6, Text: curText, XPos: xPos, YPos: begTwips, XSize: xSize, YSize: timingTwips, Fill: fill, Bold: bold, Italic: italic, fillR: red,fillG: green,fillB: blue));
+
+
+                        //Ratings
+                        if (ef.Timing > 5 * 60)
+                        {
+                            if (ef.DR > 0)
+                            {
+                                curText = ef.DR.ToString("{0.0}");
+                            }
+                            else
+                            {
+                                curText = "-";
+                            }
+                            rtfList.Add(rtfProg(FontSize: 6, Text: curText, XPos: xPos + xSize - 250, YPos: begTwips + timingTwips - 160, XSize: 250, YSize: 160, Fill: false, Bold: true, Italic: false));
+                            if (ef.DM > 0)
+                            {
+                                curText = ef.DM.ToString("{0.0}");
+                            }
+                            else
+                            {
+                                curText = "-";
+                            }
+                            rtfList.Add(rtfProg(FontSize: 6, Text: curText, XPos: xPos + xSize - 250 * 2, YPos: begTwips + timingTwips - 160, XSize: 250, YSize: 160, Fill: false, Bold: true, Italic: false));
+                            if (ef.DSti > 0)
+                            {
+                                curText = ef.DSti.ToString("{0.0}");
+                            }
+                            else
+                            {
+                                curText = "-";
+                            }
+                            rtfList.Add(rtfProg(FontSize: 6, Text: curText, XPos: xPos + xSize - 250 * 3, YPos: begTwips + timingTwips - 160, XSize: 250, YSize: 160, Fill: false, Bold: true, Italic: false));
+                        }
+                    }
+                    if (dayNum == newDayList.Count() - 1)
+                    {
+                        //Rightmost timescale
+                        xPos = 190 + (dayNum + 1) * xSize + 200;
+                        rtfList.Add(rtfTimeScale(xPos: xPos, yPosShift: yPosShift, left: false, orbShift: 0, xSize: xSize));
+                    }
+                }
+
+            }
+
+
+            return rtfList;
+
+        }
+
         private static List<Day> getDaysFromHtml(string daysVariantsString = "")
         {
             List<Day> dayList = new List<Day>();
@@ -938,6 +1116,81 @@ namespace chopper1
                 }
             }
 
+            return dayList;
+        }
+
+        private static List<Day> getRatingsDaysFromHtml(string daysVariantsString = "")
+        {
+            List<Day> dayList = new List<Day>();            
+
+            string curStr = daysVariantsString;
+            List<Tuple<DateTime, int, decimal,decimal,int>> dateVarList = new List<Tuple<DateTime, int, decimal, decimal, int>>();
+            char[] sep;
+            //Костыль для ртф на планшете
+            if (daysVariantsString.Contains(";"))
+            {
+                sep = ";".ToArray();
+            }
+            else
+            {
+                sep = "%3B".ToArray();
+            }
+
+            string[] splitArray = daysVariantsString.Split(sep);
+
+            foreach (string s in splitArray)
+            {
+                string[] splitArray2 = s.Split('_');
+                dateVarList.Add(new Tuple<DateTime, int, decimal, decimal, int>(DateTime.Parse(splitArray2[0]), Convert.ToInt16(splitArray2[1]), Convert.ToDecimal(splitArray2[2]), Convert.ToDecimal(splitArray2[3]), Convert.ToInt16(splitArray2[4])));
+            }
+
+
+
+            if (dateVarList.Count() > 0)
+            {
+                int i = 0;
+                foreach (Tuple<DateTime, int, decimal, decimal,int> tDV in dateVarList)
+                {
+                    Day newDay = new Day();
+                    newDay.TVDate = tDV.Item1;
+                    switch (i)
+                    {
+                        case 0:
+                            newDay.KanalKod = 10;
+                            break;
+                        case 1:
+                            newDay.KanalKod = 21;
+                            break;
+                        case 2:
+                            newDay.KanalKod = 40;
+                            break;
+                        case 3:
+                            newDay.KanalKod = 52;
+                            break;
+                        case 4:
+                            newDay.KanalKod = 51;
+                            break;
+                        case 5:
+                            newDay.KanalKod = 53;
+                            break;
+                    }
+                    CultureInfo russian = new CultureInfo("ru-RU");
+                    newDay.DoWRus = newDay.TVDate.ToString("dddd", russian);
+                    newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
+                    RatEfirType[] ratEfirs = wc.GetRatEfirs(newDay.KanalKod, newDay.TVDate);
+                    newDay.RatEfirs = getRatEfirTypeArrayRatings(ratEfirs,tDV);
+                    //Control share -> Chk
+                    if (tDV.Item2 == 1) { newDay.Chk = true; } else { newDay.Chk = false; }
+                    //Base share -> Cap
+                    newDay.Cap = tDV.Item3.ToString();
+                    //Step share -> FullCap
+                    newDay.FullCap = tDV.Item4.ToString();
+                    //Service -> Foot
+                    newDay.Foot = tDV.Item5.ToString();
+                    dayList.Add(newDay);
+                    i++;
+                }
+            }
             return dayList;
         }
 
@@ -1295,8 +1548,75 @@ namespace chopper1
 
             return rowLine;
         }
+        private static Efir[] getRatEfirTypeArrayRatings(RatEfirType[] ratEfirs, Tuple<DateTime, int, decimal, decimal, int> tDV = null)
+        {
+            List<Efir> efirs = new List<Efir>();
 
-        private static string rtfProg(int Inside = 10, int FontSize = 8, string Text = "Проверка", int XPos = 1000, int YPos = 1000, int XSize = 2000, int YSize = 2000, bool Line = true, bool Bold = false, bool Fill = false, string Format = "", bool Italic = false, int dodhgt = 1)
+            foreach (RatEfirType r in ratEfirs)
+            {
+                Efir newEfir = new Efir();
+                newEfir.Beg = r.Beg;
+                newEfir.EndTime = r.End;
+                TimeSpan ts = r.End - r.Beg;
+                newEfir.Timing = Convert.ToInt32(ts.TotalSeconds);
+                //newEfir.Timing = r.Timing;
+                newEfir.Title = r.Title;
+                newEfir.ANR = r.Title;
+                newEfir.ProducerCode = "";
+                newEfir.SellerCode = "";
+                newEfir.Age = 0;
+                newEfir.AgeCat = "";
+                newEfir.TVDayRef = "";
+                newEfir.Cap = "";
+                newEfir.Foot = "";
+                //Рейтинги
+                newEfir.DSti = r.DSTI;
+                newEfir.DM = r.DM;
+                newEfir.DR = r.DR;
+                newEfir.RM = r.RM;
+                newEfir.RR = r.RR;
+
+                if (tDV != null)
+                {
+                    if (tDV.Item2 == 1)
+                    {
+                        switch (tDV.Item5)
+                        {
+                            case 1:
+                                newEfir.Foot = getRGBstring(newEfir.DSti, tDV.Item3, tDV.Item4);
+                                break;
+                            case 3:
+                                newEfir.Foot = getRGBstring(newEfir.DM, tDV.Item3, tDV.Item4);
+                                break;
+                            case 5:
+                                newEfir.Foot = getRGBstring(newEfir.DR, tDV.Item3, tDV.Item4);
+                                break;
+                        }
+                    }
+                }
+
+                efirs.Add(newEfir);
+            }
+
+            
+
+            return efirs.ToArray();
+        }
+
+        private static string getRGBstring (decimal share, decimal baseShare, decimal step)
+        {
+            string rgb = "";
+            if (share >= baseShare & share < baseShare+step*1) { rgb = "218,226,170"; }
+            if (share >= baseShare+step*1 & share < baseShare + step * 2) { rgb = "123,193,106"; }
+            if (share >= baseShare + step * 2) { rgb = "1,140,73"; }
+            if (share < baseShare & share >= baseShare-step*1) { rgb = "241,175,173"; }
+            if (share < baseShare-step*1 & share >= baseShare - step * 2) { rgb = "238,90,96"; }
+            if (share>0 & share < baseShare - step * 2) { rgb = "235,49,48"; }
+            return rgb;            
+        }
+
+
+        private static string rtfProg(int Inside = 10, int FontSize = 8, string Text = "Проверка", int XPos = 1000, int YPos = 1000, int XSize = 2000, int YSize = 2000, bool Line = true, bool Bold = false, bool Fill = false, string Format = "", bool Italic = false, int dodhgt = 1, int fillR=255, int fillG=255, int fillB=255)
         {
             string progLine = "";
             if (!(Text == "18+" | Text == "16+" | Text == "12+") & Text.Length>2)
@@ -1379,7 +1699,15 @@ namespace chopper1
             progLine += "\\dpfillfgcr255\\dpfillfgcg255\\dpfillfgcb255";
             if (Fill)
             {
-                progLine += "\\dpfillbggray20\\dpfillpat1";
+                if (fillR < 255 | fillG < 255 | fillB < 255)
+                {
+                    progLine += ("\\dpfillbgcr" + fillR.ToString() + "\\dpfillbgcg" + fillG.ToString() + "\\dpfillbgcb" + fillB.ToString() + "\\dpfillpat1").Replace(" ", "");
+                }
+                else
+                {
+                    progLine += "\\dpfillbggray20\\dpfillpat1";
+                    
+                }
             }
             else
             {
