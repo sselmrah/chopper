@@ -43,7 +43,7 @@
 <div id="shapka@(day_num)" class="shapka-div"></div>
 
 @if (Model.Efirs != null)
-{ 
+{
     if (Model.Efirs.Count() > 0)
     {
         foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
@@ -54,4 +54,69 @@
             }
         }
     }
+
+
+    <div id="footer_@Model.TVDayRef" class="prog" style="top:1760px; border: none">
+        @if (Model.Footers != null)
+        {
+            <table style="float:left;font-weight:bold;font-size:10px">
+                <tr>
+                    <td class="StolbyTimeStart" style="width:10%"></td>
+                    <td class="StolbyTitle"><span style="white-space:pre-line">@Model.Foot</span></td>
+                    <td class="StolbyCode" style="width:10%"></td>
+                </tr>
+
+                @foreach (chopper1.ws1c.FooterType foot in Model.Footers)
+                {
+                    int ctHours = 0;
+                    int ctMinutes = 0;
+                    int ctSeconds = 0;
+                    ctHours = Convert.ToDateTime(foot.ClearTiming).Hour;
+                    ctMinutes = Convert.ToDateTime(foot.ClearTiming).Minute;
+                    ctSeconds = Convert.ToDateTime(foot.ClearTiming).Second;
+                    string ctStr = "";
+                    if (ctHours > 0)
+                    {
+                        ctStr += ctHours.ToString("D2") + ".";
+                    }
+                    if (ctSeconds > 0)
+                    {
+                        ctStr += ctMinutes.ToString("D2") + "\'" + ctSeconds.ToString("D2");
+                    }
+                    else
+                    {
+                        ctStr += ctMinutes.ToString();
+                    }
+
+                    <tr>
+                        <td class="StolbyTimeStart">
+                            @foot.Beg
+                        </td>
+                        <td class="StolbyTitle">
+                            @if (foot.Title == null || foot.Title == "")
+                            {
+                                <span style="white-space:pre-line"></span>
+                            }
+                            else
+                            {
+                                if (ctHours + ctMinutes + ctSeconds > 0)
+                                {
+                                    <span style="white-space:pre-line">@foot.Title [@ctStr + @foot.ITC]</span>
+                                }
+                                else
+                                {
+                                    <span style="white-space:pre-line">@foot.Title</span>
+                                }
+                            }
+                        </td>
+                        <td class="StolbyCode">
+                            @foot.KodRed
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+
 }
+

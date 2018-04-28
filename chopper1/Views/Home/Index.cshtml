@@ -19,8 +19,7 @@
     string nextWeek2 = "";
     string nextnextWeek = "";
     string nextnextWeek1 = "";
-    string nextnextWeek2 = "";
-
+    string nextnextWeek2 = "";    
     var curDay = DateTime.Today - TimeSpan.FromDays(Convert.ToDouble(DateTime.Today.DayOfWeek - 1));
     DateTime weekAgo = DateTime.Today - TimeSpan.FromDays(7);
     curWeek = curDay.ToString("dd/MM/yyyy") + " - " + (curDay + TimeSpan.FromDays(6)).ToString("dd/MM/yyyy");
@@ -304,22 +303,42 @@
             </div>
     </div>
     <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup bottom">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup ">
             <p>СВОДКИ</p>
         </div>        
-        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 tile bottom"></div>                        
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 tile bottom">
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 tile ">                  
+
             <div id="datepickerCaption"></div>
             
                 @using (Html.BeginForm("Svodka", "Weeks", FormMethod.Get))
                 {
                     <fieldset>
-                        <input name="bdate" type="date" id="svodka_datepicker" class="index_datepickers" required="required" value="@DateTime.Today.Date.ToString("yyyy-MM-dd")" onchange="form.submit();" />                        
+                        <input name="bdate" type="date" id="svodka_datepicker" class="index_datepickers" required="required" value="@weekAgo.ToString("yyyy-MM-dd")" onchange="form.submit();" />                        
                     </fieldset>
                 }
             
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 tileGroup bottom">
+            <p>ДОЛИ</p>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 tile bottom">
+            <div id="datepickerCaption"></div>
+
+            @using (Html.BeginForm("Ratings", "Weeks", FormMethod.Get))
+            {
+                <fieldset>
+                    
+                    <input name="bdate" type="date" id="ratings_datepicker" class="index_datepickers" required="required" value="@weekAgo.ToString("yyyy-MM-dd")" onchange="form.submit();" />
+                </fieldset>
+            }
+
+        </div>
+
+    </div>
+
+
 
     <p id="messages"></p>
 </body>

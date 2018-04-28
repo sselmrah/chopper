@@ -1065,10 +1065,15 @@
             temp_dur = parseInt(hours*60)+parseInt(minutes) + parseInt(r) + parseInt(a);
             curProg.style.height = temp_dur + "px";
             curTiming.innerHTML = getTimeByPosition(curProg.offsetTop, curProg.offsetHeight);
-            document.getElementById("adMinsSpan").innerHTML = getRFromInfoString(curInfoString.innerHTML);
+
+            document.getElementById("adMinsSpan").innerHTML = getRFromInfoString(curInfoString.innerHTML);
             document.getElementById("adPointsSpan").innerHTML = getRPointsFromInfoString(curInfoString.innerHTML);
             document.getElementById("aMinsSpan").innerHTML = getAFromInfoString(curInfoString.innerHTML);
-            document.getElementById("aPointsSpan").innerHTML = getAPointsFromInfoString(curInfoString.innerHTML);            updateHover(curProgId);
+            document.getElementById("aPointsSpan").innerHTML = getAPointsFromInfoString(curInfoString.innerHTML);
+
+
+
+            updateHover(curProgId);
 
             event.preventDefault();
 
@@ -1331,14 +1336,14 @@
                     <p><span class="fa fa-space-shuttle"></span> Орбиты</p>
                 </a>
                 <a href="#" target="_blank" id="context-menu-link-shareDay" class="context-menu__link">
-                    <p><span class="fa fa-bar-chart"></span> Доли</p>
+                    <p><span class="fa fa-bar-chart"></span> Доли по дню</p>
                 </a>
                 <div id="context-menu-concurDay" class="context-menu-divButton" onclick="dayConcur(event)">
                     <p><span class="fa fa-users"></span> Конкуренция</p>
                 </div>
                 <p class="context-menu-caption" id="context-menu-progCaption"></p>
                 <a href="#" target="_blank" id="context-menu-link-shareProg" class="context-menu__link">
-                    <p><span class="fa fa-bar-chart"></span> Доли</p>
+                    <p><span class="fa fa-bar-chart"></span> Доли передачи</p>
                 </a>
                 <a href="#" class="context-menu__link">
                     <p><span class="fa fa-users"></span> Конкуренция</p>

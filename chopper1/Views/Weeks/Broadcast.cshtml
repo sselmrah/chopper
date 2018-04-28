@@ -33,7 +33,9 @@
         <div class="row week_bg">
             @{
                 double dayRectWidth = 100.0 / 6 - 0.00001;
+                double footerWidth = 100.0/5.4-0.00001;
                 string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
+                string footerWidthStr = footerWidth.ToString("#.########").Replace(",", ".") + "%";
             }
             <div class="col-lg-1 noPadding"></div>
             <div class="col-lg-11 noPadding">
@@ -46,13 +48,22 @@
                         }
                     </div>
                     <div id="@day.TVDayRef" data-varnum="@day.VariantKod" data-chcode="@day.KanalKod" class="dayrect" ondrop="drop(event)" ondragover="    allowDrop(event)" style="width: @dayRectWidthStr;">
-                        @{Html.RenderAction("BroadcastDay", "Day", day);}
-                    </div>
+                        @{Html.RenderAction("BroadcastDay", "Day", day);}                        
+                    </div>                    
                 }
+
                 @{
                     dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
                 }
                 @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+                <br />
+                @foreach (chopper1.Models.Day day in Model)
+                {
+                    <div style="float:left;width:20px">&nbsp;</div>
+                    
+                    
+                }
+               
             </div>
 
             <div class="col-lg-0 noPadding"></div>

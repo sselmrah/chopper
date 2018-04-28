@@ -421,7 +421,20 @@ namespace chopper1.Controllers
                 }
                  
             }
-             
+
+
+            //Получаем резервы для дня
+            TVDayVariantParam curParam = new TVDayVariantParam();
+            try
+            {
+                curParam = curWc.GetVarTVDayParam(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
+                curDay.Footers = curParam.Foot2;
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+
             return PartialView(curDay);
         }
 

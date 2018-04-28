@@ -529,16 +529,11 @@
         */
 }
 
-.week_bg
+/*.week_bg
 {
-    /*width:95%;*/
-}
+    width:95%;
+}*/
 
-
-.endlessScrollContainer
-{
-
-}
 
 .loadingContainer
 {
@@ -588,7 +583,10 @@ input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
 }
-
+input[type=date]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    display: block;
+}
 /*
 [draggable] {
   -moz-user-select: none;  

@@ -157,6 +157,17 @@
             contextMenuListener(dayRect);
         };
 
+
+        var dateDivs = document.getElementsByClassName("date-div");
+        var dowDivs = document.getElementsByClassName("dow-div");
+        for (var i = 0, len = dateDivs.length; i < len; i++) {
+            var dateDiv = dateDivs[i];
+            dateDowListener(dateDiv);
+            var dowDiv = dowDivs[i];
+            dateDowListener(dowDiv);
+        }
+
+
         clickListener();
         //resizeListener();
         /*
@@ -166,9 +177,18 @@
             return false;
         }, false);
         */
+
+        function dateDowListener(el) {
+            el.addEventListener("normalmenu", function (e) {
+                console.log("!");
+                e.stopPropagation();
+            }
+        )};
+
         function contextMenuListener(el) {
             el.addEventListener("contextmenu", function (e) {
                 e.preventDefault();
+                console.log("!!!");
                 document.getElementById("context-menu-dayCaption").innerHTML = el.getAttribute("data-tvdate") + " (" + el.getAttribute("data-varnum") + ")";
                 document.getElementById("context-menu-progCaption").innerHTML = rClickProgName;
                 var newHref = "/AdvSearch/PerformAdvSearch?Title=" + rClickProgName;
