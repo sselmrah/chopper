@@ -1606,12 +1606,13 @@ namespace chopper1
         private static string getRGBstring (decimal share, decimal baseShare, decimal step)
         {
             string rgb = "";
-            if (share >= baseShare & share < baseShare+step*1) { rgb = "218,226,170"; }
-            if (share >= baseShare+step*1 & share < baseShare + step * 2) { rgb = "123,193,106"; }
-            if (share >= baseShare + step * 2) { rgb = "1,140,73"; }
-            if (share < baseShare & share >= baseShare-step*1) { rgb = "241,175,173"; }
-            if (share < baseShare-step*1 & share >= baseShare - step * 2) { rgb = "238,90,96"; }
-            if (share>0 & share < baseShare - step * 2) { rgb = "235,49,48"; }
+            var c = Startup.context.Settings.Where(x => x.UserName == "Global").FirstOrDefault();            
+            if (share >= baseShare & share < baseShare+step*1) { rgb = c.Green1; }
+            if (share >= baseShare+step*1 & share < baseShare + step * 2) { rgb = c.Green2; }
+            if (share >= baseShare + step * 2) { rgb = c.Green3; }
+            if (share < baseShare & share >= baseShare-step*1) { rgb = c.Red1; }
+            if (share < baseShare-step*1 & share >= baseShare - step * 2) { rgb = c.Red2; }
+            if (share>0 & share < baseShare - step * 2) { rgb = c.Red3; }
             return rgb;            
         }
 

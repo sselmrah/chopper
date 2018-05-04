@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201702141617214_MissingdepCode3.Designer.cs">
       <DependentUpon>201702141617214_MissingdepCode3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804281430081_settings_added.cs" />
+    <Compile Include="Migrations\201804281430081_settings_added.Designer.cs">
+      <DependentUpon>201804281430081_settings_added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\advSearch.cs" />
@@ -643,6 +647,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Views\UserView\SwitchRights.cshtml" />
+    <Content Include="Views\Home\Settings.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -728,6 +733,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702141617214_MissingdepCode3.resx">
       <DependentUpon>201702141617214_MissingdepCode3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804281430081_settings_added.resx">
+      <DependentUpon>201804281430081_settings_added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

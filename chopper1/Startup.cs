@@ -4,24 +4,66 @@ using chopper1.ws1c;
 using chopper1.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
 
 
 [assembly: OwinStartupAttribute(typeof(chopper1.Startup))]
 namespace chopper1
 {    
     public partial class Startup
-    {        
+    {
+        public static ApplicationDbContext context = new ApplicationDbContext();
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
             app.MapSignalR();
-            createRolesandUsers();   
+            createRolesandUsers();
+            createBaseSettings();
         }
 
-        // In this method we will create default User roles and Admin user for login   
+        private void createBaseSettings()
+        {
+            Settings curSet = new Settings();
+            curSet.UserName = "Global";
+            var globalSettingsExist = context.Settings.Any(x => x.UserName == curSet.UserName);
+            if (!globalSettingsExist)
+            {
+                curSet.Green1 = "218,226,170";
+                curSet.Green2 = "123,193,106";
+                curSet.Green3 = "1,140,73";
+                curSet.Red1 = "241,175,173";
+                curSet.Red2 = "238,90,96";
+                curSet.Red3 = "235,49,48";
+
+                curSet.BaseShare = 18;
+                curSet.StepShare = 3;
+                context.Settings.Add(curSet);
+                context.SaveChanges();
+            }
+            curSet.UserName = "Default";
+            var defaultSettingsExist = context.Settings.Any(x => x.UserName == curSet.UserName);
+            if (!defaultSettingsExist)
+            {
+                curSet.Green1 = "218,226,170";
+                curSet.Green2 = "123,193,106";
+                curSet.Green3 = "1,140,73";
+                curSet.Red1 = "241,175,173";
+                curSet.Red2 = "238,90,96";
+                curSet.Red3 = "235,49,48";
+
+                curSet.BaseShare = 18;
+                curSet.StepShare = 3;
+                context.Settings.Add(curSet);
+                context.SaveChanges();
+            }
+
+                
+        }
+
+        // In this method we create default User roles and Admin user for login   
         private void createRolesandUsers()
         {
-            ApplicationDbContext context = new ApplicationDbContext();
+
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));

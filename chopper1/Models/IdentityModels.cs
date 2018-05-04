@@ -32,6 +32,7 @@ namespace chopper1.Models
     {
         public DbSet<Department> Departments { get; set; }
         public DbSet<DayAccess> DaysAccess { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -45,7 +46,31 @@ namespace chopper1.Models
 
     }
 
+    public class Settings
+    {
+        private int _id;
+        private string _red1;
+        private string _red2;
+        private string _red3;
+        private string _green1;
+        private string _green2;
+        private string _green3;
+        private decimal _baseShare;
+        private decimal _stepShare;
+        private string _userName;
 
+
+        public string Red1 { get => _red1; set => _red1 = value; }
+        public string Red2 { get => _red2; set => _red2 = value; }
+        public string Red3 { get => _red3; set => _red3 = value; }
+        public string Green1 { get => _green1; set => _green1 = value; }
+        public string Green2 { get => _green2; set => _green2 = value; }
+        public string Green3 { get => _green3; set => _green3 = value; }
+        public decimal BaseShare { get => _baseShare; set => _baseShare = value; }
+        public decimal StepShare { get => _stepShare; set => _stepShare = value; }
+        public string UserName { get => _userName; set => _userName = value; }
+        public int Id { get => _id; set => _id = value; }
+    }
 
     public class Department
     {

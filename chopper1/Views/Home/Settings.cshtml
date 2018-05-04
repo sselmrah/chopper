@@ -1,0 +1,116 @@
+﻿@model chopper1.Models.Settings
+@{
+    ViewBag.Title = "Настройки";
+    string[] r1 = Model.Red1.Split(',');
+    System.Drawing.Color r1c = System.Drawing.Color.FromArgb(255, Convert.ToInt32(r1[0]), Convert.ToInt32(r1[1]), Convert.ToInt32(r1[2]));
+    string r1hex = r1c.R.ToString("X2") + r1c.G.ToString("X2") + r1c.B.ToString("X2");
+    string[] r2 = Model.Red2.Split(',');
+    System.Drawing.Color r2c = System.Drawing.Color.FromArgb(255, Convert.ToInt32(r2[0]), Convert.ToInt32(r2[1]), Convert.ToInt32(r2[2]));
+    string r2hex = r2c.R.ToString("X2") + r2c.G.ToString("X2") + r2c.B.ToString("X2");
+    string[] r3 = Model.Red3.Split(',');
+    System.Drawing.Color r3c = System.Drawing.Color.FromArgb(255, Convert.ToInt32(r3[0]), Convert.ToInt32(r3[1]), Convert.ToInt32(r3[2]));
+    string r3hex = r3c.R.ToString("X2") + r3c.G.ToString("X2") + r3c.B.ToString("X2");
+    string[] g1 = Model.Green1.Split(',');
+    System.Drawing.Color g1c = System.Drawing.Color.FromArgb(255, Convert.ToInt32(g1[0]), Convert.ToInt32(g1[1]), Convert.ToInt32(g1[2]));
+    string g1hex = g1c.R.ToString("X2") + g1c.G.ToString("X2") + g1c.B.ToString("X2");
+    string[] g2 = Model.Green2.Split(',');
+    System.Drawing.Color g2c = System.Drawing.Color.FromArgb(255, Convert.ToInt32(g2[0]), Convert.ToInt32(g2[1]), Convert.ToInt32(g2[2]));
+    string g2hex = g2c.R.ToString("X2") + g2c.G.ToString("X2") + g2c.B.ToString("X2");
+    string[] g3 = Model.Green3.Split(',');
+    System.Drawing.Color g3c = System.Drawing.Color.FromArgb(255, Convert.ToInt32(g3[0]), Convert.ToInt32(g3[1]), Convert.ToInt32(g3[2]));
+    string g3hex = g3c.R.ToString("X2") + g3c.G.ToString("X2") + g3c.B.ToString("X2");
+}
+
+<h2>Настройки</h2>
+<h3>Общие</h3>
+
+<div id="settingsContainer">
+    <table id="settingsTable">
+        <tr>
+            <th>
+                Параметр
+            </th>
+            <th>
+                Значение
+            </th>
+        </tr>
+        
+        <tr>
+            <td>
+                
+                <a href="@Url.Action("DefaultColor", "Home", new { color = "red1"})">Красный 1</a>
+</td>
+            <td>
+            @using (Html.BeginForm("UpdateColor", "Home", FormMethod.Post, new { onchange = "submit()" }))
+            {
+                <input type="hidden" name="color" value="red1" />
+                <input type="color" id="red1picker" name="value" value="#@r1hex" />
+            }
+                
+                  
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="@Url.Action("DefaultColor", "Home", new { color = "red2"})">Красный 2</a>
+</td>
+            <td>
+            @using (Html.BeginForm("UpdateColor", "Home", FormMethod.Post, new { onchange = "submit()" }))
+            {
+                <input type="hidden" name="color" value="red2" />
+                <input type="color" id="red2picker" name="value" value="#@r2hex" />
+            }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="@Url.Action("DefaultColor", "Home", new { color = "red3"})">Красный 3</a>
+</td>
+            <td>
+                @using (Html.BeginForm("UpdateColor", "Home", FormMethod.Post, new { onchange = "submit()" }))
+                {
+               <input type="hidden" name="color" value="red3" />
+               <input type="color" id="red3picker" name="value" value="#@r3hex" />
+                }
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                <a href="@Url.Action("DefaultColor", "Home", new { color = "green1"})">Зеленый 1</a>
+</td>
+            <td>
+            @using (Html.BeginForm("UpdateColor", "Home", FormMethod.Post, new { onchange = "submit()" }))
+            {
+                <input type="hidden" name="color" value="green1" />
+                <input type="color" id="green1picker" name="value" value="#@g1hex" />
+            }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="@Url.Action("DefaultColor", "Home", new { color = "green2"})">Зеленый 2</a>
+</td>
+            <td>
+            @using (Html.BeginForm("UpdateColor", "Home", FormMethod.Post, new { onchange = "submit()" }))
+            {
+                <input type="hidden" name="color" value="green2" />
+                <input type="color" id="green2picker" name="value" value="#@g2hex" />
+            }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="@Url.Action("DefaultColor", "Home", new { color = "green3"})">Зеленый 3</a>
+</td>
+            <td>
+            @using (Html.BeginForm("UpdateColor", "Home", FormMethod.Post, new { onchange = "submit()" }))
+            {
+                <input type="hidden" name="color" value="green3" />
+                <input type="color" id="green3picker" name="value" value="#@g3hex" />
+            }
+            </td>
+        </tr>
+    </table>
+    
+</div>
