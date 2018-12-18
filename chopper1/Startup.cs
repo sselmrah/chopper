@@ -17,8 +17,10 @@ namespace chopper1
         {
             ConfigureAuth(app);
             app.MapSignalR();
-            createRolesandUsers();
-            createBaseSettings();
+            //createRolesandUsers();
+            //раскомментить, если понадобится раскраска по контрольным долям.
+            //Убрано, чтобы не мучаться с настройкой бд на Plan12
+            //createBaseSettings();
         }
 
         private void createBaseSettings()

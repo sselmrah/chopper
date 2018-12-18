@@ -94,7 +94,7 @@ namespace chopper1.Controllers
             newEfir.InjectFrom(curEfir);
             
             //Ставим возраст
-            if (curEfir.Age>0)
+            if (curEfir.Age>=0)
             {
                 newEfir.AgeCat = curEfir.Age.ToString() + "+";
             }
@@ -188,7 +188,7 @@ namespace chopper1.Controllers
 
 
             //Ставим возраст
-            if (curEfir.Age > 0)
+            if (curEfir.Age >= 0)
             {
                 newEfir.AgeCat = curEfir.Age.ToString() + "+";
             }
@@ -271,7 +271,7 @@ namespace chopper1.Controllers
                 newEfir.getRTA(newEfir.ITC);
             //}
             //Ставим возраст
-            if (curEfir.Age > 0)
+            if (curEfir.Age >= 0)
             {
                 newEfir.AgeCat = curEfir.Age.ToString() + "+";
             }

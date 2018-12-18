@@ -533,10 +533,12 @@ namespace chopper1.Controllers
                         newDay.KanalKod = 10;
                         break;
                     case 1:
-                        newDay.KanalKod = 21;
+                        //newDay.KanalKod = 21;
+                        newDay.KanalKod = 42;
                         break;
                     case 2:
-                        newDay.KanalKod = 40;
+                        //newDay.KanalKod = 40;
+                        newDay.KanalKod = 43;
                         break;
                     case 3:
                         newDay.KanalKod = 52;
