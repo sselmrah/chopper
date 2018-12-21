@@ -22,6 +22,7 @@ namespace chopper1
             CultureInfo info = new CultureInfo(System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
             info.DateTimeFormat.ShortDatePattern = "dd.MM.yyyy";
             System.Threading.Thread.CurrentThread.CurrentCulture = info;
+            DateTime orbSwitchDate = DateTime.Parse("25.12.2018");
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

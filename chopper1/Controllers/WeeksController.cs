@@ -114,7 +114,7 @@ namespace chopper1.Controllers
 
 
 
-        public ActionResult getWeek(string week_num="", int chCode = 10)
+        public ActionResult getWeek(string week_num="", int chCode = 30)
         {
             //Чистим список проверяемых дней
             //chopper1.MyStartupClass.days_to_check.Clear();
@@ -530,7 +530,8 @@ namespace chopper1.Controllers
                 switch (i)
                 {
                     case 0:
-                        newDay.KanalKod = 10;
+                        //newDay.KanalKod = 10;
+                        newDay.KanalKod = 30;
                         break;
                     case 1:
                         //newDay.KanalKod = 21;
@@ -665,13 +666,24 @@ namespace chopper1.Controllers
 
             DateTime curDate = DateTime.Parse(dateStr);            
             List<Day> newDays = new List<Day>();
-            
             int[] array_channel_codes = new int[5];
-            array_channel_codes[0] = 10;
-            array_channel_codes[1] = 14;
-            array_channel_codes[2] = 13;
-            array_channel_codes[3] = 12;
-            array_channel_codes[4] = 11;
+            if (curDate.Date<= DateTime.Parse("24.12.2018"))
+            { 
+            
+            array_channel_codes[0] = 30;
+            array_channel_codes[1] = 32;
+            array_channel_codes[2] = 34;
+            array_channel_codes[3] = 36;
+            array_channel_codes[4] = 38;
+            }
+            else
+            {
+                array_channel_codes[0] = 30;
+                array_channel_codes[1] = 32;
+                array_channel_codes[2] = 34;
+                array_channel_codes[3] = 36;
+                array_channel_codes[4] = 39;
+            }
 
             ViewBag.WeekId = MyStartupClass.getWeekNumByDate(curDate);
 
@@ -702,11 +714,11 @@ namespace chopper1.Controllers
             WeekTVDayType chOneDay = new WeekTVDayType();
 
             int[] array_channel_codes = new int[5];
-            array_channel_codes[0] = 10;
-            array_channel_codes[1] = 11;
-            array_channel_codes[2] = 12;
-            array_channel_codes[3] = 13;
-            array_channel_codes[4] = 14;
+            array_channel_codes[0] = 40;
+            array_channel_codes[1] = 32;
+            array_channel_codes[2] = 34;
+            array_channel_codes[3] = 36;
+            array_channel_codes[4] = 39;
 
             List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();            
             
@@ -776,8 +788,9 @@ namespace chopper1.Controllers
             //Добавили Первый канал
             orbits.Add(chOneDay);
             //Начали добавлять орбиты
-            for (int chCode = 11; chCode <= 14; chCode++)
+            for (int chCode = 11; chCode <= 14; chCode++)            
             {
+
                 TVDayVariantType[] variants = curWc.GetDayVariants(chOneDay.TVDate, chCode);
                 //Если нет вариантов для орбиты - добавляем null
                 if (variants.Count() == 0)
@@ -1262,6 +1275,37 @@ namespace chopper1.Controllers
             }
 
             return tvDayRef;
+        }
+
+        public static int chCodeToNew(int chCode)
+        {
+            int newChCode=0;
+            switch(chCode)
+            {
+                case 10:
+                    newChCode = 30;
+                    break;
+                case 11:
+                    newChCode = 39;
+                    break;
+                case 12:
+                    newChCode = 36;
+                    break;
+                case 13:
+                    newChCode = 34;
+                    break;
+                case 14:
+                    newChCode = 32;
+                    break;
+                case 21:
+                    newChCode = 42;
+                    break;
+                default:
+                    newChCode = chCode;
+                    break;
+            }
+
+            return newChCode;
         }
 
         public FileResult Download(string dayVariantList = "", string repType = "")

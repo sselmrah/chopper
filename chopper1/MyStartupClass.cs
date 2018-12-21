@@ -34,10 +34,11 @@ namespace chopper1
         public static List<TVDayVariantT> variants_to_check = new List<TVDayVariantT>();
         public static List<TVDayVariantT> variants_to_update = new List<TVDayVariantT>();
         public static string curCatConnection = "PlanCatConnection";
-        public static CultureInfo russian = new CultureInfo("ru-RU"); 
-        public static int[] fullChannelCodesArray = new int[] { 10, 11, 12, 13, 14 };
-        public static int[] concurChannelsArray = new int[] { 10, 21, 40};
-
+        public static CultureInfo russian = new CultureInfo("ru-RU");
+        //public static int[] fullChannelCodesArray = new int[] { 10, 11, 12, 13, 14 };
+        //public static int[] concurChannelsArray = new int[] { 10, 21, 40};
+        public static int[] fullChannelCodesArray = new int[] { 30, 39, 36, 34, 32 };
+        public static int[] concurChannelsArray = new int[] { 30, 42, 43 };
         //Cache
         public static List<chopper1.Models.Week> cachedWeeks = new List<chopper1.Models.Week>();
         public static List<chopper1.Models.Day> cachedDays = new List<chopper1.Models.Day>();
@@ -259,10 +260,10 @@ namespace chopper1
             return nearestOrb;
         }
 
-        public static Day getDayByDateAndVariantCode(DateTime curDate, int curVar, int chCode = 10)
+        public static Day getDayByDateAndVariantCode(DateTime curDate, int curVar, int chCode = 30)
         {
             Day curDay = new Day();
-
+                        
             curDay.KanalKod = chCode;
             curDay.VariantKod = curVar;
             curDay.TVDate = curDate;
@@ -315,7 +316,67 @@ namespace chopper1
             return curDay;
         }
 
+        public static int chCodeToNew(int chCode)
+        {
+            int newChCode = 0;
+            switch (chCode)
+            {
+                case 10:
+                    newChCode = 30;
+                    break;
+                case 11:
+                    newChCode = 39;
+                    break;
+                case 12:
+                    newChCode = 36;
+                    break;
+                case 13:
+                    newChCode = 34;
+                    break;
+                case 14:
+                    newChCode = 32;
+                    break;
+                case 21:
+                    newChCode = 42;
+                    break;
+                default:
+                    newChCode = chCode;
+                    break;
+            }
 
+            return newChCode;
+        }
+
+        public static int chCodeToOld(int chCode)
+        {
+            int oldChCode = 0;
+            switch (chCode)
+            {
+                case 30:
+                    oldChCode = 10;
+                    break;
+                case 39:
+                    oldChCode = 11;
+                    break;
+                case 36:
+                    oldChCode = 12;
+                    break;
+                case 34:
+                    oldChCode = 13;
+                    break;
+                case 32:
+                    oldChCode = 14;
+                    break;
+                case 42:
+                    oldChCode = 21;
+                    break;
+                default:
+                    oldChCode = chCode;
+                    break;
+            }
+
+            return oldChCode;
+        }
 
         public static SelectList getVariantsList(DateTime TVDate, int KanalKod = 10)
         {            

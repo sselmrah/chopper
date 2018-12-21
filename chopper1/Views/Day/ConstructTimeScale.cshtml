@@ -4,7 +4,7 @@
 
         var left = ViewBag.Left;
         string rulerClass = "";
-       
+
         if (left)
         {
             rulerClass = "rulerDivLeft";
@@ -15,9 +15,23 @@
         }
 
         var startHour = 5;
-        var shift = (5 - (Model - 10)) * 2;
 
-        if (Model != 10 & Model > 0)
+        //var shift = (5 - (Model - 10)) * 2;
+        var shift = 0;
+        switch (Model)
+        {
+            case 41:
+                shift = 6;
+                break;
+            default:
+                shift = Model - 30;
+                break;
+        }
+
+
+
+
+        if (Model != 30 & Model > 0)
         {
             startHour -= shift;
         }
@@ -32,7 +46,7 @@
         string curHourStr;
 
 
-    }
+                }
 
     <div class=@rulerClass>
         <ul class="ruler-ul">
@@ -44,7 +58,7 @@
                     {
                         curHour -= 24;
                     }
-                    curHourStr = curHour.ToString();
+            curHourStr = curHour.ToString();
                     if (curHourStr.Length == 1)
                     {
                         curHourStr = "0" + curHourStr;

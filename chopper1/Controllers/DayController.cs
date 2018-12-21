@@ -47,8 +47,7 @@ namespace chopper1.Controllers
             CultureInfo russian = new CultureInfo("ru-RU");            
             newDay.DoWRus = curDay.TVDate.ToString("dddd", russian);
             newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);            
-            newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);
-            
+            newDay.Efirs = curWc.GetEfirs(curDay.TVDate, curDay.KanalKod, curDay.VariantKod);           
 
             
 
@@ -442,8 +441,7 @@ namespace chopper1.Controllers
         {
 
             //Day newDay = new Day();
-            //DateTime dt = DateTime.Parse(dtStr);
-
+            //DateTime dt = DateTime.Parse(dtStr);           
             CultureInfo russian = new CultureInfo("ru-RU");
             newDay.DoWRus = newDay.TVDate.ToString("dddd", russian);
             newDay.DoWRus = char.ToUpper(newDay.DoWRus[0]) + newDay.DoWRus.Substring(1);
@@ -456,8 +454,11 @@ namespace chopper1.Controllers
             {
                 curDayVariantsArray[i] = "Вариант " + curDayVariants[i].VariantCode.ToString();
             }
+            
+            
             switch (newDay.VariantKod)
             {
+                
                 case 10:
                     newDay.ChOneVariants = curDayVariants;
                     break;
@@ -474,6 +475,7 @@ namespace chopper1.Controllers
                     newDay.Orb4Variants = curDayVariants;
                     break;
             }
+
             //var selectList = new SelectList(weeks, "Value", "Text", MyStartupClass.tvWeeks.Length - 1 - curId);
 
             var query = new SelectList(curDayVariantsArray);
@@ -849,7 +851,7 @@ namespace chopper1.Controllers
                 newEfir.InjectFrom(ef1);
                 newEfir.OrbCh1 = true;
                 orbEfirsList.Add(newEfir);
-                newEfir.ChCode = 10;
+                newEfir.ChCode = 30;
             }
 
             //Начали сверять эфиры ПК с эфирами орбит            
@@ -860,6 +862,20 @@ namespace chopper1.Controllers
                 //Почистили список
                 efirsList.Clear();
                 //Добавили в список эфиры текущей орбиты
+                
+                switch (i)
+                {
+                    case 1:
+                        curKanalKod = 39;
+                        break;
+                    case 2:
+                        curKanalKod = 36;
+                        break;
+                     
+
+                }
+
+
                 efirsList.AddRange(chopper1.MyStartupClass.wc.GetEfirs(curTVDate, curKanalKod + i, curVariantKod).ToList());
                 //Пошли по списку эфиров текущей орбиты
                 foreach (EfirType ef2 in efirsList)
@@ -868,7 +884,7 @@ namespace chopper1.Controllers
                     switch (i)
                     {
                         case 1:
-                            timeShift = TimeSpan.FromHours(8);
+                            timeShift = TimeSpan.FromHours(9);
                             ef2.Beg = ef2.Beg + timeShift;
                             break;
                         case 2:

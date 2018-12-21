@@ -8,9 +8,9 @@
     DateTime dt = Model.TVDate;
     string varStr = "Вариант ";
     varStr += Model.VariantKod.ToString();
-    
-    string chStr = "Орбита ";
-    if (Model.KanalKod == 10)
+
+    string chStr = "ПК";
+    if (Model.KanalKod == 30)
     {
         chStr = "Первый канал";
     }
@@ -18,14 +18,23 @@
     {
         if (Model.KanalKod > 0)
         {
-            chStr += (Model.KanalKod - 10).ToString();
+            switch (Model.KanalKod)
+            {
+                case 41:
+                    chStr += " Калининград";
+                    break;
+                default:
+                    chStr += "+";
+                    chStr += (Model.KanalKod - 30).ToString();
+                    break;
+            }
         }
     }
     if (Model.KanalKod == 14)
     {
         chStr += " (HD и SD)";
     }
-}
+            }
 
 <div id="dow@(day_num)" class="dow-div">@chStr</div>    
 <div id="var@(Model.VariantKod.ToString())" class="varCode-div" data-varnum="@Model.VariantKod.ToString()">
@@ -43,22 +52,22 @@
 <div id="shapka@(day_num)" class="shapka-div"></div>
 
 @if (Model.Efirs != null)
-{
-    if (Model.Efirs.Count() > 0)
     {
-        foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
+        if (Model.Efirs.Count() > 0)
         {
-            if (efir.Timing >= 60 * 2)
+            foreach (chopper1.ws1c.EfirType efir in Model.Efirs)
             {
-                Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+                if (efir.Timing >= 60 * 2)
+                {
+                    Html.RenderAction("ConstructEfir", "Efir", new { curEfir = efir, curDay = dt, chCode = chanCode, useTitle = true });
+                }
             }
         }
-    }
 
 
     <div id="footer_@Model.TVDayRef" class="prog" style="top:1760px; border: none">
         @if (Model.Footers != null)
-        {
+    {
             <table style="float:left;font-weight:bold;font-size:10px">
                 <tr>
                     <td class="StolbyTimeStart" style="width:10%"></td>
@@ -67,26 +76,26 @@
                 </tr>
 
                 @foreach (chopper1.ws1c.FooterType foot in Model.Footers)
-                {
-                    int ctHours = 0;
-                    int ctMinutes = 0;
-                    int ctSeconds = 0;
-                    ctHours = Convert.ToDateTime(foot.ClearTiming).Hour;
-                    ctMinutes = Convert.ToDateTime(foot.ClearTiming).Minute;
-                    ctSeconds = Convert.ToDateTime(foot.ClearTiming).Second;
-                    string ctStr = "";
-                    if (ctHours > 0)
-                    {
-                        ctStr += ctHours.ToString("D2") + ".";
-                    }
-                    if (ctSeconds > 0)
-                    {
-                        ctStr += ctMinutes.ToString("D2") + "\'" + ctSeconds.ToString("D2");
-                    }
-                    else
-                    {
-                        ctStr += ctMinutes.ToString();
-                    }
+    {
+        int ctHours = 0;
+        int ctMinutes = 0;
+        int ctSeconds = 0;
+        ctHours = Convert.ToDateTime(foot.ClearTiming).Hour;
+        ctMinutes = Convert.ToDateTime(foot.ClearTiming).Minute;
+        ctSeconds = Convert.ToDateTime(foot.ClearTiming).Second;
+        string ctStr = "";
+        if (ctHours > 0)
+        {
+            ctStr += ctHours.ToString("D2") + ".";
+        }
+        if (ctSeconds > 0)
+        {
+            ctStr += ctMinutes.ToString("D2") + "\'" + ctSeconds.ToString("D2");
+        }
+        else
+        {
+            ctStr += ctMinutes.ToString();
+        }
 
                     <tr>
                         <td class="StolbyTimeStart">
@@ -94,7 +103,7 @@
                         </td>
                         <td class="StolbyTitle">
                             @if (foot.Title == null || foot.Title == "")
-                            {
+    {
                                 <span style="white-space:pre-line"></span>
                             }
                             else

@@ -2,13 +2,15 @@
 
 @{
     Layout = null;
-    string day_num = Model.TVDate.DayOfWeek.ToString();    
+    var x = ViewData["DayVariants"];
+    string day_num = Model.TVDate.DayOfWeek.ToString();
+    int chanCode = Model.KanalKod;
     DateTime dt = Model.TVDate;
     string varStr = "Вариант ";
     varStr += Model.VariantKod.ToString();
-    
-    string chStr = "Орбита ";
-    if (Model.KanalKod == 10)
+
+    string chStr = "ПК";
+    if (Model.KanalKod == 30)
     {
         chStr = "Первый канал";
     }
@@ -16,7 +18,16 @@
     {
         if (Model.KanalKod > 0)
         {
-            chStr += (Model.KanalKod - 10).ToString();
+            switch (Model.KanalKod)
+            {
+                case 41:
+                    chStr += " Калининград";
+                    break;
+                default:
+                    chStr += "+";
+                    chStr += (Model.KanalKod - 30).ToString();
+                    break;
+            }
         }
     }
     if (Model.KanalKod == 14)

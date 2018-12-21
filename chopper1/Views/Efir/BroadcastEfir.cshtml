@@ -20,10 +20,26 @@
         }
     }
 
-    if (Model.ChCode != 10)
+    switch (Model.ChCode)
     {
-        position += (5 - (Model.ChCode - 10)) * 2 * 60;
+        case 30:
+            break;
+        case 41:
+            position -= 60;
+            break;
+        default:
+            position += (5 - (Model.ChCode - 30)) * 60;           
+            break;
     }
+
+
+    //if (Model.ChCode != 30)
+    //{
+
+
+
+    //    position += (5 - (Model.ChCode - 10)) * 2 * 60;
+    //}
 
     string strPos = "top: " + position.ToString() + "px";
     string str_height = "height:" + (Model.Timing / 60).ToString() + "px;";
@@ -54,7 +70,7 @@
     if (Model.Reserv) { classReserv = "reserv"; }
     if (Model.AgeCat.Length > 0) { ageCat = Model.AgeCat; }
 
-}
+    }
 <div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv" style="@str_height @strPos" ondragstart="drag(event)" ondblclick="dblclick(event)" onclick="prog_click(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
         @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
@@ -75,7 +91,7 @@
     <span>
         @Model.Title.Replace("#", "\n").ToUpper()
         @if (Model.AgeCat.Length > 0)
-        {
+    {
             <b>(@Model.AgeCat)</b>
         }
     </span>

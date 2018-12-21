@@ -20,9 +20,21 @@
         }
     }
 
-    if (Model.ChCode != 10 & Model.ChCode<=20)
+    //if (Model.ChCode != 10 & Model.ChCode<=20)
+    //{
+    //    position += (5 - (Model.ChCode - 10)) * 2 * 60;
+    //}
+
+    switch (Model.ChCode)
     {
-        position += (5 - (Model.ChCode - 10)) * 2 * 60;
+        case 30:
+            break;
+        case 41:
+            position -= 60;
+            break;
+        default:
+            position += (Model.ChCode - 30)* 60;
+            break;
     }
 
     string strPos = "top: " + position.ToString() + "px";
@@ -49,8 +61,8 @@
     string classZapas = "";
     if (Model.IsFromZapas) {
         str_height = str_height.Left(str_height.Length - 1);
-        strPos = "";        
-        classZapas = " zapas"; 
+        strPos = "";
+        classZapas = " zapas";
     }
     if (Model.IsNews) { classNews = "news"; }
     if (Model.IsHighlighted) { classHighlight = "highlight"; }

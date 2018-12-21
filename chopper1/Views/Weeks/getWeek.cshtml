@@ -62,9 +62,9 @@
 </div>
 
 
-@if (Model.AvailableChannels.Contains(10) & Model.AvailableChannels.Count()>1)
+@if (Model.AvailableChannels.Contains(30) & Model.AvailableChannels.Count()>1)
  {
-    if (Model.Days[0].KanalKod == 10)
+    if (Model.Days[0].KanalKod == 30)
     {
         chButtonClass = "channelSideButtons channelSelected";
     }
@@ -73,14 +73,14 @@
         chButtonClass = "channelSideButtons channelNotSelected";
     }
 <div class="@chButtonClass" id="chOneButton" data-reporttype="raskladka">
-    <a href="@Url.Action("WeekChosen", "Weeks", new { weekID = weekNumInt.ToString(), reptype="raskladka", chCode="10"}, null)">
+    <a href="@Url.Action("WeekChosen", "Weeks", new { weekID = weekNumInt.ToString(), reptype="raskladka", chCode="30"}, null)">
         <img src="~/Content/images/logos/chOne_logo_square.png" style="width:100px" />
     </a>
 </div>
 }
- @if (Model.AvailableChannels.Contains(21))
+ @if (Model.AvailableChannels.Contains(42))
  {
-     if (Model.Days[0].KanalKod == 21)
+     if (Model.Days[0].KanalKod == 42)
      {
          chButtonClass = "channelSideButtons channelSelected";
      }
@@ -89,14 +89,14 @@
          chButtonClass = "channelSideButtons channelNotSelected";
      }
 <div class="@chButtonClass" id="rtrButton" data-reporttype="raskladka">
-    <a href="@Url.Action("WeekChosen", "Weeks", new { weekID = weekNumInt.ToString(), reptype="raskladka", chCode="21"}, null)">
+    <a href="@Url.Action("WeekChosen", "Weeks", new { weekID = weekNumInt.ToString(), reptype="raskladka", chCode="42"}, null)">
         <img src="~/Content/images/logos/rtr_white.png" style="width:60px" />
     </a>
 </div>
  }
- @if (Model.AvailableChannels.Contains(40))
+ @if (Model.AvailableChannels.Contains(43))
  {
-     if (Model.Days[0].KanalKod == 40)
+     if (Model.Days[0].KanalKod == 43)
      {
          chButtonClass = "channelSideButtons channelSelected";
      }
@@ -105,7 +105,7 @@
          chButtonClass = "channelSideButtons channelNotSelected";
      }
 <div class="@chButtonClass" id="ntvButton" data-reporttype="raskladka">
-    <a href="@Url.Action("WeekChosen", "Weeks", new { weekID = weekNumInt.ToString(), reptype="raskladka", chCode="40"}, null)">
+    <a href="@Url.Action("WeekChosen", "Weeks", new { weekID = weekNumInt.ToString(), reptype="raskladka", chCode="43"}, null)">
         <img src="~/Content/images/logos/ntv_white.png" style="width:40px" />
     </a>
 </div>    
