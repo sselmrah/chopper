@@ -196,6 +196,8 @@
                 var newDate = el.getAttribute("data-tvdate").substr(6, 4) + "-" + el.getAttribute("data-tvdate").substr(3, 2) + "-" + el.getAttribute("data-tvdate").substr(0, 2);
                 newHref = "/Weeks/Broadcast?bdate=" + newDate + "\&variantNum=" + el.getAttribute("data-varnum");
                 document.getElementById('context-menu-link-orb').setAttribute('href', newHref);
+                newHref = "/Weeks/Broadcast11?bdate=" + newDate + "\&variantNum=" + el.getAttribute("data-varnum");
+                document.getElementById('context-menu-link-orb11').setAttribute('href', newHref);
                 newHref = "/Weeks/Ratings?bdate=" + newDate;
                 document.getElementById('context-menu-link-shareDay').setAttribute('href', newHref);
                 

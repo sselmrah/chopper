@@ -648,6 +648,8 @@
     </Content>
     <Content Include="Views\UserView\SwitchRights.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
+    <Content Include="Views\Weeks\Broadcast11.cshtml" />
+    <Content Include="Views\Weeks\OrbWeek11.cshtml" />
     <None Include="Web References\ws1c\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -7,16 +7,16 @@
     ViewBag.Title = Model[0].TVDate.Date.ToString("dd/MM/yyyy");
 }
 <div class="row">
-    <div class="col-lg-1"></div>
-    <div class="col-lg-10 papers">
+    <div class="col-lg-1" style="width:50px"></div>
+    <div class="col-lg-11">
         <div class="row">
             <div class="col-lg-1"></div>
             <div class="col-lg-10">
-                @using (Html.BeginForm("Broadcast", "Weeks", FormMethod.Get))
+                @using (Html.BeginForm("Broadcast11", "Weeks", FormMethod.Get))
                 {
                     <fieldset>
                         <h2 style="padding-left:20px">Программа передач Первого канала на @curDow, <input name="bdate" type="date" id="broadcast_datepicker" class="datepickers" required="required" value="@curDate" onchange="form.submit();" /></h2>
-                        <p style="padding-left:20px">@Html.ActionLink("Перейти к 11 орбитам", "Broadcast11", "Weeks", new { bdate = curDate }, null)</p>
+                        <p style="padding-left:20px">@Html.ActionLink("Перейти к основным орбитам", "Broadcast", "Weeks", new { bdate = curDate }, null)</p>
                     </fieldset>
                 }
             </div>
@@ -33,13 +33,13 @@
         </div>
         <div class="row week_bg">
             @{
-                double dayRectWidth = 100.0 / 6 - 0.00001;
-                double footerWidth = 100.0/5.4-0.00001;
+                double dayRectWidth = 100.0 / 14.5 - 0.00001;
+                double footerWidth = 100.0/11.0-0.00001;
                 string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
                 string footerWidthStr = footerWidth.ToString("#.########").Replace(",", ".") + "%";
             }
-            <div class="col-lg-1 noPadding"></div>
-            <div class="col-lg-11 noPadding">
+            <div class="col-lg-0 noPadding"></div>
+            <div class="col-lg-12 noPadding">
                 @foreach (chopper1.Models.Day day in Model)
                 {
                     dayVariantList += day.TVDate.ToString("dd.MM.yyyy") + "_" + day.VariantKod + "_" + day.KanalKod + ";";
@@ -56,7 +56,7 @@
                 @{
                     dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
                 }
-                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 10 });}
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 30 });}
                 <br />
                 @foreach (chopper1.Models.Day day in Model)
                 {
@@ -153,4 +153,13 @@
             });
         });
     </script>
+    
+    <style>
+        .baseChannel {
+            background-color: lightgoldenrodyellow;
+        }
+        .baseChannel.news {
+            background-color: yellow;
+        }
+    </style>
 }

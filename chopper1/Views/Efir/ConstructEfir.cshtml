@@ -32,6 +32,10 @@
         case 41:
             position -= 60;
             break;
+        case 42:
+            break;
+        case 43:
+            break;
         default:
             position += (Model.ChCode - 30)* 60;
             break;
@@ -59,6 +63,7 @@
     string classHighlight = "";
     string ageCat = "";
     string classZapas = "";
+    string baseChannel = "";
     if (Model.IsFromZapas) {
         str_height = str_height.Left(str_height.Length - 1);
         strPos = "";
@@ -70,8 +75,9 @@
     if (Model.Italic) { titleClassString += " font-italic"; }
     if (Model.Reserv) { classReserv = "reserv"; }
     if (Model.AgeCat.Length > 0) { ageCat = Model.AgeCat; }
+    if (Model.ChCode==30 | Model.ChCode == 32 | Model.ChCode == 34 | Model.ChCode == 36 | Model.ChCode == 39) { baseChannel = "baseChannel"; }
 }
-<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv @classZapas" style="left:0; @str_height @strPos" ondragstart="dragStart(event)" ondblclick="    dblclick(event)" onclick="    prog_click(event)" oncontextmenu="prog_rclick(event)">
+<div draggable="false" id="@Model.Ref" class="prog @classHighlight @classNews @classReserv @classZapas @baseChannel" style="left:0; @str_height @strPos" ondragstart="dragStart(event)" ondblclick="    dblclick(event)" onclick="    prog_click(event)" oncontextmenu="prog_rclick(event)">
     <div id="timing_@Model.Ref" class=" timing-div" style="@fontSize" draggable="false">
         @Model.Beg.ToString("H:mm") - @Model.EndTime.ToString("H:mm") (@durStr)
     </div>

@@ -1,0 +1,337 @@
+﻿@model chopper1.Models.Week
+
+
+
+
+@{
+
+    ViewBag.Title = Model.Note;
+    int weekNumInt = Convert.ToInt32(ViewBag.WeekId);
+    string dayVariantList = "";
+}
+
+<!--<h2>@Model.Note</h2>-->
+<div class="papers">
+    <div class="row weekPickerContainer">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-1 weekPickerArrow">
+            <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt-1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-backward" style="color:black"></span>
+            </a>
+        </div>
+        <div id="weekSelectContainer" class="col-lg-8">@{Html.RenderAction("SelectCategory", "Weeks", new { curWeekRef = Model.Ref, repType = "orbity" });}</div>
+        <div class="col-lg-1 weekPickerArrow">
+            <a href="@Url.Action("OrbWeek", "Weeks", new { week_num = (weekNumInt+1).ToString()}, null)">
+                <span class="weekPickerIcon glyphicon glyphicon-forward" style="color:black"></span>
+            </a>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-1">
+            <p id="timestampDiv">@DateTime.Now.ToString("dd/MM/yyyy") @DateTime.Now.ToString("HH:mm:ss")</p>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    @*
+        <div>
+            @Html.DisplayFor(model => model.DaysCount)
+        </div>
+    *@
+
+    <div class="row week_bg">
+        <div class="visible-lg col-lg-1 noPadding">
+            @{Html.RenderAction("ConstructTimeScale", "Day", new { left = true, channelCode = 10 });}
+        </div>
+        <div class="col-lg-12 col-md-12 noPadding">
+            <div style="float:left">
+
+            </div>
+            @{
+                double dayRectWidth = 100.0 / Convert.ToDouble(Model.DaysCount) - 0.00001;
+                string dayRectWidthStr = dayRectWidth.ToString("#.########").Replace(",", ".") + "%";
+            }
+            @for (int i = 0; i < Model.Days.Count() / 5; i++)
+            {
+                string tvDayRefs = "";
+                for (int j = 0; j < 5; j++)
+                {
+                    tvDayRefs += Model.Days[(i * 5) + j].TVDayRef + "_";
+                }
+                tvDayRefs = tvDayRefs.Substring(0, tvDayRefs.Length - 1);
+                var daysList = Model.Days.Skip(i * 5).Take(5).ToList();
+
+                for (int j = 0; j < 5; j++)
+                {
+                    dayVariantList += Model.Days[(i * 5) + j].TVDate.ToString("dd.MM.yyyy") + "_" + Model.Days[i + j].VariantKod + "_" + Model.Days[i + j].KanalKod + ";";
+                }
+                <div id="@Model.Days[i*5].TVDayRef" data-tvdayrefs="@tvDayRefs" data-varnum="@Model.Days[i*5].VariantKod" class="dayrectOrb" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: @dayRectWidthStr;">
+                    @{Html.RenderAction("ConstructOrbDay", "Day", new { curDayList = daysList });}
+                </div>
+            }
+            @{
+                dayVariantList = dayVariantList.Substring(0, dayVariantList.Length - 1);
+            }
+
+
+        </div>
+        <div class="visible-lg col-lg-1 noPadding">
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 30 });}
+            </div>
+            @*<div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 14 });}
+            </div>
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 13 });}
+            </div>
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 12 });}
+            </div>
+            <div style="float:left">
+                @{Html.RenderAction("ConstructTimeScale", "Day", new { left = false, channelCode = 11 });}
+            </div>*@
+        </div>
+    </div>
+</div>
+<div class="rightSideButtons">
+    <a id="rtfDownloadLink" href="@Url.Action("Download", "Weeks", new { dayVariantList = dayVariantList, repType = "orbity" }, null)">
+        <div class="sideButtons" id="rtfButton" data-reporttype="orbity">
+            <span>.rtf</span>
+        </div>
+    </a>
+</div>
+
+@*<div id="spinner">
+        <img src="~/Content/themes/base/images/logos/1logo_app.PNG" />
+    </div>*@
+
+
+
+@section scripts {
+    <script src="~/Scripts/jquery-2.0.0.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(function () {
+            var allDayRects1 = document.getElementsByClassName("dayrectOrb");
+            var dUpdate = $.connection.dayUpdate;
+            var xmlhttp;
+            xmlhttp = new XMLHttpRequest();
+
+
+            dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
+
+                if (tvdayref != "") {
+                    var curDayRef = "";
+                    var curTvDayRefs = "";
+                    for (var i = 0; i < allDayRects1.length; i++) {
+                        curTvDayRefs = allDayRects1.item(i).getAttribute('data-tvdayrefs');
+                        if (curTvDayRefs.indexOf(tvdayref) > -1) {
+                            curDayRef = allDayRects1.item(i).id;
+                        }
+                    }
+
+                    var xmlhttp;
+                    xmlhttp = new XMLHttpRequest();
+
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                            console.log(curDayRef + '-' + serverTime);
+                            if (xmlhttp.status == 200) {
+                                document.getElementById(curDayRef).innerHTML = xmlhttp.responseText;
+                                document.getElementById("timestampDiv").innerHTML = serverTime;
+                            }
+                            else if (xmlhttp.status == 400) {
+                                console.log(xmlhttp.statusText);
+                            }
+                            else {
+                                console.log(xmlhttp.statusText);
+                            }
+                        }
+                    }
+                    xmlhttp.open("POST", "UpdateDayOrbity", true);
+                    xmlhttp.setRequestHeader("dayID", curDayRef);
+                    xmlhttp.setRequestHeader("varNum", varNum);
+
+                    xmlhttp.send(tvdayref);
+                }
+            };
+
+            /*Added 22/06/16*/
+            $.connection.hub.disconnected(function () {
+                setTimeout(function () {
+                    $.connection.hub.start();
+                }, 5000); // Restart connection after 5 seconds.
+            });
+
+            $.connection.hub.start().done(function () {
+
+                for (var i = 0; i < allDayRects1.length; i++) {
+                    var curRefs = allDayRects1.item(i).getAttribute('data-tvdayrefs').split("_");
+                    for (var j = 0; j < curRefs.length; j++) {
+                        dUpdate.server.subscribe(curRefs[j]);
+                    }
+                }
+                setInterval(function () {
+                    var allDayRects2 = document.getElementsByClassName("dayrectOrb");
+                    for (var i = 0; i < allDayRects2.length; i++) {
+                        if (allDayRects1.item(i).getAttribute('data-tvdayrefs') != allDayRects2.item(i).getAttribute('data-tvdayrefs')) {
+                            var curRefs = allDayRects1.item(i).getAttribute('data-tvdayrefs').split("_");
+                            for (var j = 0; j < curRefs.length; j++) {
+                                dUpdate.server.subscribe(curRefs[j]);
+                            }
+                        }
+                    }
+                    allDayRects1 = allDayRects2;
+                }, 3000);
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+    @*
+        <script>
+
+            $(function () {
+
+
+
+                var xmlhttp;
+                xmlhttp = new XMLHttpRequest();
+
+
+
+                var dUpdate = $.connection.dayUpdate;
+                dUpdate.client.broadcastMessage = function (tvdayref, varNum, serverTime) {
+
+                    if (tvdayref != "") {
+                        var xmlhttp;
+                        xmlhttp = new XMLHttpRequest();
+
+
+
+
+
+
+                        xmlhttp.onreadystatechange = function () {
+                            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                                console.log(tvdayref + '-' + serverTime);
+                                if (xmlhttp.status == 200) {
+                                    document.getElementById(tvdayref).innerHTML = xmlhttp.responseText;
+                                    document.getElementById("timestampDiv").innerHTML = serverTime;
+                                }
+                                else if (xmlhttp.status == 400) {
+
+                                    console.log(xmlhttp.statusText);
+                                }
+                                else {
+
+                                    console.log(xmlhttp.statusText);
+                                }
+                            }
+                        }
+                        xmlhttp.open("POST", "UpdateDayOrbity", true);
+                        xmlhttp.setRequestHeader("dayID", tvdayref);
+
+                        xmlhttp.send(tvdayref);
+                    }
+                };
+
+                $.connection.hub.start().done(function () {
+                    var allDayRects1 = document.getElementsByClassName("dayrectOrb");
+                    for (var i = 0; i < allDayRects1.length; i++) {
+                        dUpdate.server.subscribe(allDayRects1.item(i).id);
+                    }
+                    setInterval(function () {
+                        var allDayRects2 = document.getElementsByClassName("dayrectOrb");
+                        var days = new Array();
+                        //var vars = new Array();
+                        var allvars = document.getElementsByClassName("varCode-div");
+
+                        var vars2 = new Array();
+                        //for (var i = 0; i < allvars.length; i++) {
+                        for (var i = 0; i < allDayRects2.length; i++) {
+                            //vars2.push(allvars.item(i).id.substring(3));
+                            vars2.push("1");
+                        }
+                        for (var i = 0; i < allDayRects2.length; i++) {
+                            if (allDayRects1.item(i).id != allDayRects2.item(i).id) {
+                                dUpdate.server.subscribe(allDayRects2.item(i).id);
+                            }
+                            days.push(allDayRects2.item(i).id);
+                            //vars.push(allDayRects.item(i).getAttribute('data-varnum'));
+                            //dUpdate.server.subscribe(allDayRects.item(i).id);
+                        }
+
+                        var timestamp = document.getElementById("timestampDiv").innerText;
+                        dUpdate.server.updateDay(days, vars2, timestamp);
+
+                    }, 5000);
+                    // Call the Send method on the hub.
+                });
+            });
+        </script>
+    *@
+}
+
+
+@*
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function a() {
+            try {
+                var source = new EventSource('checkdaysorb');
+                var myP = document.getElementById("messages");
+
+                source.onmessage = function (event) {
+                    var result = event.data;
+
+                    if (result != "") {
+                        var xmlhttp;
+                        xmlhttp = new XMLHttpRequest();
+
+                        xmlhttp.onreadystatechange = function () {
+                            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                                console.log(result);
+                                if (xmlhttp.status == 200) {
+                                    document.getElementById(result).innerHTML = xmlhttp.responseText;
+                                    document.getElementById("timestampDiv").innerHTML = getTimeStamp();
+                                }
+                                else if (xmlhttp.status == 400) {
+                                    console.log(xmlhttp.statusText);
+                                }
+                                else {
+                                    console.log(xmlhttp.statusText);
+                                }
+                            }
+                        }
+                        xmlhttp.open("POST", "UpdateDayOrbity", true);
+                        xmlhttp.setRequestHeader("dayID", result);
+                        xmlhttp.send(result);
+                    }
+
+                };
+            }
+            catch (err)
+            {
+                console.log(err.message)
+
+            }
+            source.onerror = function (e) {
+                console.log();
+            };
+
+        });
+
+
+
+    </script>
+*@

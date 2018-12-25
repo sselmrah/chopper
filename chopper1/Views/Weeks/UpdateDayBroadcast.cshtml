@@ -8,11 +8,12 @@
     DateTime dt = Model.TVDate;
     string varStr = "Вариант ";
     varStr += Model.VariantKod.ToString();
-
+    string chHelper = "";
     string chStr = "ПК";
     if (Model.KanalKod == 30)
     {
         chStr = "Первый канал";
+        chHelper = "0";
     }
     else
     {
@@ -22,10 +23,12 @@
             {
                 case 41:
                     chStr += " Калининград";
+                    chHelper = "К";
                     break;
                 default:
                     chStr += "+";
                     chStr += (Model.KanalKod - 30).ToString();
+                    chHelper = (Model.KanalKod - 30).ToString();
                     break;
             }
         }
@@ -37,6 +40,7 @@
 }
 
 <div id="dow@(day_num)" class="dow-div">@chStr</div>
+<div id="tempdivsh" class="dow-div" style="border:none"></div>
 <div id="var@(Model.VariantKod.ToString())" class="varCode-div">
     @using (Ajax.BeginForm("VariantChosen", "Day", new AjaxOptions { UpdateTargetId = Model.TVDayRef }))
     {
@@ -59,7 +63,7 @@
         }
     }
 
-
+<div class="chNumHelper">@chHelper</div>
 <div id="footer_@Model.TVDayRef" class="prog" style="top:1760px; border: none">
     @if (Model.Footers != null)
     {

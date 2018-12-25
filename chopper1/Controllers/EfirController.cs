@@ -87,7 +87,7 @@ namespace chopper1.Controllers
         
 
 
-        public ActionResult ConstructEfir(EfirType curEfir, DateTime curDay, int chCode = 10, bool useTitle = false, int zapasBeg = -1)
+        public ActionResult ConstructEfir(EfirType curEfir, DateTime curDay, int chCode = 30, bool useTitle = false, int zapasBeg = -1)
         {
 
             Efir newEfir = new Efir();
@@ -118,7 +118,7 @@ namespace chopper1.Controllers
             //Проверяем, не новостной ли это эфир
             newEfir.IsNews = false;
             //if ((newEfir.ANR.ToUpper().Contains("ВОСКРЕСНОЕ \"ВРЕМЯ\"") || newEfir.ANR.ToUpper().Contains("НОВОСТИ") || newEfir.ANR.ToUpper().Contains("\"ВРЕМЯ\""))) 
-            if (newEfir.ProducerCode=="04")
+            if (newEfir.ProducerCode == "04" | newEfir.ANR.ToUpper().Contains("ТОЛСТОЙ. ВОСКРЕСЕНЬЕ"))
             {
                 newEfir.IsNews = true;
             }

@@ -696,6 +696,65 @@ namespace chopper1.Controllers
             return View(newDays);
 
         }
+        [HttpGet]
+        public ActionResult Broadcast11(string bdate = "", int variantNum = 1)
+        {
+
+            string dateStr = "";
+
+            if (Request["bdate"] == null)
+            {
+                dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                dateStr = Request["bdate"];
+                if (dateStr.Length == 0)
+                {
+                    dateStr = DateTime.Today.Date.ToString("yyyy-MM-dd");
+                }
+            }
+
+
+            DateTime curDate = DateTime.Parse(dateStr);
+            List<Day> newDays = new List<Day>();
+            int[] array_channel_codes = new int[11];
+            
+            //if (curDate.Date <= DateTime.Parse("24.12.2018"))
+            //{
+
+            //    array_channel_codes[0] = 30;
+            //    array_channel_codes[1] = 32;
+            //    array_channel_codes[2] = 34;
+            //    array_channel_codes[3] = 36;
+            //    array_channel_codes[4] = 38;
+            //}
+            //else
+            //{
+                array_channel_codes[0] = 41;
+                array_channel_codes[1] = 30;
+                array_channel_codes[2] = 31;
+                array_channel_codes[3] = 32;
+                array_channel_codes[4] = 33;
+                array_channel_codes[5] = 34;
+                array_channel_codes[6] = 35;
+                array_channel_codes[7] = 36;
+                array_channel_codes[8] = 37;
+                array_channel_codes[9] = 38;
+                array_channel_codes[10] = 39;
+           // }
+
+            ViewBag.WeekId = MyStartupClass.getWeekNumByDate(curDate);
+
+
+            foreach (int chCode in array_channel_codes)
+            {
+                newDays.Add(MyStartupClass.getDayByDateAndVariantCode(curDate, variantNum, chCode));
+            }
+
+            return View(newDays);
+
+        }
 
         public ActionResult OrbWeek(string week_num = "", int part_num = 1)
         {
@@ -743,6 +802,50 @@ namespace chopper1.Controllers
             ViewBag.reportType = "orbity";            
             
         
+            return View(curWeek);
+
+        }
+
+        public ActionResult OrbWeek11(string week_num = "", int part_num = 1)
+        {
+            //Чистим список проверяемых дней
+            //chopper1.MyStartupClass.variants_to_check.Clear();
+
+            Week curWeek = new Week();
+
+            TVWeekType curTvWeek = new TVWeekType();
+
+            string curTvWeekNum = getWeekNum(week_num);
+            curTvWeek = MyStartupClass.tvWeeks[MyStartupClass.tvWeeks.Length - 1 - Convert.ToInt32(curTvWeekNum)];
+            ViewBag.WeekId = curTvWeekNum;
+
+            List<WeekTVDayType> days = new List<WeekTVDayType>();
+            WeekTVDayType chOneDay = new WeekTVDayType();
+
+            int[] array_channel_codes = new int[11];
+            array_channel_codes[0] = 41;
+            array_channel_codes[1] = 30;
+            array_channel_codes[2] = 31;
+            array_channel_codes[3] = 32;
+            array_channel_codes[4] = 33;
+            array_channel_codes[5] = 34;
+            array_channel_codes[6] = 35;
+            array_channel_codes[7] = 36;
+            array_channel_codes[8] = 37;
+            array_channel_codes[9] = 38;
+            array_channel_codes[10] = 39;
+
+            List<WeekTVDayType> daysOfWeek = getDaysOfWeek(curTvWeek, array_channel_codes).OrderBy(o => o.TVDate).ToList();
+
+            //Рисуем неделю целиком
+            daysOfWeek = daysOfWeek.ToList();
+            curWeek.InjectFrom(curTvWeek);
+            curWeek.DaysCount = daysOfWeek.Count() / 11;
+            curWeek.Days = daysOfWeek;
+            ViewData["daysCount"] = daysOfWeek.Count();
+            ViewBag.reportType = "orbity";
+
+
             return View(curWeek);
 
         }
